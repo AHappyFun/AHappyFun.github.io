@@ -89,7 +89,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/02/21/My-test-blog/">Clien1Test</a>
+      <a class="p-name article-title" href="/2023/02/21/My-test-blog/">ClientTest</a>
     </h1>
   
 
@@ -100,44 +100,16 @@
         <h3 id="第一人称摄像机控制"><a href="#第一人称摄像机控制" class="headerlink" title="第一人称摄像机控制"></a>第一人称摄像机控制</h3><pre><code>using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class CameraControl : MonoBehaviour &#123;
-
-//方向灵敏度  
-public float sensitivityX = 10F;
-public float sensitivityY = 10F;
-
-//上下最大视角(Y视角)  
-public float minimumY = -60F;
-public float maximumY = 60F;
-
-float rotationY = 0F;
-
-void Update()
-&#123;
-    //根据鼠标移动的快慢(增量), 获得相机左右旋转的角度(处理X)  
-    float rotationX = transform.localEulerAngles.y + Input.GetAxis(&quot;Mouse X&quot;) * sensitivityX;
-
-    //根据鼠标移动的快慢(增量), 获得相机上下旋转的角度(处理Y)  
-    rotationY += Input.GetAxis(&quot;Mouse Y&quot;) * sensitivityY;
-    //角度限制. rotationY小于min,返回min. 大于max,返回max. 否则返回value   
-    rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
-
-    //总体设置一下相机角度  
-    transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
-&#125;
-
-void Start()
-&#123;
-    // Make the rigid body not change rotation  
-&#125;
-&#125;
 </code></pre>
-
+        
+          <p class="article-more-link">
+            <a href="/2023/02/21/My-test-blog/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/21/My-test-blog/" data-id="cleebca110000w0uw4v364ej4" data-title="Clien1Test" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/21/My-test-blog/" data-id="cleebca110000w0uw4v364ej4" data-title="ClientTest" class="article-share-link">Share</a>
       
       
       
@@ -157,6 +129,10 @@ void Start()
   <time class="dt-published" datetime="2023-02-21T13:41:52.797Z" itemprop="datePublished">2023-02-21</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Test/">Test</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -177,16 +153,11 @@ void Start()
 <h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
 <p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
+        
+          <p class="article-more-link">
+            <a href="/2023/02/21/hello-world/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
@@ -212,7 +183,7 @@ void Start()
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%A2%E6%88%B7%E7%AB%AF/">客户端</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Test/">Test</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%A2%E6%88%B7%E7%AB%AF/">客户端</a></li></ul>
     </div>
   </div>
 
@@ -254,7 +225,7 @@ void Start()
       <ul>
         
           <li>
-            <a href="/2023/02/21/My-test-blog/">Clien1Test</a>
+            <a href="/2023/02/21/My-test-blog/">ClientTest</a>
           </li>
         
           <li>
