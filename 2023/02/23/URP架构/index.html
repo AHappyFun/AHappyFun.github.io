@@ -4,17 +4,15 @@
   <meta charset="utf-8">
   
   
-  <title>ClientTest | ALey&#39;s Blogs</title>
+  <title>URP架构TODO搬运知乎的文章 | ALey&#39;s Blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="第一人称摄像机控制using System.Collections; using System.Collections.Generic; using UnityEngine;">
-<meta property="og:type" content="article">
-<meta property="og:title" content="ClientTest">
-<meta property="og:url" content="http://example.com/2023/02/21/My-test-blog/index.html">
+  <meta property="og:type" content="article">
+<meta property="og:title" content="URP架构TODO搬运知乎的文章">
+<meta property="og:url" content="http://example.com/2023/02/23/URP%E6%9E%B6%E6%9E%84/index.html">
 <meta property="og:site_name" content="ALey&#39;s Blogs">
-<meta property="og:description" content="第一人称摄像机控制using System.Collections; using System.Collections.Generic; using UnityEngine;">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-02-21T13:56:11.513Z">
-<meta property="article:modified_time" content="2023-02-21T14:19:54.569Z">
+<meta property="article:published_time" content="2023-02-23T12:52:17.000Z">
+<meta property="article:modified_time" content="2023-02-23T13:04:04.856Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Unity">
 <meta name="twitter:card" content="summary">
@@ -74,14 +72,14 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-My-test-blog" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-URP架构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/02/21/My-test-blog/" class="article-date">
-  <time class="dt-published" datetime="2023-02-21T13:56:11.513Z" itemprop="datePublished">2023-02-21</time>
+    <a href="/2023/02/23/URP%E6%9E%B6%E6%9E%84/" class="article-date">
+  <time class="dt-published" datetime="2023-02-23T12:52:17.000Z" itemprop="datePublished">2023-02-23</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/%E5%AE%A2%E6%88%B7%E7%AB%AF/">客户端</a>
+    <a class="article-category-link" href="/categories/Unity%E6%B8%B2%E6%9F%93/">Unity渲染</a>
   </div>
 
   </div>
@@ -92,7 +90,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      ClientTest
+      URP架构TODO搬运知乎的文章
     </h1>
   
 
@@ -100,48 +98,11 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <h3 id="第一人称摄像机控制"><a href="#第一人称摄像机控制" class="headerlink" title="第一人称摄像机控制"></a>第一人称摄像机控制</h3><pre><code>using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-</code></pre>
-<span id="more"></span>
-<pre><code>public class CameraControl : MonoBehaviour &#123;
-
-//方向灵敏度  
-public float sensitivityX = 10F;
-public float sensitivityY = 10F;
-
-//上下最大视角(Y视角)  
-public float minimumY = -60F;
-public float maximumY = 60F;
-
-float rotationY = 0F;
-
-void Update()
-&#123;
-    //根据鼠标移动的快慢(增量), 获得相机左右旋转的角度(处理X)  
-    float rotationX = transform.localEulerAngles.y + Input.GetAxis(&quot;Mouse X&quot;) * sensitivityX;
-
-    //根据鼠标移动的快慢(增量), 获得相机上下旋转的角度(处理Y)  
-    rotationY += Input.GetAxis(&quot;Mouse Y&quot;) * sensitivityY;
-    //角度限制. rotationY小于min,返回min. 大于max,返回max. 否则返回value   
-    rotationY = Mathf.Clamp(rotationY, minimumY, maximumY);
-
-    //总体设置一下相机角度  
-    transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
-&#125;
-
-void Start()
-&#123;
-    // Make the rigid body not change rotation  
-&#125;
-&#125;
-</code></pre>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/21/My-test-blog/" data-id="cleh4whh90001w8uw2nv4hcpi" data-title="ClientTest" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/23/URP%E6%9E%B6%E6%9E%84/" data-id="cleh4whh40000w8uwfez6erqj" data-title="URP架构TODO搬运知乎的文章" class="article-share-link">Share</a>
       
       
       
@@ -153,19 +114,10 @@ void Start()
     
 <nav id="article-nav">
   
-    <a href="/2023/02/23/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          性能优化TODO搬运知乎的文章
-        
-      </div>
-    </a>
   
-  
-    <a href="/2023/02/21/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2023/02/23/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title">性能优化TODO搬运知乎的文章</div>
     </a>
   
 </nav>
