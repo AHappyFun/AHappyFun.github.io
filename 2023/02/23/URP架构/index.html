@@ -6,16 +6,20 @@
   
   <title>Unity-URP代码架构 | ALey&#39;s Blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta property="og:type" content="article">
+  <meta name="description" content="本文对URP使用的这段时间的一些理解和总结。从知乎转移：URP管线架构学习总结 1.URP渲染管线的架构图理解一个系统设计比较重要的就是类图了。   2.各个类的一些作用和使用(1)UniversalRenderPipelineAsset本质是一个ScriptableObject类型，用于序列化URP的一些设置，General、Quality、Lights、Shadows等。">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Unity-URP代码架构">
 <meta property="og:url" content="http://example.com/2023/02/23/URP%E6%9E%B6%E6%9E%84/index.html">
 <meta property="og:site_name" content="ALey&#39;s Blogs">
+<meta property="og:description" content="本文对URP使用的这段时间的一些理解和总结。从知乎转移：URP管线架构学习总结 1.URP渲染管线的架构图理解一个系统设计比较重要的就是类图了。   2.各个类的一些作用和使用(1)UniversalRenderPipelineAsset本质是一个ScriptableObject类型，用于序列化URP的一些设置，General、Quality、Lights、Shadows等。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-e1b1b9c396e84afdd8b6bd5aced9c4b0_720w.png?source=d16d100b">
 <meta property="article:published_time" content="2023-02-22T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-09-03T16:01:46.299Z">
+<meta property="article:modified_time" content="2023-09-05T13:53:42.310Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Unity">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picx.zhimg.com/80/v2-e1b1b9c396e84afdd8b6bd5aced9c4b0_720w.png?source=d16d100b">
   
     <link rel="alternate" href="/atom.xml" title="ALey's Blogs" type="application/atom+xml">
   
@@ -98,11 +102,60 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <p>本文对URP使用的这段时间的一些理解和总结。从知乎转移：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/607416554">URP管线架构学习总结</a></p>
+<h2 id="1-URP渲染管线的架构图"><a href="#1-URP渲染管线的架构图" class="headerlink" title="1.URP渲染管线的架构图"></a>1.URP渲染管线的架构图</h2><p>理解一个系统设计比较重要的就是类图了。</p>
+<center><img src="https://picx.zhimg.com/80/v2-e1b1b9c396e84afdd8b6bd5aced9c4b0_720w.png?source=d16d100b" width = "" height = ""></center>
+
+<h2 id="2-各个类的一些作用和使用"><a href="#2-各个类的一些作用和使用" class="headerlink" title="2.各个类的一些作用和使用"></a>2.各个类的一些作用和使用</h2><h3 id="1-UniversalRenderPipelineAsset"><a href="#1-UniversalRenderPipelineAsset" class="headerlink" title="(1)UniversalRenderPipelineAsset"></a>(1)UniversalRenderPipelineAsset</h3><p>本质是一个ScriptableObject类型，用于序列化URP的一些设置，General、Quality、Lights、Shadows等。</p>
+<span id="more"></span>
+
+<h3 id="2-UniversalRenderPipeline"><a href="#2-UniversalRenderPipeline" class="headerlink" title="(2)UniversalRenderPipeline"></a>(2)UniversalRenderPipeline</h3><p>管线的核心类，主要是继承RenderPipeline，并override一个核心Render()方法，渲染摄像机列表。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">protected override void Render(ScriptableRenderContext renderContext, Camera[]cameras)</span><br><span class="line">&#123;</span><br><span class="line">    Render(renderContext, new List&lt;Camera&gt;(cameras));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>假如我们要基于SRP制定管线，也是需要继承RenderPipeline并重写这个方法。</p>
+<p>Render()里的主要逻辑就是使用管线的设置一个一个绘制摄像机。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">protected override void Render(ScriptableRenderContext renderContext, Camera[] cameras)</span><br><span class="line">&#123;</span><br><span class="line">     //1.准备全局设置的数据</span><br><span class="line">     //2.SortCamera摄像机排序</span><br><span class="line">     //3.RenderSingleCamera渲染单个摄像机</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>RenderSingleCamera()是设置数据并绘制单个摄像机。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public static void RenderSingleCamera(ScriptableRenderContext context, Camera camera)</span><br><span class="line">&#123;</span><br><span class="line">    //1.InitializeCameraData()   使用摄像机上挂的UniversalAdditionalCameraData数据对摄像机设置进行配置</span><br><span class="line">    //2.使用SciptableRenderer进行摄像机绘制，URP里是UniversalRenderer，它继承于ScriptableRenderer。后面有讲解。    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>构造函数UniversalRenderPipeline()使用UniversalRenderPipelineAsset数据进行管线初始化。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public UniversalRenderPipeline(UniversalRenderPipelineAsset asset)</span><br><span class="line">&#123;</span><br><span class="line">    //管线的创建</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-UniversalRenderPipelineCore"><a href="#3-UniversalRenderPipelineCore" class="headerlink" title="(3)UniversalRenderPipelineCore"></a>(3)UniversalRenderPipelineCore</h3><p>这个文件比较特殊，里面主要定义了管线需要的数据结构。</p>
+<p>RenderData、LightData、CameraData、ShadowData这些数据结构体。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">public struct RenderingData</span><br><span class="line">&#123;</span><br><span class="line">    public CullingResults cullResults;</span><br><span class="line">    public CameraData cameraData;</span><br><span class="line">    public LightData lightData;</span><br><span class="line">    public ShadowData shadowData;</span><br><span class="line">    public PostProcessingData postProcessingData;</span><br><span class="line">    public bool supportsDynamicBatching;</span><br><span class="line">    public PerObjectData perObjectData;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// True if post-processing effect is enabled while rendering the camera stack.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public bool postProcessingEnabled;</span><br><span class="line">&#125;</span><br><span class="line">public struct LightData</span><br><span class="line">&#123;</span><br><span class="line">    public int mainLightIndex;</span><br><span class="line">    public int additionalLightsCount;</span><br><span class="line">    public int maxPerObjectAdditionalLightsCount;</span><br><span class="line">    public NativeArray&lt;VisibleLight&gt; visibleLights;</span><br><span class="line">    internal NativeArray&lt;int&gt; originalIndices;</span><br><span class="line">    public bool shadeAdditionalLightsPerVertex;</span><br><span class="line">    public bool supportsMixedLighting;</span><br><span class="line">    public bool reflectionProbeBoxProjection;</span><br><span class="line">    public bool reflectionProbeBlending;</span><br><span class="line">    public bool supportsLightLayers;</span><br><span class="line"></span><br><span class="line">    /// &lt;summary&gt;</span><br><span class="line">    /// True if additional lights enabled.</span><br><span class="line">    /// &lt;/summary&gt;</span><br><span class="line">    public bool supportsAdditionalLights;</span><br><span class="line">&#125;</span><br><span class="line">其他结构...</span><br></pre></td></tr></table></figure>
+<p>ShaderPropertyId定义管线全局需要的Shader内变量PropertyId</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">internal static class ShaderPropertyId</span><br><span class="line">&#123;  </span><br><span class="line">    public static readonly int time = Shader.PropertyToID(&quot;_Time&quot;);</span><br><span class="line">    public static readonly int sinTime = Shader.PropertyToID(&quot;_SinTime&quot;);</span><br><span class="line">    public static readonly int cosTime = Shader.PropertyToID(&quot;_CosTime&quot;);</span><br><span class="line">    public static readonly int deltaTime = Shader.PropertyToID(&quot;unity_DeltaTime&quot;);</span><br><span class="line">    public static readonly int timeParameters = Shader.PropertyToID(&quot;_TimeParameters&quot;);</span><br><span class="line">    public static readonly int viewMatrix = Shader.PropertyToID(&quot;unity_MatrixV&quot;);</span><br><span class="line">    public static readonly int projectionMatrix = Shader.PropertyToID(&quot;glstate_matrix_projection&quot;);</span><br><span class="line">    public static readonly int viewAndProjectionMatrix = Shader.PropertyToID(&quot;unity_MatrixVP&quot;);</span><br><span class="line">    ...其他</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>ShaderKeywordStrings定义管线的shader关键字</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static class ShaderKeywordStrings</span><br><span class="line">&#123;</span><br><span class="line">    public static readonly string MainLightShadows = &quot;_MAIN_LIGHT_SHADOWS&quot;;</span><br><span class="line">    public static readonly string MainLightShadowCascades = &quot;_MAIN_LIGHT_SHADOWS_CASCADE&quot;;</span><br><span class="line">    public static readonly string MainLightShadowScreen = &quot;_MAIN_LIGHT_SHADOWS_SCREEN&quot;;</span><br><span class="line">    public static readonly string CastingPunctualLightShadow = &quot;_CASTING_PUNCTUAL_LIGHT_SHADOW&quot;; </span><br><span class="line">   ...其他</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-ScriptableRenderPass"><a href="#4-ScriptableRenderPass" class="headerlink" title="(4)ScriptableRenderPass"></a>(4)ScriptableRenderPass</h3><p>这些渲染单元的核心类，我们要实现功能最终就是体现在它上面。</p>
+<p>将一个功能的渲染功能进行内聚，最后在上层可以进行自由组合变成不同的Renderer(Forward或Deferred)，这个unity做的很聪明。</p>
+<p>常用的属性方法是：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">renderPassEvent  //pass的渲染event</span><br><span class="line"></span><br><span class="line">Configure()  //called by the renderer before executing the render pass.</span><br><span class="line"></span><br><span class="line">OnCameraSetup()  //called by the renderer before rendering a camera.</span><br><span class="line"></span><br><span class="line">OnCameraCleanup(CommandBuffer cmd) //Called on finish rendering a camera</span><br><span class="line"></span><br><span class="line">Execute(ScriptableRenderContext context, ref RenderingData renderingData);  //Pass的真正内容</span><br><span class="line"></span><br><span class="line">CreateDrawingSettings()  //创建一个DrawSettings对象，控制一些settings</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-ScriptableRenderer"><a href="#5-ScriptableRenderer" class="headerlink" title="(5)ScriptableRenderer"></a>(5)ScriptableRenderer</h3><p>这是一个抽象类，目的就是把多个ScriptableRenderPass进行组合，满足不同的情况。<br>抽象类底层提供了ScriptableRenderFeature的管理支持，以及不管怎么自定义都需要的一些方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public abstract partial class ScriptableRenderer : IDisposable</span><br><span class="line">&#123;</span><br><span class="line">    设置摄像机矩阵</span><br><span class="line">    void SetCameraMatrices()</span><br><span class="line"></span><br><span class="line">    设置每个摄像机的渲染变量，比如worldCameraPos、screenParams、ZBufferParams等</span><br><span class="line">     void SetPerCameraShaderVariables()</span><br><span class="line"></span><br><span class="line">     UniversalRenderPipeline绘制摄像机中间去调。执行各个RenderPass的Execute()</span><br><span class="line">     void Execute()</span><br><span class="line"></span><br><span class="line">     管理renderfeature的list</span><br><span class="line">     List&lt;ScriptableRenderFeature&gt; renderfeatures</span><br><span class="line"></span><br><span class="line">     管理开启的RenderPass队列</span><br><span class="line">     List&lt;ScriptableRenderPass&gt; m_ActiveRenderPassQueue</span><br><span class="line"> </span><br><span class="line">     ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-UniversalRenderer"><a href="#6-UniversalRenderer" class="headerlink" title="(6)UniversalRenderer"></a>(6)UniversalRenderer</h3><p>Unity提供一个UniversalRenderer继承于ScriptableRenderer，它将很多很多的Pass功能组合在一起，然后自由配置Pass的执行策略。</p>
+<p>内部有个RenderMode可以设置是Forward还是Deferred的渲染路径。</p>
+<p>管理了unity自带的一些必要Pass。当然因为继承于ScriptableRenderer，也支持自定义RenderFeature。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"> public sealed class UniversalRenderer : ScriptableRenderer</span><br><span class="line">&#123;</span><br><span class="line">        DepthOnlyPass m_DepthPrepass;</span><br><span class="line">        DepthNormalOnlyPass m_DepthNormalPrepass;</span><br><span class="line">        CopyDepthPass m_PrimedDepthCopyPass;</span><br><span class="line">        MotionVectorRenderPass m_MotionVectorPass;</span><br><span class="line">        MainLightShadowCasterPass m_MainLightShadowCasterPass;</span><br><span class="line">        AdditionalLightsShadowCasterPass m_AdditionalLightsShadowCasterPass;</span><br><span class="line">        GBufferPass m_GBufferPass;</span><br><span class="line">        CopyDepthPass m_GBufferCopyDepthPass;</span><br><span class="line">        TileDepthRangePass m_TileDepthRangePass;</span><br><span class="line">        TileDepthRangePass m_TileDepthRangeExtraPass; // TODO use subpass API to hide this pass</span><br><span class="line">        DeferredPass m_DeferredPass;</span><br><span class="line">        DrawObjectsPass m_RenderOpaqueForwardOnlyPass;</span><br><span class="line">        DrawObjectsPass m_RenderOpaqueForwardPass;</span><br><span class="line">        DrawSkyboxPass m_DrawSkyboxPass;</span><br><span class="line">        CopyDepthPass m_CopyDepthPass;</span><br><span class="line">        CopyColorPass m_CopyColorPass;</span><br><span class="line">        TransparentSettingsPass m_TransparentSettingsPass;</span><br><span class="line">        DrawObjectsPass m_RenderTransparentForwardPass;</span><br><span class="line">        InvokeOnRenderObjectCallbackPass m_OnRenderObjectCallbackPass;</span><br><span class="line">        FinalBlitPass m_FinalBlitPass;</span><br><span class="line">        CapturePass m_CapturePass;</span><br><span class="line">        ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="7-ScriptableRenderFeature"><a href="#7-ScriptableRenderFeature" class="headerlink" title="(7)ScriptableRenderFeature"></a>(7)ScriptableRenderFeature</h3><p>本质是一个ScriptableObject，它序列化我们自定义RenderPass的设置，并以一个AddRenderPasses将自定义RenderPass添加进pass列表中。</p>
+<p>有几个比较重要的需要使用的数据和方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">IsActive : 控制Feature是否生效</span><br><span class="line"></span><br><span class="line">public abstract  void Create();   //做RenderPass的构造和初始化</span><br><span class="line"></span><br><span class="line">public abstract void AddRenderPasses(ScriptableRenderer renderer, ref RenderingDatarenderingData); // 将RenderPass加入渲染队列</span><br><span class="line"></span><br><span class="line">public abstract void OnCameraPreCull(); //在camera剔除之前执行</span><br><span class="line"></span><br><span class="line">Dispose();  //销毁资源</span><br></pre></td></tr></table></figure>
+<p>本文主要从结构设计的角度分析，所以没有深入到具体方法以及逻辑实现。</p>
+<p>祝大家学习快乐。</p>
+<hr>
+<p>引用参考：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/153075170">URP源码学习 https://zhuanlan.zhihu.com/p/153075170</a></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/URP%E6%9E%B6%E6%9E%84/" data-id="clm4vzsp20001fg9h9rkx7q8y" data-title="Unity-URP代码架构" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/23/URP%E6%9E%B6%E6%9E%84/" data-id="clm4wsgst0001309h8tgd1bab" data-title="Unity-URP代码架构" class="article-share-link">Share</a>
       
       
       
@@ -124,9 +177,9 @@
     </a>
   
   
-    <a href="/2023/02/23/%E8%AE%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9A%84%E5%BC%80%E5%A7%8B/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2023/02/23/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">个人网站的开始</div>
+      <div class="article-nav-title">Unity游戏渲染性能优化</div>
     </a>
   
 </nav>
@@ -143,7 +196,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Test/">Test</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%AE%A2%E6%88%B7%E7%AB%AF/">客户端</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a></li></ul>
     </div>
   </div>
 
@@ -193,15 +246,11 @@
           </li>
         
           <li>
+            <a href="/2023/02/23/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">Unity游戏渲染性能优化</a>
+          </li>
+        
+          <li>
             <a href="/2023/02/23/%E8%AE%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9A%84%E5%BC%80%E5%A7%8B/">个人网站的开始</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/23/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">游戏渲染性能优化</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/21/My-test-blog/">ClientTest</a>
           </li>
         
       </ul>
