@@ -71,6 +71,199 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-UE5-自定义MeshComponent" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="article-date">
+  <time class="dt-published" datetime="2023-09-07T16:00:00.000Z" itemprop="datePublished">2023-09-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/">UE5-自定义MeshComponent</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>虚幻自定义MeshComponent在此总结一下。</p>
+<iframe height=600 width=800 src="https://www.bilibili.com/video/BV1Nk4y1P7wX/?spm_id_from=333.999.0.0">
+</iframe>
+
+
+<h1 id="1-几个比较重要的概念"><a href="#1-几个比较重要的概念" class="headerlink" title="1.几个比较重要的概念"></a>1.几个比较重要的概念</h1><h2 id="UPrimitiveComponent"><a href="#UPrimitiveComponent" class="headerlink" title="UPrimitiveComponent"></a>UPrimitiveComponent</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class ENGINE_API UPrimitiveComponent : public USceneComponent, public INavRelevantInterface, public IInterface_AsyncCompilation</span><br><span class="line">&#123;  </span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>UPrimitiveComponent继承于USceneComponent，所以具有Transform属性和父子嵌套的能力。</p>
+<p>UPrimitiveComponent是一切几何组件的父类，比如UE自带的ShapeComponent、StaticMeshComponent、SkeletalMeshComponent等组件追溯上去都是继承UPrimitiveComponent。</p>
+<p>UPrimitiveComponent相关内容在渲染线程里非常常见。</p>
+        
+          <p class="article-more-link">
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" data-id="clmc3rm8n0006jw9he9c3am1v" data-title="UE5-自定义MeshComponent" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unreal/" rel="tag">Unreal</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-UE4-DistanceFieldShadow" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/09/05/UE4-DistanceFieldShadow/" class="article-date">
+  <time class="dt-published" datetime="2023-09-04T16:00:00.000Z" itemprop="datePublished">2023-09-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/09/05/UE4-DistanceFieldShadow/">UE4-距离场阴影DistanceFieldShadow</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>太懒了，还没写</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/09/05/UE4-DistanceFieldShadow/" data-id="clmc3rm8h0000jw9hazr1c4ml" data-title="UE4-距离场阴影DistanceFieldShadow" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unreal/" rel="tag">Unreal</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-UE4-GPUScene" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/09/05/UE4-GPUScene/" class="article-date">
+  <time class="dt-published" datetime="2023-09-04T16:00:00.000Z" itemprop="datePublished">2023-09-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/09/05/UE4-GPUScene/">UE4-GPUScene</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>太懒了，还没写</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/09/05/UE4-GPUScene/" data-id="clmc3rm8m0004jw9h19q555rj" data-title="UE4-GPUScene" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unreal/" rel="tag">Unreal</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-UE4-DitherLODTransition" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/09/05/UE4-DitherLODTransition/" class="article-date">
+  <time class="dt-published" datetime="2023-09-04T16:00:00.000Z" itemprop="datePublished">2023-09-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/09/05/UE4-DitherLODTransition/">UE4-DitherLODTransition</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>太懒了，还没写</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/09/05/UE4-DitherLODTransition/" data-id="clmc3rm8n0005jw9h50safasc" data-title="UE4-DitherLODTransition" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unreal/" rel="tag">Unreal</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-UE4-植被系统" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/09/04/UE4-%E6%A4%8D%E8%A2%AB%E7%B3%BB%E7%BB%9F/" class="article-date">
@@ -97,15 +290,69 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        
+        <p>太懒了，还没写</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/09/04/UE4-%E6%A4%8D%E8%A2%AB%E7%B3%BB%E7%BB%9F/" data-id="clm6di9o50000vc9ha8v9ftpj" data-title="UE4-植被系统" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/09/04/UE4-%E6%A4%8D%E8%A2%AB%E7%B3%BB%E7%BB%9F/" data-id="clmc3rm8k0001jw9hb3u21dtt" data-title="UE4-植被系统" class="article-share-link">Share</a>
       
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unreal/" rel="tag">Unreal</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-URP架构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2023/02/23/URP%E6%9E%B6%E6%9E%84/" class="article-date">
+  <time class="dt-published" datetime="2023-02-22T16:00:00.000Z" itemprop="datePublished">2023-02-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2023/02/23/URP%E6%9E%B6%E6%9E%84/">Unity-URP代码架构</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本文对URP使用的这段时间的一些理解和总结。从知乎转移：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/607416554">URP管线架构学习总结</a></p>
+<h2 id="1-URP渲染管线的架构图"><a href="#1-URP渲染管线的架构图" class="headerlink" title="1.URP渲染管线的架构图"></a>1.URP渲染管线的架构图</h2><p>理解一个系统设计比较重要的就是类图了。</p>
+<center><img src="https://picx.zhimg.com/80/v2-e1b1b9c396e84afdd8b6bd5aced9c4b0_720w.png?source=d16d100b" width = "" height = ""></center>
+
+<h2 id="2-各个类的一些作用和使用"><a href="#2-各个类的一些作用和使用" class="headerlink" title="2.各个类的一些作用和使用"></a>2.各个类的一些作用和使用</h2><h3 id="1-UniversalRenderPipelineAsset"><a href="#1-UniversalRenderPipelineAsset" class="headerlink" title="(1)UniversalRenderPipelineAsset"></a>(1)UniversalRenderPipelineAsset</h3><p>本质是一个ScriptableObject类型，用于序列化URP的一些设置，General、Quality、Lights、Shadows等。</p>
+        
+          <p class="article-more-link">
+            <a href="/2023/02/23/URP%E6%9E%B6%E6%9E%84/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2023/02/23/URP%E6%9E%B6%E6%9E%84/" data-id="clmc3rm8o000ajw9he75r7fgi" data-title="Unity-URP代码架构" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li></ul>
 
     </footer>
   </div>
@@ -157,60 +404,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" data-id="clm6di9o70001vc9h2k4jdjfe" data-title="Unity游戏渲染性能优化" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-URP架构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/02/23/URP%E6%9E%B6%E6%9E%84/" class="article-date">
-  <time class="dt-published" datetime="2023-02-22T16:00:00.000Z" itemprop="datePublished">2023-02-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/02/23/URP%E6%9E%B6%E6%9E%84/">Unity-URP代码架构</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>本文对URP使用的这段时间的一些理解和总结。从知乎转移：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/607416554">URP管线架构学习总结</a></p>
-<h2 id="1-URP渲染管线的架构图"><a href="#1-URP渲染管线的架构图" class="headerlink" title="1.URP渲染管线的架构图"></a>1.URP渲染管线的架构图</h2><p>理解一个系统设计比较重要的就是类图了。</p>
-<center><img src="https://picx.zhimg.com/80/v2-e1b1b9c396e84afdd8b6bd5aced9c4b0_720w.png?source=d16d100b" width = "" height = ""></center>
-
-<h2 id="2-各个类的一些作用和使用"><a href="#2-各个类的一些作用和使用" class="headerlink" title="2.各个类的一些作用和使用"></a>2.各个类的一些作用和使用</h2><h3 id="1-UniversalRenderPipelineAsset"><a href="#1-UniversalRenderPipelineAsset" class="headerlink" title="(1)UniversalRenderPipelineAsset"></a>(1)UniversalRenderPipelineAsset</h3><p>本质是一个ScriptableObject类型，用于序列化URP的一些设置，General、Quality、Lights、Shadows等。</p>
-        
-          <p class="article-more-link">
-            <a href="/2023/02/23/URP%E6%9E%B6%E6%9E%84/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/URP%E6%9E%B6%E6%9E%84/" data-id="clm6di9o90004vc9h82k51f2y" data-title="Unity-URP代码架构" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/23/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" data-id="clmc3rm8p000cjw9hdm5hb2uw" data-title="Unity游戏渲染性能优化" class="article-share-link">Share</a>
       
       
       
@@ -262,7 +456,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/%E8%AE%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9A%84%E5%BC%80%E5%A7%8B/" data-id="clm6di9oa0005vc9h6hy5hgxi" data-title="个人网站的开始" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/02/23/%E8%AE%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9A%84%E5%BC%80%E5%A7%8B/" data-id="clmc3rm8t000tjw9hckqw7dep" data-title="个人网站的开始" class="article-share-link">Share</a>
       
       
       
@@ -306,7 +500,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Unity/" style="font-size: 20px;">Unity</a> <a href="/tags/Unreal/" style="font-size: 10px;">Unreal</a> <a href="/tags/%E5%B0%8F%E8%AE%B0/" style="font-size: 10px;">小记</a>
+      <a href="/tags/Unity/" style="font-size: 15px;">Unity</a> <a href="/tags/Unreal/" style="font-size: 20px;">Unreal</a> <a href="/tags/%E5%B0%8F%E8%AE%B0/" style="font-size: 10px;">小记</a>
     </div>
   </div>
 
@@ -328,19 +522,23 @@
       <ul>
         
           <li>
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/">UE5-自定义MeshComponent</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/05/UE4-DistanceFieldShadow/">UE4-距离场阴影DistanceFieldShadow</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/05/UE4-GPUScene/">UE4-GPUScene</a>
+          </li>
+        
+          <li>
+            <a href="/2023/09/05/UE4-DitherLODTransition/">UE4-DitherLODTransition</a>
+          </li>
+        
+          <li>
             <a href="/2023/09/04/UE4-%E6%A4%8D%E8%A2%AB%E7%B3%BB%E7%BB%9F/">UE4-植被系统</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/23/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">Unity游戏渲染性能优化</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/23/URP%E6%9E%B6%E6%9E%84/">Unity-URP代码架构</a>
-          </li>
-        
-          <li>
-            <a href="/2023/02/23/%E8%AE%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9A%84%E5%BC%80%E5%A7%8B/">个人网站的开始</a>
           </li>
         
       </ul>
