@@ -6,18 +6,20 @@
   
   <title>UE5-自定义ShadingModel | ALey&#39;s Blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="虚幻自定义ShadingModel在此总结一下。 什么是ShadingModel？在UE的材质编辑器里，材质有ShadingModel可以选择，基本上有Unlit、DefalutLit、Subsurface、ClearCoat、Hair等可以选择。 在BasePass画GBuffer的时候，会把像素的ShadingModelID记到GBuffer里。 在后续光照的时候，ShadingModels.">
+  <meta name="description" content="虚幻自定义ShadingModel在此总结一下。   什么是ShadingModel？在UE的材质编辑器里，材质有ShadingModel可以选择，基本上有Unlit、DefalutLit、Subsurface、ClearCoat、Hair等可以选择。 在BasePass画GBuffer的时候，会把像素的ShadingModelID记到GBuffer里。 在后续光照的时候，ShadingModel">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UE5-自定义ShadingModel">
 <meta property="og:url" content="http://example.com/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/index.html">
 <meta property="og:site_name" content="ALey&#39;s Blogs">
-<meta property="og:description" content="虚幻自定义ShadingModel在此总结一下。 什么是ShadingModel？在UE的材质编辑器里，材质有ShadingModel可以选择，基本上有Unlit、DefalutLit、Subsurface、ClearCoat、Hair等可以选择。 在BasePass画GBuffer的时候，会把像素的ShadingModelID记到GBuffer里。 在后续光照的时候，ShadingModels.">
+<meta property="og:description" content="虚幻自定义ShadingModel在此总结一下。   什么是ShadingModel？在UE的材质编辑器里，材质有ShadingModel可以选择，基本上有Unlit、DefalutLit、Subsurface、ClearCoat、Hair等可以选择。 在BasePass画GBuffer的时候，会把像素的ShadingModelID记到GBuffer里。 在后续光照的时候，ShadingModel">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-3d2cb99116c988282408787bfae9ce62_720w.png">
 <meta property="article:published_time" content="2023-09-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-09-10T08:17:30.129Z">
+<meta property="article:modified_time" content="2023-09-10T08:34:00.047Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Unreal">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picx.zhimg.com/80/v2-3d2cb99116c988282408787bfae9ce62_720w.png">
   
     <link rel="alternate" href="/atom.xml" title="ALey's Blogs" type="application/atom+xml">
   
@@ -101,6 +103,8 @@
     <div class="e-content article-entry" itemprop="articleBody">
       
         <p>虚幻自定义ShadingModel在此总结一下。</p>
+<center><img src="https://picx.zhimg.com/80/v2-3d2cb99116c988282408787bfae9ce62_720w.png" width = "" height = ""></center>
+
 <h1 id="什么是ShadingModel？"><a href="#什么是ShadingModel？" class="headerlink" title="什么是ShadingModel？"></a>什么是ShadingModel？</h1><p>在UE的材质编辑器里，材质有ShadingModel可以选择，基本上有Unlit、DefalutLit、Subsurface、ClearCoat、Hair等可以选择。</p>
 <p>在BasePass画GBuffer的时候，会把像素的ShadingModelID记到GBuffer里。</p>
 <p>在后续光照的时候，ShadingModels.ush的IntegrateBxDF()，根据不同的ShadingModel，得出不一样的FDirectLighting BRDF结果。 </p>
