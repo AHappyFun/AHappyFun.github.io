@@ -4,20 +4,26 @@
   <meta charset="utf-8">
   
   
-  <title>UE5-自定义MeshPass | ALey&#39;s Blogs</title>
+  <title>UE4-PSOCache | ALey&#39;s Blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="虚幻自定义MeshPass在此总结一下。 基于UE5.1 Github版本 UE5 AddOutlinePass https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;597864516 UE4 AddOutlinePass 材质实例参数 https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;576774695    OutlinePass的加入1.需要创建一个FToonOutlineMe">
+  <meta name="description" content="1.什么是PSO?PSO(Pipeline State Object)是现代图形API(DX12、Vulkan、Metal)提出的新概念，以前的API设置VS、Rasterizer、PS、BlendState这些状态时，需要一个一个调用设置，PSO可以理解就是把这些状态封装为一个Object，一次调用SetPipelineState的API即可。 2.为什么需要Cache PSO？游戏在运行过程中">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UE5-自定义MeshPass">
-<meta property="og:url" content="http://example.com/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/index.html">
+<meta property="og:title" content="UE4-PSOCache">
+<meta property="og:url" content="http://example.com/2024/05/11/UE4-PSOCache/index.html">
 <meta property="og:site_name" content="ALey&#39;s Blogs">
-<meta property="og:description" content="虚幻自定义MeshPass在此总结一下。 基于UE5.1 Github版本 UE5 AddOutlinePass https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;597864516 UE4 AddOutlinePass 材质实例参数 https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;576774695    OutlinePass的加入1.需要创建一个FToonOutlineMe">
+<meta property="og:description" content="1.什么是PSO?PSO(Pipeline State Object)是现代图形API(DX12、Vulkan、Metal)提出的新概念，以前的API设置VS、Rasterizer、PS、BlendState这些状态时，需要一个一个调用设置，PSO可以理解就是把这些状态封装为一个Object，一次调用SetPipelineState的API即可。 2.为什么需要Cache PSO？游戏在运行过程中">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-09-10T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-05-17T14:38:08.945Z">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-8e87e4366a61edadba9c017178f8887c_720w.png">
+<meta property="og:image" content="https://pica.zhimg.com/80/v2-2530cb74bd4ec1416be6c8b17243b9dd_720w.png">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-7731ec4b82d1d8725a9ddffea0555f40_720w.png">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-6b5bfa12521ed73b51ecee07621ee98e_720w.png">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-774f0c0586509627f199de96e28ff65c_720w.png">
+<meta property="article:published_time" content="2024-05-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-05-17T14:51:56.458Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Unreal">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picx.zhimg.com/80/v2-8e87e4366a61edadba9c017178f8887c_720w.png">
   
     <link rel="alternate" href="/atom.xml" title="ALey's Blogs" type="application/atom+xml">
   
@@ -74,10 +80,10 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-UE5-自定义MeshPass" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-UE4-PSOCache" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="article-date">
-  <time class="dt-published" datetime="2023-09-10T16:00:00.000Z" itemprop="datePublished">2023-09-11</time>
+    <a href="/2024/05/11/UE4-PSOCache/" class="article-date">
+  <time class="dt-published" datetime="2024-05-10T16:00:00.000Z" itemprop="datePublished">2024-05-11</time>
 </a>
     
   <div class="article-category">
@@ -92,7 +98,7 @@
         
   
     <h1 class="p-name article-title" itemprop="headline name">
-      UE5-自定义MeshPass
+      UE4-PSOCache
     </h1>
   
 
@@ -100,29 +106,34 @@
     
     <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>虚幻自定义MeshPass在此总结一下。</p>
-<p>基于UE5.1 Github版本</p>
-<p>UE5 AddOutlinePass</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/597864516">https://zhuanlan.zhihu.com/p/597864516</a></p>
-<p>UE4 AddOutlinePass 材质实例参数</p>
-<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/576774695">https://zhuanlan.zhihu.com/p/576774695</a></p>
-<iframe height=600 width=800 src="https://www.bilibili.com/video/BV13j411Z7KP">
-</iframe>
+        <h3 id="1-什么是PSO"><a href="#1-什么是PSO" class="headerlink" title="1.什么是PSO?"></a>1.什么是PSO?</h3><p>PSO(Pipeline State Object)是现代图形API(DX12、Vulkan、Metal)提出的新概念，以前的API设置VS、Rasterizer、PS、BlendState这些状态时，需要一个一个调用设置，PSO可以理解就是把这些状态封装为一个Object，一次调用SetPipelineState的API即可。</p>
+<h3 id="2-为什么需要Cache-PSO？"><a href="#2-为什么需要Cache-PSO？" class="headerlink" title="2.为什么需要Cache PSO？"></a>2.为什么需要Cache PSO？</h3><p>游戏在运行过程中，根据底层API，会有需要创建新的PSO对象的时候，这个创建的过程比较耗时，会导致卡顿。<br>PSO Cache就是把游戏中要用到的PSO记下来，然后在游戏引擎初始化阶段直接创建，避免之后的卡顿，所以总的创建时间是一样的，只不过提前了。</p>
+<p>stat pipelinecache可以看pso的状态，下图情况就是pso全部是cache预创建的，没有新生成的。</p>
+<center><img src="https://picx.zhimg.com/80/v2-8e87e4366a61edadba9c017178f8887c_720w.png" width = "" height = ""></center>
 
-<h2 id="OutlinePass的加入"><a href="#OutlinePass的加入" class="headerlink" title="OutlinePass的加入"></a>OutlinePass的加入</h2><h3 id="1-需要创建一个FToonOutlineMeshPassProcessor继承FMeshPassProcessor"><a href="#1-需要创建一个FToonOutlineMeshPassProcessor继承FMeshPassProcessor" class="headerlink" title="1.需要创建一个FToonOutlineMeshPassProcessor继承FMeshPassProcessor"></a>1.需要创建一个FToonOutlineMeshPassProcessor继承FMeshPassProcessor</h3><p>需要实现的方法：</p>
-<p>构造函数：初始化PassProcessorRenderState，深度、模板、Blend的模式</p>
-<p>AddMeshBatch: 获取到FMeshBatch的顶点工厂、获取Shader、最终BuildMeshDrawCommands</p>
-<p>CreateToonOutlinePassProcessor的相关方法，用宏注册方法</p>
-<p>外部调用RenderPass的入口，RenderOutlinePass</p>
-<h3 id="2-创建OutlineShader相关"><a href="#2-创建OutlineShader相关" class="headerlink" title="2.创建OutlineShader相关"></a>2.创建OutlineShader相关</h3><p>需要创建的结构：</p>
-<p>VS和PS的C++结构</p>
-<p>VS和PS的申明和注册</p>
-<p>VS和PS的 usf文件</p>
-<h3 id="3-SceneVisibility里设置MeshPass的相关性，让Pass生效起来"><a href="#3-SceneVisibility里设置MeshPass的相关性，让Pass生效起来" class="headerlink" title="3.SceneVisibility里设置MeshPass的相关性，让Pass生效起来"></a>3.SceneVisibility里设置MeshPass的相关性，让Pass生效起来</h3><h3 id="4-在渲染管线中的合适位置，调用自己Pass的Render入口（使用RenderGraph）"><a href="#4-在渲染管线中的合适位置，调用自己Pass的Render入口（使用RenderGraph）" class="headerlink" title="4.在渲染管线中的合适位置，调用自己Pass的Render入口（使用RenderGraph）"></a>4.在渲染管线中的合适位置，调用自己Pass的Render入口（使用RenderGraph）</h3><h3 id="5-坑：UE5的MeshPass的数量使用了bit5已经32，所以要加新的要改成Bit6，还涉及一些代码"><a href="#5-坑：UE5的MeshPass的数量使用了bit5已经32，所以要加新的要改成Bit6，还涉及一些代码" class="headerlink" title="5.坑：UE5的MeshPass的数量使用了bit5已经32，所以要加新的要改成Bit6，还涉及一些代码"></a>5.坑：UE5的MeshPass的数量使用了bit5已经32，所以要加新的要改成Bit6，还涉及一些代码</h3><h3 id="6-材质编辑器上加Outline的开关"><a href="#6-材质编辑器上加Outline的开关" class="headerlink" title="6.材质编辑器上加Outline的开关"></a>6.材质编辑器上加Outline的开关</h3><h3 id="7-材质编辑器自定义参数加入，颜色和float，材质实例的面板override"><a href="#7-材质编辑器自定义参数加入，颜色和float，材质实例的面板override" class="headerlink" title="7.材质编辑器自定义参数加入，颜色和float，材质实例的面板override"></a>7.材质编辑器自定义参数加入，颜色和float，材质实例的面板override</h3>
+<h3 id="3-PSOCache的收集过程"><a href="#3-PSOCache的收集过程" class="headerlink" title="3.PSOCache的收集过程"></a>3.PSOCache的收集过程</h3><p>简单来说步骤就是：</p>
+<p>1.打包生成两个.shk文件(每次cook产生最新的shk)</p>
+<p>2.运行时生成.rec.pipelinecache文件(每次运行产生新的文件，这个就是跑图需要收集的PSOCache文件)</p>
+<p>3.将两种文件合并为.stablepc.csv文件用于下一次打包</p>
+<p>4.下次打包过程中生成.stabe.upipelinecache文件到包内</p>
+<p>5.游戏开始时加载.stable.upipelinecache初始化加载PSO</p>
+<center><img src="https://pica.zhimg.com/80/v2-2530cb74bd4ec1416be6c8b17243b9dd_720w.png" width = "" height = ""></center>
+
+<h3 id="4-增量收集PSO"><a href="#4-增量收集PSO" class="headerlink" title="4.增量收集PSO"></a>4.增量收集PSO</h3><p>知道了收集的过程，可以把出包、跑图生成文件、合并文件这些步骤做成自动化。</p>
+<p>如何做增量收集？</p>
+<p>保留每次的stablepc.csv文件，最后一起放在Build&#x2F;Windows&#x2F;PipelineCaches下，会进行合并。</p>
+<center><img src="https://pic1.zhimg.com/80/v2-7731ec4b82d1d8725a9ddffea0555f40_720w.png" width = "" height = ""></center>
+
+<p>代码在UCookOnTheFlyServer::CreatePipelineCache里，读取多个.stable.csv，文件命名有严格要求。</p>
+<center><img src="https://pic1.zhimg.com/80/v2-6b5bfa12521ed73b51ecee07621ee98e_720w.png" width = "" height = ""></center>
+
+
+<p>这样可以多个.stable.csv</p>
+<center><img src="https://picx.zhimg.com/80/v2-774f0c0586509627f199de96e28ff65c_720w.png" width = "" height = ""></center>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" data-id="clmd6kv5i0000349h8gsye3g7" data-title="UE5-自定义MeshPass" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2024/05/11/UE4-PSOCache/" data-id="clwasfdzh00004wun3mwn5erl" data-title="UE4-PSOCache" class="article-share-link">Share</a>
       
       
       
@@ -134,19 +145,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2024/04/05/UE4-DistanceFieldShadow/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          UE4-距离场阴影DistanceFieldShadow
-        
-      </div>
-    </a>
   
-  
-    <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2024/04/05/UE4-DistanceFieldShadow/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">UE5-创建简单的插件Plugin</div>
+      <div class="article-nav-title">UE4-距离场阴影DistanceFieldShadow</div>
     </a>
   
 </nav>

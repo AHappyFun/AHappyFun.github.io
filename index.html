@@ -71,6 +71,145 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-UE4-PSOCache" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/05/11/UE4-PSOCache/" class="article-date">
+  <time class="dt-published" datetime="2024-05-10T16:00:00.000Z" itemprop="datePublished">2024-05-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/05/11/UE4-PSOCache/">UE4-PSOCache</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h3 id="1-什么是PSO"><a href="#1-什么是PSO" class="headerlink" title="1.什么是PSO?"></a>1.什么是PSO?</h3><p>PSO(Pipeline State Object)是现代图形API(DX12、Vulkan、Metal)提出的新概念，以前的API设置VS、Rasterizer、PS、BlendState这些状态时，需要一个一个调用设置，PSO可以理解就是把这些状态封装为一个Object，一次调用SetPipelineState的API即可。</p>
+<h3 id="2-为什么需要Cache-PSO？"><a href="#2-为什么需要Cache-PSO？" class="headerlink" title="2.为什么需要Cache PSO？"></a>2.为什么需要Cache PSO？</h3><p>游戏在运行过程中，根据底层API，会有需要创建新的PSO对象的时候，这个创建的过程比较耗时，会导致卡顿。<br>PSO Cache就是把游戏中要用到的PSO记下来，然后在游戏引擎初始化阶段直接创建，避免之后的卡顿，所以总的创建时间是一样的，只不过提前了。</p>
+<p>stat pipelinecache可以看pso的状态，下图情况就是pso全部是cache预创建的，没有新生成的。</p>
+<center><img src="https://picx.zhimg.com/80/v2-8e87e4366a61edadba9c017178f8887c_720w.png" width = "" height = ""></center>
+
+<h3 id="3-PSOCache的收集过程"><a href="#3-PSOCache的收集过程" class="headerlink" title="3.PSOCache的收集过程"></a>3.PSOCache的收集过程</h3><p>简单来说步骤就是：</p>
+<p>1.打包生成两个.shk文件(每次cook产生最新的shk)</p>
+<p>2.运行时生成.rec.pipelinecache文件(每次运行产生新的文件，这个就是跑图需要收集的PSOCache文件)</p>
+<p>3.将两种文件合并为.stablepc.csv文件用于下一次打包</p>
+<p>4.下次打包过程中生成.stabe.upipelinecache文件到包内</p>
+<p>5.游戏开始时加载.stable.upipelinecache初始化加载PSO</p>
+<center><img src="https://pica.zhimg.com/80/v2-2530cb74bd4ec1416be6c8b17243b9dd_720w.png" width = "" height = ""></center>
+
+<h3 id="4-增量收集PSO"><a href="#4-增量收集PSO" class="headerlink" title="4.增量收集PSO"></a>4.增量收集PSO</h3><p>知道了收集的过程，可以把出包、跑图生成文件、合并文件这些步骤做成自动化。</p>
+<p>如何做增量收集？</p>
+<p>保留每次的stablepc.csv文件，最后一起放在Build&#x2F;Windows&#x2F;PipelineCaches下，会进行合并。</p>
+<center><img src="https://pic1.zhimg.com/80/v2-7731ec4b82d1d8725a9ddffea0555f40_720w.png" width = "" height = ""></center>
+
+<p>代码在UCookOnTheFlyServer::CreatePipelineCache里，读取多个.stable.csv，文件命名有严格要求。</p>
+<center><img src="https://pic1.zhimg.com/80/v2-6b5bfa12521ed73b51ecee07621ee98e_720w.png" width = "" height = ""></center>
+
+
+<p>这样可以多个.stable.csv</p>
+<center><img src="https://picx.zhimg.com/80/v2-774f0c0586509627f199de96e28ff65c_720w.png" width = "" height = ""></center>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/05/11/UE4-PSOCache/" data-id="clwasfdzh00004wun3mwn5erl" data-title="UE4-PSOCache" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unreal/" rel="tag">Unreal</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-UE4-DistanceFieldShadow" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="article-date">
+  <time class="dt-published" datetime="2024-04-04T16:00:00.000Z" itemprop="datePublished">2024-04-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2024/04/05/UE4-DistanceFieldShadow/">UE4-距离场阴影DistanceFieldShadow</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="1-UE的DistanceField"><a href="#1-UE的DistanceField" class="headerlink" title="1.UE的DistanceField"></a>1.UE的DistanceField</h2><p>距离场的生成，有MeshDistanceField和GlobalDistanceField</p>
+<p>UE的主要应用是DFShadow、DFAO、材质DistanceFieldToNearest</p>
+<p><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/mesh-distance-fields-in-unreal-engine">https://dev.epicgames.com/documentation/en-us/unreal-engine/mesh-distance-fields-in-unreal-engine</a></p>
+<h2 id="2-DFShadow流程"><a href="#2-DFShadow流程" class="headerlink" title="2.DFShadow流程"></a>2.DFShadow流程</h2><h3 id="SceneProxy-收集MeshBatch"><a href="#SceneProxy-收集MeshBatch" class="headerlink" title="SceneProxy 收集MeshBatch"></a>SceneProxy 收集MeshBatch</h3><center><img src="https://pic1.zhimg.com/80/v2-1b01697d97edc2e336c2bd550a614b83_720w.png" width = "" height = ""></center>
+
+<h3 id="DistanceField数据上传"><a href="#DistanceField数据上传" class="headerlink" title="DistanceField数据上传"></a>DistanceField数据上传</h3><p>这一步上传所有SceneProxy的相关距离场数据，一堆float4的数据。<br>每帧有Remove，Update，Add的处理。</p>
+<p>上传Buffer用的是一个ComputeShader，后来改引擎的时候又加了一个ComputeShader用来单独上传Buffer里的某段数据，来更新东西实现功能。</p>
+<center><img src="https://pic1.zhimg.com/80/v2-cb0fd6492e44a212a1037d16c877e539_720w.png" width = "" height = ""></center>
+
+<h3 id="DFShadow计算"><a href="#DFShadow计算" class="headerlink" title="DFShadow计算"></a>DFShadow计算</h3><p>DFShadow在光照阶段计算，共有3步：剔除划分-&gt;计算阴影-&gt;上采样并合并CSM</p>
+<center><img src="https://pic1.zhimg.com/80/v2-bf5ef2faa523e30cfb194b254e0bfa84_720w.png" width = "" height = ""></center>
+
+
+
+<h4 id="1-CullObjectsForLight-剔除划分Tile阶段"><a href="#1-CullObjectsForLight-剔除划分Tile阶段" class="headerlink" title="1.CullObjectsForLight-剔除划分Tile阶段"></a>1.CullObjectsForLight-剔除划分Tile阶段</h4><p>CullObjectToFrustum ：<br>使用CSM的视锥平面剔除Object、HISM同步Cull也是在这里剔除掉的</p>
+<p>————使用的CullObjectsForShadowCS这个CS剔除，没剔除的就把这些数据Copy到新的Buffer里</p>
+<p>ComputeTileStartOffsets：计算每个Tile相交的Object，并把Object分配到这些Tile里，记录下Tile的索引Offset</p>
+<p>————第一次ScatterObjectsToShadowTiles：计算出来每个Tile里有多少个Object</p>
+<p>————ComputeCulledTileStartOffsetCS：计算每个Tile的索引Offset</p>
+<p>CullObjectsToTiles：</p>
+<p>————第二次ScatterObjectsToShadowTiles：前面知道了每个Tile的Object数量和Tile的Offset，这里最后主要是把RWShadowTileArrayData[DataIndex]填充了，它的长度是所有Tile的Object数量之和，它的值是ObjectIndex（就是CullObjectToFrustum这步的CopyData的索引）</p>
+<p>RenderDoc上看的流程：</p>
+<center><img src="https://picx.zhimg.com/80/v2-b2337b9e96994f6fca8dc260e2cf490c_720w.png" width = "" height = ""></center>
+
+
+<h4 id="2-DFShadow计算"><a href="#2-DFShadow计算" class="headerlink" title="2.DFShadow计算"></a>2.DFShadow计算</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">[numthreads(THREADGROUP_SIZEX, THREADGROUP_SIZEY, 1)]</span><br><span class="line">void DistanceFieldShadowingCS(</span><br><span class="line">    uint3 GroupId : SV_GroupID,</span><br><span class="line">    uint3 DispatchThreadId : SV_DispatchThreadID,</span><br><span class="line">    uint3 GroupThreadId : SV_GroupThreadID) </span><br><span class="line">&#123;</span><br><span class="line">    //和其他ComputeShader算法一样，转换DispatchThreadId为屏幕UV和屏幕坐标</span><br><span class="line">      uint ThreadIndex = GroupThreadId.y * THREADGROUP_SIZEX + GroupThreadId.x;</span><br><span class="line">    float2 ScreenUV = float2((DispatchThreadId.xy * DownsampleFactor + ScissorRectMinAndSize.xy + .5f) * View.BufferSizeAndInvSize.zw);</span><br><span class="line">    float2 ScreenPosition = (ScreenUV.xy - View.ScreenPositionScaleBias.wz) / View.ScreenPositionScaleBias.xy;</span><br><span class="line">   </span><br><span class="line">   //深度转换为世界坐标</span><br><span class="line">    float SceneDepth = CalcSceneDepth(ScreenUV);</span><br><span class="line">    float3 OpaqueWorldPosition = mul(float4(ScreenPosition * SceneDepth, SceneDepth, 1), View.ScreenToWorld).xyz;</span><br><span class="line"></span><br><span class="line">   //得到DFTrace的射线起点和终点，其实就是往灯光方向去打射线，和ContactShadow一样</span><br><span class="line">      float3 WorldRayStart = OpaqueWorldPosition + LightDirection * RayStartOffset;</span><br><span class="line">    float3 WorldRayEnd = OpaqueWorldPosition + LightDirection * TraceDistance;</span><br><span class="line">  </span><br><span class="line">   //遍历所有的CullObject，先判断射线是否与物体包围盒相交</span><br><span class="line">   //IntersectionTimes得到最近交点和最远交点</span><br><span class="line">   float2 IntersectionTimes = LineBoxIntersect(...);</span><br><span class="line">           </span><br><span class="line">   BRANCH                                            </span><br><span class="line">   if (IntersectionTimes.x &lt; IntersectionTimes.y)</span><br><span class="line">   &#123;</span><br><span class="line">          //如果有相交，就在包围盒内RayMarching，逐步采样距离场，如果值小于一个阈值，代表很接近这个物体了，可以结束循环，此时距离场信息作为阴影的值。如果已经RayMarch超出包围盒也结束循环。</span><br><span class="line">      LOOP</span><br><span class="line">        for (; StepIndex &lt; MaxSteps; StepIndex++)</span><br><span class="line">      &#123;</span><br><span class="line">            float3 SampleVolumePosition = VolumeRayStart + VolumeRayDirection * SampleRayTime;</span><br><span class="line">            float3 ClampedSamplePosition = clamp(SampleVolumePosition, -LocalPositionExtent, LocalPositionExtent);</span><br><span class="line">            float DistanceToClamped = length(ClampedSamplePosition - SampleVolumePosition);</span><br><span class="line">            float3 VolumeUV = DistanceFieldVolumePositionToUV(ClampedSamplePosition, UVScaleAndVolumeScale.xyz, UVAddAndSelfShadowBias.xyz);</span><br><span class="line">            float DistanceField = SampleMeshDistanceField(VolumeUV, DistanceFieldMAD).x + DistanceToClamped;</span><br><span class="line">        </span><br><span class="line">         MinDistance = min(MinDistance, DistanceField);</span><br><span class="line">        </span><br><span class="line">        float SphereRadius = clamp(TanLightAngle * SampleRayTime, VolumeMinSphereRadius, VolumeMaxSphereRadius);</span><br><span class="line">            float StepVisibility = max(saturate(DistanceField / SphereRadius), SelfShadowVisibility);</span><br><span class="line">        </span><br><span class="line">         MinConeVisibility = min(MinConeVisibility, StepVisibility);</span><br><span class="line"></span><br><span class="line">            float StepDistance = max(abs(DistanceField), MinStepSize);</span><br><span class="line">            SampleRayTime += StepDistance;</span><br><span class="line"></span><br><span class="line">            // Terminate the trace if we are fully occluded or went past the end of the ray</span><br><span class="line">            if (MinConeVisibility &lt; .01f</span><br><span class="line">            || SampleRayTime &gt; IntersectionTimes.y * VolumeRayLength)</span><br><span class="line">            &#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      MinConeVisibility = min(MinConeVisibility, (1 - StepIndex / (float)MaxSteps));</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">  return MinConeVisibility;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-UpSample-和-合并CSM"><a href="#3-UpSample-和-合并CSM" class="headerlink" title="3.UpSample 和 合并CSM"></a>3.UpSample 和 合并CSM</h4><p>RenderRayTracedDistanceFieldProjection()<br>DFshadow半分辨率计算结果，这里需要上采样，中间还穿插了和CSM进行Fade的操作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void DistanceFieldShadowingUpsamplePS(</span><br><span class="line">    in float4 UVAndScreenPos : TEXCOORD0,</span><br><span class="line">    in float4 SVPos : SV_POSITION,</span><br><span class="line">    out float4 OutColor : SV_Target0)</span><br><span class="line">&#123;</span><br><span class="line">    float2 DistanceFieldUVs = UVAndScreenPos.xy - ScissorRectMinAndSize.xy * View.BufferSizeAndInvSize.zw;</span><br><span class="line">    float SceneDepth = CalcSceneDepth(UVAndScreenPos.xy);</span><br><span class="line">  </span><br><span class="line">   float Output = Texture2DSampleLevel(ShadowFactorsTexture, ShadowFactorsSampler, DistanceFieldUVs, 0).x;</span><br><span class="line">      float FarBlendFactor = 1.0f - saturate((SceneDepth - FadePlaneOffset) * InvFadePlaneLength);</span><br><span class="line">    Output = lerp(1, Output, FarBlendFactor);</span><br><span class="line"></span><br><span class="line">    float NearBlendFactor = saturate((SceneDepth - NearFadePlaneOffset) * InvNearFadePlaneLength);</span><br><span class="line">    Output = lerp(1, Output, NearBlendFactor);</span><br><span class="line"></span><br><span class="line">    OutColor = EncodeLightAttenuation(half4(Output, Output, Output, Output));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/04/05/UE4-DistanceFieldShadow/" data-id="clmc3rm8h0000jw9hazr1c4ml" data-title="UE4-距离场阴影DistanceFieldShadow" class="article-share-link">Share</a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unreal/" rel="tag">Unreal</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-UE5-自定义MeshPass" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="article-date">
@@ -99,7 +238,23 @@
       
         <p>虚幻自定义MeshPass在此总结一下。</p>
 <p>基于UE5.1 Github版本</p>
+<p>UE5 AddOutlinePass</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/597864516">https://zhuanlan.zhihu.com/p/597864516</a></p>
+<p>UE4 AddOutlinePass 材质实例参数</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/576774695">https://zhuanlan.zhihu.com/p/576774695</a></p>
+<iframe height=600 width=800 src="https://www.bilibili.com/video/BV13j411Z7KP">
+</iframe>
 
+<h2 id="OutlinePass的加入"><a href="#OutlinePass的加入" class="headerlink" title="OutlinePass的加入"></a>OutlinePass的加入</h2><h3 id="1-需要创建一个FToonOutlineMeshPassProcessor继承FMeshPassProcessor"><a href="#1-需要创建一个FToonOutlineMeshPassProcessor继承FMeshPassProcessor" class="headerlink" title="1.需要创建一个FToonOutlineMeshPassProcessor继承FMeshPassProcessor"></a>1.需要创建一个FToonOutlineMeshPassProcessor继承FMeshPassProcessor</h3><p>需要实现的方法：</p>
+<p>构造函数：初始化PassProcessorRenderState，深度、模板、Blend的模式</p>
+<p>AddMeshBatch: 获取到FMeshBatch的顶点工厂、获取Shader、最终BuildMeshDrawCommands</p>
+<p>CreateToonOutlinePassProcessor的相关方法，用宏注册方法</p>
+<p>外部调用RenderPass的入口，RenderOutlinePass</p>
+<h3 id="2-创建OutlineShader相关"><a href="#2-创建OutlineShader相关" class="headerlink" title="2.创建OutlineShader相关"></a>2.创建OutlineShader相关</h3><p>需要创建的结构：</p>
+<p>VS和PS的C++结构</p>
+<p>VS和PS的申明和注册</p>
+<p>VS和PS的 usf文件</p>
+<h3 id="3-SceneVisibility里设置MeshPass的相关性，让Pass生效起来"><a href="#3-SceneVisibility里设置MeshPass的相关性，让Pass生效起来" class="headerlink" title="3.SceneVisibility里设置MeshPass的相关性，让Pass生效起来"></a>3.SceneVisibility里设置MeshPass的相关性，让Pass生效起来</h3><h3 id="4-在渲染管线中的合适位置，调用自己Pass的Render入口（使用RenderGraph）"><a href="#4-在渲染管线中的合适位置，调用自己Pass的Render入口（使用RenderGraph）" class="headerlink" title="4.在渲染管线中的合适位置，调用自己Pass的Render入口（使用RenderGraph）"></a>4.在渲染管线中的合适位置，调用自己Pass的Render入口（使用RenderGraph）</h3><h3 id="5-坑：UE5的MeshPass的数量使用了bit5已经32，所以要加新的要改成Bit6，还涉及一些代码"><a href="#5-坑：UE5的MeshPass的数量使用了bit5已经32，所以要加新的要改成Bit6，还涉及一些代码" class="headerlink" title="5.坑：UE5的MeshPass的数量使用了bit5已经32，所以要加新的要改成Bit6，还涉及一些代码"></a>5.坑：UE5的MeshPass的数量使用了bit5已经32，所以要加新的要改成Bit6，还涉及一些代码</h3><h3 id="6-材质编辑器上加Outline的开关"><a href="#6-材质编辑器上加Outline的开关" class="headerlink" title="6.材质编辑器上加Outline的开关"></a>6.材质编辑器上加Outline的开关</h3><h3 id="7-材质编辑器自定义参数加入，颜色和float，材质实例的面板override"><a href="#7-材质编辑器自定义参数加入，颜色和float，材质实例的面板override" class="headerlink" title="7.材质编辑器自定义参数加入，颜色和float，材质实例的面板override"></a>7.材质编辑器自定义参数加入，颜色和float，材质实例的面板override</h3>
       
     </div>
     <footer class="article-footer">
@@ -148,15 +303,11 @@
 <h2 id="在项目里创建插件"><a href="#在项目里创建插件" class="headerlink" title="在项目里创建插件"></a>在项目里创建插件</h2><center><img src="https://pica.zhimg.com/80/v2-54bde048aecbdd4b712f90605bccdfae_720w.png" width = "" height = ""></center>
 
 <p>有一个.Build.cs文件，一个插件Module的Plugin.cpp文件。</p>
-<center><img src="https://pic1.zhimg.com/80/v2-0cd74cb49a573e229f284c64424cc418_720w.png" width = "" height = ""></center>
-
-
-<h2 id="将自定义Mesh组件转换为插件"><a href="#将自定义Mesh组件转换为插件" class="headerlink" title="将自定义Mesh组件转换为插件"></a>将自定义Mesh组件转换为插件</h2><p>LoyCustomMeshComponent.Build.cs 插件模块Build依赖项</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">using UnrealBuildTool;</span><br><span class="line"></span><br><span class="line">public class LoyCustomMeshComponent : ModuleRules</span><br><span class="line">&#123;</span><br><span class="line">	public LoyCustomMeshComponent(ReadOnlyTargetRules Target) : base(Target)</span><br><span class="line">	&#123;</span><br><span class="line">		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;</span><br><span class="line">		</span><br><span class="line">		PrivateDependencyModuleNames.Add(&quot;LoyCustomMeshComponent&quot;);</span><br><span class="line">		</span><br><span class="line">		PublicDependencyModuleNames.AddRange(</span><br><span class="line">			new string[]</span><br><span class="line">			&#123;</span><br><span class="line">				&quot;Core&quot;,</span><br><span class="line">				&quot;CoreUObject&quot;,</span><br><span class="line">				&quot;Engine&quot;,</span><br><span class="line">				&quot;RenderCore&quot;,</span><br><span class="line">				&quot;RHI&quot;</span><br><span class="line">			&#125;</span><br><span class="line">		);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>LoyCustomMeshComponentPlugin.cpp 定义插件Module</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#pragma once</span><br><span class="line"></span><br><span class="line">#include &quot;CoreMinimal.h&quot;</span><br><span class="line">#include &quot;Modules/ModuleManager.h&quot;</span><br><span class="line"></span><br><span class="line">class FLoyCustomMeshComponentModule : public IModuleInterface</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line"></span><br><span class="line">	/** IModuleInterface implementation */</span><br><span class="line">	void StartupModule()</span><br><span class="line">	&#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	void ShutdownModule()</span><br><span class="line">	&#123;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">#define LOCTEXT_NAMESPACE &quot;FLoyCustomMeshComponentModule&quot;</span><br><span class="line">#undef LOCTEXT_NAMESPACE</span><br><span class="line">	</span><br><span class="line">IMPLEMENT_MODULE(FLoyCustomMeshComponentModule, LoyCustomMeshComponent)</span><br></pre></td></tr></table></figure>
-
+        
+          <p class="article-more-link">
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
@@ -288,51 +439,6 @@
 
 
   
-    <article id="post-UE4-DistanceFieldShadow" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/09/05/UE4-DistanceFieldShadow/" class="article-date">
-  <time class="dt-published" datetime="2023-09-04T16:00:00.000Z" itemprop="datePublished">2023-09-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/09/05/UE4-DistanceFieldShadow/">UE4-距离场阴影DistanceFieldShadow</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>太懒了，还没写</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/09/05/UE4-DistanceFieldShadow/" data-id="clmc3rm8h0000jw9hazr1c4ml" data-title="UE4-距离场阴影DistanceFieldShadow" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unreal/" rel="tag">Unreal</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
     <article id="post-UE4-GPUScene" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2023/09/05/UE4-GPUScene/" class="article-date">
@@ -441,7 +547,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/09/04/UE4-%E6%A4%8D%E8%A2%AB%E7%B3%BB%E7%BB%9F/">UE4-植被系统</a>
+      <a class="p-name article-title" href="/2023/09/04/UE4-%E6%A4%8D%E8%A2%AB%E7%B3%BB%E7%BB%9F/">UE4-植被系统 HISM</a>
     </h1>
   
 
@@ -454,7 +560,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2023/09/04/UE4-%E6%A4%8D%E8%A2%AB%E7%B3%BB%E7%BB%9F/" data-id="clmc3rm8k0001jw9hb3u21dtt" data-title="UE4-植被系统" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2023/09/04/UE4-%E6%A4%8D%E8%A2%AB%E7%B3%BB%E7%BB%9F/" data-id="clmc3rm8k0001jw9hb3u21dtt" data-title="UE4-植被系统 HISM" class="article-share-link">Share</a>
       
       
       
@@ -520,59 +626,6 @@
 
 
   
-    <article id="post-Unity-URP架构" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="article-date">
-  <time class="dt-published" datetime="2023-02-22T16:00:00.000Z" itemprop="datePublished">2023-02-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/">Unity-URP代码架构</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <p>本文对URP使用的这段时间的一些理解和总结。从知乎转移：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/607416554">URP管线架构学习总结</a></p>
-<h2 id="1-URP渲染管线的架构图"><a href="#1-URP渲染管线的架构图" class="headerlink" title="1.URP渲染管线的架构图"></a>1.URP渲染管线的架构图</h2><p>理解一个系统设计比较重要的就是类图了。</p>
-<center><img src="https://picx.zhimg.com/80/v2-e1b1b9c396e84afdd8b6bd5aced9c4b0_720w.png?source=d16d100b" width = "" height = ""></center>
-
-<h2 id="2-各个类的一些作用和使用"><a href="#2-各个类的一些作用和使用" class="headerlink" title="2.各个类的一些作用和使用"></a>2.各个类的一些作用和使用</h2><h3 id="1-UniversalRenderPipelineAsset"><a href="#1-UniversalRenderPipelineAsset" class="headerlink" title="(1)UniversalRenderPipelineAsset"></a>(1)UniversalRenderPipelineAsset</h3><p>本质是一个ScriptableObject类型，用于序列化URP的一些设置，General、Quality、Lights、Shadows等。</p>
-        
-          <p class="article-more-link">
-            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/#more">Read More</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" data-id="clmd6kv5m0003349h09k3aec1" data-title="Unity-URP代码架构" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -617,7 +670,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
     </div>
   </div>
 
@@ -630,6 +683,14 @@
       <ul>
         
           <li>
+            <a href="/2024/05/11/UE4-PSOCache/">UE4-PSOCache</a>
+          </li>
+        
+          <li>
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/">UE4-距离场阴影DistanceFieldShadow</a>
+          </li>
+        
+          <li>
             <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/">UE5-自定义MeshPass</a>
           </li>
         
@@ -639,14 +700,6 @@
         
           <li>
             <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/">UE5-自定义ShadingModel</a>
-          </li>
-        
-          <li>
-            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/">UE5-自定义MeshComponent</a>
-          </li>
-        
-          <li>
-            <a href="/2023/09/05/UE4-DistanceFieldShadow/">UE4-距离场阴影DistanceFieldShadow</a>
           </li>
         
       </ul>
@@ -662,7 +715,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       
-      &copy; 2023 John Doe<br>
+      &copy; 2024 John Doe<br>
       Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
