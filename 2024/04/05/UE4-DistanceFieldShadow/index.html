@@ -1,121 +1,171 @@
+
+
+
+
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-  
-  
-  <title>UE4-距离场阴影DistanceFieldShadow | ALey&#39;s Blogs</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="1.UE的DistanceField距离场的生成，有MeshDistanceField和GlobalDistanceField UE的主要应用是DFShadow、DFAO、材质DistanceFieldToNearest https:&#x2F;&#x2F;dev.epicgames.com&#x2F;documentation&#x2F;en-us&#x2F;unreal-engine&#x2F;mesh-distance-fields-in-unrea">
-<meta property="og:type" content="article">
-<meta property="og:title" content="UE4-距离场阴影DistanceFieldShadow">
-<meta property="og:url" content="http://example.com/2024/04/05/UE4-DistanceFieldShadow/index.html">
-<meta property="og:site_name" content="ALey&#39;s Blogs">
-<meta property="og:description" content="1.UE的DistanceField距离场的生成，有MeshDistanceField和GlobalDistanceField UE的主要应用是DFShadow、DFAO、材质DistanceFieldToNearest https:&#x2F;&#x2F;dev.epicgames.com&#x2F;documentation&#x2F;en-us&#x2F;unreal-engine&#x2F;mesh-distance-fields-in-unrea">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://pic1.zhimg.com/80/v2-1b01697d97edc2e336c2bd550a614b83_720w.png">
-<meta property="og:image" content="https://pic1.zhimg.com/80/v2-cb0fd6492e44a212a1037d16c877e539_720w.png">
-<meta property="og:image" content="https://pic1.zhimg.com/80/v2-bf5ef2faa523e30cfb194b254e0bfa84_720w.png">
-<meta property="og:image" content="https://picx.zhimg.com/80/v2-b2337b9e96994f6fca8dc260e2cf490c_720w.png">
-<meta property="article:published_time" content="2024-04-04T16:00:00.000Z">
-<meta property="article:modified_time" content="2024-05-17T15:32:01.035Z">
-<meta property="article:author" content="John Doe">
-<meta property="article:tag" content="Unreal">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://pic1.zhimg.com/80/v2-1b01697d97edc2e336c2bd550a614b83_720w.png">
-  
-    <link rel="alternate" href="/atom.xml" title="ALey's Blogs" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/favicon.png">
-  
-  
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="锅巴's Blogs" href="http://example.com/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="锅巴's Blogs" href="http://example.com/atom.xml" />
+<link rel="alternate" type="application/json" title="锅巴's Blogs" href="http://example.com/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
 
   
-  
-<link rel="stylesheet" href="/css/style.css">
+  <meta name="keywords" content="Unreal" />
 
-  
-    
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
 
-  
+<link rel="canonical" href="http://example.com/2024/04/05/UE4-DistanceFieldShadow/">
+
+
+
+  <title>
+UE4-距离场阴影DistanceFieldShadow - Unreal |
+锅巴 = 锅巴's Blogs</title>
 <meta name="generator" content="Hexo 6.3.0"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">ALey&#39;s Blogs</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
       </div>
     </div>
   </div>
-</header>
-
-      <div class="outer">
-        <section id="main"><article id="post-UE4-DistanceFieldShadow" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="article-date">
-  <time class="dt-published" datetime="2024-04-04T16:00:00.000Z" itemprop="datePublished">2024-04-05</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">UE4-距离场阴影DistanceFieldShadow
+  </h1>
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      UE4-距离场阴影DistanceFieldShadow
-    </h1>
-  
+<div class="meta">
+  <span class="item" title="创建时间：2024-04-05 00:00:00">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">发表于</span>
+    <time itemprop="dateCreated datePublished" datetime="2024-04-05T00:00:00+08:00">2024-04-05</time>
+  </span>
+</div>
 
-      </header>
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="切换导航栏">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">锅巴</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2023/08/14/295415199/c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
     
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="1-UE的DistanceField"><a href="#1-UE的DistanceField" class="headerlink" title="1.UE的DistanceField"></a>1.UE的DistanceField</h2><p>距离场的生成，有MeshDistanceField和GlobalDistanceField</p>
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">首页</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/Unreal/" itemprop="item" rel="index" title="分类于 Unreal"><span itemprop="name">Unreal</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="zh-CN">
+  <link itemprop="mainEntityOfPage" href="http://example.com/2024/04/05/UE4-DistanceFieldShadow/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="锅巴">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="锅巴's Blogs">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <h2 id="1-UE的DistanceField"><a href="#1-UE的DistanceField" class="headerlink" title="1.UE的DistanceField"></a>1.UE的DistanceField</h2><p>距离场的生成，有MeshDistanceField和GlobalDistanceField</p>
 <p>UE的主要应用是DFShadow、DFAO、材质DistanceFieldToNearest</p>
-<p><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/mesh-distance-fields-in-unreal-engine">https://dev.epicgames.com/documentation/en-us/unreal-engine/mesh-distance-fields-in-unreal-engine</a></p>
-<h2 id="2-DFShadow流程"><a href="#2-DFShadow流程" class="headerlink" title="2.DFShadow流程"></a>2.DFShadow流程</h2><h3 id="SceneProxy-收集MeshBatch"><a href="#SceneProxy-收集MeshBatch" class="headerlink" title="SceneProxy 收集MeshBatch"></a>SceneProxy 收集MeshBatch</h3><center><img src="https://pic1.zhimg.com/80/v2-1b01697d97edc2e336c2bd550a614b83_720w.png" width = "" height = ""></center>
+<p><span class="exturl" data-url="aHR0cHM6Ly9kZXYuZXBpY2dhbWVzLmNvbS9kb2N1bWVudGF0aW9uL2VuLXVzL3VucmVhbC1lbmdpbmUvbWVzaC1kaXN0YW5jZS1maWVsZHMtaW4tdW5yZWFsLWVuZ2luZQ==">https://dev.epicgames.com/documentation/en-us/unreal-engine/mesh-distance-fields-in-unreal-engine</span></p>
+<span id="more"></span>
+
+<h2 id="2-DFShadow流程"><a href="#2-DFShadow流程" class="headerlink" title="2.DFShadow流程"></a>2.DFShadow流程</h2><h3 id="SceneProxy-收集MeshBatch"><a href="#SceneProxy-收集MeshBatch" class="headerlink" title="SceneProxy 收集MeshBatch"></a>SceneProxy 收集MeshBatch</h3><center><img data-src="https://pic1.zhimg.com/80/v2-1b01697d97edc2e336c2bd550a614b83_720w.png" width = "" height = ""></center>
 
 <h3 id="DistanceField数据上传"><a href="#DistanceField数据上传" class="headerlink" title="DistanceField数据上传"></a>DistanceField数据上传</h3><p>这一步上传所有SceneProxy的相关距离场数据，一堆float4的数据。<br>每帧有Remove，Update，Add的处理。</p>
 <p>上传Buffer用的是一个ComputeShader，后来改引擎的时候又加了一个ComputeShader用来单独上传Buffer里的某段数据，来更新东西实现功能。</p>
-<center><img src="https://pic1.zhimg.com/80/v2-cb0fd6492e44a212a1037d16c877e539_720w.png" width = "" height = ""></center>
+<center><img data-src="https://pic1.zhimg.com/80/v2-cb0fd6492e44a212a1037d16c877e539_720w.png" width = "" height = ""></center>
 
 <h3 id="DFShadow计算"><a href="#DFShadow计算" class="headerlink" title="DFShadow计算"></a>DFShadow计算</h3><p>DFShadow在光照阶段计算，共有3步：剔除划分-&gt;计算阴影-&gt;上采样并合并CSM</p>
-<center><img src="https://pic1.zhimg.com/80/v2-bf5ef2faa523e30cfb194b254e0bfa84_720w.png" width = "" height = ""></center>
+<center><img data-src="https://pic1.zhimg.com/80/v2-bf5ef2faa523e30cfb194b254e0bfa84_720w.png" width = "" height = ""></center>
 
 
 
@@ -127,164 +177,329 @@
 <p>CullObjectsToTiles：</p>
 <p>————第二次ScatterObjectsToShadowTiles：前面知道了每个Tile的Object数量和Tile的Offset，这里最后主要是把RWShadowTileArrayData[DataIndex]填充了，它的长度是所有Tile的Object数量之和，它的值是ObjectIndex（就是CullObjectToFrustum这步的CopyData的索引）</p>
 <p>RenderDoc上看的流程：</p>
-<center><img src="https://picx.zhimg.com/80/v2-b2337b9e96994f6fca8dc260e2cf490c_720w.png" width = "" height = ""></center>
+<center><img data-src="https://picx.zhimg.com/80/v2-b2337b9e96994f6fca8dc260e2cf490c_720w.png" width = "" height = ""></center>
 
 
 <h4 id="2-DFShadow计算"><a href="#2-DFShadow计算" class="headerlink" title="2.DFShadow计算"></a>2.DFShadow计算</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">[numthreads(THREADGROUP_SIZEX, THREADGROUP_SIZEY, 1)]</span><br><span class="line">void DistanceFieldShadowingCS(</span><br><span class="line">    uint3 GroupId : SV_GroupID,</span><br><span class="line">    uint3 DispatchThreadId : SV_DispatchThreadID,</span><br><span class="line">    uint3 GroupThreadId : SV_GroupThreadID) </span><br><span class="line">&#123;</span><br><span class="line">    //和其他ComputeShader算法一样，转换DispatchThreadId为屏幕UV和屏幕坐标</span><br><span class="line">      uint ThreadIndex = GroupThreadId.y * THREADGROUP_SIZEX + GroupThreadId.x;</span><br><span class="line">    float2 ScreenUV = float2((DispatchThreadId.xy * DownsampleFactor + ScissorRectMinAndSize.xy + .5f) * View.BufferSizeAndInvSize.zw);</span><br><span class="line">    float2 ScreenPosition = (ScreenUV.xy - View.ScreenPositionScaleBias.wz) / View.ScreenPositionScaleBias.xy;</span><br><span class="line">   </span><br><span class="line">   //深度转换为世界坐标</span><br><span class="line">    float SceneDepth = CalcSceneDepth(ScreenUV);</span><br><span class="line">    float3 OpaqueWorldPosition = mul(float4(ScreenPosition * SceneDepth, SceneDepth, 1), View.ScreenToWorld).xyz;</span><br><span class="line"></span><br><span class="line">   //得到DFTrace的射线起点和终点，其实就是往灯光方向去打射线，和ContactShadow一样</span><br><span class="line">      float3 WorldRayStart = OpaqueWorldPosition + LightDirection * RayStartOffset;</span><br><span class="line">    float3 WorldRayEnd = OpaqueWorldPosition + LightDirection * TraceDistance;</span><br><span class="line">  </span><br><span class="line">   //遍历所有的CullObject，先判断射线是否与物体包围盒相交</span><br><span class="line">   //IntersectionTimes得到最近交点和最远交点</span><br><span class="line">   float2 IntersectionTimes = LineBoxIntersect(...);</span><br><span class="line">           </span><br><span class="line">   BRANCH                                            </span><br><span class="line">   if (IntersectionTimes.x &lt; IntersectionTimes.y)</span><br><span class="line">   &#123;</span><br><span class="line">          //如果有相交，就在包围盒内RayMarching，逐步采样距离场，如果值小于一个阈值，代表很接近这个物体了，可以结束循环，此时距离场信息作为阴影的值。如果已经RayMarch超出包围盒也结束循环。</span><br><span class="line">      LOOP</span><br><span class="line">        for (; StepIndex &lt; MaxSteps; StepIndex++)</span><br><span class="line">      &#123;</span><br><span class="line">            float3 SampleVolumePosition = VolumeRayStart + VolumeRayDirection * SampleRayTime;</span><br><span class="line">            float3 ClampedSamplePosition = clamp(SampleVolumePosition, -LocalPositionExtent, LocalPositionExtent);</span><br><span class="line">            float DistanceToClamped = length(ClampedSamplePosition - SampleVolumePosition);</span><br><span class="line">            float3 VolumeUV = DistanceFieldVolumePositionToUV(ClampedSamplePosition, UVScaleAndVolumeScale.xyz, UVAddAndSelfShadowBias.xyz);</span><br><span class="line">            float DistanceField = SampleMeshDistanceField(VolumeUV, DistanceFieldMAD).x + DistanceToClamped;</span><br><span class="line">        </span><br><span class="line">         MinDistance = min(MinDistance, DistanceField);</span><br><span class="line">        </span><br><span class="line">        float SphereRadius = clamp(TanLightAngle * SampleRayTime, VolumeMinSphereRadius, VolumeMaxSphereRadius);</span><br><span class="line">            float StepVisibility = max(saturate(DistanceField / SphereRadius), SelfShadowVisibility);</span><br><span class="line">        </span><br><span class="line">         MinConeVisibility = min(MinConeVisibility, StepVisibility);</span><br><span class="line"></span><br><span class="line">            float StepDistance = max(abs(DistanceField), MinStepSize);</span><br><span class="line">            SampleRayTime += StepDistance;</span><br><span class="line"></span><br><span class="line">            // Terminate the trace if we are fully occluded or went past the end of the ray</span><br><span class="line">            if (MinConeVisibility &lt; .01f</span><br><span class="line">            || SampleRayTime &gt; IntersectionTimes.y * VolumeRayLength)</span><br><span class="line">            &#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      MinConeVisibility = min(MinConeVisibility, (1 - StepIndex / (float)MaxSteps));</span><br><span class="line">   &#125;</span><br><span class="line">   </span><br><span class="line">  return MinConeVisibility;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h4 id="3-UpSample-和-合并CSM"><a href="#3-UpSample-和-合并CSM" class="headerlink" title="3.UpSample 和 合并CSM"></a>3.UpSample 和 合并CSM</h4><p>RenderRayTracedDistanceFieldProjection()<br>DFshadow半分辨率计算结果，这里需要上采样，中间还穿插了和CSM进行Fade的操作</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void DistanceFieldShadowingUpsamplePS(</span><br><span class="line">    in float4 UVAndScreenPos : TEXCOORD0,</span><br><span class="line">    in float4 SVPos : SV_POSITION,</span><br><span class="line">    out float4 OutColor : SV_Target0)</span><br><span class="line">&#123;</span><br><span class="line">    float2 DistanceFieldUVs = UVAndScreenPos.xy - ScissorRectMinAndSize.xy * View.BufferSizeAndInvSize.zw;</span><br><span class="line">    float SceneDepth = CalcSceneDepth(UVAndScreenPos.xy);</span><br><span class="line">  </span><br><span class="line">   float Output = Texture2DSampleLevel(ShadowFactorsTexture, ShadowFactorsSampler, DistanceFieldUVs, 0).x;</span><br><span class="line">      float FarBlendFactor = 1.0f - saturate((SceneDepth - FadePlaneOffset) * InvFadePlaneLength);</span><br><span class="line">    Output = lerp(1, Output, FarBlendFactor);</span><br><span class="line"></span><br><span class="line">    float NearBlendFactor = saturate((SceneDepth - NearFadePlaneOffset) * InvNearFadePlaneLength);</span><br><span class="line">    Output = lerp(1, Output, NearBlendFactor);</span><br><span class="line"></span><br><span class="line">    OutColor = EncodeLightAttenuation(half4(Output, Output, Output, Output));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2024/04/05/UE4-DistanceFieldShadow/" data-id="clmc3rm8h0000jw9hazr1c4ml" data-title="UE4-距离场阴影DistanceFieldShadow" class="article-share-link">Share</a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Unreal/" rel="tag">Unreal</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2024/05/11/UE4-PSOCache/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          UE4-PSOCache
-        
+      <div class="tags">
+          <a href="/tags/Unreal/" rel="tag"><i class="ic i-tag"></i> Unreal</a>
       </div>
-    </a>
-  
-  
-    <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">UE5-自定义MeshPass</div>
-    </a>
-  
-</nav>
+  </div>
 
-  
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">更新于</span>
+    <time title="修改时间：2024-05-22 22:56:15" itemprop="dateModified" datetime="2024-05-22T22:56:15+08:00">2024-05-22</time>
+  </span>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>本文作者： </strong>锅巴 <i class="ic i-at"><em>@</em></i>锅巴's Blogs
+  </li>
+  <li class="link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/04/05/UE4-DistanceFieldShadow/" title="UE4-距离场阴影DistanceFieldShadow">http://example.com/2024/04/05/UE4-DistanceFieldShadow/</a>
+  </li>
+  <li class="license">
+    <strong>版权声明： </strong>本站所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+  </footer>
+
 </article>
 
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%8A%80%E6%9C%AF%E6%96%87%E7%AB%A0/">技术文章</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%94%9F%E6%B4%BB/">生活</a></li></ul>
-    </div>
   </div>
-
-
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unity/" rel="tag">Unity</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Unreal/" rel="tag">Unreal</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E5%B0%8F%E8%AE%B0/" rel="tag">小记</a></li></ul>
-    </div>
-  </div>
 
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Unity/" style="font-size: 15px;">Unity</a> <a href="/tags/Unreal/" style="font-size: 20px;">Unreal</a> <a href="/tags/%E5%B0%8F%E8%AE%B0/" style="font-size: 10px;">小记</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/04/">April 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/09/">September 2023</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2023/02/">February 2023</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2024/05/11/UE4-PSOCache/">UE4-PSOCache</a>
-          </li>
-        
-          <li>
-            <a href="/2024/04/05/UE4-DistanceFieldShadow/">UE4-距离场阴影DistanceFieldShadow</a>
-          </li>
-        
-          <li>
-            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/">UE5-自定义MeshPass</a>
-          </li>
-        
-          <li>
-            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/">UE5-创建简单的插件Plugin</a>
-          </li>
-        
-          <li>
-            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/">UE5-自定义ShadingModel</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
+<div class="post-nav">
+    <div class="item left">
       
-      &copy; 2024 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
+
+  <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2023&#x2F;08&#x2F;14&#x2F;295415199&#x2F;c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process&#x3D;image&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE4-GPU优化ForPS5">
+  <span class="type">上一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Unreal</span>
+  <h3>UE4-GPU优化ForPS5</h3>
+  </a>
 
     </div>
-    <nav id="mobile-nav">
+    <div class="item right">
+      
+
+  <a href="/2024/05/11/UE4-PSOCache/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process&#x3D;image&#x2F;&#x2F;resize,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE4-PSOCache">
+  <span class="type">下一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Unreal</span>
+  <h3>UE4-PSOCache</h3>
+  </a>
+
+    </div>
+</div>
+
   
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-UE%E7%9A%84DistanceField"><span class="toc-number">1.</span> <span class="toc-text">1.UE的DistanceField</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-DFShadow%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">2.DFShadow流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SceneProxy-%E6%94%B6%E9%9B%86MeshBatch"><span class="toc-number">2.1.</span> <span class="toc-text">SceneProxy 收集MeshBatch</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DistanceField%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0"><span class="toc-number">2.2.</span> <span class="toc-text">DistanceField数据上传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DFShadow%E8%AE%A1%E7%AE%97"><span class="toc-number">2.3.</span> <span class="toc-text">DFShadow计算</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-CullObjectsForLight-%E5%89%94%E9%99%A4%E5%88%92%E5%88%86Tile%E9%98%B6%E6%AE%B5"><span class="toc-number">2.3.1.</span> <span class="toc-text">1.CullObjectsForLight-剔除划分Tile阶段</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-DFShadow%E8%AE%A1%E7%AE%97"><span class="toc-number">2.3.2.</span> <span class="toc-text">2.DFShadow计算</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-UpSample-%E5%92%8C-%E5%90%88%E5%B9%B6CSM"><span class="toc-number">2.3.3.</span> <span class="toc-text">3.UpSample 和 合并CSM</span></a></li></ol></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="系列文章">
+        <ul>
+          <li><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" rel="bookmark" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></li><li><a href="/2023/09/05/UE4-GPUScene/" rel="bookmark" title="UE4-GPUScene">UE4-GPUScene</a></li><li><a href="/2023/09/05/UE4-DitherLODTransition/" rel="bookmark" title="UE4-DitherLODTransition">UE4-DitherLODTransition</a></li><li><a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" rel="bookmark" title="UE5-自定义MeshComponent">UE5-自定义MeshComponent</a></li><li><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" rel="bookmark" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></li><li><a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" rel="bookmark" title="UE5-自定义MeshPass">UE5-自定义MeshPass</a></li><li><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" rel="bookmark" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></li><li><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" rel="bookmark" title="UE4-GPU优化ForPS5">UE4-GPU优化ForPS5</a></li><li class="active"><a href="/2024/04/05/UE4-DistanceFieldShadow/" rel="bookmark" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></li><li><a href="/2024/05/11/UE4-PSOCache/" rel="bookmark" title="UE4-PSOCache">UE4-PSOCache</a></li><li><a href="/2024/05/19/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" rel="bookmark" title="UE5-MultiPass添加">UE5-MultiPass添加</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="站点概览">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="锅巴"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">锅巴</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">14</span>
+        <span class="name">文章</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">3</span>
+        <span class="name">分类</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">5</span>
+        <span class="name">标签</span>
+      </a>
+    </div>
 </nav>
-    
 
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL0FIYXBweUZ1bg==" title="https:&#x2F;&#x2F;github.com&#x2F;AHappyFun"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS96YWktdGlhbi1iaWFuLXdhbmctaGFpL3Bvc3Rz" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;zai-tian-bian-wang-hai&#x2F;posts"><i class="ic i-zhihu"></i></span>
+</div>
 
-<script src="/js/jquery-3.4.1.min.js"></script>
-
-
-
+<ul class="menu">
   
-<script src="/fancybox/jquery.fancybox.min.js"></script>
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>首页</a>
+  </li>
 
 
+</ul>
 
-
-<script src="/js/script.js"></script>
-
-
-
-
-
+      </div>
+    </div>
   </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="/2024/05/11/UE4-PSOCache/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>随机文章</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E7%94%9F%E6%B4%BB/" title="分类于 生活">生活</a>
+</div>
+
+    <span><a href="/2023/01/23/%E8%AE%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9A%84%E5%BC%80%E5%A7%8B/" title="个人网站的开始">个人网站的开始</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" title="UE4-GPU优化ForPS5">UE4-GPU优化ForPS5</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" title="Unity-URP代码架构">Unity-URP代码架构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/11/UE4-PSOCache/" title="UE4-PSOCache">UE4-PSOCache</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/19/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" title="UE5-MultiPass添加">UE5-MultiPass添加</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="Unity-游戏渲染性能优化">Unity-游戏渲染性能优化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" title="UE5-自定义MeshComponent">UE5-自定义MeshComponent</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>最新评论</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">锅巴 @ 锅巴</span>
+  </div>
+  <div class="powered-by">
+    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2024/04/05/UE4-DistanceFieldShadow/',
+    favicon: {
+      show: "（●´3｀●）やれやれだぜ",
+      hide: "(´Д｀)大変だ！"
+    },
+    search : {
+      placeholder: "文章搜索",
+      empty: "关于 「 ${query} 」，什么也没搜到",
+      stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    valine: true,fancybox: true,
+    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="/js/app.js?v=0.2.5"></script>
+
+
+
+
 </body>
 </html>

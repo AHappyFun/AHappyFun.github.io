@@ -1,0 +1,545 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="锅巴's Blogs" href="http://example.com/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="锅巴's Blogs" href="http://example.com/atom.xml" />
+<link rel="alternate" type="application/json" title="锅巴's Blogs" href="http://example.com/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
+
+  
+  <meta name="keywords" content="Unity 优化" />
+
+
+<link rel="canonical" href="http://example.com/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
+
+
+
+  <title>
+Unity-游戏渲染性能优化 - Unity |
+锅巴 = 锅巴's Blogs</title>
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">Unity-游戏渲染性能优化
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="创建时间：2023-02-27 00:00:00">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">发表于</span>
+    <time itemprop="dateCreated datePublished" datetime="2023-02-27T00:00:00+08:00">2023-02-27</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="切换导航栏">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">锅巴</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2023/08/14/295415199/c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">首页</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/Unity/" itemprop="item" rel="index" title="分类于 Unity"><span itemprop="name">Unity</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="zh-CN">
+  <link itemprop="mainEntityOfPage" href="http://example.com/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="锅巴">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="锅巴's Blogs">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>Unity项目的优化思路和实践经验在此总结一下。</p>
+<h1 id="1-性能检测"><a href="#1-性能检测" class="headerlink" title="1.性能检测"></a>1.性能检测</h1><p>要优化首先需要分析现有的性能瓶颈，获取性能数据，根据情况决定优化什么，如何优化。<br>性能分析的工具和方法：</p>
+<h2 id="检测工具：Profiler、SnapdragonProfiler、IntelGPA、XCode"><a href="#检测工具：Profiler、SnapdragonProfiler、IntelGPA、XCode" class="headerlink" title="-检测工具：Profiler、SnapdragonProfiler、IntelGPA、XCode"></a>-检测工具：Profiler、SnapdragonProfiler、IntelGPA、XCode</h2><p>检测工具帮助我们实时分析游戏运行时候的资源，CPU、内存、GPU等使用情况，来定位当前项目的瓶颈和优化点。</p>
+<p>&#x2F;&#x2F;todo shader复杂度计算</p>
+<h2 id="抓帧工具：FrameDebug、SnapdragonProfiler、RenderDoc、IntelGPA、XCode"><a href="#抓帧工具：FrameDebug、SnapdragonProfiler、RenderDoc、IntelGPA、XCode" class="headerlink" title="-抓帧工具：FrameDebug、SnapdragonProfiler、RenderDoc、IntelGPA、XCode"></a>-抓帧工具：FrameDebug、SnapdragonProfiler、RenderDoc、IntelGPA、XCode</h2><p>这类工具的作用主要是分析GPU渲染的过程，分析DrawCall是否正常、绘制是否多余、RT是否冗余等问题。</p>
+<p>值得一提的是，有些抓帧工具是可以统计每个DC的GPU耗时的，有时候对于性能分析有较大的参考意义，但个人实践过程中感觉RenderDoc的不准确，SnapdragonProfiler的还可以。</p>
+<p>SnapdragonProfiler耗时的计算方法为：<br>   DrawCall耗时 &#x3D;    DrawCall耗费的GPUBlocks数量 * GPU频率</p>
+<p>&#x2F;&#x2F;todo 贴一些实例图片</p>
+<span id="more"></span>
+
+<h2 id="无法衡量的功能消耗的情况："><a href="#无法衡量的功能消耗的情况：" class="headerlink" title="-无法衡量的功能消耗的情况："></a>-无法衡量的功能消耗的情况：</h2><p>可以通过控制变量计算出大致的消耗，比如打不同版本的包横向对比、</p>
+<p>在屏幕上使用按钮做功能的开关、使用lua配置等方法开关。</p>
+<h1 id="2-性能优化"><a href="#2-性能优化" class="headerlink" title="2.性能优化"></a>2.性能优化</h1><p>优化总体来说的思路是找出性能超标消耗最大的部分进行优化。82原则。</p>
+<p>以下记录一些常见的优化问题：</p>
+<h2 id="1-物体剔除"><a href="#1-物体剔除" class="headerlink" title="(1)物体剔除"></a>(1)物体剔除</h2><p>场景里绘制的东西越多当然就越费，所以剔除是我们首先应该需要考虑的思路。<br>下面三个剔除方案由简单到复杂，消耗依次变大。</p>
+<h3 id="a-距离剔除LOD："><a href="#a-距离剔除LOD：" class="headerlink" title="a.距离剔除LOD："></a>a.距离剔除LOD：</h3><p>Lod就是近处保留细节，随着摄像机距离的变大，细节降低，这个渐变过程也要做到自然平滑，符合美术效果。一般使用AlphaFade或者DitherFade进行过渡。<br>Lod在unity里的场景物体可以使用LodGroup创建不同的Lod级别，并设置各个档位的Render和Mesh。举个例子一颗树，lod0正常渲染随风摆动光照阴影、lod1mesh简化去掉顶点动画优化光照阴影算法、lod2使用Billboard。<br>不仅是物体，其他地方都可以使用距离LOD的思路，比如ShadowMap的绘制距离、草地的绘制距离、某些功能的刷新频率(随着距离降低频率)。</p>
+<h3 id="b-视锥剔除Frustum-Cull："><a href="#b-视锥剔除Frustum-Cull：" class="headerlink" title="b.视锥剔除Frustum Cull："></a>b.视锥剔除Frustum Cull：</h3><p>Frustum Cull将不在摄像机视锥内的物体进行剔除，这个在平时使用CommandBuffer开发一些功能的时候会有所体会，比如绘制大批量草地，需要进行视锥剔除。</p>
+<p>(涉及大数量的这种计算可以使用四叉树、Cluster这样的结构预先规划，从而优化剔除算法)</p>
+<h3 id="c-遮挡剔除Occlusion-Culling："><a href="#c-遮挡剔除Occlusion-Culling：" class="headerlink" title="c.遮挡剔除Occlusion Culling："></a>c.遮挡剔除Occlusion Culling：</h3><center><img data-src="https://pic1.zhimg.com/80/v2-bb3503bbf745a5d627bddb0f1f0a48c4_720w.webp" width = "" height = ""></center>
+
+<h2 id="2-DrawCall合批"><a href="#2-DrawCall合批" class="headerlink" title="(2)DrawCall合批"></a>(2)DrawCall合批</h2><p>a.静态合批</p>
+<p>b.动态合批</p>
+<p>c.GPU实例化合批</p>
+<p>d.SRP Batch</p>
+<p>e.UI合批</p>
+<h2 id="3-Overdraw问题"><a href="#3-Overdraw问题" class="headerlink" title="(3)Overdraw问题"></a>(3)Overdraw问题</h2><h3 id="a-透明的Overdraw"><a href="#a-透明的Overdraw" class="headerlink" title="a.透明的Overdraw"></a>a.透明的Overdraw</h3><p>半透明因为需要alphablend，我们需要尽量控制渲染的透明物体层数。</p>
+<h3 id="b-不透明的Overdraw"><a href="#b-不透明的Overdraw" class="headerlink" title="b.不透明的Overdraw"></a>b.不透明的Overdraw</h3><p>我们知道不透明的渲染顺序应该是摄像机由近往远进行绘制，这样绘制确实是不透明的最佳策略。</p>
+<p>但是有些情况还是有overdraw的出现，比如在unity中不透明物体是按照物体的中心进行排序的，所以有可能一个物体有大一片区域在视野的最前面，但还是在比较靠后渲染。</p>
+<center><img data-src="https://pic3.zhimg.com/80/v2-7a21f468bdd841b07a37cb0a830cd986_720w.webp" width = "" height = ""></center>
+
+
+<p>渲染管线一般来说深度测试是在fragshader之后，这样可以保证不透明物体绘制的顺序正确性，但fragshader里的计算还是走了。所以出现了EarlyZ这样的提前深度测试的硬件技术，会在fragshader之前就丢弃像素，节省计算。</p>
+<p>配合EarlyZ技术的另外一个叫PreZ Pass，是指绘制物体之前将所有物体的深度画出来，正常绘制时将深度测试模式设置为Equal，配合EarlyZ就可以节省不必要的fragshader计算。</p>
+<p>但是需要注意，PreZ Pass需要提前画深度，在移动端这本就是一个比较费的操作，有可能PreZ Pass消耗本身大于我们节省的fragshader计算。</p>
+<p>还需要注意，AlphaTest材质不支持EarlyZ，如果shader编译之后发现有discard丢弃操作，会关闭EarlyZTest。</p>
+<h3 id="c-Overdraw统计工具"><a href="#c-Overdraw统计工具" class="headerlink" title="c.Overdraw统计工具"></a>c.Overdraw统计工具</h3><p>unity自带的overdraw查看是替换为透明材质混合出来的，编辑器上看overdraw结果其实是错误的。</p>
+<h2 id="4-阴影优化"><a href="#4-阴影优化" class="headerlink" title="(4)阴影优化"></a>(4)阴影优化</h2><h3 id="a-ShadowCasterPass"><a href="#a-ShadowCasterPass" class="headerlink" title="a.ShadowCasterPass"></a>a.ShadowCasterPass</h3><p>阴影投射的Pass其实大多数计算是在VertShader，所以三角形数量顶点数量是绘制阴影性能重点。</p>
+<p>另外，我们可以在CPU端做一些优化，比如控制CascadeShadowMap不同级联的绘制频率，远处的阴影降低绘制频率也看不太出来。</p>
+<h3 id="b-阴影采样"><a href="#b-阴影采样" class="headerlink" title="b.阴影采样"></a>b.阴影采样</h3><p>阴影采样确实是一个比较费的操作，尤其是软阴影，我们使用PCF、PCSS等软阴影方案的时候，需要采样很多像素颜色进行混合平均。</p>
+<p>这里PCSS可以使用泊松分布的采样方法，通过采样一个范围的固定数量(如8、16)点的平均值来模拟，而不用遍历所有的像素。如16次采样得到6x6范围内的平均值，节省20次采样。</p>
+<center><img data-src="https://pic1.zhimg.com/80/v2-e73b8872dff8172c70052a6a95ec919c_720w.webp" width = "" height = ""></center>
+
+<h2 id="5-Shader指令优化"><a href="#5-Shader指令优化" class="headerlink" title="(5)Shader指令优化"></a>(5)Shader指令优化</h2><h3 id="a-减少非恒定数学计算，使用恒定值"><a href="#a-减少非恒定数学计算，使用恒定值" class="headerlink" title="a.减少非恒定数学计算，使用恒定值"></a>a.减少非恒定数学计算，使用恒定值</h3><p>vertScale &#x3D; 10 &#x2F;22; （X）</p>
+<p>static const fixed PI &#x3D; 3.1415926 ; (√)</p>
+<h3 id="b-同样效果的运算，将计算从frag移动到vert"><a href="#b-同样效果的运算，将计算从frag移动到vert" class="headerlink" title="b.同样效果的运算，将计算从frag移动到vert"></a>b.同样效果的运算，将计算从frag移动到vert</h3><h3 id="c-减少纹理采样"><a href="#c-减少纹理采样" class="headerlink" title="c.减少纹理采样"></a>c.减少纹理采样</h3><h3 id="d-使用ShaderLab的混合指令，而不是手动计算混合"><a href="#d-使用ShaderLab的混合指令，而不是手动计算混合" class="headerlink" title="d.使用ShaderLab的混合指令，而不是手动计算混合"></a>d.使用ShaderLab的混合指令，而不是手动计算混合</h3><h3 id="e-尽量避免复杂的数学函数-sin、pow、log"><a href="#e-尽量避免复杂的数学函数-sin、pow、log" class="headerlink" title="e.尽量避免复杂的数学函数(sin、pow、log)"></a>e.尽量避免复杂的数学函数(sin、pow、log)</h3><h3 id="f-可以的情况下，使用最低的精度。这条目前看起来已经没太大作用了。"><a href="#f-可以的情况下，使用最低的精度。这条目前看起来已经没太大作用了。" class="headerlink" title="f.可以的情况下，使用最低的精度。这条目前看起来已经没太大作用了。"></a>f.可以的情况下，使用最低的精度。这条目前看起来已经没太大作用了。</h3><h3 id="g-一次多分支计算"><a href="#g-一次多分支计算" class="headerlink" title="g.一次多分支计算"></a>g.一次多分支计算</h3><p>uv.xy +&#x3D; 0.5; (√)</p>
+<p>uv.x +&#x3D; 0.5; uv.y +&#x3D; 0.5; （X）</p>
+<h3 id="h-使用乘法代替除法，倒数使用rcp"><a href="#h-使用乘法代替除法，倒数使用rcp" class="headerlink" title="h.使用乘法代替除法，倒数使用rcp"></a>h.使用乘法代替除法，倒数使用rcp</h3><p>&#x2F;2 代替为 * 0.5</p>
+<p>1.0&#x2F;x 代替为 rcp(x)</p>
+<h2 id="6-带宽优化"><a href="#6-带宽优化" class="headerlink" title="(6)带宽优化"></a>(6)带宽优化</h2><p>使用Texture Streaming</p>
+<p>&#x2F;&#x2F;todo补充</p>
+<h2 id="7-shaderlab变体-ab内存优化"><a href="#7-shaderlab变体-ab内存优化" class="headerlink" title="(7)shaderlab变体 ab内存优化"></a>(7)shaderlab变体 ab内存优化</h2><p>还有个比较关注的问题是shaderlab最后打包的ab包非常大，这有可能是我们shader的变体关键字太多，没有做变体剔除，导致编译出来的数量巨多。</p>
+<p>shaderlab编译是把所有关键字排列组合起来成为变体，每加一个关键字，默认结果数量就是*2，这是个指数级的增长，所以一般项目里出现这个问题，shader的变体版本一看都是远远超过预期。个人有幸见过400w变体的，哈哈哈。</p>
+<p>shader_feature _ SOFT_SHADOW</p>
+<p>multi_compile _ SOFT_SHADOW</p>
+<p>两种关键字定义方式都是定义了开和关软阴影功能，所以是*2。</p>
+<p>shaderlab的关键字是分为两种的，一种是材质级别shader_feature，一种是全局级别multi_compile。</p>
+<p>shader_feature我们可以使用unity自带的变体收集功能ShaderVariantCollection，打包的时候只打包我们收集到的变体版本，其余的进行剔除。缺点是剔除不好维护。</p>
+<p>multi_compile默认是把变体全部打进shader包。</p>
+<p>我们可以在shader打包的过程中进行这类关键字的剔除，方法是在OnProcessShader接口里，将不可能出现的变体组合情况进行剔除。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public void OnProcessShader(Shader shader, ShaderSnippetData snippet, IList&lt;ShaderCompilerData&gt; data)</span><br><span class="line">&#123;</span><br><span class="line">    if(shader.name == &quot;xxxxxx&quot;)</span><br><span class="line">    &#123;</span><br><span class="line">       for(int i = 0; i&lt; data,count; i++)</span><br><span class="line">       &#123;</span><br><span class="line">          if(data[i].shaderKeywordSet.IsEnabled(new ShaderKeyword(&quot;_PCF5x5&quot;) &amp;&amp; data[i].shaderKeywordSet.IsEnabled(new ShaderKeyword(&quot;_PCF7x7&quot;)))</span><br><span class="line">               data.RemoveAt(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>URP里自带的一些关键字，unity代码ShaderPreprocess里根据功能是否开启剔除关键字。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">if (stripTool.StripMultiCompile(m_UseFastSRGBLinearConversion, ShaderFeatures.UseFastSRGBLinearConversion))</span><br><span class="line">      return true;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>引用参考：</p>
+<p><span class="exturl" data-url="aHR0cHM6Ly9saW5rLnpoaWh1LmNvbS8/dGFyZ2V0PWh0dHBzOi8vYmxvZy5jc2RuLm5ldC93aGl0ZWJyZWV6ZS9hcnRpY2xlL2RldGFpbHMvMTE4Njg4MTUw">https://link.zhihu.com/?target=https%3A//blog.csdn.net/whitebreeze/article/details/118688150</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC80MzczOTk5MTM=">https://zhuanlan.zhihu.com/p/437399913</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8zNjMyNzc2Njk=">https://zhuanlan.zhihu.com/p/363277669</span></p>
+<p><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8zNTA3NzgzNTU=">https://zhuanlan.zhihu.com/p/350778355</span></p>
+
+      <div class="tags">
+          <a href="/tags/Unity-%E4%BC%98%E5%8C%96/" rel="tag"><i class="ic i-tag"></i> Unity 优化</a>
+      </div>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">更新于</span>
+    <time title="修改时间：2024-05-22 22:55:54" itemprop="dateModified" datetime="2024-05-22T22:55:54+08:00">2024-05-22</time>
+  </span>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>本文作者： </strong>锅巴 <i class="ic i-at"><em>@</em></i>锅巴's Blogs
+  </li>
+  <li class="link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="Unity-游戏渲染性能优化">http://example.com/2023/02/27/Unity-渲染性能优化/</a>
+  </li>
+  <li class="license">
+    <strong>版权声明： </strong>本站所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2023&#x2F;08&#x2F;14&#x2F;295415199&#x2F;c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process&#x3D;image&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="Unity-URP代码架构">
+  <span class="type">上一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Unity</span>
+  <h3>Unity-URP代码架构</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2023&#x2F;08&#x2F;14&#x2F;295415199&#x2F;c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process&#x3D;image&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE4-HISM剔除更新DFShadow">
+  <span class="type">下一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Unreal</span>
+  <h3>UE4-HISM剔除更新DFShadow</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E6%80%A7%E8%83%BD%E6%A3%80%E6%B5%8B"><span class="toc-number">1.</span> <span class="toc-text">1.性能检测</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7%EF%BC%9AProfiler%E3%80%81SnapdragonProfiler%E3%80%81IntelGPA%E3%80%81XCode"><span class="toc-number">1.1.</span> <span class="toc-text">-检测工具：Profiler、SnapdragonProfiler、IntelGPA、XCode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%93%E5%B8%A7%E5%B7%A5%E5%85%B7%EF%BC%9AFrameDebug%E3%80%81SnapdragonProfiler%E3%80%81RenderDoc%E3%80%81IntelGPA%E3%80%81XCode"><span class="toc-number">1.2.</span> <span class="toc-text">-抓帧工具：FrameDebug、SnapdragonProfiler、RenderDoc、IntelGPA、XCode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E6%B3%95%E8%A1%A1%E9%87%8F%E7%9A%84%E5%8A%9F%E8%83%BD%E6%B6%88%E8%80%97%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">-无法衡量的功能消耗的情况：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="toc-number">2.</span> <span class="toc-text">2.性能优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%89%A9%E4%BD%93%E5%89%94%E9%99%A4"><span class="toc-number">2.1.</span> <span class="toc-text">(1)物体剔除</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-%E8%B7%9D%E7%A6%BB%E5%89%94%E9%99%A4LOD%EF%BC%9A"><span class="toc-number">2.1.1.</span> <span class="toc-text">a.距离剔除LOD：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E8%A7%86%E9%94%A5%E5%89%94%E9%99%A4Frustum-Cull%EF%BC%9A"><span class="toc-number">2.1.2.</span> <span class="toc-text">b.视锥剔除Frustum Cull：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-%E9%81%AE%E6%8C%A1%E5%89%94%E9%99%A4Occlusion-Culling%EF%BC%9A"><span class="toc-number">2.1.3.</span> <span class="toc-text">c.遮挡剔除Occlusion Culling：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-DrawCall%E5%90%88%E6%89%B9"><span class="toc-number">2.2.</span> <span class="toc-text">(2)DrawCall合批</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-Overdraw%E9%97%AE%E9%A2%98"><span class="toc-number">2.3.</span> <span class="toc-text">(3)Overdraw问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-%E9%80%8F%E6%98%8E%E7%9A%84Overdraw"><span class="toc-number">2.3.1.</span> <span class="toc-text">a.透明的Overdraw</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E4%B8%8D%E9%80%8F%E6%98%8E%E7%9A%84Overdraw"><span class="toc-number">2.3.2.</span> <span class="toc-text">b.不透明的Overdraw</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-Overdraw%E7%BB%9F%E8%AE%A1%E5%B7%A5%E5%85%B7"><span class="toc-number">2.3.3.</span> <span class="toc-text">c.Overdraw统计工具</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%98%B4%E5%BD%B1%E4%BC%98%E5%8C%96"><span class="toc-number">2.4.</span> <span class="toc-text">(4)阴影优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-ShadowCasterPass"><span class="toc-number">2.4.1.</span> <span class="toc-text">a.ShadowCasterPass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E9%98%B4%E5%BD%B1%E9%87%87%E6%A0%B7"><span class="toc-number">2.4.2.</span> <span class="toc-text">b.阴影采样</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-Shader%E6%8C%87%E4%BB%A4%E4%BC%98%E5%8C%96"><span class="toc-number">2.5.</span> <span class="toc-text">(5)Shader指令优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#a-%E5%87%8F%E5%B0%91%E9%9D%9E%E6%81%92%E5%AE%9A%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%EF%BC%8C%E4%BD%BF%E7%94%A8%E6%81%92%E5%AE%9A%E5%80%BC"><span class="toc-number">2.5.1.</span> <span class="toc-text">a.减少非恒定数学计算，使用恒定值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#b-%E5%90%8C%E6%A0%B7%E6%95%88%E6%9E%9C%E7%9A%84%E8%BF%90%E7%AE%97%EF%BC%8C%E5%B0%86%E8%AE%A1%E7%AE%97%E4%BB%8Efrag%E7%A7%BB%E5%8A%A8%E5%88%B0vert"><span class="toc-number">2.5.2.</span> <span class="toc-text">b.同样效果的运算，将计算从frag移动到vert</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#c-%E5%87%8F%E5%B0%91%E7%BA%B9%E7%90%86%E9%87%87%E6%A0%B7"><span class="toc-number">2.5.3.</span> <span class="toc-text">c.减少纹理采样</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#d-%E4%BD%BF%E7%94%A8ShaderLab%E7%9A%84%E6%B7%B7%E5%90%88%E6%8C%87%E4%BB%A4%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E6%89%8B%E5%8A%A8%E8%AE%A1%E7%AE%97%E6%B7%B7%E5%90%88"><span class="toc-number">2.5.4.</span> <span class="toc-text">d.使用ShaderLab的混合指令，而不是手动计算混合</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#e-%E5%B0%BD%E9%87%8F%E9%81%BF%E5%85%8D%E5%A4%8D%E6%9D%82%E7%9A%84%E6%95%B0%E5%AD%A6%E5%87%BD%E6%95%B0-sin%E3%80%81pow%E3%80%81log"><span class="toc-number">2.5.5.</span> <span class="toc-text">e.尽量避免复杂的数学函数(sin、pow、log)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#f-%E5%8F%AF%E4%BB%A5%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E4%BD%BF%E7%94%A8%E6%9C%80%E4%BD%8E%E7%9A%84%E7%B2%BE%E5%BA%A6%E3%80%82%E8%BF%99%E6%9D%A1%E7%9B%AE%E5%89%8D%E7%9C%8B%E8%B5%B7%E6%9D%A5%E5%B7%B2%E7%BB%8F%E6%B2%A1%E5%A4%AA%E5%A4%A7%E4%BD%9C%E7%94%A8%E4%BA%86%E3%80%82"><span class="toc-number">2.5.6.</span> <span class="toc-text">f.可以的情况下，使用最低的精度。这条目前看起来已经没太大作用了。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#g-%E4%B8%80%E6%AC%A1%E5%A4%9A%E5%88%86%E6%94%AF%E8%AE%A1%E7%AE%97"><span class="toc-number">2.5.7.</span> <span class="toc-text">g.一次多分支计算</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#h-%E4%BD%BF%E7%94%A8%E4%B9%98%E6%B3%95%E4%BB%A3%E6%9B%BF%E9%99%A4%E6%B3%95%EF%BC%8C%E5%80%92%E6%95%B0%E4%BD%BF%E7%94%A8rcp"><span class="toc-number">2.5.8.</span> <span class="toc-text">h.使用乘法代替除法，倒数使用rcp</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%B8%A6%E5%AE%BD%E4%BC%98%E5%8C%96"><span class="toc-number">2.6.</span> <span class="toc-text">(6)带宽优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-shaderlab%E5%8F%98%E4%BD%93-ab%E5%86%85%E5%AD%98%E4%BC%98%E5%8C%96"><span class="toc-number">2.7.</span> <span class="toc-text">(7)shaderlab变体 ab内存优化</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="系列文章">
+        <ul>
+          <li><a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" rel="bookmark" title="Unity-URP代码架构">Unity-URP代码架构</a></li><li class="active"><a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="bookmark" title="Unity-游戏渲染性能优化">Unity-游戏渲染性能优化</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="站点概览">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="锅巴"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">锅巴</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">14</span>
+        <span class="name">文章</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">3</span>
+        <span class="name">分类</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">5</span>
+        <span class="name">标签</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL0FIYXBweUZ1bg==" title="https:&#x2F;&#x2F;github.com&#x2F;AHappyFun"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS96YWktdGlhbi1iaWFuLXdhbmctaGFpL3Bvc3Rz" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;zai-tian-bian-wang-hai&#x2F;posts"><i class="ic i-zhihu"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>首页</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>随机文章</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" title="UE5-自定义MeshComponent">UE5-自定义MeshComponent</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="Unity-游戏渲染性能优化">Unity-游戏渲染性能优化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/05/UE4-DitherLODTransition/" title="UE4-DitherLODTransition">UE4-DitherLODTransition</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/11/UE4-PSOCache/" title="UE4-PSOCache">UE4-PSOCache</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E7%94%9F%E6%B4%BB/" title="分类于 生活">生活</a>
+</div>
+
+    <span><a href="/2023/01/23/%E8%AE%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9A%84%E5%BC%80%E5%A7%8B/" title="个人网站的开始">个人网站的开始</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/05/UE4-GPUScene/" title="UE4-GPUScene">UE4-GPUScene</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" title="UE4-GPU优化ForPS5">UE4-GPU优化ForPS5</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>最新评论</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">锅巴 @ 锅巴</span>
+  </div>
+  <div class="powered-by">
+    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2023/02/27/Unity-渲染性能优化/',
+    favicon: {
+      show: "（●´3｀●）やれやれだぜ",
+      hide: "(´Д｀)大変だ！"
+    },
+    search : {
+      placeholder: "文章搜索",
+      empty: "关于 「 ${query} 」，什么也没搜到",
+      stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    valine: true,fancybox: true,
+    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="/js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>
