@@ -102,12 +102,12 @@ UE4-HISM剔除更新DFShadow - Unreal |
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2023/08/14/295415199/c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
           <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
-          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
-          <li class="item" data-background-image="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
           <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
           <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2023/08/14/295415199/c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
         </ul>
       </div>
     </header>
@@ -153,7 +153,52 @@ UE4-HISM剔除更新DFShadow - Unreal |
   <div class="body md" itemprop="articleBody">
     
 
-    <p>太懒了，还没写</p>
+    <p>修改基于UE4.27，实际代码因为UE5重构了，还没写UE5版本。</p>
+<p>记录一下DFShadow随Cluster裁剪更新的修改过程。<br>(上次UE直播好像说5.3重构了GPUScene相关)</p>
+<h1 id="遇到的问题："><a href="#遇到的问题：" class="headerlink" title="遇到的问题："></a>遇到的问题：</h1><p>植被Instance的DistanceFieldShadow不会随着自身裁剪而更新。UE5应该还存在这个问题，美术同学会提出来这个问题的。</p>
+<p>造成的原因是UE的DistanceFieldBuffer是基于SceneInfo级别的，一种植被对应一 个FoliageInstanceStaticMeshComponent，一个SceneInfo。因为是静态物体，UE只会在初始化或者被标记修改了之后才会去更新Buffer，而标记更新并不会在运行时进行，编辑器下刷植被删植被会标记更新。运行时植被的Instance被裁剪剔除，并不会标记修改，也就不会更新Buffer。</p>
+<h1 id="默认的更新逻辑："><a href="#默认的更新逻辑：" class="headerlink" title="默认的更新逻辑："></a>默认的更新逻辑：</h1><h3 id="DeferredRenderer-Render"><a href="#DeferredRenderer-Render" class="headerlink" title="DeferredRenderer.Render()"></a>DeferredRenderer.Render()</h3><p>-InitViews—&gt;计算可见性的GatherDynamicMeshElements里</p>
+<p>—FHierarchicalStaticMeshSceneProxy::GetDynamicMeshElements   &#x2F;&#x2F;HISM SceneProxy收集MeshBatch</p>
+<p>—Traverse() &#x2F;&#x2F;做基于ClusterTree的视锥剔除</p>
+<p>—FillDynamicMeshElements() &#x2F;&#x2F;填充MeshBatch</p>
+<h3 id="PrepareDistanceFieldScene"><a href="#PrepareDistanceFieldScene" class="headerlink" title="PrepareDistanceFieldScene"></a>PrepareDistanceFieldScene</h3><p>-UpdateGlobalDistanceFieldObjectBuffers &#x2F;&#x2F;更新DF ObjectBuffer</p>
+<p>—ProcessPrimitiveUpdate &#x2F;&#x2F;Add的</p>
+<p>—ProcessPrimitiveUpdate &#x2F;&#x2F;Update的</p>
+<p>—UpdateGlobalHeightFieldObjectBuffers &#x2F;&#x2F;高度场相关Buffer</p>
+<p>—UpdateGlobalDistanceFieldVolume &#x2F;&#x2F;合成GlobalDistanceField</p>
+<h3 id="RenderLight"><a href="#RenderLight" class="headerlink" title="RenderLight"></a>RenderLight</h3><p>-RenderShadowProjection</p>
+<p>-RenderRayTracedDistanceFieldProjection</p>
+<p>—CullDistanceFieldObjectsForLight</p>
+<p>—CullObjectsForShadowCS（DispatchComputeShader）</p>
+<p>—RayTracedShadows &#x2F;&#x2F;DFShadow计算</p>
+<h2 id="主要方法："><a href="#主要方法：" class="headerlink" title="主要方法："></a>主要方法：</h2><h3 id="1-FHierarchicalStaticMeshSceneProxy-GetDynamicMeshElements"><a href="#1-FHierarchicalStaticMeshSceneProxy-GetDynamicMeshElements" class="headerlink" title="1.FHierarchicalStaticMeshSceneProxy::GetDynamicMeshElements"></a>1.FHierarchicalStaticMeshSceneProxy::GetDynamicMeshElements</h3><p>根据植被设置的CullDistance，生成一个视锥六面体剔除掉不显示的Instance。</p>
+<p>ClusterNode的结构：</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-e25a2cf6fe2516f8024614ef5004c1be_720w.png" width = "" height = ""></center>
+
+
+<p>一个例子：81个实例的Cluster树的结构，剔除的时候从上往下，如果上面节点被剔除，下面叶子就可以跳过。<br>如果使用地形笔刷添加删除植被，ClusterTree就会重建。</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-07c2b096bee08457ea174640796c0b88_720w.png" width = "" height = ""></center>
+
+
+<h3 id="2-UpdateGlobalDistanceFieldObjectBuffers"><a href="#2-UpdateGlobalDistanceFieldObjectBuffers" class="headerlink" title="2.UpdateGlobalDistanceFieldObjectBuffers"></a>2.UpdateGlobalDistanceFieldObjectBuffers</h3><p>ProcessPrimitiveUpdate() 只在Add和标记修改时触发更新Buffer</p>
+<p>上传DistanceFieldObjectBuffer的数据，这个数据数对应Instance的实例数。</p>
+<p>DistanceFieldObjectBuffers是被当作ComputeShader的RWBuffer使用，有两个结构体。一个是ObjectBoundingSphere包围球(一个float4坐标+半径)，另一个是ObjectData(很多组float，两个矩阵和一些其他数据)。</p>
+<p>RWBuffer是没有分成两个结构体，是一个连续的float4数组，通过内存Offset来控制写入。</p>
+<p>默认情况呢，就是按照物体级别进行上传，一个物体18个float4，使用ComputeShader  TUploadObjectsToBufferCS上传数据。</p>
+<center><img data-src="https://pic1.zhimg.com/80/v2-4479674e726492df52dd59be77504dc5_720w.png" width = "" height = ""></center>
+
+
+<h3 id="3-CullObjectsForShadowCS"><a href="#3-CullObjectsForShadowCS" class="headerlink" title="3.CullObjectsForShadowCS"></a>3.CullObjectsForShadowCS</h3><p>这个ComputeShader根据上面ObjectBuffers的包围球以及灯光属性的DFShadow距离做剔除。</p>
+<p>把需要绘制DFShadow的Object数据再Copy到另一个RWBuffer CulledObjectData里。</p>
+<h2 id="修改思路："><a href="#修改思路：" class="headerlink" title="修改思路："></a>修改思路：</h2><p>1.标记更新（当HISM的剔除结果发生变化）</p>
+<p>2.同步剔除数据（Cluster剔除结果存到 Scene-&gt;DistanceFieldData）</p>
+<p>3.Buffer扩展一个float4，加一个剔除数据(只用到R，GBA后面功能用到)，上传ObjectBufferData（扩展一个Float4）</p>
+<p>原本的更新逻辑每次都需要更新19个float4。所以增加一个专门上传剔除数据的ComputeShader，只上传剔除结果float4。</p>
+<p>4.剔除阴影绘制的Object（多加一条剔除结果的判断）</p>
+<p>5.优化更新的地方：<br>基于上一帧剔除结果的变化做更新<br>处理编辑器ClusterTree重建的情况</p>
+<h2 id="改完之后刷新："><a href="#改完之后刷新：" class="headerlink" title="改完之后刷新："></a>改完之后刷新：</h2><p>参考链接：</p>
+<p>UHierarchicalInstancedStaticMeshComponent解析<br><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzI5NTIzMTE5L2FydGljbGUvZGV0YWlscy8xMjM5MzIwMjk=">https://blog.csdn.net/qq_29523119/article/details/123932029</span></p>
+<p>UDN社区<br><span class="exturl" data-url="aHR0cHM6Ly91ZG4udW5yZWFsZW5naW5lLmNvbS9zL3F1ZXN0aW9uLzBENTR6MDAwMDdienFIV0NBWS9mb2xpYWdlJUUzJTgxJUFCJUU4JUI3JTlEJUU5JTlCJUEyJUU2JUI2JTg4JUUzJTgxJTk3JUUzJTgyJTkyJUU1JTg1JUE1JUUzJTgyJThDJUUzJTgxJTlGJUU1JUEwJUI0JUU1JTkwJTg4ZGlzdGFuY2UtZmllbGQtc2hhZG93cyVFMyU4MSU4QyVFNiVBRSU4QiVFMyU4MiU4QiVFMyU4MSVBRSVFMyU4MiU5MiVFNSU5QiU5RSVFOSU4MSVCRiVFMyU4MSU5NyVFMyU4MSU5RiVFMyU4MSU4NA==">https://udn.unrealengine.com/s/question/0D54z00007bzqHWCAY/foliage%E3%81%AB%E8%B7%9D%E9%9B%A2%E6%B6%88%E3%81%97%E3%82%92%E5%85%A5%E3%82%8C%E3%81%9F%E5%A0%B4%E5%90%88distance-field-shadows%E3%81%8C%E6%AE%8B%E3%82%8B%E3%81%AE%E3%82%92%E5%9B%9E%E9%81%BF%E3%81%97%E3%81%9F%E3%81%84</span></p>
 
       <div class="tags">
           <a href="/tags/Unreal/" rel="tag"><i class="ic i-tag"></i> Unreal</a>
@@ -168,7 +213,7 @@ UE4-HISM剔除更新DFShadow - Unreal |
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">更新于</span>
-    <time title="修改时间：2024-05-22 22:49:50" itemprop="dateModified" datetime="2024-05-22T22:49:50+08:00">2024-05-22</time>
+    <time title="修改时间：2024-05-23 20:22:26" itemprop="dateModified" datetime="2024-05-23T20:22:26+08:00">2024-05-23</time>
   </span>
 </div>
 
@@ -200,7 +245,7 @@ UE4-HISM剔除更新DFShadow - Unreal |
     <div class="item left">
       
 
-  <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process&#x3D;image&#x2F;&#x2F;resize,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="Unity-游戏渲染性能优化">
+  <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;th.bing.com&#x2F;th&#x2F;id&#x2F;R.f19fb48d6f0bd73854c41433a53bee93?rik&#x3D;%2f7sdbMmwg8fEsg&amp;riu&#x3D;http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&amp;ehk&#x3D;4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&amp;risl&#x3D;&amp;pid&#x3D;ImgRaw&amp;r&#x3D;0" title="Unity-游戏渲染性能优化">
   <span class="type">上一篇</span>
   <span class="category"><i class="ic i-flag"></i> Unity</span>
   <h3>Unity-游戏渲染性能优化</h3>
@@ -210,10 +255,10 @@ UE4-HISM剔除更新DFShadow - Unreal |
     <div class="item right">
       
 
-  <a href="/2023/09/05/UE4-DitherLODTransition/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process&#x3D;image&#x2F;&#x2F;resize,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE4-DitherLODTransition">
+  <a href="/2023/09/05/UE4-DitherLODTransition/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2023&#x2F;08&#x2F;14&#x2F;295415199&#x2F;c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process&#x3D;image&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE4-关于植被HISM屏占比LOD的选择和切换">
   <span class="type">下一篇</span>
   <span class="category"><i class="ic i-flag"></i> Unreal</span>
-  <h3>UE4-DitherLODTransition</h3>
+  <h3>UE4-关于植被HISM屏占比LOD的选择和切换</h3>
   </a>
 
     </div>
@@ -232,10 +277,11 @@ UE4-HISM剔除更新DFShadow - Unreal |
   <div class="panels">
     <div class="inner">
       <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">遇到的问题：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%BB%98%E8%AE%A4%E7%9A%84%E6%9B%B4%E6%96%B0%E9%80%BB%E8%BE%91%EF%BC%9A"><span class="toc-number">2.</span> <span class="toc-text">默认的更新逻辑：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DeferredRenderer-Render"><span class="toc-number">2.0.1.</span> <span class="toc-text">DeferredRenderer.Render()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PrepareDistanceFieldScene"><span class="toc-number">2.0.2.</span> <span class="toc-text">PrepareDistanceFieldScene</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RenderLight"><span class="toc-number">2.0.3.</span> <span class="toc-text">RenderLight</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E8%A6%81%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="toc-number">2.1.</span> <span class="toc-text">主要方法：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-FHierarchicalStaticMeshSceneProxy-GetDynamicMeshElements"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.FHierarchicalStaticMeshSceneProxy::GetDynamicMeshElements</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-UpdateGlobalDistanceFieldObjectBuffers"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.UpdateGlobalDistanceFieldObjectBuffers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-CullObjectsForShadowCS"><span class="toc-number">2.1.3.</span> <span class="toc-text">3.CullObjectsForShadowCS</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E6%80%9D%E8%B7%AF%EF%BC%9A"><span class="toc-number">2.2.</span> <span class="toc-text">修改思路：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%B9%E5%AE%8C%E4%B9%8B%E5%90%8E%E5%88%B7%E6%96%B0%EF%BC%9A"><span class="toc-number">2.3.</span> <span class="toc-text">改完之后刷新：</span></a></li></ol></li></ol>
       </div>
       <div class="related panel pjax" data-title="系列文章">
         <ul>
-          <li class="active"><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" rel="bookmark" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></li><li><a href="/2023/09/05/UE4-GPUScene/" rel="bookmark" title="UE4-GPUScene">UE4-GPUScene</a></li><li><a href="/2023/09/05/UE4-DitherLODTransition/" rel="bookmark" title="UE4-DitherLODTransition">UE4-DitherLODTransition</a></li><li><a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" rel="bookmark" title="UE5-自定义MeshComponent">UE5-自定义MeshComponent</a></li><li><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" rel="bookmark" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></li><li><a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" rel="bookmark" title="UE5-自定义MeshPass">UE5-自定义MeshPass</a></li><li><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" rel="bookmark" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></li><li><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" rel="bookmark" title="UE4-GPU优化ForPS5">UE4-GPU优化ForPS5</a></li><li><a href="/2024/04/05/UE4-DistanceFieldShadow/" rel="bookmark" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></li><li><a href="/2024/05/11/UE4-PSOCache/" rel="bookmark" title="UE4-PSOCache">UE4-PSOCache</a></li><li><a href="/2024/05/19/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" rel="bookmark" title="UE5-MultiPass添加">UE5-MultiPass添加</a></li>
+          <li class="active"><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" rel="bookmark" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></li><li><a href="/2023/09/05/UE4-GPUScene/" rel="bookmark" title="UE4-GPUScene">UE4-GPUScene</a></li><li><a href="/2023/09/05/UE4-DitherLODTransition/" rel="bookmark" title="UE4-关于植被HISM屏占比LOD的选择和切换">UE4-关于植被HISM屏占比LOD的选择和切换</a></li><li><a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" rel="bookmark" title="UE5-自定义MeshComponent">UE5-自定义MeshComponent</a></li><li><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" rel="bookmark" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></li><li><a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" rel="bookmark" title="UE5-自定义MeshPass">UE5-自定义MeshPass</a></li><li><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" rel="bookmark" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></li><li><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" rel="bookmark" title="UE4-GPU优化RazorForPS5">UE4-GPU优化RazorForPS5</a></li><li><a href="/2024/04/05/UE4-DistanceFieldShadow/" rel="bookmark" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></li><li><a href="/2024/05/11/UE4-PSOCache/" rel="bookmark" title="UE4-PSOCache">UE4-PSOCache</a></li><li><a href="/2024/05/19/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" rel="bookmark" title="UE5-MultiPass添加">UE5-MultiPass添加</a></li><li><a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" rel="bookmark" title="UE4-添加GlobalShader">UE4-添加GlobalShader</a></li>
         </ul>
       </div>
       <div class="overview panel" data-title="站点概览">
@@ -249,7 +295,7 @@ UE4-HISM剔除更新DFShadow - Unreal |
 <nav class="state">
     <div class="item posts">
       <a href="/archives/">
-        <span class="count">14</span>
+        <span class="count">15</span>
         <span class="name">文章</span>
       </a>
     </div>
@@ -261,7 +307,7 @@ UE4-HISM剔除更新DFShadow - Unreal |
     </div>
     <div class="item tags">
       <a href="/tags/">
-        <span class="count">5</span>
+        <span class="count">4</span>
         <span class="name">标签</span>
       </a>
     </div>
@@ -315,36 +361,6 @@ UE4-HISM剔除更新DFShadow - Unreal |
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
-</div>
-
-    <span><a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="Unity-游戏渲染性能优化">Unity-游戏渲染性能优化</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" title="UE5-自定义MeshComponent">UE5-自定义MeshComponent</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2024/04/05/UE4-DistanceFieldShadow/" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
@@ -355,10 +371,40 @@ UE4-HISM剔除更新DFShadow - Unreal |
   <li class="item">
     
 <div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" title="Unity-URP代码架构">Unity-URP代码架构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/19/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" title="UE5-MultiPass添加">UE5-MultiPass添加</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
     <span><a href="/2024/05/11/UE4-PSOCache/" title="UE4-PSOCache">UE4-PSOCache</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" title="UE4-GPU优化RazorForPS5">UE4-GPU优化RazorForPS5</a></span>
   </li>
 
       
@@ -388,7 +434,7 @@ UE4-HISM剔除更新DFShadow - Unreal |
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2024/05/19/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" title="UE5-MultiPass添加">UE5-MultiPass添加</a></span>
+    <span><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></span>
   </li>
 
       
@@ -398,17 +444,17 @@ UE4-HISM剔除更新DFShadow - Unreal |
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" title="UE5-自定义MeshPass">UE5-自定义MeshPass</a></span>
+    <span><a href="/2024/04/05/UE4-DistanceFieldShadow/" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" title="Unity-URP代码架构">Unity-URP代码架构</a></span>
+    <span><a href="/2023/09/05/UE4-DitherLODTransition/" title="UE4-关于植被HISM屏占比LOD的选择和切换">UE4-关于植被HISM屏占比LOD的选择和切换</a></span>
   </li>
 
   </ul>

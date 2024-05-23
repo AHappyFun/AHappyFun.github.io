@@ -32,7 +32,7 @@
 
 
   <title>
-UE4-DitherLODTransition - Unreal |
+UE4-关于植被HISM屏占比LOD的选择和切换 - Unreal |
 锅巴 = 锅巴's Blogs</title>
 <meta name="generator" content="Hexo 6.3.0"></head>
 <body itemscope itemtype="http://schema.org/WebPage">
@@ -60,7 +60,7 @@ UE4-DitherLODTransition - Unreal |
         <div id="brand">
           <div class="pjax">
           
-  <h1 itemprop="name headline">UE4-DitherLODTransition
+  <h1 itemprop="name headline">UE4-关于植被HISM屏占比LOD的选择和切换
   </h1>
   
 <div class="meta">
@@ -102,12 +102,12 @@ UE4-DitherLODTransition - Unreal |
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
-          <li class="item" data-background-image="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></li>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
           <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2023/08/14/295415199/c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
           <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
         </ul>
       </div>
     </header>
@@ -153,7 +153,43 @@ UE4-DitherLODTransition - Unreal |
   <div class="body md" itemprop="articleBody">
     
 
-    <p>太懒了，还没写</p>
+    <p>UE的Mesh关于LOD的切换是用的屏占比ScreenSize，一般是美术设置几个屏占比的参数，本地看着差不多就行了。</p>
+<p>下面研究下这个屏占比在引擎里是怎么运作的，方便理解和优化功能。</p>
+<h2 id="Q-这个ScreenSize是怎么生效的？"><a href="#Q-这个ScreenSize是怎么生效的？" class="headerlink" title="Q:这个ScreenSize是怎么生效的？"></a>Q:这个ScreenSize是怎么生效的？</h2><p>A：ScreenSize先转换为距离，后续以距离的形式剔除和选择LOD。</p>
+<h2 id="Q-ScreenSize是如何转换成距离的"><a href="#Q-ScreenSize是如何转换成距离的" class="headerlink" title="Q:ScreenSize是如何转换成距离的?"></a>Q:ScreenSize是如何转换成距离的?</h2><p>A：通过下面这个方法，把LOD的各个级别的ScreenSize转换为Distance，保存在LOD信息里。</p>
+<p>也就是说，如果屏幕是方的的情况下：</p>
+<p>ScreenSize如果是0.5，绘制距离范围就是物体包围球半径的两倍。</p>
+<p>ScreenSize如果是1，绘制距离范围就是物体包围球半径。</p>
+<p>ScreenSize如果是2，绘制距离范围就是物体包围球半径的一半。</p>
+<p>如果屏幕是16：9的的情况下：</p>
+<p>ScreenSize如果是0.5，绘制距离范围就是物体包围球半径的3.56倍。</p>
+<p>ScreenSize如果是1，绘制距离范围就是物体包围球半径的1.78倍。</p>
+<p>ScreenSize如果是2，绘制距离范围就是物体包围球半径的0.89倍。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">float ComputeBoundsDrawDistance(const float ScreenSize, const float SphereRadius, const FMatrix&amp; ProjMatrix)</span><br><span class="line">&#123;</span><br><span class="line">    // Get projection multiple accounting for view scaling.</span><br><span class="line">   //获得屏幕宽高比，正常屏幕都是宽&gt;高，结果就是0.5f * ProjMatrix.M[1][1]</span><br><span class="line">   //16：9就是 0.5f * 1.7778f</span><br><span class="line">    const float ScreenMultiple = FMath::Max(0.5f * ProjMatrix.M[0][0], 0.5f * ProjMatrix.M[1][1]);</span><br><span class="line"></span><br><span class="line">   // ScreenSize * 0.5f</span><br><span class="line">    const float ScreenRadius = FMath::Max(SMALL_NUMBER, ScreenSize * 0.5f);</span><br><span class="line"></span><br><span class="line">    //计算距离</span><br><span class="line">    return (ScreenMultiple * SphereRadius) / ScreenRadius;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="HISM的LOD选择过程"><a href="#HISM的LOD选择过程" class="headerlink" title="HISM的LOD选择过程"></a>HISM的LOD选择过程</h2><p>在FHierarchicalStaticMeshSceneProxy::GetDynamicMeshElements里，渲染线程里用来收集当前HISM的MeshElement。<br>里面通过Cluster结构进行HISM的 视锥剔除、遮挡剔除、距离剔除、LOD选择。</p>
+<p>核心方法是在FHierarchicalStaticMeshSceneProxy::Traverse()里</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">FHierarchicalStaticMeshSceneProxy::Traverse()</span><br><span class="line">&#123;</span><br><span class="line">    //视锥剔除ViewFrustum Cull</span><br><span class="line">  </span><br><span class="line">   //距离剔除(这里距离剔除是用LOD组的最远一级的距离进行剔除)</span><br><span class="line">   //Cluster的包围盒中心到摄像机的距离 与每一级LOD的距离进行对比，得到最小LOD和最大LOD。</span><br><span class="line">   CalcLOD(MinLOD, MaxLOD, BoundMin, BoundMax, ViewOriginInLocalZero, ViewOriginInLocalOne, LODPlanesMin, LODPlaneMax);</span><br><span class="line">  </span><br><span class="line">   //遮挡剔除</span><br><span class="line">  </span><br><span class="line">   //是否可以把当前ClusterNode直接用一个LOD级别渲染</span><br><span class="line">   //如果一个LODGroup就会return了，如果不能一个，继续往下面级别的ClusterNode遍历</span><br><span class="line">   //只要不被剔除掉，这里就会设置当前Instance使用什么LOD级别渲染</span><br><span class="line">   //因为涉及到LODDither切换的情况，这里会传进去两个LOD级别</span><br><span class="line">    Params.AddRun(MinLOD, MaxLOD, Node.FirstInstance, Node.LastInstance);</span><br><span class="line">  </span><br><span class="line">   //继续往下递归Traverse()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="DitherLOD-Transition"><a href="#DitherLOD-Transition" class="headerlink" title="DitherLOD Transition"></a>DitherLOD Transition</h2><p>当材质开启DitherLODTransition开关之后，会有渐变的lod切换。</p>
+<p>在ShaderBind过程中，Alpha是获取一个LODTransition值，这个值是通过一个公式计算：</p>
+<p>(真实上一帧时间 - DelayTime - 保存的上上帧时间)  &#x2F; (保存的上一帧时间 - 保存的上上帧时间)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">float GetTemporalLODTransition(float LastRenderTime) const</span><br><span class="line">&#123;</span><br><span class="line">    if (TemporalLODLag == 0.0)</span><br><span class="line">    &#123;</span><br><span class="line">        return 0.0f; // no fade</span><br><span class="line">    &#125;</span><br><span class="line">    return FMath::Clamp((LastRenderTime - TemporalLODLag - TemporalLODTime[0]) / (TemporalLODTime[1] - TemporalLODTime[0]), 0.0f, 1.0f);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>DelayTime就是切换的时间，在引擎的另一个地方，当帧间隔大于DelayTime，才会去保存TemporalLODTime。</p>
+<p>LODTransition的值就会慢慢变大，到DelayTime的时候就到达1。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">if (!View.bDisableDistanceBasedFadeTransitions)</span><br><span class="line">&#123;</span><br><span class="line">	bOk = true;</span><br><span class="line">	TemporalLODLag = CVarLODTemporalLag.GetValueOnRenderThread();</span><br><span class="line">	if (TemporalLODTime[1] &lt; LastRenderTime - TemporalLODLag)</span><br><span class="line">	&#123;</span><br><span class="line">		if (TemporalLODTime[0] &lt; TemporalLODTime[1])</span><br><span class="line">		&#123;</span><br><span class="line">			TemporalLODViewOrigin[0] = TemporalLODViewOrigin[1];</span><br><span class="line">			TemporalLODTime[0] = TemporalLODTime[1];</span><br><span class="line">		&#125;</span><br><span class="line">		TemporalLODViewOrigin[1] = View.ViewMatrices.GetViewOrigin();</span><br><span class="line">		TemporalLODTime[1] = LastRenderTime;</span><br><span class="line">		if (TemporalLODTime[1] &lt;= TemporalLODTime[0])</span><br><span class="line">		&#123;</span><br><span class="line">			bOk = false; // we are paused or something or otherwise didn&#x27;t get a good sample</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>把两个AlphaCutOff的值传给Shader:</p>
+<p>InstancingWorldViewOriginOne.W，</p>
+<p>InstancingWorldViewOriginZero.W</p>
+<p>然后还有一个InstancingViewZCompareZero和InstancingViewZCompareOne，通过两次循环分别设置两层(或者两帧)的对比距离。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">    for (int32 SampleIndex = 0; SampleIndex &lt; 2; SampleIndex++)</span><br><span class="line">    &#123;</span><br><span class="line">        FVector4&amp; InstancingViewZCompare(SampleIndex ? InstancingViewZCompareOne : InstancingViewZCompareZero);</span><br><span class="line"></span><br><span class="line">        float FinalCull = MAX_flt;</span><br><span class="line">        if (MinSize &gt; 0.0)</span><br><span class="line">        &#123;</span><br><span class="line">            FinalCull = ComputeBoundsDrawDistance(MinSize, SphereRadius, View-&gt;ViewMatrices.GetProjectionMatrix()) * LODScale;</span><br><span class="line">        &#125;</span><br><span class="line">        if (InstancingUserData-&gt;EndCullDistance &gt; 0.0f)</span><br><span class="line">        &#123;</span><br><span class="line">            FinalCull = FMath::Min(FinalCull, InstancingUserData-&gt;EndCullDistance * MaxDrawDistanceScale);</span><br><span class="line">        &#125;</span><br><span class="line">        FinalCull *= MaxDrawDistanceScale;</span><br><span class="line"></span><br><span class="line">        InstancingViewZCompare.Z = FinalCull;</span><br><span class="line">        if (int(BatchElement.InstancedLODIndex) &lt; InstancingUserData-&gt;MeshRenderData-&gt;LODResources.Num() - 1)</span><br><span class="line">        &#123;</span><br><span class="line">            float NextCut = ComputeBoundsDrawDistance(InstancingUserData-&gt;MeshRenderData-&gt;ScreenSize[BatchElement.InstancedLODIndex + 1].GetValue(), SphereRadius, View-&gt;ViewMatrices.GetProjectionMatrix()) * LODScale;</span><br><span class="line">            InstancingViewZCompare.Z = FMath::Min(NextCut, FinalCull);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        InstancingViewZCompare.X = MIN_flt;</span><br><span class="line">        if (int(BatchElement.InstancedLODIndex) &gt; FirstLOD)</span><br><span class="line">        &#123;</span><br><span class="line">            float CurCut = ComputeBoundsDrawDistance(InstancingUserData-&gt;MeshRenderData-&gt;ScreenSize[BatchElement.InstancedLODIndex].GetValue(), SphereRadius, View-&gt;ViewMatrices.GetProjectionMatrix()) * LODScale;</span><br><span class="line">            if (CurCut &lt; FinalCull)</span><br><span class="line">            &#123;</span><br><span class="line">                InstancingViewZCompare.Y = CurCut;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                // this LOD is completely removed by one of the other two factors</span><br><span class="line">                InstancingViewZCompare.Y = MIN_flt;</span><br><span class="line">                InstancingViewZCompare.Z = MIN_flt;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            // this is the first LOD, so we don&#x27;t have a fade-in region</span><br><span class="line">            InstancingViewZCompare.Y = MIN_flt;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    InstancingOffset = InstancingUserData-&gt;InstancingOffset;</span><br><span class="line">    InstancingWorldViewOriginZero = View-&gt;GetTemporalLODOrigin(0);</span><br><span class="line">    InstancingWorldViewOriginOne = View-&gt;GetTemporalLODOrigin(1);</span><br><span class="line"></span><br><span class="line">    float Alpha = View-&gt;GetTemporalLODTransition();</span><br><span class="line">    InstancingWorldViewOriginZero.W = 1.0f - Alpha;</span><br><span class="line">    InstancingWorldViewOriginOne.W = Alpha;</span><br><span class="line"></span><br><span class="line">    InstancingViewZCompareZero.W = LODRandom;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在Shader里：</p>
+<p>Intermediates.PerInstanceParams.w会在后续PS里作为CutOff值进行像素丢弃。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Intermediates.PerInstanceParams.x = GetInstanceRandom(Intermediates);</span><br><span class="line">    float3 InstanceLocation = TransformLocalToWorld(GetInstanceOrigin(Intermediates), Intermediates.PrimitiveId).xyz;</span><br><span class="line">    Intermediates.PerInstanceParams.y = 1.0 - saturate((length(InstanceLocation + ResolvedView.PreViewTranslation.xyz) - InstancingFadeOutParams.x) * InstancingFadeOutParams.y);</span><br><span class="line">    // InstancingFadeOutParams.z,w are RenderSelected and RenderDeselected respectively.</span><br><span class="line">    Intermediates.PerInstanceParams.z = InstancingFadeOutParams.z * SelectedValue + InstancingFadeOutParams.w * (1-SelectedValue);</span><br><span class="line">    #if USE_DITHERED_LOD_TRANSITION</span><br><span class="line">        float RandomLOD = InstancingViewZCompareZero.w * Intermediates.PerInstanceParams.x;</span><br><span class="line">        float ViewZZero = length(InstanceLocation - InstancingWorldViewOriginZero.xyz) + RandomLOD;</span><br><span class="line">        float ViewZOne = length(InstanceLocation - InstancingWorldViewOriginOne.xyz) + RandomLOD;</span><br><span class="line">        Intermediates.PerInstanceParams.w = </span><br><span class="line">            dot(float3(ViewZZero.xxx &gt; InstancingViewZCompareZero.xyz), InstancingViewZConstant.xyz) * InstancingWorldViewOriginZero.w +</span><br><span class="line">            dot(float3(ViewZOne.xxx &gt; InstancingViewZCompareOne.xyz), InstancingViewZConstant.xyz) * InstancingWorldViewOriginOne.w;</span><br><span class="line">        Intermediates.PerInstanceParams.z *= abs(Intermediates.PerInstanceParams.w) &lt; .999;</span><br><span class="line">    #else</span><br><span class="line">        Intermediates.PerInstanceParams.w = 0;</span><br><span class="line">    #endif</span><br></pre></td></tr></table></figure>
+
 
       <div class="tags">
           <a href="/tags/Unreal/" rel="tag"><i class="ic i-tag"></i> Unreal</a>
@@ -168,7 +204,7 @@ UE4-DitherLODTransition - Unreal |
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">更新于</span>
-    <time title="修改时间：2024-05-22 22:49:56" itemprop="dateModified" datetime="2024-05-22T22:49:56+08:00">2024-05-22</time>
+    <time title="修改时间：2024-05-23 20:32:02" itemprop="dateModified" datetime="2024-05-23T20:32:02+08:00">2024-05-23</time>
   </span>
 </div>
 
@@ -181,7 +217,7 @@ UE4-DitherLODTransition - Unreal |
   </li>
   <li class="link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2023/09/05/UE4-DitherLODTransition/" title="UE4-DitherLODTransition">http://example.com/2023/09/05/UE4-DitherLODTransition/</a>
+    <a href="http://example.com/2023/09/05/UE4-DitherLODTransition/" title="UE4-关于植被HISM屏占比LOD的选择和切换">http://example.com/2023/09/05/UE4-DitherLODTransition/</a>
   </li>
   <li class="license">
     <strong>版权声明： </strong>本站所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> 许可协议。转载请注明出处！
@@ -200,7 +236,7 @@ UE4-DitherLODTransition - Unreal |
     <div class="item left">
       
 
-  <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process&#x3D;image&#x2F;&#x2F;resize,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE4-HISM剔除更新DFShadow">
+  <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="UE4-HISM剔除更新DFShadow">
   <span class="type">上一篇</span>
   <span class="category"><i class="ic i-flag"></i> Unreal</span>
   <h3>UE4-HISM剔除更新DFShadow</h3>
@@ -210,7 +246,7 @@ UE4-DitherLODTransition - Unreal |
     <div class="item right">
       
 
-  <a href="/2023/09/05/UE4-GPUScene/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process&#x3D;image&#x2F;&#x2F;resize,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE4-GPUScene">
+  <a href="/2023/09/05/UE4-GPUScene/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="UE4-GPUScene">
   <span class="type">下一篇</span>
   <span class="category"><i class="ic i-flag"></i> Unreal</span>
   <h3>UE4-GPUScene</h3>
@@ -232,10 +268,11 @@ UE4-DitherLODTransition - Unreal |
   <div class="panels">
     <div class="inner">
       <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Q-%E8%BF%99%E4%B8%AAScreenSize%E6%98%AF%E6%80%8E%E4%B9%88%E7%94%9F%E6%95%88%E7%9A%84%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">Q:这个ScreenSize是怎么生效的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Q-ScreenSize%E6%98%AF%E5%A6%82%E4%BD%95%E8%BD%AC%E6%8D%A2%E6%88%90%E8%B7%9D%E7%A6%BB%E7%9A%84"><span class="toc-number">2.</span> <span class="toc-text">Q:ScreenSize是如何转换成距离的?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HISM%E7%9A%84LOD%E9%80%89%E6%8B%A9%E8%BF%87%E7%A8%8B"><span class="toc-number">3.</span> <span class="toc-text">HISM的LOD选择过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DitherLOD-Transition"><span class="toc-number">4.</span> <span class="toc-text">DitherLOD Transition</span></a></li></ol>
       </div>
       <div class="related panel pjax" data-title="系列文章">
         <ul>
-          <li><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" rel="bookmark" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></li><li><a href="/2023/09/05/UE4-GPUScene/" rel="bookmark" title="UE4-GPUScene">UE4-GPUScene</a></li><li class="active"><a href="/2023/09/05/UE4-DitherLODTransition/" rel="bookmark" title="UE4-DitherLODTransition">UE4-DitherLODTransition</a></li><li><a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" rel="bookmark" title="UE5-自定义MeshComponent">UE5-自定义MeshComponent</a></li><li><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" rel="bookmark" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></li><li><a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" rel="bookmark" title="UE5-自定义MeshPass">UE5-自定义MeshPass</a></li><li><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" rel="bookmark" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></li><li><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" rel="bookmark" title="UE4-GPU优化ForPS5">UE4-GPU优化ForPS5</a></li><li><a href="/2024/04/05/UE4-DistanceFieldShadow/" rel="bookmark" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></li><li><a href="/2024/05/11/UE4-PSOCache/" rel="bookmark" title="UE4-PSOCache">UE4-PSOCache</a></li><li><a href="/2024/05/19/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" rel="bookmark" title="UE5-MultiPass添加">UE5-MultiPass添加</a></li>
+          <li><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" rel="bookmark" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></li><li><a href="/2023/09/05/UE4-GPUScene/" rel="bookmark" title="UE4-GPUScene">UE4-GPUScene</a></li><li class="active"><a href="/2023/09/05/UE4-DitherLODTransition/" rel="bookmark" title="UE4-关于植被HISM屏占比LOD的选择和切换">UE4-关于植被HISM屏占比LOD的选择和切换</a></li><li><a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" rel="bookmark" title="UE5-自定义MeshComponent">UE5-自定义MeshComponent</a></li><li><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" rel="bookmark" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></li><li><a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" rel="bookmark" title="UE5-自定义MeshPass">UE5-自定义MeshPass</a></li><li><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" rel="bookmark" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></li><li><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" rel="bookmark" title="UE4-GPU优化RazorForPS5">UE4-GPU优化RazorForPS5</a></li><li><a href="/2024/04/05/UE4-DistanceFieldShadow/" rel="bookmark" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></li><li><a href="/2024/05/11/UE4-PSOCache/" rel="bookmark" title="UE4-PSOCache">UE4-PSOCache</a></li><li><a href="/2024/05/19/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" rel="bookmark" title="UE5-MultiPass添加">UE5-MultiPass添加</a></li><li><a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" rel="bookmark" title="UE4-添加GlobalShader">UE4-添加GlobalShader</a></li>
         </ul>
       </div>
       <div class="overview panel" data-title="站点概览">
@@ -249,7 +286,7 @@ UE4-DitherLODTransition - Unreal |
 <nav class="state">
     <div class="item posts">
       <a href="/archives/">
-        <span class="count">14</span>
+        <span class="count">15</span>
         <span class="name">文章</span>
       </a>
     </div>
@@ -261,7 +298,7 @@ UE4-DitherLODTransition - Unreal |
     </div>
     <div class="item tags">
       <a href="/tags/">
-        <span class="count">5</span>
+        <span class="count">4</span>
         <span class="name">标签</span>
       </a>
     </div>
@@ -318,37 +355,7 @@ UE4-DitherLODTransition - Unreal |
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2024/05/19/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" title="UE5-MultiPass添加">UE5-MultiPass添加</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" title="UE5-自定义MeshPass">UE5-自定义MeshPass</a></span>
+    <span><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></span>
   </li>
 
       
@@ -368,17 +375,7 @@ UE4-DitherLODTransition - Unreal |
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" title="UE4-GPU优化ForPS5">UE4-GPU优化ForPS5</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
-</div>
-
-    <span><a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" title="Unity-URP代码架构">Unity-URP代码架构</a></span>
+    <span><a href="/2024/05/19/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" title="UE5-MultiPass添加">UE5-MultiPass添加</a></span>
   </li>
 
       
@@ -388,7 +385,17 @@ UE4-DitherLODTransition - Unreal |
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2023/09/05/UE4-DitherLODTransition/" title="UE4-DitherLODTransition">UE4-DitherLODTransition</a></span>
+    <span><a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" title="UE5-自定义MeshPass">UE5-自定义MeshPass</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></span>
   </li>
 
       
@@ -408,7 +415,37 @@ UE4-DitherLODTransition - Unreal |
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" title="UE5-自定义MeshComponent">UE5-自定义MeshComponent</a></span>
+    <span><a href="/2024/05/11/UE4-PSOCache/" title="UE4-PSOCache">UE4-PSOCache</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" title="Unity-URP代码架构">Unity-URP代码架构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/05/UE4-GPUScene/" title="UE4-GPUScene">UE4-GPUScene</a></span>
   </li>
 
   </ul>
