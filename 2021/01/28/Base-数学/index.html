@@ -1,0 +1,662 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="锅巴's Blogs" href="http://example.com/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="锅巴's Blogs" href="http://example.com/atom.xml" />
+<link rel="alternate" type="application/json" title="锅巴's Blogs" href="http://example.com/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
+
+  
+  <meta name="keywords" content="原理,Base" />
+
+
+<link rel="canonical" href="http://example.com/2021/01/28/Base-%E6%95%B0%E5%AD%A6/">
+
+
+
+  <title>
+Base-矩阵和向量 - 原理 |
+锅巴 = 锅巴's Blogs</title>
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">Base-矩阵和向量
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="创建时间：2021-01-28 00:00:00">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">发表于</span>
+    <time itemprop="dateCreated datePublished" datetime="2021-01-28T00:00:00+08:00">2021-01-28</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="切换导航栏">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">锅巴</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2023/08/14/295415199/c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">首页</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/%E5%8E%9F%E7%90%86/" itemprop="item" rel="index" title="分类于 原理"><span itemprop="name">原理</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="zh-CN">
+  <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/28/Base-%E6%95%B0%E5%AD%A6/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="锅巴">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="锅巴's Blogs">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>这篇需要常复习。</p>
+<h1 id="1-坐标系"><a href="#1-坐标系" class="headerlink" title="1.坐标系"></a>1.坐标系</h1><h2 id="笛卡尔坐标系"><a href="#笛卡尔坐标系" class="headerlink" title="笛卡尔坐标系"></a>笛卡尔坐标系</h2><h3 id="2D-坐标系"><a href="#2D-坐标系" class="headerlink" title="2D 坐标系"></a>2D 坐标系</h3><center><img data-src="https://picx.zhimg.com/80/v2-fa450b78a47462071d915a3352ba1736_720w.png" width = "" height = ""></center>
+
+<h3 id="3D-坐标系"><a href="#3D-坐标系" class="headerlink" title="3D 坐标系"></a>3D 坐标系</h3><h4 id="1-左手坐标系"><a href="#1-左手坐标系" class="headerlink" title="1.左手坐标系"></a>1.左手坐标系</h4><p>Unity的左手坐标系，y上z前x右</p>
+<center><img data-src="https://pic1.zhimg.com/80/v2-4aa18f0e4515ccdb487dbc2eef0545a7_720w.png" width = "400" height = ""></center>
+
+<p>UE的左手坐标系，z上y后x右，相当于untiy的坐标系翻了一下，但仍然是左手。</p>
+<center><img data-src="https://pica.zhimg.com/80/v2-2d3ae39487f3746e8808ed983b321c59_720w.png" width = "500" height = ""></center>
+
+
+<h4 id="2-右手坐标系"><a href="#2-右手坐标系" class="headerlink" title="2.右手坐标系"></a>2.右手坐标系</h4><p>y上z后x右</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-e2d33e0098fea1e04461409f111be1f0_720w.png" width = "" height = "300"></center>
+
+<p>OpenGL：右手</p>
+<p>DX：左手</p>
+<h4 id="3-疑问："><a href="#3-疑问：" class="headerlink" title="3.疑问："></a>3.疑问：</h4><p>Q：左手坐标系如何转换右手？</p>
+<p>—-A：z取负即可</p>
+<p>Q：左右手坐标系，和矩阵使用行列向量是否有关系？</p>
+<p>—-A：没有关系，手写数学里是矩阵右乘，计算机里矩阵左乘。左手和右手的区别是矩阵里Z是否取负。</p>
+<h2 id="极坐标系"><a href="#极坐标系" class="headerlink" title="极坐标系"></a>极坐标系</h2><center><img data-src="https://pic1.zhimg.com/80/v2-3bd871cbd8a57ed82d2aa22fc29b4cad_720w.png" width = "400" height = ""></center>
+
+<h3 id="笛卡尔——-gt-极坐标系"><a href="#笛卡尔——-gt-极坐标系" class="headerlink" title="笛卡尔——&gt;极坐标系"></a>笛卡尔——&gt;极坐标系</h3><center><img data-src="https://picx.zhimg.com/80/v2-2a11589b5b9b653f4e56e8e660cb5fea_720w.png" width = "400" height = ""></center>
+
+<h3 id="极坐标系——-gt-笛卡尔"><a href="#极坐标系——-gt-笛卡尔" class="headerlink" title="极坐标系——&gt;笛卡尔"></a>极坐标系——&gt;笛卡尔</h3><center><img data-src="https://picx.zhimg.com/80/v2-8959f2a49151e1cf41e20a1ff5176a75_720w.png" width = "400" height = ""></center>
+
+<h3 id="3D极坐标系"><a href="#3D极坐标系" class="headerlink" title="3D极坐标系"></a>3D极坐标系</h3><p>3d的极坐标系之前也接触过，做IK旋转的时候，正常笛卡尔无法做角度Lerp，转换到极坐标系进行角度的Lerp。</p>
+<p>基本和2d的一样，找一下wiki里的公式转换就行。</p>
+<h1 id="2-向量"><a href="#2-向量" class="headerlink" title="2.向量"></a>2.向量</h1><h2 id="Position"><a href="#Position" class="headerlink" title="Position"></a>Position</h2><p>比如在一个3d坐标空间，通常使用一个float3(x,y,z)表示这个点的位置Position。</p>
+<p>这里直接也引入齐次坐标，如果表示一个点位置，它此时齐次坐标为</p>
+<p>float4(x,y,z,1) w&#x3D;1</p>
+<p>转换为非齐次：<br>float3(x&#x2F;1,y&#x2F;1,z&#x2F;1)</p>
+<h2 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h2><p>比如在一个3d坐标空间，使用一个float3(x,y,z)表示一个方向Vector。</p>
+<p>这里也引入齐次坐标，如果表示一个方向，齐次坐标为</p>
+<p>float4(x,y,z,0) w&#x3D;0</p>
+<h2 id="vector和position的运算"><a href="#vector和position的运算" class="headerlink" title="vector和position的运算"></a>vector和position的运算</h2><p>vector和pos经常是有运算的，一般我们也是按照位置和方向区分，但是Games101这个图带来个新的震撼。</p>
+<p>虽然point + point这个日常没使用过，但是数学概念是中点。</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-cae58175b82343f2654c2221bed065da_720w.png?source=d16d100b" width = "" height = ""></center>
+
+<h2 id="向量的运算"><a href="#向量的运算" class="headerlink" title="向量的运算"></a>向量的运算</h2><h3 id="向量的大小：模"><a href="#向量的大小：模" class="headerlink" title="向量的大小：模"></a>向量的大小：模</h3><center><img data-src="https://picx.zhimg.com/80/v2-fabc7b9fc7cc7ebd96121e1b32bbaad4_720w.png?source=d16d100b" width = "500" height = ""></center>
+
+<h4 id="两点之间距离"><a href="#两点之间距离" class="headerlink" title="两点之间距离"></a>两点之间距离</h4><p>两个点之间的距离是一个标量。实际上求模。</p>
+<p>A（a，b，c）    B（x，y，z）</p>
+<p>AB之间距离为：B-A这个向量的模。</p>
+<h3 id="向量的加减"><a href="#向量的加减" class="headerlink" title="向量的加减"></a>向量的加减</h3><p>[a,b,c] + [x,y,z] &#x3D; [a+x,b+y,c+z]</p>
+<p>[a,b,c] - [x,y,z] &#x3D; [a-x,b-y,c-z]</p>
+<center><img data-src="https://pica.zhimg.com/80/v2-ed87eeffdbcdf4d578a27697a3f73867_720w.png" width = "500" height = ""></center>
+
+<h4 id="一个点到另一个点的向量"><a href="#一个点到另一个点的向量" class="headerlink" title="一个点到另一个点的向量"></a>一个点到另一个点的向量</h4><p>A（a，b，c）    B（x，y，z）</p>
+<p>（x-a，y-b，z-c）     ——-&gt;   [x-a,y-b,z-c]</p>
+<h3 id="向量点乘Dot"><a href="#向量点乘Dot" class="headerlink" title="向量点乘Dot"></a>向量点乘Dot</h3><p>Vector * 标量 &#x3D; Vector</p>
+<p>Vector * Vector &#x3D; 结果为标量，值的意义一般是看Cos&lt;A,B&gt;</p>
+<p>A（a，b，c） *   B（x，y，z）</p>
+<p>(a,b,c) · (x,y,z) &#x3D; ax+by+cz</p>
+<p>A · B &#x3D; |A| |B| cos&lt;A,B&gt;</p>
+<table>
+<thead>
+<tr>
+<th align="left">–</th>
+<th align="center">–</th>
+<th align="right">–</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Dot&gt;0</td>
+<td align="center">0°&lt;&#x3D;   &lt;a,b&gt;  &lt;&#x3D;90°</td>
+<td align="right">a和b方向基本相同</td>
+</tr>
+<tr>
+<td align="left">Dot&#x3D;0</td>
+<td align="center">&lt;a,b&gt;&#x3D;90°</td>
+<td align="right">a和b垂直</td>
+</tr>
+<tr>
+<td align="left">Dot&lt;0</td>
+<td align="center">90°&lt;&#x3D;  &lt;a,b&gt;  &lt;&#x3D;180°</td>
+<td align="right">a和b方向基本相反</td>
+</tr>
+</tbody></table>
+<h3 id="向量投影"><a href="#向量投影" class="headerlink" title="向量投影"></a>向量投影</h3><p>b在a上的投影</p>
+<center><img data-src="https://pic1.zhimg.com/80/v2-35d44ae3525de5e5b956dfa8798829cb_720w.png" width = "500" height = ""></center>
+
+<h3 id="向量叉乘Cross"><a href="#向量叉乘Cross" class="headerlink" title="向量叉乘Cross"></a>向量叉乘Cross</h3><p>vector x vector &#x3D; vector  结果为向量，垂直于AB所在平面</p>
+<p>A(x1，y1，z1)   x   B(x2，y2，z2) &#x3D;</p>
+<p>(y1z2-z1y2 , z1x2-x1z2 ,x1y2-y1x2)</p>
+<p>–如果Cross结果为零向量，说明AB平行。</p>
+<p>–判断AxB结果与AB平面的方向</p>
+<p>在左手坐标系中，a和b顺时针，那a×b指向屏幕外；逆时针则指向屏幕内；</p>
+<p>右手 坐标系相反；</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-651feabef4dccdd25cb45a28baa01216_720w.png" width = "500" height = ""></center>
+
+<h3 id="判断一个点是否在三角形内？"><a href="#判断一个点是否在三角形内？" class="headerlink" title="判断一个点是否在三角形内？"></a>判断一个点是否在三角形内？</h3><p>使用Cross运算，三条边与三个点到目标点的向量叉乘，同为正或同为负则在三角形内。</p>
+<p>AB x AP </p>
+<p>BC x BP</p>
+<p>CA x CP</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-836f75384396b7d399017d1dd6309b65_720w.png" width = "500" height = ""></center>
+
+
+<h1 id="3-矩阵"><a href="#3-矩阵" class="headerlink" title="3.矩阵"></a>3.矩阵</h1><h2 id="矩阵的表示"><a href="#矩阵的表示" class="headerlink" title="矩阵的表示"></a>矩阵的表示</h2><p>向量是标量的数组。</p>
+<p>矩阵是向量的数组。</p>
+<p>矩阵的表示就是一组向量。</p>
+<h2 id="转置矩阵、逆矩阵、正交矩阵"><a href="#转置矩阵、逆矩阵、正交矩阵" class="headerlink" title="转置矩阵、逆矩阵、正交矩阵"></a>转置矩阵、逆矩阵、正交矩阵</h2><h3 id="转置矩阵"><a href="#转置矩阵" class="headerlink" title="转置矩阵"></a>转置矩阵</h3><p>把行向量转换为列向量。</p>
+<p>2x3矩阵的转置矩阵就是3x2矩阵。</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-1c5c35ac226b659288b960b8948e5bc2_720w.png" width = "500" height = ""></center>
+
+<h3 id="逆矩阵"><a href="#逆矩阵" class="headerlink" title="逆矩阵"></a>逆矩阵</h3><p>设A是一个n阶矩阵，若存在另一个n阶矩阵B，使得： AB&#x3D;BA&#x3D;E（E为单位矩阵）</p>
+<p>并不是所有矩阵都可逆。</p>
+<h3 id="正交矩阵"><a href="#正交矩阵" class="headerlink" title="正交矩阵"></a>正交矩阵</h3><p>转置和逆矩阵一样的矩阵。</p>
+<h2 id="矩阵的运算"><a href="#矩阵的运算" class="headerlink" title="矩阵的运算"></a>矩阵的运算</h2><h3 id="矩阵乘法"><a href="#矩阵乘法" class="headerlink" title="矩阵乘法"></a>矩阵乘法</h3><p>一个m×n矩阵A只能和n×c矩阵B相乘，得到m×c矩阵C；</p>
+<p>一个2×3矩阵A和3×2矩阵B相乘，得到2×2矩阵C；</p>
+<center><img data-src="https://pic1.zhimg.com/80/v2-d2bbe75c4ee19b258ef6a4b0ef73423f_720w.png" width = "" height = "100"></center>
+
+<p>但是还是方阵乘法用的最多。</p>
+<h3 id="向量和矩阵乘法"><a href="#向量和矩阵乘法" class="headerlink" title="向量和矩阵乘法"></a>向量和矩阵乘法</h3><p>向量能和矩阵乘，实际上把向量当成了一个维度是1的矩阵。</p>
+<p>比如 1x3的向量可以乘 3x3 的矩阵 &#x3D; 1x3向量。 （最常见的一种了把，实际上是线性变换）</p>
+<p>数学表示：</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-532f4eca5cf862e319a02695721b75c6_720w.png" width = "" height = "200"></center>
+
+<p>代码表示：</p>
+<center><img data-src="https://pic1.zhimg.com/80/v2-e60bb26e5c9a3ce9f8ce5087d3bd660b_720w.png" width = "" height = "200"></center>
+
+
+<h2 id="方阵与线性变换"><a href="#方阵与线性变换" class="headerlink" title="方阵与线性变换"></a>方阵与线性变换</h2><p>平时用到最多的就是方阵，它可以表示线性变换(旋转、缩放、投影、镜像、仿射 主要是中心不变)。</p>
+<p>从一个坐标系转换到另一个坐标系(用三个XYZ基向量表示)。</p>
+<p>这个矩阵就是表示线性变换的矩阵，把向量转换到新的坐标系。新的坐标系的3个基向量的表示按照原坐标计算。</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-628010d1c37ca9abb90f931ebd8d82c7_720w.png" width = "" height = "200"></center>
+
+
+<h2 id="矩阵的推导"><a href="#矩阵的推导" class="headerlink" title="矩阵的推导"></a>矩阵的推导</h2><p>前面知道了线性变换时，矩阵其实就是3个基向量，那么来推导几个矩阵。</p>
+<p>推导就是按照当前坐标系，算出目标坐标系的三个基向量。</p>
+<h3 id="旋转矩阵"><a href="#旋转矩阵" class="headerlink" title="旋转矩阵"></a>旋转矩阵</h3><center><img data-src="https://picx.zhimg.com/80/v2-3372f734d069a3e88ee538d724d37e5d_720w.png" width = "" height = "400"></center>
+
+<h3 id="缩放矩阵"><a href="#缩放矩阵" class="headerlink" title="缩放矩阵"></a>缩放矩阵</h3><center><img data-src="https://picx.zhimg.com/80/v2-84b598210a803fb0dcae115a6a3d18b4_720w.png" width = "" height = "200"></center>
+
+
+<h3 id="投影矩阵"><a href="#投影矩阵" class="headerlink" title="投影矩阵"></a>投影矩阵</h3><p>投影意味着降维，某个分量是0。这种相当于直接丢失Z轴。</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-189a9e09a9d41f4c1f5aadb35b074b37_720w.png
+" width = "" height = "200"></center>
+
+<h3 id="切变矩阵"><a href="#切变矩阵" class="headerlink" title="切变矩阵"></a>切变矩阵</h3><p>一种坐标系的扭曲变换，非均匀拉伸；切变角度会发生改变，面积和体积不变；</p>
+<p>基本思想：将某一坐标的乘积加到其他坐标上； </p>
+<p>如：2D中，将y乘以某个因子a后加到x上，x’ &#x3D; x+ay  y’ &#x3D; y</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-75302b8f6c3d4390e92ad5d19e37b8cd_720w.png
+" width = "" height = "400"></center>
+
+<h2 id="齐次矩阵"><a href="#齐次矩阵" class="headerlink" title="齐次矩阵"></a>齐次矩阵</h2><p>正常的3x3矩阵无法表示3d空间的平移，所以引入了齐次矩阵。</p>
+<p>加入一个维度w，position的w默认为1，vector的w默认为0。</p>
+<p>所以在齐次坐标表示的情况下，实际的3D点被认为是w&#x3D;1的时候。<br>也就是(x&#x2F;w, y&#x2F;w, z&#x2F;w, 1) w&#x3D;1</p>
+<p>在引擎里，MVP之后的齐次空间，w是不为1的，就可以表示出近大远小的感觉。</p>
+<h3 id="平移矩阵"><a href="#平移矩阵" class="headerlink" title="平移矩阵"></a>平移矩阵</h3><center><img data-src="https://pica.zhimg.com/80/v2-101ae448864196c601239fd84f8cb586_720w.png
+" width = "" height = "200"></center>
+
+<h3 id="投影"><a href="#投影" class="headerlink" title="投影"></a>投影</h3><p>齐次空间投影，如(x,y,z,w)向z &#x3D; d投影</p>
+<p>数学表示(右乘)：</p>
+<center><img data-src="https://pica.zhimg.com/80/v2-1cc247b2f197405532ad87d9be2e4105_720w.png
+" width = "" height = "200"></center>
+
+<p>透视和正交投影在后面坐标空间写。</p>
+<h1 id="4-方位和角位移"><a href="#4-方位和角位移" class="headerlink" title="4.方位和角位移"></a>4.方位和角位移</h1><p>用矩阵和四元数来表示 “角位移”，用欧拉角表示“方位”。</p>
+<h3 id="矩阵表示"><a href="#矩阵表示" class="headerlink" title="矩阵表示"></a>矩阵表示</h3><p>一般不用矩阵表示。</p>
+<h3 id="欧拉角"><a href="#欧拉角" class="headerlink" title="欧拉角"></a>欧拉角</h3><p>Unity内旋顺序： Y  X  Z</p>
+<p>有万向锁问题。</p>
+<h3 id="四元数"><a href="#四元数" class="headerlink" title="四元数"></a>四元数</h3><p>引擎内部旋转都使用四元数，旋转唯一性，可以平滑Lerp。</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-5bb59fceaa4e284688334e6f2bba530c_720w.png
+" width = "" height = "400"></center>
+
+
+<h1 id="5-球面UV"><a href="#5-球面UV" class="headerlink" title="5.球面UV"></a>5.球面UV</h1><p>有时候需要将坐标转换为球面上的UV坐标进行某些计算，比如摇杆的输入信号。</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-369df3068ace18c088930a28c4aadb99_720w.png
+" width = "" height = "300"></center>
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 将xy坐标转为球型uv坐标</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">protected Vector2 SquareToCircle(Vector2 input)</span><br><span class="line">&#123;</span><br><span class="line">    Vector2 output;</span><br><span class="line">    output.x = input.x * Mathf.Sqrt(1 - (input.y * input.y) / 2);</span><br><span class="line">    output.y = input.y * Mathf.Sqrt(1 - (input.x * input.x) / 2);</span><br><span class="line">    return output;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="6-三角形重心坐标"><a href="#6-三角形重心坐标" class="headerlink" title="6.三角形重心坐标"></a>6.三角形重心坐标</h1><p>算出三角形的重心坐标，满足一个公式，所以重心坐标用(α，β，γ)分别表示ABC的权重。</p>
+<p>由此，知道三角形三个点的数据，可以求出三角形中任意一点的uv、深度、color等信息。</p>
+<center><img data-src="https://pic1.zhimg.com/80/v2-5df11a34e35c28eec17fed0ab4d36dbe_720w.png
+" width = "" height = "300"></center>
+
+
+<h1 id="7-计算反射"><a href="#7-计算反射" class="headerlink" title="7.计算反射"></a>7.计算反射</h1><p>通过入射光和法线，求反射方向。</p>
+<p>EB &#x3D; N * |AB|cosθ &#x3D; N * dot（N，AB）</p>
+<p>DC &#x3D; 2 * EB &#x3D; -2 * N * dot(N, AB)</p>
+<p>AC &#x3D; AD + DC &#x3D; -AB + 2 * N * dot（N，AB）</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-ab9c75ef452953d891136695df77d654_720w.png
+" width = "" height = "500"></center>
+
+      <div class="tags">
+          <a href="/tags/%E5%8E%9F%E7%90%86/" rel="tag"><i class="ic i-tag"></i> 原理</a>
+          <a href="/tags/Base/" rel="tag"><i class="ic i-tag"></i> Base</a>
+      </div>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">更新于</span>
+    <time title="修改时间：2024-05-25 21:25:15" itemprop="dateModified" datetime="2024-05-25T21:25:15+08:00">2024-05-25</time>
+  </span>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>本文作者： </strong>锅巴 <i class="ic i-at"><em>@</em></i>锅巴's Blogs
+  </li>
+  <li class="link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/01/28/Base-%E6%95%B0%E5%AD%A6/" title="Base-矩阵和向量">http://example.com/2021/01/28/Base-数学/</a>
+  </li>
+  <li class="license">
+    <strong>版权声明： </strong>本站所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="/2020/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process&#x3D;image&#x2F;&#x2F;resize,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="Base-各个坐标空间">
+  <span class="type">上一篇</span>
+  <span class="category"><i class="ic i-flag"></i> 原理</span>
+  <h3>Base-各个坐标空间</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;i.loli.net&#x2F;2020&#x2F;10&#x2F;30&#x2F;qAMYEFXxJcKRsiG.gif" title="Unity-URP代码架构">
+  <span class="type">下一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Unity</span>
+  <h3>Unity-URP代码架构</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="toc-number">1.</span> <span class="toc-text">1.坐标系</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AC%9B%E5%8D%A1%E5%B0%94%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="toc-number">1.1.</span> <span class="toc-text">笛卡尔坐标系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2D-%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="toc-number">1.1.1.</span> <span class="toc-text">2D 坐标系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3D-%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="toc-number">1.1.2.</span> <span class="toc-text">3D 坐标系</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%B7%A6%E6%89%8B%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">1.左手坐标系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E5%8F%B3%E6%89%8B%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">2.右手坐标系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E7%96%91%E9%97%AE%EF%BC%9A"><span class="toc-number">1.1.2.3.</span> <span class="toc-text">3.疑问：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9E%81%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="toc-number">1.2.</span> <span class="toc-text">极坐标系</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%AC%9B%E5%8D%A1%E5%B0%94%E2%80%94%E2%80%94-gt-%E6%9E%81%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="toc-number">1.2.1.</span> <span class="toc-text">笛卡尔——&gt;极坐标系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9E%81%E5%9D%90%E6%A0%87%E7%B3%BB%E2%80%94%E2%80%94-gt-%E7%AC%9B%E5%8D%A1%E5%B0%94"><span class="toc-number">1.2.2.</span> <span class="toc-text">极坐标系——&gt;笛卡尔</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3D%E6%9E%81%E5%9D%90%E6%A0%87%E7%B3%BB"><span class="toc-number">1.2.3.</span> <span class="toc-text">3D极坐标系</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%90%91%E9%87%8F"><span class="toc-number">2.</span> <span class="toc-text">2.向量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Position"><span class="toc-number">2.1.</span> <span class="toc-text">Position</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Vector"><span class="toc-number">2.2.</span> <span class="toc-text">Vector</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#vector%E5%92%8Cposition%E7%9A%84%E8%BF%90%E7%AE%97"><span class="toc-number">2.3.</span> <span class="toc-text">vector和position的运算</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E7%9A%84%E8%BF%90%E7%AE%97"><span class="toc-number">2.4.</span> <span class="toc-text">向量的运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E7%9A%84%E5%A4%A7%E5%B0%8F%EF%BC%9A%E6%A8%A1"><span class="toc-number">2.4.1.</span> <span class="toc-text">向量的大小：模</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%A4%E7%82%B9%E4%B9%8B%E9%97%B4%E8%B7%9D%E7%A6%BB"><span class="toc-number">2.4.1.1.</span> <span class="toc-text">两点之间距离</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E7%9A%84%E5%8A%A0%E5%87%8F"><span class="toc-number">2.4.2.</span> <span class="toc-text">向量的加减</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%82%B9%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E7%82%B9%E7%9A%84%E5%90%91%E9%87%8F"><span class="toc-number">2.4.2.1.</span> <span class="toc-text">一个点到另一个点的向量</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E7%82%B9%E4%B9%98Dot"><span class="toc-number">2.4.3.</span> <span class="toc-text">向量点乘Dot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E6%8A%95%E5%BD%B1"><span class="toc-number">2.4.4.</span> <span class="toc-text">向量投影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E5%8F%89%E4%B9%98Cross"><span class="toc-number">2.4.5.</span> <span class="toc-text">向量叉乘Cross</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E7%82%B9%E6%98%AF%E5%90%A6%E5%9C%A8%E4%B8%89%E8%A7%92%E5%BD%A2%E5%86%85%EF%BC%9F"><span class="toc-number">2.4.6.</span> <span class="toc-text">判断一个点是否在三角形内？</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E7%9F%A9%E9%98%B5"><span class="toc-number">3.</span> <span class="toc-text">3.矩阵</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E8%A1%A8%E7%A4%BA"><span class="toc-number">3.1.</span> <span class="toc-text">矩阵的表示</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BD%AC%E7%BD%AE%E7%9F%A9%E9%98%B5%E3%80%81%E9%80%86%E7%9F%A9%E9%98%B5%E3%80%81%E6%AD%A3%E4%BA%A4%E7%9F%A9%E9%98%B5"><span class="toc-number">3.2.</span> <span class="toc-text">转置矩阵、逆矩阵、正交矩阵</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AC%E7%BD%AE%E7%9F%A9%E9%98%B5"><span class="toc-number">3.2.1.</span> <span class="toc-text">转置矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%86%E7%9F%A9%E9%98%B5"><span class="toc-number">3.2.2.</span> <span class="toc-text">逆矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AD%A3%E4%BA%A4%E7%9F%A9%E9%98%B5"><span class="toc-number">3.2.3.</span> <span class="toc-text">正交矩阵</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E8%BF%90%E7%AE%97"><span class="toc-number">3.3.</span> <span class="toc-text">矩阵的运算</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95"><span class="toc-number">3.3.1.</span> <span class="toc-text">矩阵乘法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%91%E9%87%8F%E5%92%8C%E7%9F%A9%E9%98%B5%E4%B9%98%E6%B3%95"><span class="toc-number">3.3.2.</span> <span class="toc-text">向量和矩阵乘法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%B9%E9%98%B5%E4%B8%8E%E7%BA%BF%E6%80%A7%E5%8F%98%E6%8D%A2"><span class="toc-number">3.4.</span> <span class="toc-text">方阵与线性变换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E7%9A%84%E6%8E%A8%E5%AF%BC"><span class="toc-number">3.5.</span> <span class="toc-text">矩阵的推导</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%8B%E8%BD%AC%E7%9F%A9%E9%98%B5"><span class="toc-number">3.5.1.</span> <span class="toc-text">旋转矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BC%A9%E6%94%BE%E7%9F%A9%E9%98%B5"><span class="toc-number">3.5.2.</span> <span class="toc-text">缩放矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%95%E5%BD%B1%E7%9F%A9%E9%98%B5"><span class="toc-number">3.5.3.</span> <span class="toc-text">投影矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%87%E5%8F%98%E7%9F%A9%E9%98%B5"><span class="toc-number">3.5.4.</span> <span class="toc-text">切变矩阵</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%BD%90%E6%AC%A1%E7%9F%A9%E9%98%B5"><span class="toc-number">3.6.</span> <span class="toc-text">齐次矩阵</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E7%A7%BB%E7%9F%A9%E9%98%B5"><span class="toc-number">3.6.1.</span> <span class="toc-text">平移矩阵</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%95%E5%BD%B1"><span class="toc-number">3.6.2.</span> <span class="toc-text">投影</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E6%96%B9%E4%BD%8D%E5%92%8C%E8%A7%92%E4%BD%8D%E7%A7%BB"><span class="toc-number">4.</span> <span class="toc-text">4.方位和角位移</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9F%A9%E9%98%B5%E8%A1%A8%E7%A4%BA"><span class="toc-number">4.0.1.</span> <span class="toc-text">矩阵表示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%AC%A7%E6%8B%89%E8%A7%92"><span class="toc-number">4.0.2.</span> <span class="toc-text">欧拉角</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E5%85%83%E6%95%B0"><span class="toc-number">4.0.3.</span> <span class="toc-text">四元数</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-%E7%90%83%E9%9D%A2UV"><span class="toc-number">5.</span> <span class="toc-text">5.球面UV</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-%E4%B8%89%E8%A7%92%E5%BD%A2%E9%87%8D%E5%BF%83%E5%9D%90%E6%A0%87"><span class="toc-number">6.</span> <span class="toc-text">6.三角形重心坐标</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-%E8%AE%A1%E7%AE%97%E5%8F%8D%E5%B0%84"><span class="toc-number">7.</span> <span class="toc-text">7.计算反射</span></a></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="系列文章">
+        <ul>
+          <li><a href="/2019/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" rel="bookmark" title="Base-透明渲染">Base-透明渲染</a></li><li><a href="/2020/03/11/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" rel="bookmark" title="Base-卡通渲染">Base-卡通渲染</a></li><li><a href="/2020/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" rel="bookmark" title="Base-各个坐标空间">Base-各个坐标空间</a></li><li class="active"><a href="/2021/01/28/Base-%E6%95%B0%E5%AD%A6/" rel="bookmark" title="Base-矩阵和向量">Base-矩阵和向量</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="站点概览">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="锅巴"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">锅巴</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">19</span>
+        <span class="name">文章</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">4</span>
+        <span class="name">分类</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">6</span>
+        <span class="name">标签</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL0FIYXBweUZ1bg==" title="https:&#x2F;&#x2F;github.com&#x2F;AHappyFun"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS96YWktdGlhbi1iaWFuLXdhbmctaGFpL3Bvc3Rz" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;zai-tian-bian-wang-hai&#x2F;posts"><i class="ic i-zhihu"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>首页</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="/2020/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>随机文章</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="Unity-游戏渲染性能优化">Unity-游戏渲染性能优化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" title="UE4-GPU优化RazorForPS5">UE4-GPU优化RazorForPS5</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/05/UE4-DitherLODTransition/" title="UE4-关于植被HISM屏占比LOD的选择和切换">UE4-关于植被HISM屏占比LOD的选择和切换</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" title="UE5-自定义MeshPass">UE5-自定义MeshPass</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/11/UE4-PSOCache/" title="UE4-PSOCache">UE4-PSOCache</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2020/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" title="Base-各个坐标空间">Base-各个坐标空间</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2020/03/11/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" title="Base-卡通渲染">Base-卡通渲染</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/19/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" title="UE5-MultiPass添加">UE5-MultiPass添加</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" title="Unity-URP代码架构">Unity-URP代码架构</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>最新评论</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">锅巴 @ 锅巴</span>
+  </div>
+  <div class="powered-by">
+    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2021/01/28/Base-数学/',
+    favicon: {
+      show: "（●´3｀●）やれやれだぜ",
+      hide: "(´Д｀)大変だ！"
+    },
+    search : {
+      placeholder: "文章搜索",
+      empty: "关于 「 ${query} 」，什么也没搜到",
+      stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    valine: true,fancybox: true,
+    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="/js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>
