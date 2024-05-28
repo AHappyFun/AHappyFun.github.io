@@ -1,0 +1,504 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="锅巴's Blogs" href="http://example.com/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="锅巴's Blogs" href="http://example.com/atom.xml" />
+<link rel="alternate" type="application/json" title="锅巴's Blogs" href="http://example.com/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
+
+  
+  <meta name="keywords" content="原理" />
+
+
+<link rel="canonical" href="http://example.com/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/">
+
+
+
+  <title>
+Base-透明渲染 - 原理 |
+锅巴 = 锅巴's Blogs</title>
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">Base-透明渲染
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="创建时间：2020-07-31 00:00:00">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">发表于</span>
+    <time itemprop="dateCreated datePublished" datetime="2020-07-31T00:00:00+08:00">2020-07-31</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="切换导航栏">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">锅巴</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2023/08/14/295415199/c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">首页</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/%E5%8E%9F%E7%90%86/" itemprop="item" rel="index" title="分类于 原理"><span itemprop="name">原理</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="zh-CN">
+  <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="锅巴">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="锅巴's Blogs">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>其实渲染里没有真正的透明物体，透明效果是通过颜色的Blend模仿到的。</p>
+<p>正常的透明渲染需要一个一个前后混合，所以半透明是通过前向渲染。</p>
+<h2 id="透明的渲染"><a href="#透明的渲染" class="headerlink" title="透明的渲染"></a>透明的渲染</h2><h3 id="混合指令"><a href="#混合指令" class="headerlink" title="混合指令"></a>混合指令</h3><p>Blend   原因子   目标因子</p>
+<p>Blend   原RGB因子   目标RGB因子   原A因子    目标A因子</p>
+<p>通过不同的混合组合，就可以达到各种效果。</p>
+<p>如常见的：</p>
+<p>Blend ScrAlpha OneMinusSrcAlpha   &#x2F;&#x2F;Transparent</p>
+<p>Blend One One  &#x2F;&#x2F;Aditive</p>
+<p>Blend ScrAlpha One &#x2F;&#x2F;Fade</p>
+<h3 id="渲染顺序"><a href="#渲染顺序" class="headerlink" title="渲染顺序"></a>渲染顺序</h3><h4 id="Unity的渲染顺序"><a href="#Unity的渲染顺序" class="headerlink" title="Unity的渲染顺序"></a>Unity的渲染顺序</h4><p>1.先绘制所有不透明的物体。从前到后。</p>
+<p>2.不透明后处理。</p>
+<p>3.天空盒。</p>
+<p>4.对所有透明的物体排序。</p>
+<p>5.按顺序绘制所有透明的物体。从后到前。</p>
+<p>6.所有的后处理。</p>
+<p>Unity里通过RenderQueue的序列来排序渲染顺序，默认Transparent为3000。</p>
+<h3 id="透明排序"><a href="#透明排序" class="headerlink" title="透明排序"></a>透明排序</h3><p>因为半透明是颜色混合的，两个半透明如果重叠上了，那他们的混合顺序是很重要的，效果也不一样。</p>
+<p>透明排序是Unity里常见比较难解决的问题，Unity通过Object到Camera的距离进行排序，在某些情况会出现透明排序出错。</p>
+<p>UE的透明暂时还没研究排序。&#x2F;&#x2F;todo</p>
+<h2 id="OIT顺序无关性透明"><a href="#OIT顺序无关性透明" class="headerlink" title="OIT顺序无关性透明"></a>OIT顺序无关性透明</h2><h3 id="Unity里OIT"><a href="#Unity里OIT" class="headerlink" title="Unity里OIT"></a>Unity里OIT</h3><h4 id="1-计算Accumulate"><a href="#1-计算Accumulate" class="headerlink" title="1.计算Accumulate"></a>1.计算Accumulate</h4><p>把颜色根据权重叠加到一张图里。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Blend ONE ONE</span><br><span class="line"></span><br><span class="line">float w(float z, float alpha)</span><br><span class="line">&#123;</span><br><span class="line">    return pow(z, -2.5);   //深度越大，权重值越小</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">float3 C = (ambient + diffuse) * alpha;</span><br><span class="line"></span><br><span class="line">#ifdef _WEIGHTED_ON</span><br><span class="line">   return float4(C, alpha) * w(i.z, alpha);</span><br><span class="line">#else</span><br><span class="line">   return float4(C, alpha);</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-计算Revealage"><a href="#2-计算Revealage" class="headerlink" title="2.计算Revealage"></a>2.计算Revealage</h4><p>叠加的过程是：</p>
+<p> firstBlend &#x3D; 0 * srcalpha + (1 - srcalpha) *  dstAlpha </p>
+<p> secBlend &#x3D;(1 - srcalpha) *  firstBlend</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Blend Zero OneMinusSrcAlpha</span><br><span class="line"></span><br><span class="line">return albedo.a;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-最终Blend"><a href="#3-最终Blend" class="headerlink" title="3.最终Blend"></a>3.最终Blend</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//不透明</span><br><span class="line">fixed4 background = tex2D(_MainTex, i.uv);</span><br><span class="line">//透明颜色累计</span><br><span class="line">float4 accum = tex2D(_AccumTex, i.uv);</span><br><span class="line">//最上层的透明alpha</span><br><span class="line">float revealage = tex2D(_RevealageTex, i.uv).r;</span><br><span class="line"></span><br><span class="line">//透明颜色一层</span><br><span class="line">fixed4 col = float4(accum.rgb / clamp(accum.a, 1e-4, 5e4), revealage);</span><br><span class="line"></span><br><span class="line">//混合透明与不透明</span><br><span class="line">return (1.0 - col.a) * col + col.a * background;</span><br></pre></td></tr></table></figure>
+
+<h3 id="UE里OIT"><a href="#UE里OIT" class="headerlink" title="UE里OIT"></a>UE里OIT</h3>
+      <div class="tags">
+          <a href="/tags/%E5%8E%9F%E7%90%86/" rel="tag"><i class="ic i-tag"></i> 原理</a>
+      </div>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">更新于</span>
+    <time title="修改时间：2024-05-26 21:24:28" itemprop="dateModified" datetime="2024-05-26T21:24:28+08:00">2024-05-26</time>
+  </span>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>本文作者： </strong>锅巴 <i class="ic i-at"><em>@</em></i>锅巴's Blogs
+  </li>
+  <li class="link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" title="Base-透明渲染">http://example.com/2020/07/31/Base-透明渲染/</a>
+  </li>
+  <li class="license">
+    <strong>版权声明： </strong>本站所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="/2020/03/11/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process&#x3D;image&#x2F;&#x2F;resize,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="Base-卡通渲染">
+  <span class="type">上一篇</span>
+  <span class="category"><i class="ic i-flag"></i> 原理</span>
+  <h3>Base-卡通渲染</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+      
+
+  <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2023&#x2F;08&#x2F;14&#x2F;295415199&#x2F;c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process&#x3D;image&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="Unity-URP代码架构">
+  <span class="type">下一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Unity</span>
+  <h3>Unity-URP代码架构</h3>
+  </a>
+
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%8F%E6%98%8E%E7%9A%84%E6%B8%B2%E6%9F%93"><span class="toc-number">1.</span> <span class="toc-text">透明的渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B7%E5%90%88%E6%8C%87%E4%BB%A4"><span class="toc-number">1.1.</span> <span class="toc-text">混合指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.2.</span> <span class="toc-text">渲染顺序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Unity%E7%9A%84%E6%B8%B2%E6%9F%93%E9%A1%BA%E5%BA%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">Unity的渲染顺序</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%8F%E6%98%8E%E6%8E%92%E5%BA%8F"><span class="toc-number">1.3.</span> <span class="toc-text">透明排序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OIT%E9%A1%BA%E5%BA%8F%E6%97%A0%E5%85%B3%E6%80%A7%E9%80%8F%E6%98%8E"><span class="toc-number">2.</span> <span class="toc-text">OIT顺序无关性透明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Unity%E9%87%8COIT"><span class="toc-number">2.1.</span> <span class="toc-text">Unity里OIT</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E8%AE%A1%E7%AE%97Accumulate"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.计算Accumulate</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-%E8%AE%A1%E7%AE%97Revealage"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.计算Revealage</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-%E6%9C%80%E7%BB%88Blend"><span class="toc-number">2.1.3.</span> <span class="toc-text">3.最终Blend</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UE%E9%87%8COIT"><span class="toc-number">2.2.</span> <span class="toc-text">UE里OIT</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="系列文章">
+        <ul>
+          <li><a href="/2020/03/11/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" rel="bookmark" title="Base-卡通渲染">Base-卡通渲染</a></li><li class="active"><a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" rel="bookmark" title="Base-透明渲染">Base-透明渲染</a></li><li><a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" rel="bookmark" title="Base-各个坐标空间">Base-各个坐标空间</a></li><li><a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" rel="bookmark" title="Base-矩阵和向量">Base-矩阵和向量</a></li><li><a href="/2024/05/28/Base-CSM/" rel="bookmark" title="Base-CSM级联阴影">Base-CSM级联阴影</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="站点概览">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="锅巴"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">锅巴</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">20</span>
+        <span class="name">文章</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">4</span>
+        <span class="name">分类</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">6</span>
+        <span class="name">标签</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL0FIYXBweUZ1bg==" title="https:&#x2F;&#x2F;github.com&#x2F;AHappyFun"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS96YWktdGlhbi1iaWFuLXdhbmctaGFpL3Bvc3Rz" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;zai-tian-bian-wang-hai&#x2F;posts"><i class="ic i-zhihu"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>首页</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+        <a href="/2020/03/11/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a>
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+        <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a>
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>随机文章</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" title="Base-各个坐标空间">Base-各个坐标空间</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/11/UE4-PSOCache/" title="UE4-PSOCache">UE4-PSOCache</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" title="UE4-添加GlobalShader">UE4-添加GlobalShader</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/05/UE4-GPUScene/" title="UE4-GPUScene">UE4-GPUScene</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/04/05/UE4-DistanceFieldShadow/" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="Unity-游戏渲染性能优化">Unity-游戏渲染性能优化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E7%94%9F%E6%B4%BB/" title="分类于 生活">生活</a>
+</div>
+
+    <span><a href="/2018/01/23/%E8%AE%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9A%84%E5%BC%80%E5%A7%8B/" title="个人网站的开始">个人网站的开始</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2024/05/28/Base-CSM/" title="Base-CSM级联阴影">Base-CSM级联阴影</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>最新评论</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">锅巴 @ 锅巴</span>
+  </div>
+  <div class="powered-by">
+    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2020/07/31/Base-透明渲染/',
+    favicon: {
+      show: "（●´3｀●）やれやれだぜ",
+      hide: "(´Д｀)大変だ！"
+    },
+    search : {
+      placeholder: "文章搜索",
+      empty: "关于 「 ${query} 」，什么也没搜到",
+      stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    valine: true,fancybox: true,
+    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="/js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>
