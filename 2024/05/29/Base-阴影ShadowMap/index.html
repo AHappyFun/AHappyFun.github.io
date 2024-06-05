@@ -102,12 +102,12 @@ Base-阴影ShadowMap相关 - 原理 |
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
           <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2023/08/14/295415199/c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
         </ul>
       </div>
     </header>
@@ -183,7 +183,7 @@ Base-阴影ShadowMap相关 - 原理 |
 <p>一般使用PCF算法。</p>
 <h1 id="2-CSM阴影"><a href="#2-CSM阴影" class="headerlink" title="2.CSM阴影"></a>2.CSM阴影</h1><h2 id="Cascade的划分"><a href="#Cascade的划分" class="headerlink" title="Cascade的划分"></a>Cascade的划分</h2><p>参考大佬文章：<br><span class="exturl" data-url="aHR0cHM6Ly96aHVhbmxhbi56aGlodS5jb20vcC8zNzkwNDI5OTMv">https://zhuanlan.zhihu.com/p/379042993/</span></p>
 <p>网上一个Cascade划分的办法，Light视锥体刚好包住每个Camera分段。<span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MzAwMjM1L2FydGljbGUvZGV0YWlscy8xMDc3NjU5NDE=">https://blog.csdn.net/qq_39300235/article/details/107765941</span></p>
-<center><img data-src="https://img-blog.csdnimg.cn/20200804184527580.png" width = "" height = "300"></center>
+<center><img data-src="https://pic1.zhimg.com/80/v2-b0d407b6867ffd4bb8622c228668e7d3_720w.png" width = "" height = "300"></center>
 
 <p>UE4里我看是把视锥分为几个段，通过每段Camera视锥的八个点先计算出一个包围球。</p>
 <p>划分规则:在DirLightComponent上有个参数CascadeDistributionExponent控制指数系数，举个例子3级联 指数是3</p>
@@ -205,6 +205,7 @@ Base-阴影ShadowMap相关 - 原理 |
 <p>ScreenToShadow &#x3D; ScreenToWorld * WorldToShadow</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">FMatrix FProjectedShadowInfo::GetScreenToShadowMatrix(const FSceneView&amp; View, uint32 TileOffsetX, uint32 TileOffsetY, uint32 TileResolutionX, uint32 TileResolutionY) const</span><br><span class="line">&#123;</span><br><span class="line">	const FIntPoint ShadowBufferResolution = GetShadowBufferResolution();</span><br><span class="line">	const float InvBufferResolutionX = 1.0f / (float)ShadowBufferResolution.X;</span><br><span class="line">	const float ShadowResolutionFractionX = 0.5f * (float)TileResolutionX * InvBufferResolutionX;</span><br><span class="line">	const float InvBufferResolutionY = 1.0f / (float)ShadowBufferResolution.Y;</span><br><span class="line">	const float ShadowResolutionFractionY = 0.5f * (float)TileResolutionY * InvBufferResolutionY;</span><br><span class="line">	// Calculate the matrix to transform a screenspace position into shadow map space</span><br><span class="line"></span><br><span class="line">	FMatrix ScreenToShadow;</span><br><span class="line">	FMatrix ViewDependentTransform =</span><br><span class="line">		// Z of the position being transformed is actually view space Z, </span><br><span class="line">			// Transform it into post projection space by applying the projection matrix,</span><br><span class="line">			// Which is the required space before applying View.InvTranslatedViewProjectionMatrix</span><br><span class="line">		FMatrix(</span><br><span class="line">			FPlane(1,0,0,0),</span><br><span class="line">			FPlane(0,1,0,0),</span><br><span class="line">			FPlane(0,0,View.ViewMatrices.GetProjectionMatrix().M[2][2],1),</span><br><span class="line">			FPlane(0,0,View.ViewMatrices.GetProjectionMatrix().M[3][2],0)) *</span><br><span class="line">		// Transform the post projection space position into translated world space</span><br><span class="line">		// Translated world space is normal world space translated to the view&#x27;s origin, </span><br><span class="line">		// Which prevents floating point imprecision far from the world origin.</span><br><span class="line">		View.ViewMatrices.GetInvTranslatedViewProjectionMatrix() *</span><br><span class="line">		FTranslationMatrix(-View.ViewMatrices.GetPreViewTranslation());</span><br><span class="line"></span><br><span class="line">	FMatrix ShadowMapDependentTransform =</span><br><span class="line">		// Translate to the origin of the shadow&#x27;s translated world space</span><br><span class="line">		FTranslationMatrix(PreShadowTranslation) *</span><br><span class="line">		// Transform into the shadow&#x27;s post projection space</span><br><span class="line">		// This has to be the same transform used to render the shadow depths</span><br><span class="line">		FMatrix(TranslatedWorldToClipInnerMatrix) *</span><br><span class="line">		// Scale and translate x and y to be texture coordinates into the ShadowInfo&#x27;s rectangle in the shadow depth buffer</span><br><span class="line">		// Normalize z by MaxSubjectDepth, as was done when writing shadow depths</span><br><span class="line">		FMatrix(</span><br><span class="line">			FPlane(ShadowResolutionFractionX,0,							0,									0),</span><br><span class="line">			FPlane(0,						 -ShadowResolutionFractionY,0,									0),</span><br><span class="line">			FPlane(0,						0,							InvMaxSubjectDepth,	0),</span><br><span class="line">			FPlane(</span><br><span class="line">				(TileOffsetX + BorderSize) * InvBufferResolutionX + ShadowResolutionFractionX,</span><br><span class="line">				(TileOffsetY + BorderSize) * InvBufferResolutionY + ShadowResolutionFractionY,</span><br><span class="line">				0,</span><br><span class="line">				1</span><br><span class="line">				)</span><br><span class="line">			);</span><br><span class="line"></span><br><span class="line">	if (View.bIsMobileMultiViewEnabled &amp;&amp; View.Family-&gt;Views.Num() &gt; 0)</span><br><span class="line">	&#123;</span><br><span class="line">		// In Multiview, we split ViewDependentTransform out into ViewUniformShaderParameters.MobileMultiviewShadowTransform</span><br><span class="line">		// So we can multiply it later in shader.</span><br><span class="line">		ScreenToShadow = ShadowMapDependentTransform;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		ScreenToShadow = ViewDependentTransform * ShadowMapDependentTransform;</span><br><span class="line">	&#125;</span><br><span class="line">	return ScreenToShadow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="哪些物体需要投射阴影？阴影裁剪剔除问题"><a href="#哪些物体需要投射阴影？阴影裁剪剔除问题" class="headerlink" title="哪些物体需要投射阴影？阴影裁剪剔除问题"></a>哪些物体需要投射阴影？阴影裁剪剔除问题</h2><p>&#x2F;&#x2F;todo CSM的裁剪逻辑</p>
 <h2 id="阴影采样哪一级Cascade？"><a href="#阴影采样哪一级Cascade？" class="headerlink" title="阴影采样哪一级Cascade？"></a>阴影采样哪一级Cascade？</h2><p>接下来的问题是采样的时候，当前WorldPos采样哪一级Cascade。方法应该也有很多种。</p>
 <center><img data-src="https://pic1.zhimg.com/v2-e31657a844ca2af3ea9a6a2f86308554_r.jpg" width = "" height = "400"></center>
 
@@ -238,7 +239,7 @@ Base-阴影ShadowMap相关 - 原理 |
 <center><img data-src="https://pic1.zhimg.com/80/v2-2c4b753b20202e3967a23772f2c41f74_720w.png" width = "" height = "400"></center>
 
 <p>2.Light阶段转换合并到屏幕空间阴影</p>
-<center><img data-src="https://pic1.zhimg.com/80/v2-ff1cb5ba812fd7218090c5e45ab34c26_720w.png" width = "" height = "400"></center>
+<center><img data-src="https://pic1.zhimg.com/80/v2-ff1cb5ba812fd7218090c5e45ab34c26_720w.png" width = "" height = "500"></center>
 
       <div class="tags">
           <a href="/tags/%E5%8E%9F%E7%90%86/" rel="tag"><i class="ic i-tag"></i> 原理</a>
@@ -253,7 +254,7 @@ Base-阴影ShadowMap相关 - 原理 |
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">更新于</span>
-    <time title="修改时间：2024-06-05 21:28:54" itemprop="dateModified" datetime="2024-06-05T21:28:54+08:00">2024-06-05</time>
+    <time title="修改时间：2024-06-05 21:40:04" itemprop="dateModified" datetime="2024-06-05T21:40:04+08:00">2024-06-05</time>
   </span>
 </div>
 
@@ -285,7 +286,7 @@ Base-阴影ShadowMap相关 - 原理 |
     <div class="item left">
       
 
-  <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process&#x3D;image&#x2F;&#x2F;resize,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="Base-矩阵和向量">
+  <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process&#x3D;image&#x2F;&#x2F;resize,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="Base-矩阵和向量">
   <span class="type">上一篇</span>
   <span class="category"><i class="ic i-flag"></i> 原理</span>
   <h3>Base-矩阵和向量</h3>
@@ -293,6 +294,14 @@ Base-阴影ShadowMap相关 - 原理 |
 
     </div>
     <div class="item right">
+      
+
+  <a href="/2024/06/05/UE4-DeferredDecal/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2023&#x2F;08&#x2F;14&#x2F;295415199&#x2F;c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process&#x3D;image&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE4-DeferredDecal">
+  <span class="type">下一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Unreal</span>
+  <h3>UE4-DeferredDecal</h3>
+  </a>
+
     </div>
 </div>
 
@@ -309,7 +318,7 @@ Base-阴影ShadowMap相关 - 原理 |
   <div class="panels">
     <div class="inner">
       <div class="contents panel pjax" data-title="文章目录">
-          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-ShadowMap%E7%9B%B8%E5%85%B3"><span class="toc-number">1.</span> <span class="toc-text">1.ShadowMap相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ShadowMap%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">ShadowMap的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B4%E5%BD%B1%E6%8A%95%E5%BD%B1%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">阴影投影的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B4%E5%BD%B1%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">阴影的一些问题和解决办法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%93Bias%E5%92%8C%E9%98%B4%E5%BD%B1%E5%B0%96%E5%88%BA%E2%80%93"><span class="toc-number">1.3.1.</span> <span class="toc-text">–Bias和阴影尖刺–</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%93%E9%98%B4%E5%BD%B1%E5%B9%B3%E5%9D%A0%E9%97%AE%E9%A2%98%E2%80%93"><span class="toc-number">1.3.2.</span> <span class="toc-text">–阴影平坠问题–</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%93Border%E2%80%93"><span class="toc-number">1.3.3.</span> <span class="toc-text">–Border–</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%93%E6%8A%97%E9%94%AF%E9%BD%BF%E2%80%93"><span class="toc-number">1.3.4.</span> <span class="toc-text">–抗锯齿–</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-CSM%E9%98%B4%E5%BD%B1"><span class="toc-number">2.</span> <span class="toc-text">2.CSM阴影</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cascade%E7%9A%84%E5%88%92%E5%88%86"><span class="toc-number">2.1.</span> <span class="toc-text">Cascade的划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSM%E7%9A%84%E7%9F%A9%E9%98%B5"><span class="toc-number">2.2.</span> <span class="toc-text">CSM的矩阵</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B4%E5%BD%B1%E9%87%87%E6%A0%B7%E5%93%AA%E4%B8%80%E7%BA%A7Cascade%EF%BC%9F"><span class="toc-number">2.3.</span> <span class="toc-text">阴影采样哪一级Cascade？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-PointLight%E5%92%8CSpotLight%E7%9A%84%E9%98%B4%E5%BD%B1"><span class="toc-number">3.</span> <span class="toc-text">3.PointLight和SpotLight的阴影</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-PerObjectShadow"><span class="toc-number">4.</span> <span class="toc-text">4.PerObjectShadow</span></a></li></ol>
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-ShadowMap%E7%9B%B8%E5%85%B3"><span class="toc-number">1.</span> <span class="toc-text">1.ShadowMap相关</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ShadowMap%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">ShadowMap的原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B4%E5%BD%B1%E6%8A%95%E5%BD%B1%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">阴影投影的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B4%E5%BD%B1%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">阴影的一些问题和解决办法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%93Bias%E5%92%8C%E9%98%B4%E5%BD%B1%E5%B0%96%E5%88%BA%E2%80%93"><span class="toc-number">1.3.1.</span> <span class="toc-text">–Bias和阴影尖刺–</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%93%E9%98%B4%E5%BD%B1%E5%B9%B3%E5%9D%A0%E9%97%AE%E9%A2%98%E2%80%93"><span class="toc-number">1.3.2.</span> <span class="toc-text">–阴影平坠问题–</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%93Border%E2%80%93"><span class="toc-number">1.3.3.</span> <span class="toc-text">–Border–</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E2%80%93%E6%8A%97%E9%94%AF%E9%BD%BF%E2%80%93"><span class="toc-number">1.3.4.</span> <span class="toc-text">–抗锯齿–</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-CSM%E9%98%B4%E5%BD%B1"><span class="toc-number">2.</span> <span class="toc-text">2.CSM阴影</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Cascade%E7%9A%84%E5%88%92%E5%88%86"><span class="toc-number">2.1.</span> <span class="toc-text">Cascade的划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CSM%E7%9A%84%E7%9F%A9%E9%98%B5"><span class="toc-number">2.2.</span> <span class="toc-text">CSM的矩阵</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%93%AA%E4%BA%9B%E7%89%A9%E4%BD%93%E9%9C%80%E8%A6%81%E6%8A%95%E5%B0%84%E9%98%B4%E5%BD%B1%EF%BC%9F%E9%98%B4%E5%BD%B1%E8%A3%81%E5%89%AA%E5%89%94%E9%99%A4%E9%97%AE%E9%A2%98"><span class="toc-number">2.3.</span> <span class="toc-text">哪些物体需要投射阴影？阴影裁剪剔除问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%98%B4%E5%BD%B1%E9%87%87%E6%A0%B7%E5%93%AA%E4%B8%80%E7%BA%A7Cascade%EF%BC%9F"><span class="toc-number">2.4.</span> <span class="toc-text">阴影采样哪一级Cascade？</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-PointLight%E5%92%8CSpotLight%E7%9A%84%E9%98%B4%E5%BD%B1"><span class="toc-number">3.</span> <span class="toc-text">3.PointLight和SpotLight的阴影</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-PerObjectShadow"><span class="toc-number">4.</span> <span class="toc-text">4.PerObjectShadow</span></a></li></ol>
       </div>
       <div class="related panel pjax" data-title="系列文章">
         <ul>
@@ -366,10 +375,12 @@ Base-阴影ShadowMap相关 - 原理 |
 
   <ul id="quick">
     <li class="prev pjax">
+        <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" rel="prev" title="上一篇"><i class="ic i-chevron-left"></i></a>
     </li>
     <li class="up"><i class="ic i-arrow-up"></i></li>
     <li class="down"><i class="ic i-arrow-down"></i></li>
     <li class="next pjax">
+        <a href="/2024/06/05/UE4-DeferredDecal/" rel="next" title="下一篇"><i class="ic i-chevron-right"></i></a>
     </li>
     <li class="percent"></li>
   </ul>
@@ -391,10 +402,10 @@ Base-阴影ShadowMap相关 - 原理 |
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" title="Base-透明渲染">Base-透明渲染</a></span>
+    <span><a href="/2024/05/11/UE4-PSOCache/" title="UE4-PSOCache">UE4-PSOCache</a></span>
   </li>
 
       
@@ -404,7 +415,27 @@ Base-阴影ShadowMap相关 - 原理 |
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></span>
+    <span><a href="/2023/09/05/UE4-DitherLODTransition/" title="UE4-关于植被HISM屏占比LOD的选择和切换">UE4-关于植被HISM屏占比LOD的选择和切换</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Shader/" title="分类于 Shader">Shader</a>
+</div>
+
+    <span><a href="/2020/01/01/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" title="Shader-屏幕空间">Shader-屏幕空间</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="Unity-游戏渲染性能优化">Unity-游戏渲染性能优化</a></span>
   </li>
 
       
@@ -421,36 +452,6 @@ Base-阴影ShadowMap相关 - 原理 |
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
-</div>
-
-    <span><a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" title="Base-卡通渲染">Base-卡通渲染</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/%E7%94%9F%E6%B4%BB/" title="分类于 生活">生活</a>
-</div>
-
-    <span><a href="/2018/01/23/%E8%AE%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9A%84%E5%BC%80%E5%A7%8B/" title="个人网站的开始">个人网站的开始</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2020/01/01/UE4-GPUScene/" title="UE4-GPUScene">UE4-GPUScene</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
@@ -461,10 +462,20 @@ Base-阴影ShadowMap相关 - 原理 |
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
 </div>
 
-    <span><a href="/2020/01/01/UE4-DeferredDecal/" title="UE4-DeferredDecal">UE4-DeferredDecal</a></span>
+    <span><a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" title="Base-矩阵和向量">Base-矩阵和向量</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" title="Base-卡通渲染">Base-卡通渲染</a></span>
   </li>
 
       
@@ -474,17 +485,17 @@ Base-阴影ShadowMap相关 - 原理 |
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" title="UE4-GPU优化RazorForPS5">UE4-GPU优化RazorForPS5</a></span>
+    <span><a href="/2024/04/05/UE4-DistanceFieldShadow/" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></span>
   </li>
 
       
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
 </div>
 
-    <span><a href="/2023/09/05/UE4-DitherLODTransition/" title="UE4-关于植被HISM屏占比LOD的选择和切换">UE4-关于植被HISM屏占比LOD的选择和切换</a></span>
+    <span><a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" title="Base-各个坐标空间">Base-各个坐标空间</a></span>
   </li>
 
   </ul>
