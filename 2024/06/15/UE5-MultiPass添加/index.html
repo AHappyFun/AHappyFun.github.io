@@ -1,0 +1,508 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="锅巴's Blogs" href="http://example.com/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="锅巴's Blogs" href="http://example.com/atom.xml" />
+<link rel="alternate" type="application/json" title="锅巴's Blogs" href="http://example.com/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
+
+  
+  <meta name="keywords" content="Unreal" />
+
+
+<link rel="canonical" href="http://example.com/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/">
+
+
+
+  <title>
+UE5-MultiPass添加 - Unreal |
+锅巴 = 锅巴's Blogs</title>
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">UE5-MultiPass添加
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="创建时间：2024-06-15 00:00:00">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">发表于</span>
+    <time itemprop="dateCreated datePublished" datetime="2024-06-15T00:00:00+08:00">2024-06-15</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="切换导航栏">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">锅巴</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">首页</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/Unreal/" itemprop="item" rel="index" title="分类于 Unreal"><span itemprop="name">Unreal</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="zh-CN">
+  <link itemprop="mainEntityOfPage" href="http://example.com/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="锅巴">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="锅巴's Blogs">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>UE里默认不支持多Pass，项目里一般都会需要这个功能。</p>
+<p>记录一下一种实现思路。</p>
+<p>效果视频：</p>
+<iframe height=600 width=1024 src="https://www.bilibili.com/video/BV1Sf421D7q5">
+</iframe>
+
+<h1 id="StaticMesh多Pass"><a href="#StaticMesh多Pass" class="headerlink" title="StaticMesh多Pass"></a>StaticMesh多Pass</h1><p>实现主要是两个方面，一个是材质管理，另一个是把多Pass加入渲染流程中。</p>
+<h2 id="材质管理"><a href="#材质管理" class="headerlink" title="材质管理"></a>材质管理</h2><p>首先需要在UStaticMesh和UStaticMeshComponent里新增多Pass材质。</p>
+<p>UStaticMesh是用资产编辑器打开的窗口，最里层的材质设置。</p>
+<p>UStaticMeshComponent是SM要渲染的必要组件，可以设置材质进行覆盖UStaticMesh里的材质。(常见里摆放或者蓝图里)</p>
+<p>多Pass的结构定义，材质Index以及是否投阴影。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">//~ StaticMesh的多pass材质结构，选择和FStaticMaterial对应，就不用去对应LOD的各种琐碎问题</span><br><span class="line">USTRUCT(BlueprintType)</span><br><span class="line">struct FStaticMultiMaterial</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_USTRUCT_BODY()</span><br><span class="line">	</span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = StaticMesh)</span><br><span class="line">	TObjectPtr&lt;class UMaterialInterface&gt; MaterialInterface;</span><br><span class="line"></span><br><span class="line">	//插槽名字没用</span><br><span class="line">	/*This name should be use by the gameplay to avoid error if the skeletal mesh Materials array topology change*/</span><br><span class="line">	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = StaticMesh)</span><br><span class="line">	//FName MaterialSlotName;</span><br><span class="line"></span><br><span class="line">	//材质Index，对应原本的材质Index，最好是数量和index一一对应，就可以做到与LOD无关</span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = StaticMesh)</span><br><span class="line">	int MaterialIndex;</span><br><span class="line"></span><br><span class="line">	//是否CastShadow</span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = StaticMesh)</span><br><span class="line">	uint8 bCastShadow : 1;</span><br><span class="line"></span><br><span class="line">	FStaticMultiMaterial()</span><br><span class="line">	: MaterialInterface(NULL)</span><br><span class="line">	&#123;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在UStaticMesh和UStaticMeshComponent里定义材质列表。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">----------UStaticMesh里-------------</span><br><span class="line">	//StaticMesh的多pass材质</span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = StaticMesh)</span><br><span class="line">	TArray&lt;FStaticMultiMaterial&gt; StaticMultiPassMaterials;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">--------StaticMeshComponent里----------</span><br><span class="line">	//Loy MultiPass MultiPass开关</span><br><span class="line">	UPROPERTY(EditAnywhere, AdvancedDisplay, BlueprintReadWrite, Category = MultiPassMat)</span><br><span class="line">	uint8 bEnableMultiPassMaterial : 1;</span><br><span class="line"></span><br><span class="line">	//Loy 是否覆盖StaticMesh原本的多Pass材质</span><br><span class="line">	UPROPERTY(EditAnywhere, AdvancedDisplay, BlueprintReadWrite, Category = MultiPassMat)</span><br><span class="line">	uint8 bOverrideStaticMeshMultiPassMaterial : 1;</span><br><span class="line"></span><br><span class="line">	//Loy Override的材质列表</span><br><span class="line">	UPROPERTY(EditAnywhere, AdvancedDisplay, BlueprintReadWrite, Category = MultiPassMat)</span><br><span class="line">	TArray&lt;struct FStaticMultiMaterial&gt; OverrideStaticMultiMaterials;</span><br><span class="line"></span><br><span class="line">-----一些Get方法----------</span><br><span class="line">    //loy GetSMMultiPassMats</span><br><span class="line">	const TArray&lt;struct FStaticMultiMaterial&gt; GetStaticMultiPassMaterials() const;</span><br><span class="line">	virtual FStaticMultiMaterial GetMultiPassMaterial(int32 MaterialIndex) const;</span><br><span class="line">	virtual UMaterialInterface* GetEditorMultiPassMaterial(int32 MaterialIndex) const;</span><br></pre></td></tr></table></figure>
+
+<p>其中GetMaterial的几个方法里，基本就是按照MaterialIndex来传递材质，首先获取UStaticMesh的，如果StaticMeshComponent Override了，就返回SMComponent里的材质。</p>
+<h2 id="加入MultiPass"><a href="#加入MultiPass" class="headerlink" title="加入MultiPass"></a>加入MultiPass</h2><p>负责StaticMesh渲染的大多在StaticMeshRender里，FStaticMeshSceneProxy在渲染线程里的操作。</p>
+<p>需要把多Pass加入到中DrawStaticElements和GetDynamicMeshElements两个方法里。</p>
+<p>DrawStaticElements方法通常在SMSceneProxy在加入到场景里的时候调用，或者被移动了造成SceneProxy重新创建的时候调用。</p>
+<center><img data-src="https://picx.zhimg.com/80/v2-15e916cf3e0c973feed915e58d7cf551_720w.png" width = "" height = ""></center>
+
+<center><img data-src="https://pic1.zhimg.com/80/v2-36f80d0f08fbfdd6f128b69837414d7c_720w.png" width = "" height = ""></center>
+
+
+<p>GetDynamicMeshElements方法在动态绘制路径。每帧收集MeshBatch的路径，默认SM有这个方法，就加了进去。。</p>
+<h1 id="SkeletalMesh多Pass"><a href="#SkeletalMesh多Pass" class="headerlink" title="SkeletalMesh多Pass"></a>SkeletalMesh多Pass</h1><p>蒙皮网格的多pass实现思路和静态的差不多，就是渲染路径只有动态的了。</p>
+<p>也是材质管理和插入多pass到收集MeshBatch的地方。</p>
+<h2 id="材质管理-1"><a href="#材质管理-1" class="headerlink" title="材质管理"></a>材质管理</h2><p>首先在SkeletalMesh和SkinnedMeshComponent里新增材质列表。</p>
+<p>SkeletalMesh就是资源编辑器打开资产的窗口，美术可以预设多pass材质。</p>
+<p>SkinnedMeshComponent(继承下去的SkeletalMeshComponent)是场景里渲染SkeletalMesh用，可以设置并覆盖资产的材质列表。</p>
+<p>SK多Pass的结构：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//SK的多pass材质结构</span><br><span class="line">USTRUCT(BlueprintType)</span><br><span class="line">struct FSkeletalMultiPassMaterial</span><br><span class="line">&#123;</span><br><span class="line">	GENERATED_USTRUCT_BODY()</span><br><span class="line"></span><br><span class="line">	//对应主材质的Index，这里不关联Section，因为LOD里Section里有材质index的对应关系</span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SkeletalMesh)</span><br><span class="line">	int32 MaterialIndex;</span><br><span class="line"></span><br><span class="line">	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = SkeletalMesh)</span><br><span class="line">	TObjectPtr&lt;class UMaterialInterface&gt; 	MaterialInterface;</span><br><span class="line">	</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>SkeletalMesh里新增材质列表。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//** List of MultiPassMaterials apply to this mesh -Loy */</span><br><span class="line">UPROPERTY(EditAnywhere, BlueprintReadOnly, duplicatetransient, Category = MultiPassMaterial)</span><br><span class="line">TArray&lt;FSkeletalMultiPassMaterial&gt; MultiPassMaterials;</span><br></pre></td></tr></table></figure>
+
+<p>SkinnedMeshComponent里新增材质列表和覆盖开关。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">	//是否开启多pass</span><br><span class="line">	UPROPERTY(EditAnywhere, Category = &quot;Materials&quot;)</span><br><span class="line">	uint8 bEnableMultiPassMaterial : 1;</span><br><span class="line"></span><br><span class="line">	//是否override SK里的多pass材质</span><br><span class="line">	UPROPERTY(EditAnywhere, Category = &quot;Materials&quot;)	</span><br><span class="line">	uint8 bOverrideSKMultiPassMaterial : 1;</span><br><span class="line"></span><br><span class="line">	UPROPERTY(EditAnywhere, Category = &quot;Materials&quot;)</span><br><span class="line">	TArray&lt;FSkeletalMultiPassMaterial&gt; MultiPassMaterials;</span><br><span class="line"></span><br><span class="line">------一些Get方法--------</span><br><span class="line">    //Loy MultiPass</span><br><span class="line">	UMaterialInterface* GetMultiPassMaterial(int32 MaterialIndex) const;</span><br><span class="line">	TArray&lt;FSkeletalMultiPassMaterial&gt; GetMultiPassMaterials() const;</span><br><span class="line">	UMaterialInterface* GetOverrideMultiPassMaterial(int32 MaterialIndex) const;</span><br></pre></td></tr></table></figure>
+
+<h2 id="加入多Pass"><a href="#加入多Pass" class="headerlink" title="加入多Pass"></a>加入多Pass</h2><p>因为SKMesh是动态绘制路径，所以就在GetDynamicMeshElements里加入多Pass的MeshBatch。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">FSkeletalMeshSceneProxy::GetDynamicMeshElements</span><br><span class="line">——————&gt;FSkeletalMeshSceneProxy::GetMeshElementsConditionallySelectable</span><br><span class="line">    &#123;</span><br><span class="line">        		GetDynamicElementsSection(Views, ViewFamily, VisibilityMap, LODData, LODIndex, SectionIndex, bSectionSelected, SectionElementInfo, bInSelectable, Collector);</span><br><span class="line"></span><br><span class="line">				//加入多Pass MeshBatch</span><br><span class="line">				if(bEnableMultiPassMaterial)</span><br><span class="line">				&#123;</span><br><span class="line">					FSectionElementInfo MultiPassSectionInfo(nullptr, SectionElementInfo.bEnableShadowCasting, SectionElementInfo.UseMaterialIndex);</span><br><span class="line">					MultiPassSectionInfo.Material = SectionElementInfo.MultiPassMaterial;</span><br><span class="line"></span><br><span class="line">					if(MultiPassSectionInfo.Material)</span><br><span class="line">						GetDynamicElementsSection(Views, ViewFamily, VisibilityMap, LODData, LODIndex, SectionIndex, bSectionSelected, MultiPassSectionInfo, false, Collector);</span><br><span class="line">				&#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+      <div class="tags">
+          <a href="/tags/Unreal/" rel="tag"><i class="ic i-tag"></i> Unreal</a>
+      </div>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">更新于</span>
+    <time title="修改时间：2024-06-15 15:32:02" itemprop="dateModified" datetime="2024-06-15T15:32:02+08:00">2024-06-15</time>
+  </span>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>本文作者： </strong>锅巴 <i class="ic i-at"><em>@</em></i>锅巴's Blogs
+  </li>
+  <li class="link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" title="UE5-MultiPass添加">http://example.com/2024/06/15/UE5-MultiPass添加/</a>
+  </li>
+  <li class="license">
+    <strong>版权声明： </strong>本站所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="/2024/06/05/UE4-DeferredDecal/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process&#x3D;image&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE4-DeferredDecal">
+  <span class="type">上一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Unreal</span>
+  <h3>UE4-DeferredDecal</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#StaticMesh%E5%A4%9APass"><span class="toc-number">1.</span> <span class="toc-text">StaticMesh多Pass</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%90%E8%B4%A8%E7%AE%A1%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">材质管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%85%A5MultiPass"><span class="toc-number">1.2.</span> <span class="toc-text">加入MultiPass</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SkeletalMesh%E5%A4%9APass"><span class="toc-number">2.</span> <span class="toc-text">SkeletalMesh多Pass</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%90%E8%B4%A8%E7%AE%A1%E7%90%86-1"><span class="toc-number">2.1.</span> <span class="toc-text">材质管理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8A%A0%E5%85%A5%E5%A4%9APass"><span class="toc-number">2.2.</span> <span class="toc-text">加入多Pass</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="系列文章">
+        <ul>
+          <li><a href="/2020/01/01/UE4-GPUScene/" rel="bookmark" title="UE4-GPUScene">UE4-GPUScene</a></li><li><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" rel="bookmark" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></li><li><a href="/2023/09/05/UE4-DitherLODTransition/" rel="bookmark" title="UE4-关于植被HISM屏占比LOD的选择和切换">UE4-关于植被HISM屏占比LOD的选择和切换</a></li><li><a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" rel="bookmark" title="UE5-自定义MeshComponent">UE5-自定义MeshComponent</a></li><li><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" rel="bookmark" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></li><li><a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" rel="bookmark" title="UE5-自定义MeshPass">UE5-自定义MeshPass</a></li><li><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" rel="bookmark" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></li><li><a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" rel="bookmark" title="UE4-GPU优化RazorForPS5">UE4-GPU优化RazorForPS5</a></li><li><a href="/2024/04/05/UE4-DistanceFieldShadow/" rel="bookmark" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></li><li><a href="/2024/05/11/UE4-PSOCache/" rel="bookmark" title="UE4-PSOCache">UE4-PSOCache</a></li><li><a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" rel="bookmark" title="UE4-添加GlobalShader">UE4-添加GlobalShader</a></li><li><a href="/2024/06/05/UE4-DeferredDecal/" rel="bookmark" title="UE4-DeferredDecal">UE4-DeferredDecal</a></li><li class="active"><a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" rel="bookmark" title="UE5-MultiPass添加">UE5-MultiPass添加</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="站点概览">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="锅巴"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">锅巴</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">23</span>
+        <span class="name">文章</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">5</span>
+        <span class="name">分类</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">7</span>
+        <span class="name">标签</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL0FIYXBweUZ1bg==" title="https:&#x2F;&#x2F;github.com&#x2F;AHappyFun"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS96YWktdGlhbi1iaWFuLXdhbmctaGFpL3Bvc3Rz" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;zai-tian-bian-wang-hai&#x2F;posts"><i class="ic i-zhihu"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>首页</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>随机文章</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/11/UE4-PSOCache/" title="UE4-PSOCache">UE4-PSOCache</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Shader/" title="分类于 Shader">Shader</a>
+</div>
+
+    <span><a href="/2020/01/01/Shader-RayMarch/" title="Shader-RayMarch">Shader-RayMarch</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Shader/" title="分类于 Shader">Shader</a>
+</div>
+
+    <span><a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" title="Shader-屏幕空间">Shader-屏幕空间</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" title="UE4-添加GlobalShader">UE4-添加GlobalShader</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" title="Base-透明渲染">Base-透明渲染</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" title="Base-各个坐标空间">Base-各个坐标空间</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="Unity-游戏渲染性能优化">Unity-游戏渲染性能优化</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" title="Unity-URP代码架构">Unity-URP代码架构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2020/01/01/UE4-GPUScene/" title="UE4-GPUScene">UE4-GPUScene</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>最新评论</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">锅巴 @ 锅巴</span>
+  </div>
+  <div class="powered-by">
+    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2024/06/15/UE5-MultiPass添加/',
+    favicon: {
+      show: "（●´3｀●）やれやれだぜ",
+      hide: "(´Д｀)大変だ！"
+    },
+    search : {
+      placeholder: "文章搜索",
+      empty: "关于 「 ${query} 」，什么也没搜到",
+      stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    valine: true,fancybox: true,
+    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="/js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>

@@ -88,12 +88,12 @@
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
-          <li class="item" data-background-image="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></li>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
           <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
           <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+          <li class="item" data-background-image="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2023/08/14/295415199/c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
         </ul>
       </div>
     </header>
@@ -117,6 +117,44 @@
   <div class="index wrap">
     <h2 class="divider">文章列表</h2>
     <div class="segments posts">
+        
+<article class="item">
+  <div class="cover">
+    <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" itemprop="url" title="UE5-MultiPass添加"><img data-src="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></a>
+  </div>
+  <div class="info">
+    
+<div class="meta">
+  <span class="item" title="创建时间：2024-06-15 00:00:00">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <time itemprop="dateCreated datePublished" datetime="2024-06-15T00:00:00+08:00">2024-06-15</time>
+  </span>
+</div>
+
+    <h3><a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" itemprop="url" title="UE5-MultiPass添加">UE5-MultiPass添加</a></h3>
+    <div class="excerpt">
+        UE里默认不支持多Pass，项目里一般都会需要这个功能。
+记录一下一种实现思路。
+效果视频：
+
+StaticMesh多Pass实现主要是两个方面，一个是材质管理，另一个是把多Pass加入渲染流程中。
+材质管理首先需要在UStaticMesh和UStaticMeshComponent里新增多Pass材质。
+UStaticMesh是用资产编辑器打开的窗口，最里层的材质设置。
+UStaticMeshComponent是SM要渲染的必要组件，可以设置材质进行覆盖UStaticMesh里的材质。(常见里摆放或者蓝图里)
+多Pass的结构定义，材质Index以及是否投阴影。
+123456789101112...
+    </div>
+    <div class="meta footer">
+      <span>
+        <a href="/categories/Unreal/" itemprop="url" title="Unreal"><i class="ic i-flag"></i>Unreal</a>
+      </span>
+    </div>
+    <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" itemprop="url" title="UE5-MultiPass添加" class="btn">more...</a>
+  </div>
+</article>
+
         
 <article class="item">
   <div class="cover">
@@ -161,7 +199,7 @@ BOX的范围内，深度图转换为WorldPos，然后再转换到BOX空间。
         
 <article class="item">
   <div class="cover">
-    <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" itemprop="url" title="Base-阴影ShadowMap相关"><img data-src="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></a>
+    <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" itemprop="url" title="Base-阴影ShadowMap相关"><img data-src="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></a>
   </div>
   <div class="info">
     
@@ -196,7 +234,7 @@ World空间——
         
 <article class="item">
   <div class="cover">
-    <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" itemprop="url" title="Base-矩阵和向量"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
+    <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" itemprop="url" title="Base-矩阵和向量"><img data-src="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></a>
   </div>
   <div class="info">
     
@@ -228,7 +266,7 @@ World空间——
         
 <article class="item">
   <div class="cover">
-    <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" itemprop="url" title="UE4-添加GlobalShader"><img data-src="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></a>
+    <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" itemprop="url" title="UE4-添加GlobalShader"><img data-src="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></a>
   </div>
   <div class="info">
     
@@ -263,7 +301,7 @@ World空间——
         
 <article class="item">
   <div class="cover">
-    <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" itemprop="url" title="Base-各个坐标空间"><img data-src="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></a>
+    <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" itemprop="url" title="Base-各个坐标空间"><img data-src="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></a>
   </div>
   <div class="info">
     
@@ -293,7 +331,7 @@ World空间——
         
 <article class="item">
   <div class="cover">
-    <a href="/2024/05/11/UE4-PSOCache/" itemprop="url" title="UE4-PSOCache"><img data-src="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></a>
+    <a href="/2024/05/11/UE4-PSOCache/" itemprop="url" title="UE4-PSOCache"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
   </div>
   <div class="info">
     
@@ -323,7 +361,7 @@ World空间——
         
 <article class="item">
   <div class="cover">
-    <a href="/2024/04/05/UE4-DistanceFieldShadow/" itemprop="url" title="UE4-距离场阴影DistanceFieldShadow"><img data-src="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></a>
+    <a href="/2024/04/05/UE4-DistanceFieldShadow/" itemprop="url" title="UE4-距离场阴影DistanceFieldShadow"><img data-src="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></a>
   </div>
   <div class="info">
     
@@ -355,7 +393,7 @@ World空间——
         
 <article class="item">
   <div class="cover">
-    <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" itemprop="url" title="UE4-GPU优化RazorForPS5"><img data-src="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></a>
+    <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" itemprop="url" title="UE4-GPU优化RazorForPS5"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
   </div>
   <div class="info">
     
@@ -389,7 +427,7 @@ World空间——
         
 <article class="item">
   <div class="cover">
-    <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" itemprop="url" title="UE5-自定义MeshPass"><img data-src="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></a>
+    <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" itemprop="url" title="UE5-自定义MeshPass"><img data-src="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></a>
   </div>
   <div class="info">
     
@@ -416,40 +454,6 @@ UE4 AddOutlinePass...
       </span>
     </div>
     <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" itemprop="url" title="UE5-自定义MeshPass" class="btn">more...</a>
-  </div>
-</article>
-
-        
-<article class="item">
-  <div class="cover">
-    <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" itemprop="url" title="UE5-创建简单的插件Plugin"><img data-src="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></a>
-  </div>
-  <div class="info">
-    
-<div class="meta">
-  <span class="item" title="创建时间：2023-09-11 00:00:00">
-    <span class="icon">
-      <i class="ic i-calendar"></i>
-    </span>
-    <time itemprop="dateCreated datePublished" datetime="2023-09-11T00:00:00+08:00">2023-09-11</time>
-  </span>
-</div>
-
-    <h3><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" itemprop="url" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></h3>
-    <div class="excerpt">
-        <p>虚幻创建插件在此总结一下。</p>
-<p>基于UE5.1 Github版本</p>
-<h2 id="在项目里创建插件"><a href="#在项目里创建插件" class="headerlink" title="在项目里创建插件"></a>在项目里创建插件</h2><center><img data-src="https://pica.zhimg.com/80/v2-54bde048aecbdd4b712f90605bccdfae_720w.png" width = "" height = ""></center>
-
-<p>有一个.Build.cs文件，一个插件Module的Plugin.cpp文件。</p>
-      
-    </div>
-    <div class="meta footer">
-      <span>
-        <a href="/categories/Unreal/" itemprop="url" title="Unreal"><i class="ic i-flag"></i>Unreal</a>
-      </span>
-    </div>
-    <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" itemprop="url" title="UE5-创建简单的插件Plugin" class="btn">more...</a>
   </div>
 </article>
 
@@ -555,77 +559,7 @@ UE4 AddOutlinePass...
 <a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
 </div>
 
-    <span><a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" title="Base-各个坐标空间">Base-各个坐标空间</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
-</div>
-
-    <span><a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="Unity-游戏渲染性能优化">Unity-游戏渲染性能优化</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
-</div>
-
-    <span><a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" title="Base-阴影ShadowMap相关">Base-阴影ShadowMap相关</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2024/05/11/UE4-PSOCache/" title="UE4-PSOCache">UE4-PSOCache</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
-</div>
-
-    <span><a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" title="Base-透明渲染">Base-透明渲染</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/%E7%94%9F%E6%B4%BB/" title="分类于 生活">生活</a>
-</div>
-
-    <span><a href="/2018/01/23/%E8%AE%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9A%84%E5%BC%80%E5%A7%8B/" title="个人网站的开始">个人网站的开始</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
-</div>
-
-    <span><a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" title="Base-卡通渲染">Base-卡通渲染</a></span>
+    <span><a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" title="Base-矩阵和向量">Base-矩阵和向量</a></span>
   </li>
 
       
@@ -645,7 +579,77 @@ UE4 AddOutlinePass...
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2020/01/01/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" title="UE5-MultiPass添加">UE5-MultiPass添加</a></span>
+    <span><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E7%94%9F%E6%B4%BB/" title="分类于 生活">生活</a>
+</div>
+
+    <span><a href="/2018/01/23/%E8%AE%B0%E4%B8%AA%E4%BA%BA%E7%BD%91%E7%AB%99%E7%9A%84%E5%BC%80%E5%A7%8B/" title="个人网站的开始">个人网站的开始</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" title="Base-各个坐标空间">Base-各个坐标空间</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2020/01/01/UE4-GPUScene/" title="UE4-GPUScene">UE4-GPUScene</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unity/" title="分类于 Unity">Unity</a>
+</div>
+
+    <span><a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" title="Unity-URP代码架构">Unity-URP代码架构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" title="Base-透明渲染">Base-透明渲染</a></span>
   </li>
 
   </ul>

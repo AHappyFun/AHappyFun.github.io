@@ -102,12 +102,12 @@ Unity-游戏渲染性能优化 - Unity |
       </div>
       <div id="imgs" class="pjax">
         <ul>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2023/08/14/295415199/c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
           <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
           <li class="item" data-background-image="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
           <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
-          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/0cc50f24de3ec2c91b246153a88adcdc_2616634217779336943.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
         </ul>
       </div>
     </header>
@@ -202,7 +202,7 @@ Unity-游戏渲染性能优化 - Unity |
 <h3 id="h-使用乘法代替除法，倒数使用rcp"><a href="#h-使用乘法代替除法，倒数使用rcp" class="headerlink" title="h.使用乘法代替除法，倒数使用rcp"></a>h.使用乘法代替除法，倒数使用rcp</h3><p>&#x2F;2 代替为 * 0.5</p>
 <p>1.0&#x2F;x 代替为 rcp(x)</p>
 <h2 id="6-带宽优化"><a href="#6-带宽优化" class="headerlink" title="(6)带宽优化"></a>(6)带宽优化</h2><p>使用Texture Streaming</p>
-<p>&#x2F;&#x2F;todo补充</p>
+<p>只加载Camera需要的Mip级别。</p>
 <h2 id="7-shaderlab变体-ab内存优化"><a href="#7-shaderlab变体-ab内存优化" class="headerlink" title="(7)shaderlab变体 ab内存优化"></a>(7)shaderlab变体 ab内存优化</h2><p>还有个比较关注的问题是shaderlab最后打包的ab包非常大，这有可能是我们shader的变体关键字太多，没有做变体剔除，导致编译出来的数量巨多。</p>
 <p>shaderlab编译是把所有关键字排列组合起来成为变体，每加一个关键字，默认结果数量就是*2，这是个指数级的增长，所以一般项目里出现这个问题，shader的变体版本一看都是远远超过预期。个人有幸见过400w变体的，哈哈哈。</p>
 <p>shader_feature _ SOFT_SHADOW</p>
@@ -238,7 +238,7 @@ Unity-游戏渲染性能优化 - Unity |
       <i class="ic i-calendar-check"></i>
     </span>
     <span class="text">更新于</span>
-    <time title="修改时间：2024-05-23 20:56:57" itemprop="dateModified" datetime="2024-05-23T20:56:57+08:00">2024-05-23</time>
+    <time title="修改时间：2024-06-15 16:53:15" itemprop="dateModified" datetime="2024-06-15T16:53:15+08:00">2024-06-15</time>
   </span>
 </div>
 
@@ -270,7 +270,7 @@ Unity-游戏渲染性能优化 - Unity |
     <div class="item left">
       
 
-  <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process&#x3D;image&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="Unity-URP代码架构">
+  <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;th.bing.com&#x2F;th&#x2F;id&#x2F;R.f19fb48d6f0bd73854c41433a53bee93?rik&#x3D;%2f7sdbMmwg8fEsg&amp;riu&#x3D;http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&amp;ehk&#x3D;4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&amp;risl&#x3D;&amp;pid&#x3D;ImgRaw&amp;r&#x3D;0" title="Unity-URP代码架构">
   <span class="type">上一篇</span>
   <span class="category"><i class="ic i-flag"></i> Unity</span>
   <h3>Unity-URP代码架构</h3>
@@ -280,7 +280,7 @@ Unity-游戏渲染性能优化 - Unity |
     <div class="item right">
       
 
-  <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;eb055870c69dea4f9bcc5c9ba2597df9_4993126988730579647.jpg?x-oss-process&#x3D;image&#x2F;&#x2F;resize,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE4-HISM剔除更新DFShadow">
+  <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" itemprop="url" rel="next" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2023&#x2F;08&#x2F;14&#x2F;295415199&#x2F;c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process&#x3D;image&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE4-HISM剔除更新DFShadow">
   <span class="type">下一篇</span>
   <span class="category"><i class="ic i-flag"></i> Unreal</span>
   <h3>UE4-HISM剔除更新DFShadow</h3>
@@ -386,40 +386,10 @@ Unity-游戏渲染性能优化 - Unity |
   <li class="item">
     
 <div class="breadcrumb">
-<a href="/categories/Shader/" title="分类于 Shader">Shader</a>
-</div>
-
-    <span><a href="/2020/01/01/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" title="Shader-屏幕空间">Shader-屏幕空间</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
 <a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
 </div>
 
-    <span><a href="/2024/06/05/UE4-DeferredDecal/" title="UE4-DeferredDecal">UE4-DeferredDecal</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" title="UE4-添加GlobalShader">UE4-添加GlobalShader</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Shader/" title="分类于 Shader">Shader</a>
-</div>
-
-    <span><a href="/2020/01/01/Shader-RayMarch/" title="Shader-RayMarch">Shader-RayMarch</a></span>
+    <span><a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" title="UE4-HISM剔除更新DFShadow">UE4-HISM剔除更新DFShadow</a></span>
   </li>
 
       
@@ -429,37 +399,7 @@ Unity-游戏渲染性能优化 - Unity |
 <a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
 </div>
 
-    <span><a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" title="Base-透明渲染">Base-透明渲染</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2020/01/01/UE4-GPUScene/" title="UE4-GPUScene">UE4-GPUScene</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2024/04/05/UE4-DistanceFieldShadow/" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></span>
-  </li>
-
-      
-  <li class="item">
-    
-<div class="breadcrumb">
-<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
-</div>
-
-    <span><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></span>
+    <span><a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" title="Base-矩阵和向量">Base-矩阵和向量</a></span>
   </li>
 
       
@@ -476,10 +416,70 @@ Unity-游戏渲染性能优化 - Unity |
   <li class="item">
     
 <div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" title="Base-卡通渲染">Base-卡通渲染</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" title="UE5-MultiPass添加">UE5-MultiPass添加</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/11/UE4-PSOCache/" title="UE4-PSOCache">UE4-PSOCache</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Shader/" title="分类于 Shader">Shader</a>
+</div>
+
+    <span><a href="/2020/01/01/Shader-RayMarch/" title="Shader-RayMarch">Shader-RayMarch</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" title="UE4-添加GlobalShader">UE4-添加GlobalShader</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
 <a href="/categories/Unity/" title="分类于 Unity">Unity</a>
 </div>
 
-    <span><a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" title="Unity-游戏渲染性能优化">Unity-游戏渲染性能优化</a></span>
+    <span><a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" title="Unity-URP代码架构">Unity-URP代码架构</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2020/01/01/UE4-GPUScene/" title="UE4-GPUScene">UE4-GPUScene</a></span>
   </li>
 
   </ul>
