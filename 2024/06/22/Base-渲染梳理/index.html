@@ -1,0 +1,467 @@
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#FFF">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+<link rel="icon" type="image/ico" sizes="32x32" href="/images/favicon.ico">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+<link rel="alternate" type="application/rss+xml" title="锅巴's Blogs" href="http://example.com/rss.xml" />
+<link rel="alternate" type="application/atom+xml" title="锅巴's Blogs" href="http://example.com/atom.xml" />
+<link rel="alternate" type="application/json" title="锅巴's Blogs" href="http://example.com/feed.json" />
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Mulish:300,300italic,400,400italic,700,700italic%7CFredericka%20the%20Great:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20JP:300,300italic,400,400italic,700,700italic%7CNoto%20Serif%20SC:300,300italic,400,400italic,700,700italic%7CInconsolata:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="/css/app.css?v=0.2.5">
+
+  
+  <meta name="keywords" content="原理" />
+
+
+<link rel="canonical" href="http://example.com/2024/06/22/Base-%E6%B8%B2%E6%9F%93%E6%A2%B3%E7%90%86/">
+
+
+
+  <title>
+Base-渲染梳理 - 原理 |
+锅巴 = 锅巴's Blogs</title>
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div id="loading">
+    <div class="cat">
+      <div class="body"></div>
+      <div class="head">
+        <div class="face"></div>
+      </div>
+      <div class="foot">
+        <div class="tummy-end"></div>
+        <div class="bottom"></div>
+        <div class="legs left"></div>
+        <div class="legs right"></div>
+      </div>
+      <div class="paw">
+        <div class="hands left"></div>
+        <div class="hands right"></div>
+      </div>
+    </div>
+  </div>
+  <div id="container">
+    <header id="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="inner">
+        <div id="brand">
+          <div class="pjax">
+          
+  <h1 itemprop="name headline">Base-渲染梳理
+  </h1>
+  
+<div class="meta">
+  <span class="item" title="创建时间：2024-06-22 00:00:00">
+    <span class="icon">
+      <i class="ic i-calendar"></i>
+    </span>
+    <span class="text">发表于</span>
+    <time itemprop="dateCreated datePublished" datetime="2024-06-22T00:00:00+08:00">2024-06-22</time>
+  </span>
+</div>
+
+
+          </div>
+        </div>
+        <nav id="nav">
+  <div class="inner">
+    <div class="toggle">
+      <div class="lines" aria-label="切换导航栏">
+        <span class="line"></span>
+        <span class="line"></span>
+        <span class="line"></span>
+      </div>
+    </div>
+    <ul class="menu">
+      <li class="item title"><a href="/" rel="start">锅巴</a></li>
+    </ul>
+    <ul class="right">
+      <li class="item theme">
+        <i class="ic i-sun"></i>
+      </li>
+      <li class="item search">
+        <i class="ic i-search"></i>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      </div>
+      <div id="imgs" class="pjax">
+        <ul>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a232284025ad69f55d0a1562d5209d0_3696453920419850988.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process=image//resize,s_600/quality,q_80/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2023/08/14/295415199/c602433df6d28e791b5ca2f57ceb44ca_6950608124418716604.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://th.bing.com/th/id/R.f19fb48d6f0bd73854c41433a53bee93?rik=%2f7sdbMmwg8fEsg&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f5632013767577f4355d1039cc27fabe074f8b3f0.jpg&ehk=4%2btfVS1omYNlMLctBBmOkjum0u0VPXm3ZmEiChLRoe4%3d&risl=&pid=ImgRaw&r=0"></li>
+          <li class="item" data-background-image="https://upload-bbs.miyoushe.com/upload/2024/02/01/51513844/5a21456c4aa4acc4c5b808e90cc2b374_2394060821741944777.jpg?x-oss-process=image/auto-orient,0/interlace,1/format,jpg"></li>
+          <li class="item" data-background-image="https://i.loli.net/2020/10/30/qAMYEFXxJcKRsiG.gif"></li>
+        </ul>
+      </div>
+    </header>
+    <div id="waves">
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" />
+          <use xlink:href="#gentle-wave" x="48" y="3" />
+          <use xlink:href="#gentle-wave" x="48" y="5" />
+          <use xlink:href="#gentle-wave" x="48" y="7" />
+        </g>
+      </svg>
+    </div>
+    <main>
+      <div class="inner">
+        <div id="main" class="pjax">
+          
+  <div class="article wrap">
+    
+<div class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+<i class="ic i-home"></i>
+<span><a href="/">首页</a></span><i class="ic i-angle-right"></i>
+<span  class="current" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem"><a href="/categories/%E5%8E%9F%E7%90%86/" itemprop="item" rel="index" title="分类于 原理"><span itemprop="name">原理</span></a>
+<meta itemprop="position" content="1" /></span>
+</div>
+
+    <article itemscope itemtype="http://schema.org/Article" class="post block" lang="zh-CN">
+  <link itemprop="mainEntityOfPage" href="http://example.com/2024/06/22/Base-%E6%B8%B2%E6%9F%93%E6%A2%B3%E7%90%86/">
+
+  <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="image" content="/images/avatar.jpg">
+    <meta itemprop="name" content="锅巴">
+    <meta itemprop="description" content=", ">
+  </span>
+
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="锅巴's Blogs">
+  </span>
+
+  <div class="body md" itemprop="articleBody">
+    
+
+    <p>渲染梳理目录。</p>
+<p>一个游戏的整个渲染都有哪些部分？</p>
+<h2 id="Lighting直接光照"><a href="#Lighting直接光照" class="headerlink" title="Lighting直接光照"></a>Lighting直接光照</h2><h3 id="ForwardRender前向渲染"><a href="#ForwardRender前向渲染" class="headerlink" title="ForwardRender前向渲染"></a>ForwardRender前向渲染</h3><h4 id="Forward"><a href="#Forward" class="headerlink" title="Forward+"></a>Forward+</h4><h4 id="ClusterForward"><a href="#ClusterForward" class="headerlink" title="ClusterForward+"></a>ClusterForward+</h4><h3 id="DeferredRender延迟渲染"><a href="#DeferredRender延迟渲染" class="headerlink" title="DeferredRender延迟渲染"></a>DeferredRender延迟渲染</h3><h4 id="TileBaseDeferred"><a href="#TileBaseDeferred" class="headerlink" title="TileBaseDeferred"></a>TileBaseDeferred</h4><h4 id="ClusterDeferred"><a href="#ClusterDeferred" class="headerlink" title="ClusterDeferred"></a>ClusterDeferred</h4><h4 id="VisibilityBufferDeferred"><a href="#VisibilityBufferDeferred" class="headerlink" title="VisibilityBufferDeferred"></a>VisibilityBufferDeferred</h4><h3 id="ShadingModel光照模型"><a href="#ShadingModel光照模型" class="headerlink" title="ShadingModel光照模型"></a>ShadingModel光照模型</h3><h4 id="PBR"><a href="#PBR" class="headerlink" title="PBR"></a>PBR</h4><h4 id="Kajiya"><a href="#Kajiya" class="headerlink" title="Kajiya"></a>Kajiya</h4><h4 id="各种CustomShadingModel"><a href="#各种CustomShadingModel" class="headerlink" title="各种CustomShadingModel"></a>各种CustomShadingModel</h4><h2 id="Shadow直接光阴影"><a href="#Shadow直接光阴影" class="headerlink" title="Shadow直接光阴影"></a>Shadow直接光阴影</h2><h3 id="CascadeShadowMap级联阴影"><a href="#CascadeShadowMap级联阴影" class="headerlink" title="CascadeShadowMap级联阴影"></a>CascadeShadowMap级联阴影</h3><h3 id="PerObjectShadow高精度阴影"><a href="#PerObjectShadow高精度阴影" class="headerlink" title="PerObjectShadow高精度阴影"></a>PerObjectShadow高精度阴影</h3><h3 id="DistanceFieldShadow距离场阴影"><a href="#DistanceFieldShadow距离场阴影" class="headerlink" title="DistanceFieldShadow距离场阴影"></a>DistanceFieldShadow距离场阴影</h3><h3 id="ContactShadow接触阴影"><a href="#ContactShadow接触阴影" class="headerlink" title="ContactShadow接触阴影"></a>ContactShadow接触阴影</h3><h3 id="VSM虚拟阴影"><a href="#VSM虚拟阴影" class="headerlink" title="VSM虚拟阴影"></a>VSM虚拟阴影</h3><h3 id="VolumeShadow"><a href="#VolumeShadow" class="headerlink" title="VolumeShadow"></a>VolumeShadow</h3><h3 id="PlanarShadow平面阴影"><a href="#PlanarShadow平面阴影" class="headerlink" title="PlanarShadow平面阴影"></a>PlanarShadow平面阴影</h3><h3 id="软阴影"><a href="#软阴影" class="headerlink" title="软阴影"></a>软阴影</h3><h4 id="PCSS"><a href="#PCSS" class="headerlink" title="PCSS"></a>PCSS</h4><h4 id="PCF"><a href="#PCF" class="headerlink" title="PCF"></a>PCF</h4><h4 id="VSSM"><a href="#VSSM" class="headerlink" title="VSSM"></a>VSSM</h4><h4 id="MSM"><a href="#MSM" class="headerlink" title="MSM"></a>MSM</h4><h2 id="GI间接光照"><a href="#GI间接光照" class="headerlink" title="GI间接光照"></a>GI间接光照</h2><h3 id="LightMap"><a href="#LightMap" class="headerlink" title="LightMap"></a>LightMap</h3><h3 id="PRT-LightProbe-LPPV-IrrianceVolume"><a href="#PRT-LightProbe-LPPV-IrrianceVolume" class="headerlink" title="PRT LightProbe LPPV IrrianceVolume"></a>PRT LightProbe LPPV IrrianceVolume</h3><h3 id="LumenGI"><a href="#LumenGI" class="headerlink" title="LumenGI"></a>LumenGI</h3><h3 id="IBL"><a href="#IBL" class="headerlink" title="IBL"></a>IBL</h3><h3 id="LPV"><a href="#LPV" class="headerlink" title="LPV"></a>LPV</h3><h3 id="VXGI"><a href="#VXGI" class="headerlink" title="VXGI"></a>VXGI</h3><h3 id="RayTraceGI"><a href="#RayTraceGI" class="headerlink" title="RayTraceGI"></a>RayTraceGI</h3><h3 id="SSGI"><a href="#SSGI" class="headerlink" title="SSGI"></a>SSGI</h3><h2 id="AO环境光遮蔽"><a href="#AO环境光遮蔽" class="headerlink" title="AO环境光遮蔽"></a>AO环境光遮蔽</h2><h3 id="SSAO"><a href="#SSAO" class="headerlink" title="SSAO"></a>SSAO</h3><h3 id="GTAO"><a href="#GTAO" class="headerlink" title="GTAO"></a>GTAO</h3><h3 id="DFAO"><a href="#DFAO" class="headerlink" title="DFAO"></a>DFAO</h3><h3 id="HBAO"><a href="#HBAO" class="headerlink" title="HBAO"></a>HBAO</h3><h3 id="CapluseAO"><a href="#CapluseAO" class="headerlink" title="CapluseAO"></a>CapluseAO</h3><h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><h3 id="CubeMap-HDRI"><a href="#CubeMap-HDRI" class="headerlink" title="CubeMap HDRI"></a>CubeMap HDRI</h3><h3 id="PlanarReflect平面反射"><a href="#PlanarReflect平面反射" class="headerlink" title="PlanarReflect平面反射"></a>PlanarReflect平面反射</h3><h3 id="SSR"><a href="#SSR" class="headerlink" title="SSR"></a>SSR</h3><h3 id="LumenReflect"><a href="#LumenReflect" class="headerlink" title="LumenReflect"></a>LumenReflect</h3><h2 id="半透明"><a href="#半透明" class="headerlink" title="半透明"></a>半透明</h2><h3 id="AlphaBlend"><a href="#AlphaBlend" class="headerlink" title="AlphaBlend"></a>AlphaBlend</h3><h3 id="OIT"><a href="#OIT" class="headerlink" title="OIT"></a>OIT</h3><h2 id="体积氛围渲染"><a href="#体积氛围渲染" class="headerlink" title="体积氛围渲染"></a>体积氛围渲染</h2><h3 id="体积云、片云"><a href="#体积云、片云" class="headerlink" title="体积云、片云"></a>体积云、片云</h3><h3 id="体积雾、高度雾"><a href="#体积雾、高度雾" class="headerlink" title="体积雾、高度雾"></a>体积雾、高度雾</h3><h2 id="水"><a href="#水" class="headerlink" title="水"></a>水</h2><h3 id="湖水"><a href="#湖水" class="headerlink" title="湖水"></a>湖水</h3><h3 id="海水"><a href="#海水" class="headerlink" title="海水"></a>海水</h3><h2 id="特效VFX"><a href="#特效VFX" class="headerlink" title="特效VFX"></a>特效VFX</h2><h3 id="Niagara"><a href="#Niagara" class="headerlink" title="Niagara"></a>Niagara</h3><h3 id="CascadePS"><a href="#CascadePS" class="headerlink" title="CascadePS"></a>CascadePS</h3><h3 id="UnityPS"><a href="#UnityPS" class="headerlink" title="UnityPS"></a>UnityPS</h3><h3 id="UnityVFXGraph"><a href="#UnityVFXGraph" class="headerlink" title="UnityVFXGraph"></a>UnityVFXGraph</h3><h2 id="毛发渲染"><a href="#毛发渲染" class="headerlink" title="毛发渲染"></a>毛发渲染</h2><h2 id="贴花Decal"><a href="#贴花Decal" class="headerlink" title="贴花Decal"></a>贴花Decal</h2><h2 id="抗锯齿AA"><a href="#抗锯齿AA" class="headerlink" title="抗锯齿AA"></a>抗锯齿AA</h2><h3 id="FXAA"><a href="#FXAA" class="headerlink" title="FXAA"></a>FXAA</h3><h3 id="SMAA"><a href="#SMAA" class="headerlink" title="SMAA"></a>SMAA</h3><h3 id="MSAA"><a href="#MSAA" class="headerlink" title="MSAA"></a>MSAA</h3><h3 id="SSAA"><a href="#SSAA" class="headerlink" title="SSAA"></a>SSAA</h3><h3 id="TAA"><a href="#TAA" class="headerlink" title="TAA"></a>TAA</h3><h3 id="TSR"><a href="#TSR" class="headerlink" title="TSR"></a>TSR</h3><h3 id="FSR"><a href="#FSR" class="headerlink" title="FSR"></a>FSR</h3><h2 id="后处理"><a href="#后处理" class="headerlink" title="后处理"></a>后处理</h2><h3 id="Bloom"><a href="#Bloom" class="headerlink" title="Bloom"></a>Bloom</h3><h3 id="DOF"><a href="#DOF" class="headerlink" title="DOF"></a>DOF</h3><h3 id="Lensflare"><a href="#Lensflare" class="headerlink" title="Lensflare"></a>Lensflare</h3><h3 id="ColorGrading"><a href="#ColorGrading" class="headerlink" title="ColorGrading"></a>ColorGrading</h3><h3 id="ToneMapping"><a href="#ToneMapping" class="headerlink" title="ToneMapping"></a>ToneMapping</h3>
+      <div class="tags">
+          <a href="/tags/%E5%8E%9F%E7%90%86/" rel="tag"><i class="ic i-tag"></i> 原理</a>
+      </div>
+  </div>
+
+   <footer>
+
+    <div class="meta">
+  <span class="item">
+    <span class="icon">
+      <i class="ic i-calendar-check"></i>
+    </span>
+    <span class="text">更新于</span>
+    <time title="修改时间：2024-06-22 20:39:10" itemprop="dateModified" datetime="2024-06-22T20:39:10+08:00">2024-06-22</time>
+  </span>
+</div>
+
+      
+
+<div id="copyright">
+<ul>
+  <li class="author">
+    <strong>本文作者： </strong>锅巴 <i class="ic i-at"><em>@</em></i>锅巴's Blogs
+  </li>
+  <li class="link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2024/06/22/Base-%E6%B8%B2%E6%9F%93%E6%A2%B3%E7%90%86/" title="Base-渲染梳理">http://example.com/2024/06/22/Base-渲染梳理/</a>
+  </li>
+  <li class="license">
+    <strong>版权声明： </strong>本站所有文章除特别声明外，均采用 <span class="exturl" data-url="aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LW5jLXNhLzQuMC9kZWVkLnpo"><i class="ic i-creative-commons"><em>(CC)</em></i>BY-NC-SA</span> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+  </footer>
+
+</article>
+
+  </div>
+  
+
+<div class="post-nav">
+    <div class="item left">
+      
+
+  <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" itemprop="url" rel="prev" data-background-image="https:&#x2F;&#x2F;upload-bbs.miyoushe.com&#x2F;upload&#x2F;2024&#x2F;02&#x2F;01&#x2F;51513844&#x2F;1170bfd301caeab29cb3883150a6b926_6187471395420358449.jpg?x-oss-process&#x3D;image&#x2F;&#x2F;resize,s_600&#x2F;quality,q_80&#x2F;auto-orient,0&#x2F;interlace,1&#x2F;format,jpg" title="UE5-MultiPass添加">
+  <span class="type">上一篇</span>
+  <span class="category"><i class="ic i-flag"></i> Unreal</span>
+  <h3>UE5-MultiPass添加</h3>
+  </a>
+
+    </div>
+    <div class="item right">
+    </div>
+</div>
+
+  
+  <div class="wrap" id="comments"></div>
+
+
+        </div>
+        <div id="sidebar">
+          
+
+<div class="inner">
+
+  <div class="panels">
+    <div class="inner">
+      <div class="contents panel pjax" data-title="文章目录">
+          <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lighting%E7%9B%B4%E6%8E%A5%E5%85%89%E7%85%A7"><span class="toc-number">1.</span> <span class="toc-text">Lighting直接光照</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ForwardRender%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93"><span class="toc-number">1.1.</span> <span class="toc-text">ForwardRender前向渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Forward"><span class="toc-number">1.1.1.</span> <span class="toc-text">Forward+</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ClusterForward"><span class="toc-number">1.1.2.</span> <span class="toc-text">ClusterForward+</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DeferredRender%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93"><span class="toc-number">1.2.</span> <span class="toc-text">DeferredRender延迟渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TileBaseDeferred"><span class="toc-number">1.2.1.</span> <span class="toc-text">TileBaseDeferred</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ClusterDeferred"><span class="toc-number">1.2.2.</span> <span class="toc-text">ClusterDeferred</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VisibilityBufferDeferred"><span class="toc-number">1.2.3.</span> <span class="toc-text">VisibilityBufferDeferred</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ShadingModel%E5%85%89%E7%85%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.3.</span> <span class="toc-text">ShadingModel光照模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PBR"><span class="toc-number">1.3.1.</span> <span class="toc-text">PBR</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Kajiya"><span class="toc-number">1.3.2.</span> <span class="toc-text">Kajiya</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%84%E7%A7%8DCustomShadingModel"><span class="toc-number">1.3.3.</span> <span class="toc-text">各种CustomShadingModel</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Shadow%E7%9B%B4%E6%8E%A5%E5%85%89%E9%98%B4%E5%BD%B1"><span class="toc-number">2.</span> <span class="toc-text">Shadow直接光阴影</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CascadeShadowMap%E7%BA%A7%E8%81%94%E9%98%B4%E5%BD%B1"><span class="toc-number">2.1.</span> <span class="toc-text">CascadeShadowMap级联阴影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PerObjectShadow%E9%AB%98%E7%B2%BE%E5%BA%A6%E9%98%B4%E5%BD%B1"><span class="toc-number">2.2.</span> <span class="toc-text">PerObjectShadow高精度阴影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DistanceFieldShadow%E8%B7%9D%E7%A6%BB%E5%9C%BA%E9%98%B4%E5%BD%B1"><span class="toc-number">2.3.</span> <span class="toc-text">DistanceFieldShadow距离场阴影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ContactShadow%E6%8E%A5%E8%A7%A6%E9%98%B4%E5%BD%B1"><span class="toc-number">2.4.</span> <span class="toc-text">ContactShadow接触阴影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VSM%E8%99%9A%E6%8B%9F%E9%98%B4%E5%BD%B1"><span class="toc-number">2.5.</span> <span class="toc-text">VSM虚拟阴影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VolumeShadow"><span class="toc-number">2.6.</span> <span class="toc-text">VolumeShadow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PlanarShadow%E5%B9%B3%E9%9D%A2%E9%98%B4%E5%BD%B1"><span class="toc-number">2.7.</span> <span class="toc-text">PlanarShadow平面阴影</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BD%AF%E9%98%B4%E5%BD%B1"><span class="toc-number">2.8.</span> <span class="toc-text">软阴影</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#PCSS"><span class="toc-number">2.8.1.</span> <span class="toc-text">PCSS</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#PCF"><span class="toc-number">2.8.2.</span> <span class="toc-text">PCF</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VSSM"><span class="toc-number">2.8.3.</span> <span class="toc-text">VSSM</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MSM"><span class="toc-number">2.8.4.</span> <span class="toc-text">MSM</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GI%E9%97%B4%E6%8E%A5%E5%85%89%E7%85%A7"><span class="toc-number">3.</span> <span class="toc-text">GI间接光照</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LightMap"><span class="toc-number">3.1.</span> <span class="toc-text">LightMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PRT-LightProbe-LPPV-IrrianceVolume"><span class="toc-number">3.2.</span> <span class="toc-text">PRT LightProbe LPPV IrrianceVolume</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LumenGI"><span class="toc-number">3.3.</span> <span class="toc-text">LumenGI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IBL"><span class="toc-number">3.4.</span> <span class="toc-text">IBL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LPV"><span class="toc-number">3.5.</span> <span class="toc-text">LPV</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#VXGI"><span class="toc-number">3.6.</span> <span class="toc-text">VXGI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RayTraceGI"><span class="toc-number">3.7.</span> <span class="toc-text">RayTraceGI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSGI"><span class="toc-number">3.8.</span> <span class="toc-text">SSGI</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AO%E7%8E%AF%E5%A2%83%E5%85%89%E9%81%AE%E8%94%BD"><span class="toc-number">4.</span> <span class="toc-text">AO环境光遮蔽</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#SSAO"><span class="toc-number">4.1.</span> <span class="toc-text">SSAO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GTAO"><span class="toc-number">4.2.</span> <span class="toc-text">GTAO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DFAO"><span class="toc-number">4.3.</span> <span class="toc-text">DFAO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HBAO"><span class="toc-number">4.4.</span> <span class="toc-text">HBAO</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CapluseAO"><span class="toc-number">4.5.</span> <span class="toc-text">CapluseAO</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%B0%84"><span class="toc-number">5.</span> <span class="toc-text">反射</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CubeMap-HDRI"><span class="toc-number">5.1.</span> <span class="toc-text">CubeMap HDRI</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#PlanarReflect%E5%B9%B3%E9%9D%A2%E5%8F%8D%E5%B0%84"><span class="toc-number">5.2.</span> <span class="toc-text">PlanarReflect平面反射</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSR"><span class="toc-number">5.3.</span> <span class="toc-text">SSR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LumenReflect"><span class="toc-number">5.4.</span> <span class="toc-text">LumenReflect</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8D%8A%E9%80%8F%E6%98%8E"><span class="toc-number">6.</span> <span class="toc-text">半透明</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AlphaBlend"><span class="toc-number">6.1.</span> <span class="toc-text">AlphaBlend</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OIT"><span class="toc-number">6.2.</span> <span class="toc-text">OIT</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%93%E7%A7%AF%E6%B0%9B%E5%9B%B4%E6%B8%B2%E6%9F%93"><span class="toc-number">7.</span> <span class="toc-text">体积氛围渲染</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%93%E7%A7%AF%E4%BA%91%E3%80%81%E7%89%87%E4%BA%91"><span class="toc-number">7.1.</span> <span class="toc-text">体积云、片云</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%93%E7%A7%AF%E9%9B%BE%E3%80%81%E9%AB%98%E5%BA%A6%E9%9B%BE"><span class="toc-number">7.2.</span> <span class="toc-text">体积雾、高度雾</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B0%B4"><span class="toc-number">8.</span> <span class="toc-text">水</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B9%96%E6%B0%B4"><span class="toc-number">8.1.</span> <span class="toc-text">湖水</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%B7%E6%B0%B4"><span class="toc-number">8.2.</span> <span class="toc-text">海水</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%B9%E6%95%88VFX"><span class="toc-number">9.</span> <span class="toc-text">特效VFX</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Niagara"><span class="toc-number">9.1.</span> <span class="toc-text">Niagara</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CascadePS"><span class="toc-number">9.2.</span> <span class="toc-text">CascadePS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UnityPS"><span class="toc-number">9.3.</span> <span class="toc-text">UnityPS</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#UnityVFXGraph"><span class="toc-number">9.4.</span> <span class="toc-text">UnityVFXGraph</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AF%9B%E5%8F%91%E6%B8%B2%E6%9F%93"><span class="toc-number">10.</span> <span class="toc-text">毛发渲染</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%B4%E8%8A%B1Decal"><span class="toc-number">11.</span> <span class="toc-text">贴花Decal</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8A%97%E9%94%AF%E9%BD%BFAA"><span class="toc-number">12.</span> <span class="toc-text">抗锯齿AA</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#FXAA"><span class="toc-number">12.1.</span> <span class="toc-text">FXAA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SMAA"><span class="toc-number">12.2.</span> <span class="toc-text">SMAA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MSAA"><span class="toc-number">12.3.</span> <span class="toc-text">MSAA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SSAA"><span class="toc-number">12.4.</span> <span class="toc-text">SSAA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TAA"><span class="toc-number">12.5.</span> <span class="toc-text">TAA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TSR"><span class="toc-number">12.6.</span> <span class="toc-text">TSR</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#FSR"><span class="toc-number">12.7.</span> <span class="toc-text">FSR</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E5%A4%84%E7%90%86"><span class="toc-number">13.</span> <span class="toc-text">后处理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Bloom"><span class="toc-number">13.1.</span> <span class="toc-text">Bloom</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#DOF"><span class="toc-number">13.2.</span> <span class="toc-text">DOF</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lensflare"><span class="toc-number">13.3.</span> <span class="toc-text">Lensflare</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ColorGrading"><span class="toc-number">13.4.</span> <span class="toc-text">ColorGrading</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ToneMapping"><span class="toc-number">13.5.</span> <span class="toc-text">ToneMapping</span></a></li></ol></li></ol>
+      </div>
+      <div class="related panel pjax" data-title="系列文章">
+        <ul>
+          <li><a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" rel="bookmark" title="Base-卡通渲染">Base-卡通渲染</a></li><li><a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" rel="bookmark" title="Base-透明渲染">Base-透明渲染</a></li><li><a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" rel="bookmark" title="Base-各个坐标空间">Base-各个坐标空间</a></li><li><a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" rel="bookmark" title="Base-矩阵和向量">Base-矩阵和向量</a></li><li><a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" rel="bookmark" title="Base-阴影ShadowMap相关">Base-阴影ShadowMap相关</a></li><li class="active"><a href="/2024/06/22/Base-%E6%B8%B2%E6%9F%93%E6%A2%B3%E7%90%86/" rel="bookmark" title="Base-渲染梳理">Base-渲染梳理</a></li>
+        </ul>
+      </div>
+      <div class="overview panel" data-title="站点概览">
+        <div class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="image" itemprop="image" alt="锅巴"
+      data-src="/images/avatar.jpg">
+  <p class="name" itemprop="name">锅巴</p>
+  <div class="description" itemprop="description"></div>
+</div>
+
+<nav class="state">
+    <div class="item posts">
+      <a href="/archives/">
+        <span class="count">24</span>
+        <span class="name">文章</span>
+      </a>
+    </div>
+    <div class="item categories">
+      <a href="/categories/">
+        <span class="count">5</span>
+        <span class="name">分类</span>
+      </a>
+    </div>
+    <div class="item tags">
+      <a href="/tags/">
+        <span class="count">7</span>
+        <span class="name">标签</span>
+      </a>
+    </div>
+</nav>
+
+<div class="social">
+      <span class="exturl item github" data-url="aHR0cHM6Ly9naXRodWIuY29tL0FIYXBweUZ1bg==" title="https:&#x2F;&#x2F;github.com&#x2F;AHappyFun"><i class="ic i-github"></i></span>
+      <span class="exturl item zhihu" data-url="aHR0cHM6Ly93d3cuemhpaHUuY29tL3Blb3BsZS96YWktdGlhbi1iaWFuLXdhbmctaGFpL3Bvc3Rz" title="https:&#x2F;&#x2F;www.zhihu.com&#x2F;people&#x2F;zai-tian-bian-wang-hai&#x2F;posts"><i class="ic i-zhihu"></i></span>
+</div>
+
+<ul class="menu">
+  
+    
+  <li class="item">
+    <a href="/" rel="section"><i class="ic i-home"></i>首页</a>
+  </li>
+
+
+</ul>
+
+      </div>
+    </div>
+  </div>
+
+  <ul id="quick">
+    <li class="prev pjax">
+    </li>
+    <li class="up"><i class="ic i-arrow-up"></i></li>
+    <li class="down"><i class="ic i-arrow-down"></i></li>
+    <li class="next pjax">
+    </li>
+    <li class="percent"></li>
+  </ul>
+</div>
+
+
+        </div>
+        <div class="dimmer"></div>
+      </div>
+    </main>
+    <footer id="footer">
+      <div class="inner">
+        <div class="widgets">
+          
+<div class="rpost pjax">
+  <h2>随机文章</h2>
+  <ul>
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2020/01/01/UE4-GPUScene/" title="UE4-GPUScene">UE4-GPUScene</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" title="Base-各个坐标空间">Base-各个坐标空间</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" title="UE5-自定义MeshComponent">UE5-自定义MeshComponent</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" title="UE5-自定义MeshPass">UE5-自定义MeshPass</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2024/04/05/UE4-DistanceFieldShadow/" title="UE4-距离场阴影DistanceFieldShadow">UE4-距离场阴影DistanceFieldShadow</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" title="UE5-自定义ShadingModel">UE5-自定义ShadingModel</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" title="Base-矩阵和向量">Base-矩阵和向量</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Shader/" title="分类于 Shader">Shader</a>
+</div>
+
+    <span><a href="/2020/01/01/Shader-RayMarch/" title="Shader-RayMarch">Shader-RayMarch</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/%E5%8E%9F%E7%90%86/" title="分类于 原理">原理</a>
+</div>
+
+    <span><a href="/2024/06/22/Base-%E6%B8%B2%E6%9F%93%E6%A2%B3%E7%90%86/" title="Base-渲染梳理">Base-渲染梳理</a></span>
+  </li>
+
+      
+  <li class="item">
+    
+<div class="breadcrumb">
+<a href="/categories/Unreal/" title="分类于 Unreal">Unreal</a>
+</div>
+
+    <span><a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" title="UE5-创建简单的插件Plugin">UE5-创建简单的插件Plugin</a></span>
+  </li>
+
+  </ul>
+</div>
+<div>
+  <h2>最新评论</h2>
+  <ul class="leancloud-recent-comment"></ul>
+</div>
+
+        </div>
+        <div class="status">
+  <div class="copyright">
+    
+    &copy; 2010 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="ic i-sakura rotate"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">锅巴 @ 锅巴</span>
+  </div>
+  <div class="powered-by">
+    基于 <span class="exturl" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & Theme.<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FtZWhpbWUvaGV4by10aGVtZS1zaG9rYQ==">Shoka</span>
+  </div>
+</div>
+
+      </div>
+    </footer>
+  </div>
+<script data-config type="text/javascript">
+  var LOCAL = {
+    path: '2024/06/22/Base-渲染梳理/',
+    favicon: {
+      show: "（●´3｀●）やれやれだぜ",
+      hide: "(´Д｀)大変だ！"
+    },
+    search : {
+      placeholder: "文章搜索",
+      empty: "关于 「 ${query} 」，什么也没搜到",
+      stats: "${time} ms 内找到 ${hits} 条结果"
+    },
+    valine: true,fancybox: true,
+    copyright: '复制成功，转载请遵守 <i class="ic i-creative-commons"></i>BY-NC-SA 协议。',
+    ignores : [
+      function(uri) {
+        return uri.includes('#');
+      },
+      function(uri) {
+        return new RegExp(LOCAL.path+"$").test(uri);
+      }
+    ]
+  };
+</script>
+
+<script src="https://cdn.polyfill.io/v2/polyfill.js"></script>
+
+<script src="//cdn.jsdelivr.net/combine/npm/pace-js@1.0.2/pace.min.js,npm/pjax@0.2.8/pjax.min.js,npm/whatwg-fetch@3.4.0/dist/fetch.umd.min.js,npm/animejs@3.2.0/lib/anime.min.js,npm/algoliasearch@4/dist/algoliasearch-lite.umd.js,npm/instantsearch.js@4/dist/instantsearch.production.min.js,npm/lozad@1/dist/lozad.min.js,npm/quicklink@2/dist/quicklink.umd.js"></script>
+
+<script src="/js/app.js?v=0.2.5"></script>
+
+
+
+
+</body>
+</html>
