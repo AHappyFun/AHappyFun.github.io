@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Base-各个坐标空间 | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="原理">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-a8a2cba98e0dcd86638a44b7cbf9599a_720w.webp">
+<meta property="og:image" content="https://pic2.zhimg.com/80/v2-6bcec18cab484ed8703a9f6818eaf779_720w.webp">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-e1f2d0aebb0192cfe88150097d425426_720w.png">
+<meta property="og:image" content="https://pica.zhimg.com/80/v2-96c3eee200474b1c535a46ff07bea475_720w.png">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-db9e39a19066b723ac87537973741ee3_720w.png">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-d82fc189c8f9de5475f06eb2704dca0a_720w.png">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-306616ba70d8e1a5075e415096da4121_720w.png">
+<meta property="og:image" content="https://pica.zhimg.com/80/v2-e7d4d14e41d1d8f2dfa904eaaa675b24_720w.png">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-299b36a79c39e7815ecbaed6abbe3cb4_720w.png">
+<meta property="og:image" content="https://pica.zhimg.com/80/v2-caf0b75e1761a7dde6bfa4ea16cec9b7_720w.png">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-85cc3b3c9f6fffc98ee4c118cbeae742_720w.png">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-e3cf9225c1c99e5b65d4ff23e953fc77_720w.png">
+<meta property="article:published_time" content="2024-05-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-18T04:30:38.564Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic3.zhimg.com/80/v2-a8a2cba98e0dcd86638a44b7cbf9599a_720w.webp">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 36 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__container">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2024-05-18T16:00:00.000Z">2024 年 5 月 19 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/%E5%8E%9F%E7%90%86/">原理</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">Base-各个坐标空间</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E5%8E%9F%E7%90%86/" class="tag">#原理</a>
+          
+        </div>
+      
+    </header>
+
+    <div class="post__content">
+      <p>常复习篇章。</p>
+<h1 id="渲染-空间转换过程"><a href="#渲染-空间转换过程" class="headerlink" title="渲染 空间转换过程"></a>渲染 空间转换过程</h1><h2 id="VertShader"><a href="#VertShader" class="headerlink" title="VertShader"></a>VertShader</h2><p>Object模型空间开始</p>
+<p>——(UNITY_MATTIX_M)——&gt;World空间</p>
+<p>——(UNITY_MATTIX_V)——&gt;View视角空间</p>
+<p>——(UNITY_MATRIX_P透视或正交)——&gt;齐次空间</p>
+<h2 id="中间"><a href="#中间" class="headerlink" title="中间"></a>中间</h2><p>硬件会做这些操作，但是如果想在FragShader里使用ScreenPos，需要自己计算。通过齐次空间的坐标进行计算。</p>
+<p>Clip齐次空间——(裁剪)——(齐次除法，各分量除以w)——&gt;NDC——(视口变换)——&gt;Screen屏幕空间</p>
+<h2 id="FragShader"><a href="#FragShader" class="headerlink" title="FragShader"></a>FragShader</h2><p>获取到的是Vert最后传过来的SV_POSITION，齐次空间的坐标。</p>
+<p>虽然这时候已经是在计算像素了，但是像素POS是未知的，如果需要像素位置，需要自己计算。</p>
+<h1 id="模型空间"><a href="#模型空间" class="headerlink" title="模型空间"></a>模型空间</h1><p>模型以自身中心为原点，每个顶点基于原点的坐标。</p>
+<h1 id="切线空间"><a href="#切线空间" class="headerlink" title="切线空间"></a>切线空间</h1><center><img src="https://pic3.zhimg.com/80/v2-a8a2cba98e0dcd86638a44b7cbf9599a_720w.webp" width = "" height = "400"></center>
+
+<p>N为法线(Normal)，代表z轴。</p>
+<p>T为切线(Tangent)，代表x轴。</p>
+<p>B为副切线(BitTangent)，代表y轴。</p>
+<center><img src="https://pic2.zhimg.com/80/v2-6bcec18cab484ed8703a9f6818eaf779_720w.webp" width = "" height = "400"></center>
+
+<p>以Sphere为例，切线空间的三个分量(x，y，z)只考虑方向在模型空间就是本身(T, B, N)。</p>
+<p>表示为矩阵是，一般叫TBN矩阵。（T、B、N都是模型空间）</p>
+<p>具体切线空间的转换写过一篇知乎：</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/361417740">https://zhuanlan.zhihu.com/p/361417740</a></p>
+<h1 id="世界空间"><a href="#世界空间" class="headerlink" title="世界空间"></a>世界空间</h1><p>一般把模型的各个顶点从模型空间转换到世界空间。</p>
+<center><img src="https://picx.zhimg.com/80/v2-e1f2d0aebb0192cfe88150097d425426_720w.png" width = "" height = "300"></center>
+
+<p>Unity显示WorldPos.x</p>
+<center><img src="https://pica.zhimg.com/80/v2-96c3eee200474b1c535a46ff07bea475_720w.png" width = "" height = "400"></center>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">o.worldSpacePos = mul(unity_ObjectToWorld, v.vertex);<br></code></pre></td></tr></table></figure>
+
+<h1 id="视角空间"><a href="#视角空间" class="headerlink" title="视角空间"></a>视角空间</h1><p>视角空间的转换矩阵可以拆解为旋转和位移，一般无Scale。</p>
+<p>比如已知Camera在World中的Position和Rotation，本身Camera的Tranform是CameraToWorld。</p>
+<p>WorldToCameraView是先位移-Camera.Pos，然后再乘CameraToWorld旋转矩阵的逆矩阵。</p>
+<hr>
+<p>一般从世界空间转到视角空间。使用UNTIY_MATRIX_V。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">o.viewSpacePos = mul(unity_WorldToCamera, o.worldSpacePos);<br></code></pre></td></tr></table></figure>
+<center><img src="https://pic1.zhimg.com/80/v2-db9e39a19066b723ac87537973741ee3_720w.png" width = "" height = "300"></center>
+
+<p>原点从世界中心到了camera原点。并-Z前、Y上、X右。</p>
+<p>这意味着Unity视角空间又使用了右手坐标系(世界空间、模型空间是左手)。</p>
+<p>这个时候-z就是物体在场景的深度。</p>
+<center><img src="https://pic1.zhimg.com/80/v2-d82fc189c8f9de5475f06eb2704dca0a_720w.png" width = "" height = "300"></center>
+
+<p>Unity里视角空间显示出来：可以看出来-z是正方向。</p>
+<center><img src="https://picx.zhimg.com/80/v2-306616ba70d8e1a5075e415096da4121_720w.png" width = "" height = "700"></center>
+
+
+<h1 id="灯光空间"><a href="#灯光空间" class="headerlink" title="灯光空间"></a>灯光空间</h1><p>一般从世界空间转换到灯光空间。</p>
+<p>和View空间转换一样，WorldToLight是通过LightToWorld获取。</p>
+<h1 id="ShadowMap空间"><a href="#ShadowMap空间" class="headerlink" title="ShadowMap空间"></a>ShadowMap空间</h1><p>采样ShadowMap的时候，是需要从世界空间转换到ShadowMap空间。</p>
+<p>经历的阶段World——&gt;Light——&gt;阴影视锥体空间投影</p>
+<p>UE的写在了ShadowMap篇。</p>
+<p>UnitySRP这个接口获取到CSM的View和Projection矩阵。</p>
+<p>获得了ViewMatrix和ProjectionMatrix，然后再做Tile划分。</p>
+<center><img src="https://pica.zhimg.com/80/v2-e7d4d14e41d1d8f2dfa904eaaa675b24_720w.png" width = "" height = "300"></center>
+
+<h1 id="齐次裁剪空间"><a href="#齐次裁剪空间" class="headerlink" title="齐次裁剪空间"></a>齐次裁剪空间</h1><p>一般从View视角空间，再投影到齐次空间。</p>
+<p>有透视投影和正交投影两种。</p>
+<p>投影矩阵之前推导过，翻一下笔记本。</p>
+<p>&#x2F;&#x2F;todo 加推导投影矩阵过程 Games101的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">//从模型空间直接MVP到Clip空间<br><br>//clipPos的w就是 View空间的深度-z<br>//clipPos的xyz取值范围在(-w,w)<br>o.clipPos = UnityObjectToClipPos(v.vertex); <br>o.clipPos = mul(UNITY_MATRIX_MVP, v.vertex);<br></code></pre></td></tr></table></figure>
+
+<h1 id="NDC空间-标准化设备空间"><a href="#NDC空间-标准化设备空间" class="headerlink" title="NDC空间(标准化设备空间)"></a>NDC空间(标准化设备空间)</h1><p>ClipPos——&gt;透视除法(xyz&#x2F;w)——&gt;NDC</p>
+<p>vert shader结束输出clipPos之后，GPU做裁剪，然后做透视除法将顶点转到NDC。</p>
+<p>透视除法是把Clip空间的pos各个分量除以w，范围归一到[-1, 1]</p>
+<p>NDC就是一个方格子，在格子之外就裁剪掉。</p>
+<p>NDC的范围根据平台不太一样。</p>
+<table>
+<thead>
+<tr>
+<th align="left">-</th>
+<th align="left">-</th>
+<th align="left">-</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ReversedZ</td>
+<td align="left">NDC Z范围(1,0)</td>
+<td align="left">DX</td>
+</tr>
+<tr>
+<td align="left">NoReversedZ</td>
+<td align="left">NDC Z范围(-1,1)</td>
+<td align="left">OpenGL</td>
+</tr>
+</tbody></table>
+<p>下面图代表Z的取值范围示意图。</p>
+<center><img src="https://picx.zhimg.com/80/v2-299b36a79c39e7815ecbaed6abbe3cb4_720w.png" width = "" height = "500"></center>
+<center><img src="https://pica.zhimg.com/80/v2-caf0b75e1761a7dde6bfa4ea16cec9b7_720w.png" width = "" height = "500"></center>
+
+<h1 id="屏幕空间坐标-如Pixel1920x1080"><a href="#屏幕空间坐标-如Pixel1920x1080" class="headerlink" title="屏幕空间坐标(如Pixel1920x1080)"></a>屏幕空间坐标(如Pixel1920x1080)</h1><p>映射屏幕的过程：</p>
+<p>x(-1 , 1)——&gt;(0, PixelWidth)</p>
+<p>y(-1 , 1)——&gt;(0, PixelHeight)</p>
+<p>o.scrPos.x &#x3D; (o.clipPos.x &#x2F; o.clipPos.w + 1) * _ScreenParams.x * 0.5f;</p>
+<p>o.scrPos.y &#x3D; (o.clipPos.y &#x2F; o.clipPos.w + 1) * _ScreenParams.y * 0.5f;</p>
+<center><img src="https://picx.zhimg.com/80/v2-85cc3b3c9f6fffc98ee4c118cbeae742_720w.png" width = "" height = "300"></center>
+
+<h1 id="屏幕空间UV-0-1"><a href="#屏幕空间UV-0-1" class="headerlink" title="屏幕空间UV(0~1)"></a>屏幕空间UV(0~1)</h1><p>和屏幕空间坐标类似，只不过不乘屏幕宽高。</p>
+<p>o.screenUV.xy &#x3D; (o.clipPos.xy &#x2F; o.clipPos.w + 1) * 0.5f;</p>
+<center><img src="https://pic1.zhimg.com/80/v2-e3cf9225c1c99e5b65d4ff23e953fc77_720w.png" width = "" height = "300"></center>
+
+
+<h1 id="齐次空间的屏幕UV-0-w"><a href="#齐次空间的屏幕UV-0-w" class="headerlink" title="齐次空间的屏幕UV(0~w)"></a>齐次空间的屏幕UV(0~w)</h1><p>o.scrPos &#x3D; ComputeScreenPos(o.clipPos);   &#x2F;&#x2F;返回齐次坐标下的屏幕坐标, xy范围为(0,w)   </p>
+<p>它的结果保留了w，如果想采样，用tex2Dproj不用手动除w。</p>
+<p>也可以手动tex2D(_Tex，i.scrPos.xy &#x2F; i.scrPos.w)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">//Unity里ComputeScreenPos算法<br>inline float4 ComputeNonStereoScreenPos(float4 pos) &#123;<br>    float4 o = pos * 0.5f;<br>    o.xy = float2(o.x, o.y*_ProjectionParams.x) + o.w;<br>    o.zw = pos.zw;<br>    return o;<br>&#125;<br></code></pre></td></tr></table></figure>
+<h1 id="深度重建世界坐标"><a href="#深度重建世界坐标" class="headerlink" title="深度重建世界坐标"></a>深度重建世界坐标</h1><p>基本上大多数算法都会用到。</p>
+<p>推导过程：</p>
+<p>  已知：NDC &#x3D; ClipPos &#x2F; Clip.w</p>
+<p>  worldPos.xyz  </p>
+<p>  &#x3D; _InverseVP * ClipPos </p>
+<p>  &#x3D; _InverseVP * NDC * Clip.w</p>
+<hr>
+<p> 因为此时不知道Clip.w，但是有一个情况是worldPos.w &#x3D; 1</p>
+<p> 1 &#x3D; worldPos.w &#x3D; (_InverseVP * NDC).w * ClipPos.w</p>
+<p> clipPos.w &#x3D; 1 &#x2F; (_InverseVP * NDC).w</p>
+<hr>
+<p>  worldPos.xyz   &#x3D; _InverseVP * NDC &#x2F; (_InverseVP * NDC).w</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">  //unity里深度重建worldpos代码<br>  float depth = LoadDepth(pixelCoord);<br>float2 screenUV = screenUV.xy;<br><br>#if UNITY_REVERSED_Z<br>   float3 NDC = float3(screenUV.uv.x * 2 - 1, 1 - screenUV.uv.y * 2, depth);<br>#else<br>   float3 NDC = float3(screenUV.uv.xy * 2 - 1, depth * 2 - 1);<br>#endif<br><br>float4 worldPos = mul(_InverseVPMatrix, NDC);<br>worldPos.xyz /= worldPos.w; <br></code></pre></td></tr></table></figure>
+
+<h1 id="深度重建视角坐标"><a href="#深度重建视角坐标" class="headerlink" title="深度重建视角坐标"></a>深度重建视角坐标</h1><p>视角坐标和世界空间差不多，就是_InverseVP换成_InverseP</p>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+          <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">UE4-添加GlobalShader</span>
+          </a>
+        
+        
+          <a href="/2024/05/11/UE4-PSOCache/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">UE4-PSOCache</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>

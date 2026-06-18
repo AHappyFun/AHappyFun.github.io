@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>UE5-自定义MeshComponent | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="Unreal">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-1c38f0c0f6c27e3f550e2bc3d921e94b_720w.png">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-7c66bf3cc394b838ac53288a77551072_720w.png">
+<meta property="og:image" content="https://pica.zhimg.com/80/v2-816a6e3d7c0d1fc971e5c2e548d00814_720w.png">
+<meta property="og:image" content="https://picx.zhimg.com/80/v2-0a548934900472ba3f97ee32acb2e3c9_720w.png">
+<meta property="article:published_time" content="2023-09-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-18T04:30:38.567Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="Unreal">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://picx.zhimg.com/80/v2-1c38f0c0f6c27e3f550e2bc3d921e94b_720w.png">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 36 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__container">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2023-09-07T16:00:00.000Z">2023 年 9 月 8 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/Unreal/">Unreal</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">UE5-自定义MeshComponent</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/Unreal/" class="tag">#Unreal</a>
+          
+        </div>
+      
+    </header>
+
+    <div class="post__content">
+      <p>虚幻自定义MeshComponent在此总结一下。</p>
+<p>基于UE5.1 Github版本</p>
+<iframe height=600 width=1024 src="https://www.bilibili.com/video/BV1Nk4y1P7wX?t=0">
+</iframe>
+
+
+<h1 id="1-几个比较重要的概念"><a href="#1-几个比较重要的概念" class="headerlink" title="1.几个比较重要的概念"></a>1.几个比较重要的概念</h1><h2 id="UPrimitiveComponent"><a href="#UPrimitiveComponent" class="headerlink" title="UPrimitiveComponent"></a>UPrimitiveComponent</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">class ENGINE_API UPrimitiveComponent : public USceneComponent, public INavRelevantInterface, public IInterface_AsyncCompilation<br>&#123;  <br>&#125;;<br><br></code></pre></td></tr></table></figure>
+
+<p>UPrimitiveComponent继承于USceneComponent，所以具有Transform属性和父子嵌套的能力。</p>
+<p>UPrimitiveComponent是一切几何组件的父类，比如UE自带的ShapeComponent、StaticMeshComponent、SkeletalMeshComponent等组件追溯上去都是继承UPrimitiveComponent。</p>
+<p>UPrimitiveComponent相关内容在渲染线程里非常常见。</p>
+<span id="more"></span>
+
+<center><img src="https://picx.zhimg.com/80/v2-1c38f0c0f6c27e3f550e2bc3d921e94b_720w.png" width = "" height = ""></center>
+
+<h2 id="FPrimitiveSceneProxy"><a href="#FPrimitiveSceneProxy" class="headerlink" title="FPrimitiveSceneProxy"></a>FPrimitiveSceneProxy</h2><p>由于虚幻采用的多线程渲染架构，FPrimitiveSceneProxy想当于是UPrimitiveComponent在渲染线程上的体现。</p>
+<p>引擎在渲染线程的开始，通过UpdateAllPrimitiveSceneInfos接口，更新UPrimitiveComponent的数据到FPrimitiveSceneProxy。</p>
+<p>之后渲染的过程，渲染线程都是使用FPrimitiveSceneProxy的数据。</p>
+<center><img src="https://picx.zhimg.com/80/v2-7c66bf3cc394b838ac53288a77551072_720w.png" width = "" height = ""></center>
+
+<h2 id="UMeshComponent"><a href="#UMeshComponent" class="headerlink" title="UMeshComponent"></a>UMeshComponent</h2><p>UMeshComponent是继承UPrimitiveComponent的组件，定义了材质相关的接口。</p>
+<p>常见的UStaticMeshComponent和USkinnedMeshComponent直接继承于UMeshComponent。</p>
+<p>下面自定义Mesh也是继承于UMeshComponent开始。</p>
+<h2 id="绘制路径-动静结合"><a href="#绘制路径-动静结合" class="headerlink" title="绘制路径(动静结合)"></a>绘制路径(动静结合)</h2><p>虚幻引擎设计里有很多动静结合的例子，关于渲染就是把物体分为需要View的静态、完全静态和动态，其中静态物体只有第一次或者标记更新就去更新数据，动态物体每帧都去更新数据。</p>
+<h3 id="静态物体的更新："><a href="#静态物体的更新：" class="headerlink" title="静态物体的更新："></a>静态物体的更新：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">FPrimitiveSceneInfo::AddToScene()<br>    AddStaticMeshes()<br>        if(bAddToStaticDrawLists)<br>            CacheMeshDrawCommands() //缓存MeshDrawCommand<br></code></pre></td></tr></table></figure>
+
+<h3 id="动态物体的更新："><a href="#动态物体的更新：" class="headerlink" title="动态物体的更新："></a>动态物体的更新：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">FSceneRenderer::ComputeViewVisibility()<br>    FSceneRenderer::GatherDynamicMeshElements()<br>        for (int32 PrimitiveIndex = 0; PrimitiveIndex &lt; NumPrimitives; ++PrimitiveIndex)<br>        &#123;<br>            //每个SceneInfo收集MeshBatch<br>            PrimitiveSceneInfo-&gt;Proxy-&gt;GetDynamicMeshElements(InViewFamily.Views,   InViewFamily, ViewMaskFinal, Collector);<br>        &#125;   <br></code></pre></td></tr></table></figure>
+
+<center><img src="https://pica.zhimg.com/80/v2-816a6e3d7c0d1fc971e5c2e548d00814_720w.png" width = "" height = ""></center>
+
+<h2 id="FMeshBatch、FMeshBatchElement"><a href="#FMeshBatch、FMeshBatchElement" class="headerlink" title="FMeshBatch、FMeshBatchElement"></a>FMeshBatch、FMeshBatchElement</h2><p>FMeshBatchElement主要绑定顶点、三角形IndexBuffer等资源。</p>
+<p>FMeshBatch包含了很多FMeshBatchElement，并定义了使用什么材质、什么顶点工厂等。</p>
+<p>渲染线程计算可见性的时候，会判断动态物体(Primitive)是否渲染，然后在GetDynamicMeshElements里收集Primitive的MeshBatch。</p>
+<center><img src="https://picx.zhimg.com/80/v2-0a548934900472ba3f97ee32acb2e3c9_720w.png" width = "" height = ""></center>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">FSceneRenderer::GatherDynamicMeshElements（）<br>&#123;<br>    //收集每个Primitive的MeshBatch<br>    for (int32 PrimitiveIndex = 0; PrimitiveIndex &lt; NumPrimitives; ++PrimitiveIndex)<br>    &#123;<br>        PrimitiveSceneInfo-&gt;Proxy-&gt;GetDynamicMeshElements(InViewFamily.Views, InViewFamily, ViewMaskFinal, Collector);<br>    &#125;<br><br>    // Compute DynamicMeshElementsMeshPassRelevance for this primitive.<br><br>    //计算动态Mesh相关性，PassMask，即哪些MeshPass会渲染本次MeshBatch<br>    ComputeDynamicMeshRelevance(ShadingPath, bAddLightmapDensityCommands, ViewRelevance, MeshBatch, View, PassRelevance, PrimitiveSceneInfo, Bounds);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>所以每个FPrimitiveSceneProxy都需要有自己的GetDynamicMeshElements方法。</p>
+<h1 id="2-自定义MeshComponent"><a href="#2-自定义MeshComponent" class="headerlink" title="2.自定义MeshComponent"></a>2.自定义MeshComponent</h1><h2 id="新建ULoyCustomMeshComponent"><a href="#新建ULoyCustomMeshComponent" class="headerlink" title="新建ULoyCustomMeshComponent"></a>新建ULoyCustomMeshComponent</h2><h3 id="LoyCustomMeshComponent-h"><a href="#LoyCustomMeshComponent-h" class="headerlink" title="LoyCustomMeshComponent.h"></a>LoyCustomMeshComponent.h</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">#pragma once<br><br>#include &quot;CoreMinimal.h&quot;<br>#include &quot;UObject/ObjectMacros.h&quot;<br>#include &quot;Engine/EngineTypes.h&quot;<br>#include &quot;Components/MeshComponent.h&quot;<br>#include &quot;LoyCustomMeshComponent.generated.h&quot;<br><br>class FPrimitiveSceneProxy;<br><br>UCLASS(hidecategories=(Object, Physics, Activation, &quot;Components|Activation&quot;), editinlinenew, meta=(BlueprintSpawnableComponent), ClassGroup=Rendering)<br>class ENGINE_API ULoyCustomMeshComponent : public UMeshComponent<br>&#123;<br>  GENERATED_UCLASS_BODY()<br><br>protected:<br>  //---UActorComponent需要实现的接口---<br>  virtual void OnRegister() override;<br>  virtual void OnUnregister() override;<br>  virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;<br>  virtual void SendRenderDynamicData_Concurrent() override;<br>  virtual void CreateRenderState_Concurrent(FRegisterComponentContext* Context) override;<br>  virtual void ApplyWorldOffset(const FVector&amp; InOffset, bool bWorldShift) override;<br><br>  //---USceneComponent需要实现的接口---<br>  //视锥剔除需要的BOX<br>  virtual FBoxSphereBounds CalcBounds(const FTransform&amp; LocalToWorld) const override;<br><br>  //---UPrimitiveComponent需要实现的接口---<br>  //渲染代理<br>  virtual  FPrimitiveSceneProxy* CreateSceneProxy() override;<br><br>  //---UMeshComponent需要实现的接口 ---<br>  virtual int32 GetNumMaterials() const override;<br><br>  //---自定义Mesh需要的参数---<br>  UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=&quot;MeshRendering&quot;)<br>  TArray&lt;FVector&gt; Triangles;<br><br>  UPROPERTY(EditAnywhere, BlueprintReadOnly, Category=&quot;MeshRendering&quot;)<br>  TArray&lt;FVector&gt; PointVectors;<br>  <br>private:<br><br>  TArray&lt;FVector&gt; Points;<br><br>  friend class FLoyCustomMeshSceneProxy;<br>  <br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h3 id="LoyCustomMeshComponent-cpp"><a href="#LoyCustomMeshComponent-cpp" class="headerlink" title="LoyCustomMeshComponent.cpp"></a>LoyCustomMeshComponent.cpp</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br></pre></td><td class="code"><pre><code class="hljs plaintext"><br>#include &quot;Components/LoyCustomMeshComponent.h&quot;<br>#include &quot;PrimitiveViewRelevance.h&quot;<br>#include &quot;PrimitiveSceneProxy.h&quot;<br>#include &quot;RenderResource.h&quot;<br>#include &quot;RenderingThread.h&quot;<br>#include &quot;LocalVertexFactory.h&quot;<br><br>//---Index Buffer---<br>class FLoyCustomMeshIndexBuffer : public FIndexBuffer<br>&#123;<br>public:<br>  virtual void InitRHI() override<br>  &#123;<br>    FRHIResourceCreateInfo CreateInfo(TEXT(&quot;FLoyCustomMeshIndexBuffer&quot;));<br>    IndexBufferRHI = RHICreateIndexBuffer(sizeof(int32), NumIndices * sizeof(int32), BUF_Dynamic, CreateInfo);<br>  &#125;<br><br>  int32 NumIndices;<br>&#125;;<br><br>struct FLoyCustomMeshDynamicData<br>&#123;<br>  TArray&lt;FVector&gt; Points;<br>  TArray&lt;FVector&gt; Triangles;<br>&#125;;<br><br><br>//---SceneProxy---<br>class ENGINE_API FLoyCustomMeshSceneProxy final : public FPrimitiveSceneProxy<br>&#123;<br><br>private:<br>  UMaterialInterface* Material;<br>  FStaticMeshVertexBuffers VertexBuffers;<br>  FLoyCustomMeshIndexBuffer IndexBuffer;<br>  FLocalVertexFactory VertexFactory;<br><br>  FLoyCustomMeshDynamicData* DynamicData;<br><br>  FMaterialRelevance MaterialRelevance;<br><br>  int32 PointNums;<br>  int32 IndexNums;<br>  <br>public:<br>  <br>  SIZE_T GetTypeHash() const override<br>  &#123;<br>    static size_t UniquePointer;<br>    return reinterpret_cast&lt;size_t&gt;(&amp;UniquePointer);<br>  &#125;<br><br>  FLoyCustomMeshSceneProxy(ULoyCustomMeshComponent* Component)<br>    : FPrimitiveSceneProxy(Component)<br>    , Material(NULL)<br>    , VertexFactory(GetScene().GetFeatureLevel(), &quot;FLoyCustomMeshSceneProxy&quot;)<br>    , DynamicData(NULL)<br>    , MaterialRelevance(Component-&gt;GetMaterialRelevance(GetScene().GetFeatureLevel()))<br>    , PointNums(Component-&gt;Points.Num())<br>    , IndexNums(Component-&gt;Triangles.Num() * 3)<br>  &#123;<br>    //三角形和索引初始化<br>    VertexBuffers.InitWithDummyData(&amp;VertexFactory, GetVertexCount());<br>    IndexBuffer.NumIndices = GetIndexCount();<br>    BeginInitResource(&amp;IndexBuffer);<br>    <br>    Material = Component-&gt;GetMaterial(0);<br>    if(Material == NULL)<br>    &#123;<br>      Material = UMaterial::GetDefaultMaterial(MD_Surface);<br>    &#125;<br>    <br>    <br>  &#125;<br><br>  virtual ~FLoyCustomMeshSceneProxy()<br>  &#123;<br>    VertexBuffers.PositionVertexBuffer.ReleaseResource();<br>    VertexBuffers.ColorVertexBuffer.ReleaseResource();<br>    VertexBuffers.StaticMeshVertexBuffer.ReleaseResource();<br>    IndexBuffer.ReleaseResource();<br>    VertexFactory.ReleaseResource();<br>    if(DynamicData != NULL)<br>    &#123;<br>      delete DynamicData;<br>    &#125;<br>  &#125;<br><br>  int32 GetVertexCount() const<br>  &#123;<br>    return PointNums;<br>  &#125;<br><br>  int32 GetIndexCount() const<br>  &#123;<br>    return IndexNums;<br>  &#125;<br><br>  void BuildCustomMesh(const TArray&lt;FVector&gt;&amp; InPoints, const TArray&lt;FVector&gt;&amp; InTriangeles, TArray&lt;FDynamicMeshVertex&gt;&amp; OutVertices, TArray&lt;int32&gt;&amp; OutIndices)<br>  &#123;<br>    const FColor VertexColor(255, 255, 255);<br>    const int32 NumPoints = InPoints.Num();<br><br>    //顶点<br>    for(int32 VertexID = 0; VertexID &lt; NumPoints; VertexID++)<br>    &#123;<br>      FDynamicMeshVertex Vert;<br>      Vert.Position = (FVector3f)InPoints[VertexID];<br>      Vert.Color = VertexColor;<br>      Vert.SetTangents(FVector3f(1, 0, 0), FVector3f(0, 1, 0), FVector3f(0, 0, 1));<br><br>      OutVertices.Add(Vert);<br>    &#125;<br>    <br>    //三角形<br>    for (int32 i = 0; i&lt; InTriangeles.Num(); i++)<br>    &#123;<br>      OutIndices.Add((int32)InTriangeles[i].X);<br>      OutIndices.Add((int32)InTriangeles[i].Y);<br>      OutIndices.Add((int32)InTriangeles[i].Z);<br>    &#125;<br>    <br>  &#125;<br><br>  void SetDynamicData_RenderThread(FLoyCustomMeshDynamicData* NewDynamicData)<br>  &#123;<br>    check(IsInRenderingThread());<br><br>    // Free existing data if present<br>    if(DynamicData)<br>    &#123;<br>      delete DynamicData;<br>      DynamicData = NULL;<br>    &#125;<br>    DynamicData = NewDynamicData;<br><br>    TArray&lt;FDynamicMeshVertex&gt; Vertices;<br>    TArray&lt;int32&gt; Indices;<br>    BuildCustomMesh(NewDynamicData-&gt;Points, NewDynamicData-&gt;Triangles, Vertices, Indices);<br><br>    //check(Vertices.Num() == GetVertexCount());<br>    //check(Indices.Num() == GetIndexCount());<br><br>    //顶点传到VertexBuffer<br>    for (int i = 0; i &lt; Vertices.Num(); i++)<br>    &#123;<br>      const FDynamicMeshVertex&amp; Vertex = Vertices[i];<br><br>      VertexBuffers.PositionVertexBuffer.VertexPosition(i) = Vertex.Position;<br>      VertexBuffers.StaticMeshVertexBuffer.SetVertexTangents(i, Vertex.TangentX.ToFVector3f(), Vertex.GetTangentY(), Vertex.TangentZ.ToFVector3f());<br>      VertexBuffers.StaticMeshVertexBuffer.SetVertexUV(i, 0, Vertex.TextureCoordinate[0]);<br>      VertexBuffers.ColorVertexBuffer.VertexColor(i) = Vertex.Color;<br>    &#125;<br>    <br>    &#123;<br>      auto&amp; VertexBuffer = VertexBuffers.PositionVertexBuffer;<br>      void* VertexBufferData = RHILockVertexBuffer(VertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetNumVertices() * VertexBuffer.GetStride(), RLM_WriteOnly);<br>      FMemory::Memcpy(VertexBufferData, VertexBuffer.GetVertexData(), VertexBuffer.GetNumVertices() * VertexBuffer.GetStride());<br>      RHIUnlockVertexBuffer(VertexBuffer.VertexBufferRHI);<br>    &#125;<br><br>    &#123;<br>      auto&amp; VertexBuffer = VertexBuffers.ColorVertexBuffer;<br>      void* VertexBufferData = RHILockVertexBuffer(VertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetNumVertices() * VertexBuffer.GetStride(), RLM_WriteOnly);<br>      FMemory::Memcpy(VertexBufferData, VertexBuffer.GetVertexData(), VertexBuffer.GetNumVertices() * VertexBuffer.GetStride());<br>      RHIUnlockVertexBuffer(VertexBuffer.VertexBufferRHI);<br>    &#125;<br><br>    &#123;<br>      auto&amp; VertexBuffer = VertexBuffers.StaticMeshVertexBuffer;<br>      void* VertexBufferData = RHILockVertexBuffer(VertexBuffer.TangentsVertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetTangentSize(), RLM_WriteOnly);<br>      FMemory::Memcpy(VertexBufferData, VertexBuffer.GetTangentData(), VertexBuffer.GetTangentSize());<br>      RHIUnlockVertexBuffer(VertexBuffer.TangentsVertexBuffer.VertexBufferRHI);<br>    &#125;<br>    <br>    &#123;<br>      auto&amp; VertexBuffer = VertexBuffers.StaticMeshVertexBuffer;<br>      void* VertexBufferData = RHILockVertexBuffer(VertexBuffer.TexCoordVertexBuffer.VertexBufferRHI, 0, VertexBuffer.GetTexCoordSize(), RLM_WriteOnly);<br>      FMemory::Memcpy(VertexBufferData, VertexBuffer.GetTexCoordData(), VertexBuffer.GetTexCoordSize());<br>      RHIUnlockVertexBuffer(VertexBuffer.TexCoordVertexBuffer.VertexBufferRHI);<br>    &#125;<br><br>    //拷贝IndexBuffer<br>    void* IndexBufferData = RHILockIndexBuffer(IndexBuffer.IndexBufferRHI, 0, Indices.Num() * sizeof(int32), RLM_WriteOnly);<br>    FMemory::Memcpy(IndexBufferData, &amp;Indices[0], Indices.Num() * sizeof(int32));<br>    RHIUnlockIndexBuffer(IndexBuffer.IndexBufferRHI);<br>    <br>  &#125;<br><br>  //收集MeshBatch和MeshElements<br>  virtual void GetDynamicMeshElements(const TArray&lt;const FSceneView*&gt;&amp; Views, const FSceneViewFamily&amp; ViewFamily, uint32 VisibilityMap, FMeshElementCollector&amp; Collector) const override<br>  &#123;<br>    QUICK_SCOPE_CYCLE_COUNTER( STAT_LoyCustomMeshSceneProxy_GetDynamicMeshElements );<br><br>    const bool bWireframe = AllowDebugViewmodes() &amp;&amp; ViewFamily.EngineShowFlags.Wireframe;<br><br>    auto WireframeMaterialInstance = new FColoredMaterialRenderProxy(<br>      GEngine-&gt;WireframeMaterial ? GEngine-&gt;WireframeMaterial-&gt;GetRenderProxy() : NULL,<br>      FLinearColor(0, 0.5f, 1.f)<br>      );<br><br>    Collector.RegisterOneFrameMaterialProxy(WireframeMaterialInstance);<br><br>    FMaterialRenderProxy* MaterialProxy = NULL;<br>    if(bWireframe)<br>    &#123;<br>      MaterialProxy = WireframeMaterialInstance;<br>    &#125;<br>    else<br>    &#123;<br>      MaterialProxy = Material-&gt;GetRenderProxy();<br>    &#125;<br><br>    for (int32 ViewIndex = 0; ViewIndex &lt; Views.Num(); ViewIndex++)<br>    &#123;<br>      if (VisibilityMap &amp; (1 &lt;&lt; ViewIndex))<br>      &#123;<br>        const FSceneView* View = Views[ViewIndex];<br><br>        FMeshBatch&amp; Mesh = Collector.AllocateMesh();<br>        FMeshBatchElement&amp; BatchElement = Mesh.Elements[0];<br>        BatchElement.IndexBuffer = &amp;IndexBuffer;<br>        Mesh.bWireframe = bWireframe;<br>        Mesh.VertexFactory = &amp;VertexFactory;<br>        Mesh.MaterialRenderProxy = MaterialProxy;<br><br>        bool bHasPrecomputedVolumetricLightmap;<br>        FMatrix PreviousLocalToWorld;<br>        int32 SingleCaptureIndex;<br>        bool bOutputVelocity;<br>        GetScene().GetPrimitiveUniformShaderParameters_RenderThread(GetPrimitiveSceneInfo(), bHasPrecomputedVolumetricLightmap, PreviousLocalToWorld, SingleCaptureIndex, bOutputVelocity);<br><br>        FDynamicPrimitiveUniformBuffer&amp; DynamicPrimitiveUniformBuffer = Collector.AllocateOneFrameResource&lt;FDynamicPrimitiveUniformBuffer&gt;();<br>        DynamicPrimitiveUniformBuffer.Set(GetLocalToWorld(), PreviousLocalToWorld, GetBounds(), GetLocalBounds(), true, bHasPrecomputedVolumetricLightmap, DrawsVelocity(), bOutputVelocity);<br>        BatchElement.PrimitiveUniformBufferResource = &amp;DynamicPrimitiveUniformBuffer.UniformBuffer;<br><br>        BatchElement.FirstIndex = 0;<br>        BatchElement.NumPrimitives = GetIndexCount()/3;<br>        BatchElement.MinVertexIndex = 0;<br>        BatchElement.MaxVertexIndex = GetVertexCount();<br>        Mesh.ReverseCulling = IsLocalToWorldDeterminantNegative();<br>        Mesh.Type = PT_TriangleList;<br>        Mesh.DepthPriorityGroup = SDPG_World;<br>        Mesh.bCanApplyViewModeOverrides = false;<br>        Collector.AddMesh(ViewIndex, Mesh);<br><br>#if !(UE_BUILD_SHIPPING || UE_BUILD_TEST)<br>        // Render bounds<br>        RenderBounds(Collector.GetPDI(ViewIndex), ViewFamily.EngineShowFlags, GetBounds(), IsSelected());<br>#endif<br>      &#125;<br>    &#125;<br>    <br>  &#125;<br>  <br>  virtual FPrimitiveViewRelevance GetViewRelevance(const FSceneView* View) const override<br>  &#123;<br>    FPrimitiveViewRelevance Result;<br>    Result.bDrawRelevance = IsShown(View);<br>    Result.bShadowRelevance = IsShadowCast(View);<br>    Result.bDynamicRelevance = true;<br>    MaterialRelevance.SetPrimitiveViewRelevance(Result);<br>    return Result;<br>  &#125;<br><br>  virtual uint32 GetMemoryFootprint( void ) const override &#123; return( sizeof( *this ) + GetAllocatedSize() ); &#125;<br><br>  uint32 GetAllocatedSize( void ) const &#123; return( FPrimitiveSceneProxy::GetAllocatedSize() ); &#125;<br>&#125;;<br><br>//-----------------------------------------------------------//<br>  <br>  <br>ULoyCustomMeshComponent::ULoyCustomMeshComponent(const FObjectInitializer&amp; ObjectInitializer)<br>  : Super(ObjectInitializer)<br>&#123;<br>  UE_LOG(LogTemp, Warning, TEXT(&quot;Loy Ctor&quot;));<br>  <br>  PrimaryComponentTick.bCanEverTick = true;<br>  bTickInEditor = true;<br>  bAutoActivate = true;<br><br>  PointVectors.AddUninitialized(3);<br>  Triangles.AddUninitialized(1);<br><br>  SetCollisionProfileName(UCollisionProfile::PhysicsActor_ProfileName);<br>&#125;<br>  <br>FPrimitiveSceneProxy* ULoyCustomMeshComponent::CreateSceneProxy()<br>&#123;<br>  UE_LOG(LogTemp, Warning, TEXT(&quot;Loy CreateSceneProxy&quot;));<br>  return new FLoyCustomMeshSceneProxy(this);<br>&#125;<br><br>int32 ULoyCustomMeshComponent::GetNumMaterials() const<br>&#123;<br>  return 1;<br>&#125;<br><br>void ULoyCustomMeshComponent::OnRegister()<br>&#123;<br>  Super::OnRegister();<br>  <br>  UE_LOG(LogTemp, Warning, TEXT(&quot;Loy OnRegister&quot;));<br>  <br>  Points.Reset();<br>  Points.Append(PointVectors);<br>&#125;<br><br>void ULoyCustomMeshComponent::OnUnregister()<br>&#123;<br>  Super::OnUnregister();<br><br>  UE_LOG(LogTemp, Warning, TEXT(&quot;Loy OnUnRegister&quot;));<br>&#125;<br><br>void ULoyCustomMeshComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)<br>&#123;<br>  Super::TickComponent(DeltaTime, TickType, ThisTickFunction);<br><br>  MarkRenderDynamicDataDirty();<br>&#125;<br><br>void ULoyCustomMeshComponent::CreateRenderState_Concurrent(FRegisterComponentContext* Context)<br>&#123;<br>  Super::CreateRenderState_Concurrent(Context);<br><br>  UE_LOG(LogTemp, Warning, TEXT(&quot;Loy CreateRenderState_Concurrent&quot;));<br><br>  SendRenderDynamicData_Concurrent();<br>&#125;<br><br>void ULoyCustomMeshComponent::ApplyWorldOffset(const FVector&amp; InOffset, bool bWorldShift)<br>&#123;<br>  Super::ApplyWorldOffset(InOffset, bWorldShift);<br><br>  UE_LOG(LogTemp, Warning, TEXT(&quot;Loy ApplyWorldOffset&quot;));<br><br>  for (FVector&amp; P : Points)<br>  &#123;<br>    P += InOffset;<br>  &#125;<br>&#125;<br><br>void ULoyCustomMeshComponent::SendRenderDynamicData_Concurrent()<br>&#123;<br>  if(SceneProxy)<br>  &#123;<br><br>    UE_LOG(LogTemp, Warning, TEXT(&quot;Loy SendRenderDynamicData_Concurrent&quot;));<br>    <br>    FLoyCustomMeshDynamicData* DynamicData = new FLoyCustomMeshDynamicData;<br><br>    //world to local<br>    const FTransform&amp; ComponentTransform = GetComponentTransform();<br><br>    int32 NumPoints = Points.Num();<br>    DynamicData-&gt;Points.AddUninitialized(NumPoints);<br>    for (int32 PointId = 0; PointId &lt; Points.Num(); PointId++)<br>    &#123;<br>      //这里传模型坐标<br>      DynamicData-&gt;Points[PointId] = Points[PointId];<br>    &#125;<br><br>    int32 NumIndexs = Triangles.Num();<br>    DynamicData-&gt;Triangles.AddUninitialized(NumIndexs);<br>    <br>    for (int32 i = 0; i &lt; Triangles.Num(); i++)<br>    &#123;<br>      DynamicData-&gt;Triangles[i] = Triangles[i];<br>    &#125;<br>    <br><br>    //send to render thread<br>    FLoyCustomMeshSceneProxy* Proxy = (FLoyCustomMeshSceneProxy*)SceneProxy;<br>    ENQUEUE_RENDER_COMMAND(FSendCableDynamicData)(<br>      [Proxy, DynamicData](FRHICommandListImmediate&amp; RHICmdList)<br>    &#123;<br>      Proxy-&gt;SetDynamicData_RenderThread(DynamicData);<br>    &#125;);<br>  &#125;<br>&#125;<br><br>FBoxSphereBounds ULoyCustomMeshComponent::CalcBounds(const FTransform&amp; LocalToWorld) const<br>&#123;<br>  UE_LOG(LogTemp, Warning, TEXT(&quot;Loy CalcBounds&quot;));<br>  <br>  //构建包围盒<br>  FBox MeshBox(ForceInit);<br>  float MinX = 0, MinY = 0, MinZ = 0;<br>  float MaxX = 0, MaxY = 0, MaxZ = 0;<br>  for (int32 i = 0; i &lt; Points.Num(); i++)<br>  &#123;<br>    FVector p = LocalToWorld.TransformPosition(Points[i]);<br>    if(i == 0)<br>    &#123;<br>      MinX = p.X;<br>      MaxX = p.X;<br>      MinY = p.Y;<br>      MaxY = p.Y;<br>      MinZ = p.Z;<br>      MaxZ = p.Z;<br>      continue;<br>    &#125;<br>    MinX = FMath::Min(MinX, p.X);<br>    MinY = FMath::Min(MinY, p.Y);<br>    MinZ = FMath::Min(MinZ, p.Z);<br>    MaxX = FMath::Max(MaxX, p.X);<br>    MaxY = FMath::Max(MaxY, p.Y);<br>    MaxZ = FMath::Max(MaxZ, p.Z);<br>  &#125;<br>  MeshBox.Min = FVector(MinX, MinY, MinZ);<br>  MeshBox.Max = FVector(MaxX, MaxY, MaxZ);<br>  <br>  return FBoxSphereBounds(MeshBox);<br>&#125;<br><br></code></pre></td></tr></table></figure>
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+          <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">UE5-自定义ShadingModel</span>
+          </a>
+        
+        
+          <a href="/2023/09/05/UE4-DitherLODTransition/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>

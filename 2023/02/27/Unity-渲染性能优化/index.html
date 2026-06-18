@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Unity-游戏渲染性能优化 | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="优化, Unity">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-bb3503bbf745a5d627bddb0f1f0a48c4_720w.webp">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-7a21f468bdd841b07a37cb0a830cd986_720w.webp">
+<meta property="og:image" content="https://pic1.zhimg.com/80/v2-e73b8872dff8172c70052a6a95ec919c_720w.webp">
+<meta property="article:published_time" content="2023-02-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-18T04:30:38.568Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="优化">
+<meta property="article:tag" content="Unity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic1.zhimg.com/80/v2-bb3503bbf745a5d627bddb0f1f0a48c4_720w.webp">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 36 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__container">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2023-02-26T16:00:00.000Z">2023 年 2 月 27 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/Unity/">Unity</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">Unity-游戏渲染性能优化</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E4%BC%98%E5%8C%96/" class="tag">#优化</a>
+          
+            <a href="/tags/Unity/" class="tag">#Unity</a>
+          
+        </div>
+      
+    </header>
+
+    <div class="post__content">
+      <p>Unity项目的优化思路和实践经验在此总结一下。</p>
+<h1 id="1-性能检测"><a href="#1-性能检测" class="headerlink" title="1.性能检测"></a>1.性能检测</h1><p>要优化首先需要分析现有的性能瓶颈，获取性能数据，根据情况决定优化什么，如何优化。<br>性能分析的工具和方法：</p>
+<h2 id="检测工具：Profiler、SnapdragonProfiler、IntelGPA、XCode"><a href="#检测工具：Profiler、SnapdragonProfiler、IntelGPA、XCode" class="headerlink" title="-检测工具：Profiler、SnapdragonProfiler、IntelGPA、XCode"></a>-检测工具：Profiler、SnapdragonProfiler、IntelGPA、XCode</h2><p>检测工具帮助我们实时分析游戏运行时候的资源，CPU、内存、GPU等使用情况，来定位当前项目的瓶颈和优化点。</p>
+<p>&#x2F;&#x2F;todo shader复杂度计算</p>
+<h2 id="抓帧工具：FrameDebug、SnapdragonProfiler、RenderDoc、IntelGPA、XCode"><a href="#抓帧工具：FrameDebug、SnapdragonProfiler、RenderDoc、IntelGPA、XCode" class="headerlink" title="-抓帧工具：FrameDebug、SnapdragonProfiler、RenderDoc、IntelGPA、XCode"></a>-抓帧工具：FrameDebug、SnapdragonProfiler、RenderDoc、IntelGPA、XCode</h2><p>这类工具的作用主要是分析GPU渲染的过程，分析DrawCall是否正常、绘制是否多余、RT是否冗余等问题。</p>
+<p>值得一提的是，有些抓帧工具是可以统计每个DC的GPU耗时的，有时候对于性能分析有较大的参考意义，但个人实践过程中感觉RenderDoc的不准确，SnapdragonProfiler的还可以。</p>
+<p>SnapdragonProfiler耗时的计算方法为：<br>   DrawCall耗时 &#x3D;    DrawCall耗费的GPUBlocks数量 * GPU频率</p>
+<p>&#x2F;&#x2F;todo 贴一些实例图片</p>
+<span id="more"></span>
+
+<h2 id="无法衡量的功能消耗的情况："><a href="#无法衡量的功能消耗的情况：" class="headerlink" title="-无法衡量的功能消耗的情况："></a>-无法衡量的功能消耗的情况：</h2><p>可以通过控制变量计算出大致的消耗，比如打不同版本的包横向对比、</p>
+<p>在屏幕上使用按钮做功能的开关、使用lua配置等方法开关。</p>
+<h1 id="2-性能优化"><a href="#2-性能优化" class="headerlink" title="2.性能优化"></a>2.性能优化</h1><p>优化总体来说的思路是找出性能超标消耗最大的部分进行优化。82原则。</p>
+<p>以下记录一些常见的优化问题：</p>
+<h2 id="1-物体剔除"><a href="#1-物体剔除" class="headerlink" title="(1)物体剔除"></a>(1)物体剔除</h2><p>场景里绘制的东西越多当然就越费，所以剔除是我们首先应该需要考虑的思路。<br>下面三个剔除方案由简单到复杂，消耗依次变大。</p>
+<h3 id="a-距离剔除LOD："><a href="#a-距离剔除LOD：" class="headerlink" title="a.距离剔除LOD："></a>a.距离剔除LOD：</h3><p>Lod就是近处保留细节，随着摄像机距离的变大，细节降低，这个渐变过程也要做到自然平滑，符合美术效果。一般使用AlphaFade或者DitherFade进行过渡。<br>Lod在unity里的场景物体可以使用LodGroup创建不同的Lod级别，并设置各个档位的Render和Mesh。举个例子一颗树，lod0正常渲染随风摆动光照阴影、lod1mesh简化去掉顶点动画优化光照阴影算法、lod2使用Billboard。<br>不仅是物体，其他地方都可以使用距离LOD的思路，比如ShadowMap的绘制距离、草地的绘制距离、某些功能的刷新频率(随着距离降低频率)。</p>
+<h3 id="b-视锥剔除Frustum-Cull："><a href="#b-视锥剔除Frustum-Cull：" class="headerlink" title="b.视锥剔除Frustum Cull："></a>b.视锥剔除Frustum Cull：</h3><p>Frustum Cull将不在摄像机视锥内的物体进行剔除，这个在平时使用CommandBuffer开发一些功能的时候会有所体会，比如绘制大批量草地，需要进行视锥剔除。</p>
+<p>(涉及大数量的这种计算可以使用四叉树、Cluster这样的结构预先规划，从而优化剔除算法)</p>
+<h3 id="c-遮挡剔除Occlusion-Culling："><a href="#c-遮挡剔除Occlusion-Culling：" class="headerlink" title="c.遮挡剔除Occlusion Culling："></a>c.遮挡剔除Occlusion Culling：</h3><center><img src="https://pic1.zhimg.com/80/v2-bb3503bbf745a5d627bddb0f1f0a48c4_720w.webp" width = "" height = ""></center>
+
+<h2 id="2-DrawCall合批"><a href="#2-DrawCall合批" class="headerlink" title="(2)DrawCall合批"></a>(2)DrawCall合批</h2><p>a.静态合批</p>
+<p>b.动态合批</p>
+<p>c.GPU实例化合批</p>
+<p>d.SRP Batch</p>
+<p>e.UI合批</p>
+<h2 id="3-Overdraw问题"><a href="#3-Overdraw问题" class="headerlink" title="(3)Overdraw问题"></a>(3)Overdraw问题</h2><h3 id="a-透明的Overdraw"><a href="#a-透明的Overdraw" class="headerlink" title="a.透明的Overdraw"></a>a.透明的Overdraw</h3><p>半透明因为需要alphablend，我们需要尽量控制渲染的透明物体层数。</p>
+<h3 id="b-不透明的Overdraw"><a href="#b-不透明的Overdraw" class="headerlink" title="b.不透明的Overdraw"></a>b.不透明的Overdraw</h3><p>我们知道不透明的渲染顺序应该是摄像机由近往远进行绘制，这样绘制确实是不透明的最佳策略。</p>
+<p>但是有些情况还是有overdraw的出现，比如在unity中不透明物体是按照物体的中心进行排序的，所以有可能一个物体有大一片区域在视野的最前面，但还是在比较靠后渲染。</p>
+<center><img src="https://pic3.zhimg.com/80/v2-7a21f468bdd841b07a37cb0a830cd986_720w.webp" width = "" height = ""></center>
+
+
+<p>渲染管线一般来说深度测试是在fragshader之后，这样可以保证不透明物体绘制的顺序正确性，但fragshader里的计算还是走了。所以出现了EarlyZ这样的提前深度测试的硬件技术，会在fragshader之前就丢弃像素，节省计算。</p>
+<p>配合EarlyZ技术的另外一个叫PreZ Pass，是指绘制物体之前将所有物体的深度画出来，正常绘制时将深度测试模式设置为Equal，配合EarlyZ就可以节省不必要的fragshader计算。</p>
+<p>但是需要注意，PreZ Pass需要提前画深度，在移动端这本就是一个比较费的操作，有可能PreZ Pass消耗本身大于我们节省的fragshader计算。</p>
+<p>还需要注意，AlphaTest材质不支持EarlyZ，如果shader编译之后发现有discard丢弃操作，会关闭EarlyZTest。</p>
+<h3 id="c-Overdraw统计工具"><a href="#c-Overdraw统计工具" class="headerlink" title="c.Overdraw统计工具"></a>c.Overdraw统计工具</h3><p>unity自带的overdraw查看是替换为透明材质混合出来的，编辑器上看overdraw结果其实是错误的。</p>
+<h2 id="4-阴影优化"><a href="#4-阴影优化" class="headerlink" title="(4)阴影优化"></a>(4)阴影优化</h2><h3 id="a-ShadowCasterPass"><a href="#a-ShadowCasterPass" class="headerlink" title="a.ShadowCasterPass"></a>a.ShadowCasterPass</h3><p>阴影投射的Pass其实大多数计算是在VertShader，所以三角形数量顶点数量是绘制阴影性能重点。</p>
+<p>另外，我们可以在CPU端做一些优化，比如控制CascadeShadowMap不同级联的绘制频率，远处的阴影降低绘制频率也看不太出来。</p>
+<h3 id="b-阴影采样"><a href="#b-阴影采样" class="headerlink" title="b.阴影采样"></a>b.阴影采样</h3><p>阴影采样确实是一个比较费的操作，尤其是软阴影，我们使用PCF、PCSS等软阴影方案的时候，需要采样很多像素颜色进行混合平均。</p>
+<p>这里PCSS可以使用泊松分布的采样方法，通过采样一个范围的固定数量(如8、16)点的平均值来模拟，而不用遍历所有的像素。如16次采样得到6x6范围内的平均值，节省20次采样。</p>
+<center><img src="https://pic1.zhimg.com/80/v2-e73b8872dff8172c70052a6a95ec919c_720w.webp" width = "" height = ""></center>
+
+<h2 id="5-Shader指令优化"><a href="#5-Shader指令优化" class="headerlink" title="(5)Shader指令优化"></a>(5)Shader指令优化</h2><h3 id="a-减少非恒定数学计算，使用恒定值"><a href="#a-减少非恒定数学计算，使用恒定值" class="headerlink" title="a.减少非恒定数学计算，使用恒定值"></a>a.减少非恒定数学计算，使用恒定值</h3><p>vertScale &#x3D; 10 &#x2F;22; （X）</p>
+<p>static const fixed PI &#x3D; 3.1415926 ; (√)</p>
+<h3 id="b-同样效果的运算，将计算从frag移动到vert"><a href="#b-同样效果的运算，将计算从frag移动到vert" class="headerlink" title="b.同样效果的运算，将计算从frag移动到vert"></a>b.同样效果的运算，将计算从frag移动到vert</h3><h3 id="c-减少纹理采样"><a href="#c-减少纹理采样" class="headerlink" title="c.减少纹理采样"></a>c.减少纹理采样</h3><h3 id="d-使用ShaderLab的混合指令，而不是手动计算混合"><a href="#d-使用ShaderLab的混合指令，而不是手动计算混合" class="headerlink" title="d.使用ShaderLab的混合指令，而不是手动计算混合"></a>d.使用ShaderLab的混合指令，而不是手动计算混合</h3><h3 id="e-尽量避免复杂的数学函数-sin、pow、log"><a href="#e-尽量避免复杂的数学函数-sin、pow、log" class="headerlink" title="e.尽量避免复杂的数学函数(sin、pow、log)"></a>e.尽量避免复杂的数学函数(sin、pow、log)</h3><h3 id="f-可以的情况下，使用最低的精度。这条目前看起来已经没太大作用了。"><a href="#f-可以的情况下，使用最低的精度。这条目前看起来已经没太大作用了。" class="headerlink" title="f.可以的情况下，使用最低的精度。这条目前看起来已经没太大作用了。"></a>f.可以的情况下，使用最低的精度。这条目前看起来已经没太大作用了。</h3><h3 id="g-一次多分支计算"><a href="#g-一次多分支计算" class="headerlink" title="g.一次多分支计算"></a>g.一次多分支计算</h3><p>uv.xy +&#x3D; 0.5; (√)</p>
+<p>uv.x +&#x3D; 0.5; uv.y +&#x3D; 0.5; （X）</p>
+<h3 id="h-使用乘法代替除法，倒数使用rcp"><a href="#h-使用乘法代替除法，倒数使用rcp" class="headerlink" title="h.使用乘法代替除法，倒数使用rcp"></a>h.使用乘法代替除法，倒数使用rcp</h3><p>&#x2F;2 代替为 * 0.5</p>
+<p>1.0&#x2F;x 代替为 rcp(x)</p>
+<h2 id="6-带宽优化"><a href="#6-带宽优化" class="headerlink" title="(6)带宽优化"></a>(6)带宽优化</h2><p>使用Texture Streaming</p>
+<p>只加载Camera需要的Mip级别。</p>
+<h2 id="7-shaderlab变体-ab内存优化"><a href="#7-shaderlab变体-ab内存优化" class="headerlink" title="(7)shaderlab变体 ab内存优化"></a>(7)shaderlab变体 ab内存优化</h2><p>还有个比较关注的问题是shaderlab最后打包的ab包非常大，这有可能是我们shader的变体关键字太多，没有做变体剔除，导致编译出来的数量巨多。</p>
+<p>shaderlab编译是把所有关键字排列组合起来成为变体，每加一个关键字，默认结果数量就是*2，这是个指数级的增长，所以一般项目里出现这个问题，shader的变体版本一看都是远远超过预期。个人有幸见过400w变体的，哈哈哈。</p>
+<p>shader_feature _ SOFT_SHADOW</p>
+<p>multi_compile _ SOFT_SHADOW</p>
+<p>两种关键字定义方式都是定义了开和关软阴影功能，所以是*2。</p>
+<p>shaderlab的关键字是分为两种的，一种是材质级别shader_feature，一种是全局级别multi_compile。</p>
+<p>shader_feature我们可以使用unity自带的变体收集功能ShaderVariantCollection，打包的时候只打包我们收集到的变体版本，其余的进行剔除。缺点是剔除不好维护。</p>
+<p>multi_compile默认是把变体全部打进shader包。</p>
+<p>我们可以在shader打包的过程中进行这类关键字的剔除，方法是在OnProcessShader接口里，将不可能出现的变体组合情况进行剔除。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">public void OnProcessShader(Shader shader, ShaderSnippetData snippet, IList&lt;ShaderCompilerData&gt; data)<br>&#123;<br>    if(shader.name == &quot;xxxxxx&quot;)<br>    &#123;<br>       for(int i = 0; i&lt; data,count; i++)<br>       &#123;<br>          if(data[i].shaderKeywordSet.IsEnabled(new ShaderKeyword(&quot;_PCF5x5&quot;) &amp;&amp; data[i].shaderKeywordSet.IsEnabled(new ShaderKeyword(&quot;_PCF7x7&quot;)))<br>               data.RemoveAt(i);<br>        &#125;<br>    &#125;<br>&#125;<br><br></code></pre></td></tr></table></figure>
+
+<p>URP里自带的一些关键字，unity代码ShaderPreprocess里根据功能是否开启剔除关键字。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">if (stripTool.StripMultiCompile(m_UseFastSRGBLinearConversion, ShaderFeatures.UseFastSRGBLinearConversion))<br>      return true;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<p>引用参考：</p>
+<p><a href="https://link.zhihu.com/?target=https://blog.csdn.net/whitebreeze/article/details/118688150">https://link.zhihu.com/?target=https%3A//blog.csdn.net/whitebreeze/article/details/118688150</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/437399913">https://zhuanlan.zhihu.com/p/437399913</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/363277669">https://zhuanlan.zhihu.com/p/363277669</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/350778355">https://zhuanlan.zhihu.com/p/350778355</a></p>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+          <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">UE4-HISM剔除更新DFShadow</span>
+          </a>
+        
+        
+          <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Unity-URP代码架构</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>
