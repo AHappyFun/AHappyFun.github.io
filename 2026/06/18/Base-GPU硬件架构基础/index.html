@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Base-GPU硬件架构基础 | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="原理, 优化, Shader">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-18T05:20:20.068Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="原理">
+<meta property="article:tag" content="优化">
+<meta property="article:tag" content="Shader">
+<meta name="twitter:card" content="summary">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 39 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/06/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__container">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-06-17T16:00:00.000Z">2026 年 6 月 18 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/%E5%8E%9F%E7%90%86/">原理</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">Base-GPU硬件架构基础</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E5%8E%9F%E7%90%86/" class="tag">#原理</a>
+          
+            <a href="/tags/%E4%BC%98%E5%8C%96/" class="tag">#优化</a>
+          
+            <a href="/tags/Shader/" class="tag">#Shader</a>
+          
+        </div>
+      
+    </header>
+
+    <div class="post__content">
+      <p>记录一下GPU硬件里ALU、SIMD、Warp&#x2F;Wave和half精度这些概念的关系。</p>
+<p>平时看GPU参数会看到很多名词：多少个ALU、多少个Shader Core、SIMD宽度、Warp、Wave32、FP16双倍性能。这些东西属于不同层级，如果混在一起就很容易得到错误的结论。</p>
+<p>先用一句话理解：</p>
+<pre><code>ALU：真正执行数学指令的电路。
+
+SIMD/SIMT：让一条指令同时驱动多份数据的执行方式。
+
+Warp/Wave：GPU调度和执行的一组Shader线程。
+
+SM/CU/Shader Core：包含ALU、寄存器、调度器、缓存等资源的更大计算单元。
+</code></pre>
+<h2 id="1-GPU为什么需要大量并行？"><a href="#1-GPU为什么需要大量并行？" class="headerlink" title="1.GPU为什么需要大量并行？"></a>1.GPU为什么需要大量并行？</h2><p>渲染一帧时，同一段Shader会处理大量顶点和像素。</p>
+<p>比如一个Fragment Shader需要对200万个像素做相似的计算：</p>
+<pre><code>采样纹理
+
+计算法线
+
+计算光照
+
+输出颜色
+</code></pre>
+<p>GPU不会像CPU一样重点优化单个线程的复杂控制流，而是安排很多线程同时处理不同数据。只要工作足够多，就可以用高吞吐量隐藏单条指令和内存访问的延迟。</p>
+<h2 id="2-ALU是什么？"><a href="#2-ALU是什么？" class="headerlink" title="2.ALU是什么？"></a>2.ALU是什么？</h2><p>ALU（Arithmetic Logic Unit，算术逻辑单元）是物理上执行运算的电路，可以理解为GPU里的最小计算执行单元之一。</p>
+<p>常见运算包括：</p>
+<pre><code>加法、减法、乘法、乘加。
+
+与、或、异或、移位、比较。
+
+Min、Max、Abs等简单数学操作。
+</code></pre>
+<p>但GPU里并不是只有一种万能ALU。不同架构可能还有：</p>
+<pre><code>FP32/FP16浮点单元。
+
+INT32整数单元。
+
+SFU特殊函数单元，处理倒数、平方根、三角函数等。
+
+Tensor/Matrix单元，处理矩阵运算。
+
+Load/Store单元，负责内存读写。
+
+Texture Unit，负责纹理寻址、过滤和采样。
+</code></pre>
+<p>所以Shader里的每条指令不一定使用同一种硬件单元。</p>
+<h3 id="ALU数量是否直接决定GPU性能？"><a href="#ALU数量是否直接决定GPU性能？" class="headerlink" title="ALU数量是否直接决定GPU性能？"></a>ALU数量是否直接决定GPU性能？</h3><p>ALU数量会影响理论计算能力，但不能单独决定GPU性能。</p>
+<p>理论计算吞吐大致还要考虑：</p>
+<pre><code>ALU数量
+
+每周期可以完成的运算数
+
+GPU频率
+
+指令类型和精度
+</code></pre>
+<p>实际性能还会受到：</p>
+<pre><code>ALU利用率
+
+寄存器数量和Occupancy
+
+Cache与显存带宽
+
+纹理采样能力
+
+分支发散
+
+指令依赖和内存延迟
+
+调度器能否持续提供可执行线程
+</code></pre>
+<p>两个GPU即使ALU数量相同，也可能因为架构、频率、缓存和带宽不同而性能差很多。</p>
+<p>更准确的说法是：<strong>ALU数量决定理论计算能力的一部分，能不能把这些ALU喂满才决定实际吞吐量。</strong></p>
+<h2 id="3-SIMD是什么？"><a href="#3-SIMD是什么？" class="headerlink" title="3.SIMD是什么？"></a>3.SIMD是什么？</h2><p>SIMD（Single Instruction Multiple Data，单指令多数据）表示一条指令同时处理多份数据。</p>
+<p>例如有4个像素需要执行相同加法：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">Color0 = Color0 + Light0<br>Color1 = Color1 + Light1<br>Color2 = Color2 + Light2<br>Color3 = Color3 + Light3<br></code></pre></td></tr></table></figure>
+
+<p>标量执行可以理解为一条一条计算。4-Lane SIMD可以用一条指令同时驱动4条Lane：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">[Color0, Color1, Color2, Color3] + [Light0, Light1, Light2, Light3]<br></code></pre></td></tr></table></figure>
+
+<p>SIMD并不是某个独立零件的固定名字，更像ALU的组织和执行方式。一个SIMD执行单元内部有多条Lane，每条Lane处理一个线程当前的数据。</p>
+<h3 id="SIMD宽度"><a href="#SIMD宽度" class="headerlink" title="SIMD宽度"></a>SIMD宽度</h3><p>SIMD宽度通常表示一条指令能同时覆盖多少条数据Lane。</p>
+<p>为了方便理解，可以假设有一个128bit的执行数据通路：</p>
+<pre><code>4 x 32bit float
+
+8 x 16bit half
+</code></pre>
+<p>这个模型可以帮助理解为什么原生FP16硬件有机会在同样宽度里处理更多数据。</p>
+<p>但这不是所有GPU都真实采用的结构。GPU可能使用分周期执行、双发射、Packed Math、独立FP16管线等不同实现，不能看到“128bit”就直接推导所有指令的吞吐量。</p>
+<h2 id="4-SIMD和SIMT的区别"><a href="#4-SIMD和SIMT的区别" class="headerlink" title="4.SIMD和SIMT的区别"></a>4.SIMD和SIMT的区别</h2><p>SIMD通常从硬件指令角度描述“一条指令处理多个数据”。</p>
+<p>GPU编程更常用SIMT（Single Instruction Multiple Threads，单指令多线程）理解：</p>
+<pre><code>每个Shader线程有自己的寄存器和数据。
+
+多个线程组成一个执行组。
+
+执行组内线程共享当前指令流。
+
+硬件再用SIMD Lane执行这些线程。
+</code></pre>
+<p>对Shader开发者来说，代码看起来是每个线程独立执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float3 color = albedo * lightColor;<br></code></pre></td></tr></table></figure>
+
+<p>实际硬件会把多个线程的这条乘法组织起来并行执行。</p>
+<p>可以简单理解为：</p>
+<pre><code>SIMT是开发者看到的线程模型。
+
+SIMD是底层硬件执行这些线程的一种方式。
+</code></pre>
+<h2 id="5-标量ALU和矢量ALU"><a href="#5-标量ALU和矢量ALU" class="headerlink" title="5.标量ALU和矢量ALU"></a>5.标量ALU和矢量ALU</h2><p>一些GPU架构会区分Scalar和Vector执行资源。</p>
+<p>Vector ALU处理每个Lane不同的数据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float brightness = input.color.r * input.light;<br></code></pre></td></tr></table></figure>
+
+<p>每个像素的<code>input</code>不同，需要每条Lane分别计算。</p>
+<p>Scalar ALU适合执行整个Wave都相同的值：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float value = _MaterialScale * _GlobalIntensity;<br></code></pre></td></tr></table></figure>
+
+<p>如果两个变量在一次DrawCall里不变，没必要让Wave里每个线程重复计算相同结果。支持Scalar执行的架构可以计算一次，再广播给整个Wave。</p>
+<p>“一个SIMD里有几个Vector ALU、几个Scalar ALU”是具体架构的设计，不能当作所有GPU的通用结构。写Shader时更重要的是区分：</p>
+<pre><code>Uniform数据：整个DrawCall或Wave一致。
+
+Per-Lane数据：每个顶点、像素或线程不同。
+</code></pre>
+<h2 id="6-Warp和Wave是什么？"><a href="#6-Warp和Wave是什么？" class="headerlink" title="6.Warp和Wave是什么？"></a>6.Warp和Wave是什么？</h2><p>Warp&#x2F;Wave是GPU调度和执行的一组线程。</p>
+<pre><code>Nvidia称为Warp，现代Nvidia GPU一个Warp通常是32个线程。
+
+AMD称为Wavefront或Wave，GCN常见Wave64，RDNA主要使用Wave32，也可以存在Wave64模式。
+
+Vulkan和跨平台API通常使用Subgroup描述类似概念。
+</code></pre>
+<p>Mali、Adreno、Apple GPU也有对应的线程执行组，但宽度会随厂商、架构代际、Shader阶段和编译结果变化。不要在通用Shader代码里硬编码“Mali一定16线程”或“Adreno一定8宽”。需要Subgroup算法时，应该使用API能力查询和目标设备实测。</p>
+<h3 id="Warp大小和SIMD宽度是一个东西吗？"><a href="#Warp大小和SIMD宽度是一个东西吗？" class="headerlink" title="Warp大小和SIMD宽度是一个东西吗？"></a>Warp大小和SIMD宽度是一个东西吗？</h3><p>不一定。</p>
+<p>Warp&#x2F;Wave大小是逻辑执行组的线程数，SIMD宽度是物理执行管线单次覆盖的Lane数量。</p>
+<p>假设：</p>
+<pre><code>一个Wave有16个线程。
+
+物理SIMD宽度为4。
+</code></pre>
+<p>最简单的理解是，同一条Wave指令需要分4组覆盖所有线程，也就是至少经过4次Lane执行。</p>
+<p>但是现代GPU有流水线、多组执行单元、双发射和不同指令延迟，不能简单认为所有指令都严格等于4个完整时钟周期。这个除法只适合理解“逻辑线程组可能大于物理执行宽度”。</p>
+<h2 id="7-SM、CU和Shader-Core是什么？"><a href="#7-SM、CU和Shader-Core是什么？" class="headerlink" title="7.SM、CU和Shader Core是什么？"></a>7.SM、CU和Shader Core是什么？</h2><p>比SIMD更高一层，是厂商定义的GPU计算核心：</p>
+<pre><code>Nvidia：SM（Streaming Multiprocessor）。
+
+AMD：CU/WGP（Compute Unit/Work Group Processor）。
+
+Arm：Shader Core。
+
+Qualcomm、Apple也有自己的核心组织方式。
+</code></pre>
+<p>一个计算核心通常不只有ALU，还包含：</p>
+<pre><code>Warp/Wave调度器
+
+SIMD执行单元
+
+Scalar/Vector寄存器
+
+Load/Store单元
+
+Texture相关单元
+
+Local/Shared Memory
+
+L1 Cache
+
+特殊函数单元
+</code></pre>
+<p>调度器每个周期从当前驻留的Warp&#x2F;Wave里选择已经准备好的指令，送到对应执行单元。</p>
+<p>当一个Wave在等待纹理或内存时，调度器可以切换到另一个Wave执行。这也是GPU用大量线程隐藏延迟的核心方式。</p>
+<h2 id="8-为什么ALU会填不满？"><a href="#8-为什么ALU会填不满？" class="headerlink" title="8.为什么ALU会填不满？"></a>8.为什么ALU会填不满？</h2><p>GPU优化目标之一就是让执行单元持续有有效工作，而不是让大量Lane或整个管线空闲。</p>
+<h3 id="1-工作量不足"><a href="#1-工作量不足" class="headerlink" title="1.工作量不足"></a>1.工作量不足</h3><p>如果只有很少的顶点、像素或Compute线程，无法生成足够多的Warp&#x2F;Wave，GPU很多核心没有工作。</p>
+<p>优化思路：</p>
+<pre><code>合并过小的Dispatch。
+
+避免大量只有几个线程的小任务。
+
+Compute Shader的Thread Group数量要足够覆盖GPU。
+</code></pre>
+<p>注意：最后一个Wave没有填满只是局部浪费。真正更常见的问题是整个Dispatch规模太小，或者有太多小Draw&#x2F;Dispatch带来调度成本。</p>
+<h3 id="2-分支发散"><a href="#2-分支发散" class="headerlink" title="2.分支发散"></a>2.分支发散</h3><p>同一个Warp&#x2F;Wave里的线程进入不同分支，硬件需要使用Active Mask分别执行不同路径。</p>
+<p>执行A分支时，B分支线程对应的Lane被屏蔽；执行B分支时相反。ALU虽然在发指令，但部分Lane没有产生有效结果。</p>
+<p>详细原理见上一篇Shader分支文章。</p>
+<h3 id="3-指令依赖"><a href="#3-指令依赖" class="headerlink" title="3.指令依赖"></a>3.指令依赖</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float a = ExpensiveFunction(x);<br>float b = a * 2.0;<br>float c = b + 1.0;<br></code></pre></td></tr></table></figure>
+
+<p>后面的指令依赖前面结果，单个线程无法同时执行这些指令。如果没有其他独立指令或其他Wave可以切换，执行管线就会等待。</p>
+<p>GPU会通过以下方式隐藏延迟：</p>
+<pre><code>同一线程内寻找互不依赖的指令，也就是ILP。
+
+切换到其他已经准备好的Warp/Wave，也就是TLP。
+</code></pre>
+<h3 id="4-内存和纹理等待"><a href="#4-内存和纹理等待" class="headerlink" title="4.内存和纹理等待"></a>4.内存和纹理等待</h3><p>ALU需要的数据还没从Cache、显存或Texture Unit返回，只能等待。</p>
+<p>这类Shader不是ALU瓶颈，而是Memory&#x2F;Texture Bound。继续减少几条乘加指令通常没有意义，应该优化数据格式、采样数量、访问连续性和Cache命中。</p>
+<h3 id="5-寄存器压力过高"><a href="#5-寄存器压力过高" class="headerlink" title="5.寄存器压力过高"></a>5.寄存器压力过高</h3><p>每个Shader线程使用的临时变量越多，消耗的寄存器越多。同一个核心能同时驻留的Warp&#x2F;Wave数量就可能下降，也就是Occupancy降低。</p>
+<p>可切换的Wave少了，纹理和指令延迟更难隐藏。</p>
+<p>所以复杂Shader即使ALU指令不算多，也可能因为寄存器压力而变慢。</p>
+<h2 id="9-吞吐量和延迟的区别"><a href="#9-吞吐量和延迟的区别" class="headerlink" title="9.吞吐量和延迟的区别"></a>9.吞吐量和延迟的区别</h2><p>延迟（Latency）：一条指令从发出到结果可用需要多久。</p>
+<p>吞吐量（Throughput）：单位时间内整个GPU能完成多少工作。</p>
+<p>GPU并不要求每条指令延迟特别低，而是依靠大量线程和流水线保持高吞吐量。</p>
+<p>例如纹理采样可能要等待很多周期，但只要有其他Wave可以执行，ALU仍然可以保持忙碌。只有当所有驻留Wave都在等待时，硬件才真正停顿。</p>
+<h2 id="10-half和float是什么？"><a href="#10-half和float是什么？" class="headerlink" title="10.half和float是什么？"></a>10.half和float是什么？</h2><pre><code>half/FP16：通常是16bit浮点数。
+
+float/FP32：通常是32bit浮点数。
+</code></pre>
+<p>FP16占用位数更少，但表示范围和精度也更低。</p>
+<p>粗略理解：</p>
+<pre><code>FP16有效精度大约3位十进制小数，最大有限值约65504。
+
+FP32有效精度大约7位十进制小数，范围远大于FP16。
+</code></pre>
+<p>具体误差还和数值大小有关。浮点数越大，相邻可表示数之间的距离越大。</p>
+<h3 id="为什么half可能更快？"><a href="#为什么half可能更快？" class="headerlink" title="为什么half可能更快？"></a>为什么half可能更快？</h3><p>在原生支持FP16的GPU上，half可能有这些收益：</p>
+<pre><code>1.同样执行资源每周期处理更多FP16运算，某些架构可达到FP32的2倍算术吞吐。
+
+2.临时变量占用更少寄存器，可能提高Occupancy。
+
+3.使用真实16bit存储格式时，内存和插值带宽更低。
+
+4.Cache一次可以容纳更多数据。
+</code></pre>
+<p>但是这些收益不是任何GPU、任何指令都有。</p>
+<h3 id="half一定比float快2倍或4倍吗？"><a href="#half一定比float快2倍或4倍吗？" class="headerlink" title="half一定比float快2倍或4倍吗？"></a>half一定比float快2倍或4倍吗？</h3><p>不一定。</p>
+<p>“128bit一次处理8个half、4个float，所以算术2倍；half带宽又减半，所以整体4倍”这个推导不能直接成立。</p>
+<p>原因是：</p>
+<pre><code>计算吞吐和带宽瓶颈通常不会简单相乘。
+
+Shader可能只受其中一个瓶颈限制。
+
+有些GPU会把half提升到FP32执行。
+
+有些指令没有FP16双速率版本。
+
+half变量不一定按16bit存进Buffer。
+
+数据转换和Pack/Unpack本身也可能产生指令。
+
+纹理格式、插值器和寄存器是否真正使用16bit取决于平台和编译结果。
+</code></pre>
+<p>比较合理的结论是：<strong>在原生FP16友好的移动GPU上，half可能同时改善算术吞吐、寄存器压力和带宽，但最终收益需要看具体瓶颈。</strong></p>
+<h2 id="11-Unity里的half需要注意什么？"><a href="#11-Unity里的half需要注意什么？" class="headerlink" title="11.Unity里的half需要注意什么？"></a>11.Unity里的half需要注意什么？</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">half3 color;<br>half roughness;<br>float3 worldPosition;<br></code></pre></td></tr></table></figure>
+
+<p>Unity文档说明，<code>half</code>在部分高性能平台默认可能被编译成<code>float</code>。Unity 6可以通过Shader Precision Model影响跨平台精度映射。</p>
+<p>另外，Shader里的half变量和内存里的16bit存储不是一回事。</p>
+<p>例如：</p>
+<pre><code>Constant Buffer里的half可能仍按32bit大小和对齐存储。
+
+Texture是否省带宽取决于R16F、RGBA16F、RGBA8、压缩纹理等真实格式。
+
+StructuredBuffer是否省带宽取决于数据结构、API和真实16bit类型支持。
+
+min16float表示“至少16bit精度”，驱动也允许使用32bit执行。
+</code></pre>
+<p>所以只把源码里的<code>float</code>改成<code>half</code>，不保证Buffer大小和纹理带宽自动减半。</p>
+<h2 id="12-哪些数据适合half？"><a href="#12-哪些数据适合half？" class="headerlink" title="12.哪些数据适合half？"></a>12.哪些数据适合half？</h2><p>通常比较适合：</p>
+<pre><code>0到1范围的颜色、Mask、粗糙度、金属度。
+
+范围受控的UV和局部坐标。
+
+归一化方向、切线空间法线。
+
+范围明确的材质参数。
+
+允许小误差的光照中间结果。
+
+粒子和普通特效数据。
+</code></pre>
+<p>需要注意的是，归一化向量本身范围适合half，但高光、反射和多次累积对误差可能敏感，不能看到Normal就一律half。</p>
+<p>通常应该保留float：</p>
+<pre><code>大范围World Position。
+
+View Space Position和深度相关计算。
+
+矩阵变换及多次累积结果。
+
+对精度敏感的几何、阴影和重建算法。
+
+大参数或大范围UV。
+
+长循环累加、积分和误差会持续放大的计算。
+
+对三角函数、指数函数结果精度敏感的部分。
+</code></pre>
+<p>最容易发现的half精度问题：</p>
+<pre><code>颜色Banding。
+
+高光闪烁。
+
+远处顶点抖动。
+
+深度重建错误。
+
+UV跳变和纹理采样不稳定。
+</code></pre>
+<h2 id="13-Mali和Adreno的SIMD宽度怎么理解？"><a href="#13-Mali和Adreno的SIMD宽度怎么理解？" class="headerlink" title="13.Mali和Adreno的SIMD宽度怎么理解？"></a>13.Mali和Adreno的SIMD宽度怎么理解？</h2><p>“Mali SIMD宽度为4，Adreno SIMD为8或更宽”可以作为某些具体代际资料里的例子，但不能推广到所有Mali和Adreno。</p>
+<p>移动GPU架构变化很快：</p>
+<pre><code>执行组大小可能变化。
+
+物理ALU宽度和逻辑Subgroup大小可能不同。
+
+同一GPU对不同Shader阶段和精度可能使用不同执行方式。
+
+编译器可能合并、拆分或重新调度指令。
+</code></pre>
+<p>因此跨平台优化时更有价值的结论不是背一个固定宽度，而是：</p>
+<pre><code>保持足够的并行工作量。
+
+减少Wave内发散。
+
+控制寄存器压力。
+
+让内存访问连续。
+
+在支持的平台合理使用FP16。
+
+用厂商工具查看真实ISA和性能计数器。
+</code></pre>
+<h2 id="14-从Shader代码怎么对应到硬件？"><a href="#14-从Shader代码怎么对应到硬件？" class="headerlink" title="14.从Shader代码怎么对应到硬件？"></a>14.从Shader代码怎么对应到硬件？</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">half3 albedo = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv).rgb;<br>half ndotl = saturate(dot(normal, lightDir));<br>half3 color = albedo * lightColor * ndotl;<br></code></pre></td></tr></table></figure>
+
+<p>大致会经过：</p>
+<pre><code>1.Texture Unit根据UV做纹理采样。
+
+2.采样结果返回寄存器。
+
+3.ALU执行dot、saturate和乘法。
+
+4.多个Shader线程组成Warp/Wave。
+
+5.调度器把同一条指令发给SIMD执行单元。
+
+6.如果使用原生FP16，编译器和硬件可能使用Packed FP16提高吞吐。
+
+7.如果纹理结果还没返回，调度器切换到其他Wave隐藏延迟。
+</code></pre>
+<p>这就是Shader源码、Warp&#x2F;Wave、SIMD和ALU之间的完整关系。</p>
+<h2 id="15-GPU硬件角度的Shader优化"><a href="#15-GPU硬件角度的Shader优化" class="headerlink" title="15.GPU硬件角度的Shader优化"></a>15.GPU硬件角度的Shader优化</h2><h3 id="1-先判断瓶颈"><a href="#1-先判断瓶颈" class="headerlink" title="1.先判断瓶颈"></a>1.先判断瓶颈</h3><pre><code>ALU Bound：数学指令和特殊函数多。
+
+Texture Bound：纹理采样和过滤压力大。
+
+Bandwidth Bound：大量读写显存。
+
+Latency Bound：并行度或Occupancy不足，无法隐藏等待。
+</code></pre>
+<p>瓶颈不同，优化方向完全不同。</p>
+<h3 id="2-提高ALU有效利用率"><a href="#2-提高ALU有效利用率" class="headerlink" title="2.提高ALU有效利用率"></a>2.提高ALU有效利用率</h3><pre><code>保持足够工作量。
+
+减少高频分支发散。
+
+减少长指令依赖链。
+
+控制临时变量和寄存器压力。
+</code></pre>
+<h3 id="3-合理使用half"><a href="#3-合理使用half" class="headerlink" title="3.合理使用half"></a>3.合理使用half</h3><pre><code>从颜色、Mask、材质参数等安全数据开始。
+
+World Position、Depth和精确几何保留float。
+
+同时检查真实纹理和Buffer格式，不能只改变量声明。
+</code></pre>
+<h3 id="4-提高内存连续性"><a href="#4-提高内存连续性" class="headerlink" title="4.提高内存连续性"></a>4.提高内存连续性</h3><pre><code>相邻线程尽量访问相邻数据。
+
+使用合适纹理格式和压缩。
+
+避免随机Buffer访问。
+
+减少不必要的中间RenderTarget读写。
+</code></pre>
+<h3 id="5-查看编译结果"><a href="#5-查看编译结果" class="headerlink" title="5.查看编译结果"></a>5.查看编译结果</h3><p>源码不能完全代表GPU执行结果。编译器可能：</p>
+<pre><code>合并乘加指令。
+
+删除无用计算。
+
+把half提升到float。
+
+把分支改成Select。
+
+增加Pack/Unpack和类型转换。
+</code></pre>
+<p>应该结合平台工具查看ISA、寄存器、Occupancy和性能计数器。</p>
+<p>常用工具：</p>
+<pre><code>Nvidia Nsight Graphics
+
+AMD Radeon GPU Analyzer / Radeon GPU Profiler
+
+Arm Performance Studio / Mali Offline Compiler
+
+Snapdragon Profiler
+
+Xcode GPU Frame Capture
+</code></pre>
+<h2 id="16-核心总结"><a href="#16-核心总结" class="headerlink" title="16.核心总结"></a>16.核心总结</h2><p>GPU计算架构可以按这个顺序理解：</p>
+<pre><code>Shader产生大量线程。
+
+线程组成Warp/Wave/Subgroup。
+
+调度器选择准备好的Warp/Wave指令。
+
+SIMD执行单元让多条Lane同时工作。
+
+ALU在每条Lane上真正完成数学和逻辑运算。
+</code></pre>
+<p>当纹理和内存产生延迟时，GPU切换其他Warp&#x2F;Wave继续执行；当工作量、Occupancy或并行性不足时，ALU就会空闲。</p>
+<p>half优化的核心也不是“位数减半就必然快4倍”，而是看目标GPU是否真正支持更高FP16吞吐、更低寄存器压力和真实16bit存储。</p>
+<p>最后一句话：</p>
+<p><strong>ALU决定能做计算，SIMD决定怎么并行做，Warp&#x2F;Wave决定哪些线程一起做，调度器和内存系统决定ALU能不能一直有活干。</strong></p>
+<hr>
+<p>引用参考：</p>
+<p><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html">NVIDIA CUDA C++ Programming Guide</a></p>
+<p><a target="_blank" rel="noopener" href="https://gpuopen.com/learn/rdna-performance-guide/">AMD GPUOpen - RDNA Performance Guide</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.0/Documentation/Manual/SL-Use16BitPrecisionInShaders.html">Unity Manual - Use 16-bit precision in shaders</a></p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-scalar">Microsoft HLSL - Scalar data types</a></p>
+<p><a target="_blank" rel="noopener" href="https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html">Khronos Vulkan Specification - Subgroup operations</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.arm.com/documentation/101897/latest">Arm Mali GPU Best Practices</a></p>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+          <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Unity-Jobs与Burst原理和优化</span>
+          </a>
+        
+        
+          <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Unity-GPUDriven草地渲染</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>

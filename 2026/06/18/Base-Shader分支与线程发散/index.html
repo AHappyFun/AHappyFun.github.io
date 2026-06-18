@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Base-Shader分支与GPU线程发散 | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="原理, 优化, Shader">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-18T05:00:33.275Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="原理">
+<meta property="article:tag" content="优化">
+<meta property="article:tag" content="Shader">
+<meta name="twitter:card" content="summary">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 39 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/06/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__container">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-06-17T16:00:00.000Z">2026 年 6 月 18 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/%E5%8E%9F%E7%90%86/">原理</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">Base-Shader分支与GPU线程发散</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E5%8E%9F%E7%90%86/" class="tag">#原理</a>
+          
+            <a href="/tags/%E4%BC%98%E5%8C%96/" class="tag">#优化</a>
+          
+            <a href="/tags/Shader/" class="tag">#Shader</a>
+          
+        </div>
+      
+    </header>
+
+    <div class="post__content">
+      <p>Shader里的<code>if</code>并不是一定慢，真正需要关注的是：<strong>同一个GPU执行组内，不同线程是否走了不同路径。</strong></p>
+<p>如果整个执行组都进入同一个分支，动态分支反而可以跳过大量无用计算；如果组内线程分别进入不同分支，就会产生线程发散（Divergence）。</p>
+<h2 id="GPU为什么容易受到分支影响？"><a href="#GPU为什么容易受到分支影响？" class="headerlink" title="GPU为什么容易受到分支影响？"></a>GPU为什么容易受到分支影响？</h2><p>CPU擅长处理复杂控制流，有分支预测、乱序执行等硬件。GPU的目标是用大量相对简单的线程并行处理数据，更接近SIMT（Single Instruction, Multiple Threads，单指令多线程）的执行方式。</p>
+<p>GPU不会完全独立地调度每一个Shader线程，而是把一批线程组成一个执行组：</p>
+<pre><code>Nvidia：一个Warp通常包含32个线程。
+
+AMD GCN：传统上使用Wave64，一个Wave包含64个线程。
+
+AMD RDNA：通常使用Wave32，也支持Wave64，实际模式取决于架构、Shader阶段和编译结果。
+
+移动GPU：不同厂商和架构的执行宽度不同，不能统一假设为32或64。
+</code></pre>
+<p>同一个Warp&#x2F;Wave在某个时刻共享一条指令流，但每个线程有自己的寄存器、数据和Active Mask。</p>
+<h3 id="没有发散的情况"><a href="#没有发散的情况" class="headerlink" title="没有发散的情况"></a>没有发散的情况</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">if (_EnableDetail &gt; 0)<br>&#123;<br>    color += SampleDetail();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果<code>_EnableDetail</code>是一次DrawCall内不变的材质参数，那么同一执行组里的线程会一起进入或跳过分支。此时有控制流开销，但通常没有分支发散，并且关闭功能时能够跳过<code>SampleDetail()</code>。</p>
+<h3 id="发生发散的情况"><a href="#发生发散的情况" class="headerlink" title="发生发散的情况"></a>发生发散的情况</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">if (input.uv.x &gt; 0.5)<br>&#123;<br>    color = RunPathA();<br>&#125;<br>else<br>&#123;<br>    color = RunPathB();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>一个Warp内可能有部分像素满足条件，另一部分不满足。GPU通常需要：</p>
+<pre><code>1.执行PathA，只激活满足条件的线程。
+
+2.执行PathB，只激活剩余线程。
+
+3.在控制流汇合点重新合并线程。
+</code></pre>
+<p>两条路径执行期间都有一部分Lane被屏蔽，因此并行利用率下降。</p>
+<p>但“出现分支后吞吐量一定减半”并不准确。真实消耗还取决于：</p>
+<pre><code>1.两条路径各自的指令数量。
+
+2.分支在屏幕空间的数据连续性。
+
+3.编译器使用真实跳转，还是将短分支改写为Predication/Select。
+
+4.纹理访问、寄存器压力、Occupancy和延迟隐藏能力。
+
+5.硬件架构和Shader阶段。
+</code></pre>
+<p>最坏情况下多条路径会接近串行执行，但短小分支也可能几乎看不出差异。</p>
+<h2 id="Shader分支的三种类型"><a href="#Shader分支的三种类型" class="headerlink" title="Shader分支的三种类型"></a>Shader分支的三种类型</h2><h3 id="1-编译期静态分支"><a href="#1-编译期静态分支" class="headerlink" title="1.编译期静态分支"></a>1.编译期静态分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">#if defined(_USE_DETAIL)<br>    color += SampleDetail();<br>#endif<br></code></pre></td></tr></table></figure>
+
+<p>编译时已经确定结果，不需要在GPU运行时判断。未使用的路径会被编译器移除，所以不会产生运行时分支和线程发散。</p>
+<p>在Unity中通常对应<code>shader_feature</code>、<code>multi_compile</code>和不同Shader变体。</p>
+<p>优点：</p>
+<pre><code>运行时没有分支开销，可以彻底删除不用的代码和资源。
+</code></pre>
+<p>缺点：</p>
+<pre><code>变体数量可能指数增长，增加编译时间、包体、运行时内存和PSO切换成本。
+</code></pre>
+<p>适合影响范围大、路径很重，并且组合数量可控的功能，例如阴影模式、法线贴图、不同光照模型。</p>
+<h3 id="2-Uniform动态分支"><a href="#2-Uniform动态分支" class="headerlink" title="2.Uniform动态分支"></a>2.Uniform动态分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">if (_EnableClearCoat &gt; 0)<br>&#123;<br>    color = EvaluateClearCoat(color);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>条件在一次DrawCall内保持一致，例如材质参数、Pass参数、常量缓冲区数据。整个Warp&#x2F;Wave通常会做相同选择，所以不会发生Lane之间的分支发散。</p>
+<p>这种方式很适合功能很多但不希望产生大量变体的情况。只要关闭分支时确实能跳过足够重的计算，它可能比“把两边都算完”更快。</p>
+<p>注意：所谓材质级变量有用，不是因为“整个物体一定组成同一个Warp”，而是因为一次DrawCall内Uniform值一致，执行组里的线程看到相同条件。</p>
+<h3 id="3-非Uniform动态分支"><a href="#3-非Uniform动态分支" class="headerlink" title="3.非Uniform动态分支"></a>3.非Uniform动态分支</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">if (input.vertexColor.r &gt; 0.5)<br>&#123;<br>    color = EvaluateWetSurface();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>条件来自每顶点、每像素或每线程数据，例如UV、法线、顶点色、深度、噪声、纹理采样结果。这类条件可能在一个执行组内变化，是线程发散的主要来源。</p>
+<p>这里也不能简单写成“用了UV或纹理就必然发散”。如果条件在局部区域高度连续，例如屏幕左半边和右半边，边界之外的大多数Warp仍然只走一条路径；高频噪声、棋盘格和细碎Mask才更容易让几乎每个执行组都发散。</p>
+<h2 id="像素Shader还要考虑Quad"><a href="#像素Shader还要考虑Quad" class="headerlink" title="像素Shader还要考虑Quad"></a>像素Shader还要考虑Quad</h2><p>像素Shader通常以2x2像素Quad计算屏幕空间导数，<code>ddx</code>、<code>ddy</code>以及普通纹理采样的隐式Mip选择都依赖相邻Lane。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">if (mask &gt; 0.5)<br>&#123;<br>    float4 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果Quad内部在纹理采样前已经发生不一致的控制流，导数可能不稳定，编译器和硬件也可能需要Helper Lane维持导数计算。不同API、Shader Model和平台对此有不同限制。</p>
+<p>工程上需要注意：</p>
+<pre><code>1.不要在高度发散的分支内部依赖隐式导数采样。
+
+2.必要时提前计算导数，或使用显式LOD/Gradient采样，但需要确认画质与平台支持。
+
+3.discard/clip会让部分像素失活，也可能影响Early-Z、Helper Lane和后续执行效率。
+</code></pre>
+<h2 id="纹理采样结果作为条件"><a href="#纹理采样结果作为条件" class="headerlink" title="纹理采样结果作为条件"></a>纹理采样结果作为条件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float mask = SAMPLE_TEXTURE2D(_MaskTex, sampler_MaskTex, uv).r;<br><br>if (mask &gt; 0.5)<br>&#123;<br>    color = RunExpensivePath();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这种写法的问题不是“GPU无法预测分支”。GPU图形Shader通常不依赖CPU那种分支预测，关键仍然是相邻线程的<code>mask</code>是否一致。</p>
+<p>它还有两个额外成本：</p>
+<pre><code>1.为了知道条件，Mask纹理已经必须采样，分支无法省掉这次采样。
+
+2.如果Mask包含高频细节，会同时带来分支发散和不连续的纹理访问。
+</code></pre>
+<p>如果Mask在空间上大块连续，并且分支内计算非常昂贵，动态分支仍然可能值得使用。不要只看代码形式，要在目标设备上测量。</p>
+<h2 id="三元运算、lerp不等于更快"><a href="#三元运算、lerp不等于更快" class="headerlink" title="三元运算、lerp不等于更快"></a>三元运算、lerp不等于更快</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float3 result = condition ? pathA : pathB;<br><br>float3 result = lerp(pathB, pathA, condition);<br></code></pre></td></tr></table></figure>
+
+<p>三元运算只是语法，编译器可能生成分支，也可能生成Select&#x2F;Predication。<code>lerp</code>通常意味着先计算两侧结果再选择：它避免了控制流发散，但不一定减少工作量。</p>
+<p>适合改写为无分支形式的情况：</p>
+<pre><code>两条路径只有少量ALU运算，且分支非常不连续。
+</code></pre>
+<p>不适合的情况：</p>
+<pre><code>两条路径包含纹理采样、循环、复杂BRDF或大量计算。此时无分支写法可能强制所有线程把两边都执行一遍。
+</code></pre>
+<p>所以不要为了“代码里没有if”而优化。应该比较编译后的ISA和实际GPU耗时。</p>
+<p>HLSL的<code>[branch]</code>和<code>[flatten]</code>可以向编译器表达倾向，但只是Hint，并不能保证最终机器码一定使用跳转或展开。</p>
+<h2 id="移动端TBDR是否更怕分支？"><a href="#移动端TBDR是否更怕分支？" class="headerlink" title="移动端TBDR是否更怕分支？"></a>移动端TBDR是否更怕分支？</h2><p>TBDR解决的是Tile内颜色、深度数据的片上存储和外部带宽问题；Warp&#x2F;Wave线程发散解决的是Shader Core的执行利用率问题。<strong>Tile不是Warp，Tile内像素也不会作为一个整体共享同一条分支。</strong></p>
+<p>因此不能简单理解为“分支会阻塞整个Tile”。分支发散在IMR和TBDR上都存在。</p>
+<p>移动端经常对复杂分支更敏感，主要是因为：</p>
+<pre><code>1.算力、功耗和散热预算更紧。
+
+2.寄存器压力可能降低并发Wave数量，削弱延迟隐藏能力。
+
+3.分支里的纹理采样会同时增加带宽和Texture Unit压力。
+
+4.discard、深度写入和复杂Alpha Test可能降低隐藏面剔除、Early-Z等优化收益。
+</code></pre>
+<p>这些问题会和TBDR特性叠加，但并不是“Tile内线程等待”这么单一的原因。</p>
+<h2 id="分支优化思路"><a href="#分支优化思路" class="headerlink" title="分支优化思路"></a>分支优化思路</h2><h3 id="1-先判断条件属于哪一类"><a href="#1-先判断条件属于哪一类" class="headerlink" title="1.先判断条件属于哪一类"></a>1.先判断条件属于哪一类</h3><pre><code>编译常量——&gt;静态分支，运行时无发散。
+
+材质/DrawCall常量——&gt;Uniform动态分支，通常不发散。
+
+顶点/像素/纹理数据——&gt;可能发散，需要看空间连续性。
+</code></pre>
+<h3 id="2-大功能用变体，但控制变体数量"><a href="#2-大功能用变体，但控制变体数量" class="headerlink" title="2.大功能用变体，但控制变体数量"></a>2.大功能用变体，但控制变体数量</h3><p>重路径适合静态变体，尤其是能够删除纹理、Interpolant和整套光照逻辑时。</p>
+<p>不要给每个小开关都增加Keyword。N个二值Keyword理论上可能形成<code>2^N</code>种组合，运行时收益可能还没有构建和内存成本大。</p>
+<h3 id="3-中等功能优先考虑Uniform动态分支"><a href="#3-中等功能优先考虑Uniform动态分支" class="headerlink" title="3.中等功能优先考虑Uniform动态分支"></a>3.中等功能优先考虑Uniform动态分支</h3><p>同一个材质或DrawCall统一开关，在现代GPU上通常是比较稳妥的折中。它可以减少变体，同时真的跳过关闭的重路径。</p>
+<h3 id="4-让非Uniform条件在空间上保持连续"><a href="#4-让非Uniform条件在空间上保持连续" class="headerlink" title="4.让非Uniform条件在空间上保持连续"></a>4.让非Uniform条件在空间上保持连续</h3><p>区域Mask、LOD和分层效果尽量形成大块连续区域，避免棋盘格、高频Noise式条件。</p>
+<p>Compute Shader还要让线程组布局与数据布局对应，避免相邻Lane处理完全无关的数据。</p>
+<h3 id="5-短ALU路径再考虑无分支写法"><a href="#5-短ALU路径再考虑无分支写法" class="headerlink" title="5.短ALU路径再考虑无分支写法"></a>5.短ALU路径再考虑无分支写法</h3><p>对几条乘加指令，可以测试<code>step</code>、<code>saturate</code>、<code>lerp</code>或Select。对纹理和复杂函数，不要默认无分支更快。</p>
+<h3 id="6-不要只看Shader源码"><a href="#6-不要只看Shader源码" class="headerlink" title="6.不要只看Shader源码"></a>6.不要只看Shader源码</h3><p>最终结果由Shader编译器和目标GPU决定。应该通过真机Profile、反汇编和控制变量测试确认。</p>
+<p>常用工具：</p>
+<pre><code>Nvidia：Nsight Graphics。
+
+AMD：Radeon GPU Profiler、Radeon GPU Analyzer。
+
+Arm Mali：Arm Performance Studio、Mali Offline Compiler。
+
+Apple：Xcode GPU Frame Capture。
+
+Qualcomm：Snapdragon Profiler。
+</code></pre>
+<p>重点观察Shader耗时、Wave Occupancy、寄存器数量、纹理等待和分支&#x2F;线程利用率，而不是只统计源码里有几个<code>if</code>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Shader分支的核心不是有没有<code>if</code>，而是执行组内的线程是否走相同路径，以及分支到底跳过了多少工作。</p>
+<pre><code>1.静态分支没有运行时发散，但要承担变体成本。
+
+2.Uniform动态分支通常不会发散，适合减少变体并跳过重计算。
+
+3.非Uniform动态分支可能发散，严重程度取决于数据的空间连续性和路径长度。
+
+4.三元运算和lerp不是万能优化，它们可能让两条路径都执行。
+
+5.纹理条件不是绝对禁止，要同时考虑采样成本、Mask连续性和被跳过的工作量。
+
+6.TBDR的Tile和Shader执行组不是同一个概念，移动端问题需要结合算力、带宽、寄存器与隐藏面剔除一起分析。
+</code></pre>
+<p>最终原则还是：<strong>先分类，再看编译结果，最后在目标硬件上测量。</strong></p>
+<hr>
+<p>引用参考：</p>
+<p><a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#simt-architecture">NVIDIA CUDA C++ Programming Guide - SIMT Architecture</a></p>
+<p><a target="_blank" rel="noopener" href="https://gpuopen.com/learn/rdna-performance-guide/">AMD GPUOpen - RDNA Performance Guide</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/shader-conditionals.html">Unity Manual - How Unity compiles branching shaders</a></p>
+<p><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/dx-graphics-hlsl-if">Microsoft HLSL - if statement</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.arm.com/Tools%20and%20Software/Mali%20Offline%20Compiler">Arm Mali Offline Compiler</a></p>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+        
+          <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Unity-Jobs与Burst原理和优化</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>

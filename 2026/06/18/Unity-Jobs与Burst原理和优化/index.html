@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Unity-Jobs与Burst原理和优化 | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="优化, Unity">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-18T05:10:06.654Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="优化">
+<meta property="article:tag" content="Unity">
+<meta name="twitter:card" content="summary">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 39 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/06/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__container">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-06-17T16:00:00.000Z">2026 年 6 月 18 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/Unity/">Unity</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">Unity-Jobs与Burst原理和优化</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E4%BC%98%E5%8C%96/" class="tag">#优化</a>
+          
+            <a href="/tags/Unity/" class="tag">#Unity</a>
+          
+        </div>
+      
+    </header>
+
+    <div class="post__content">
+      <p>记录一下Unity Jobs和Burst的原理以及常见优化。</p>
+<p>Jobs和Burst经常一起出现，但是两者解决的问题不同：</p>
+<pre><code>Jobs：把工作拆开，调度到多个CPU核心上并行执行。
+
+Burst：把一部分C#编译成高性能Native机器码，并进行SIMD等优化。
+</code></pre>
+<p>所以Jobs不一定快，Burst也不等于多线程。一般是把数据整理成适合并行的Job，再交给Burst编译，两个一起使用效果最好。</p>
+<h2 id="1-为什么需要Jobs？"><a href="#1-为什么需要Jobs？" class="headerlink" title="1.为什么需要Jobs？"></a>1.为什么需要Jobs？</h2><p>Unity大部分游戏逻辑默认运行在MainThread。</p>
+<pre><code>Update
+
+动画更新
+
+物理结果同步
+
+渲染提交
+
+GameObject和Component操作
+</code></pre>
+<p>这些工作都挤在主线程上，只要一帧超过16.6ms，60FPS就保不住了。</p>
+<p>普通MonoBehaviour代码即使机器有很多CPU核心，也不会自动并行。Jobs的作用就是把适合的计算任务放到Unity管理的WorkerThread上，让主线程和多个CPU核心同时工作。</p>
+<p>适合Job的任务：</p>
+<pre><code>大量单位的移动、距离计算和状态更新。
+
+顶点、粒子、草地、布料等批量数据处理。
+
+寻路、空间划分、剔除、碰撞预计算。
+
+不依赖GameObject API的纯数学计算。
+</code></pre>
+<p>不太适合Job的任务：</p>
+<pre><code>只有几十次的简单计算。
+
+每个任务都要访问Transform、Animator、Physics等主线程API。
+
+数据之间有很强的前后依赖，无法并行。
+
+Job很小，但每帧创建、调度、同步很多次。
+</code></pre>
+<p>Jobs有调度和同步成本，不是把所有函数套一个Job就会变快。</p>
+<h2 id="2-Job-System的执行原理"><a href="#2-Job-System的执行原理" class="headerlink" title="2.Job System的执行原理"></a>2.Job System的执行原理</h2><p>Unity启动时会根据设备CPU核心情况创建WorkerThread。开发者不需要自己创建和销毁线程，只需要向Job System提交工作。</p>
+<p>大致流程是：</p>
+<pre><code>1.MainThread创建Job数据。
+
+2.调用Schedule，把Job放入调度队列。
+
+3.WorkerThread从队列获取Job并执行Execute。
+
+4.空闲WorkerThread可以从其他线程队列偷取工作，也就是Work Stealing。
+
+5.MainThread需要结果时调用JobHandle.Complete进行同步。
+</code></pre>
+<h3 id="Schedule不是立即执行"><a href="#Schedule不是立即执行" class="headerlink" title="Schedule不是立即执行"></a>Schedule不是立即执行</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">JobHandle handle = job.Schedule();<br></code></pre></td></tr></table></figure>
+
+<p><code>Schedule</code>只是把任务提交给Job System，并返回一个<code>JobHandle</code>。Job可能马上执行，也可能过一会才被WorkerThread取走，不能依赖具体执行时机。</p>
+<p>如果这样写：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">JobHandle handle = job.Schedule();<br>handle.Complete();<br></code></pre></td></tr></table></figure>
+
+<p>MainThread刚提交就立刻等待，Job即使去了其他线程，主线程也没有做其他工作。这样只是把同步代码换了一个线程执行，通常得不到理想收益，甚至会因为调度开销更慢。</p>
+<p>更好的思路是：</p>
+<pre><code>帧开始尽早Schedule。
+
+MainThread继续执行不依赖Job结果的工作。
+
+真正使用结果之前再Complete。
+</code></pre>
+<p>也就是让MainThread工作和Job执行尽可能重叠。</p>
+<h2 id="3-JobHandle和依赖关系"><a href="#3-JobHandle和依赖关系" class="headerlink" title="3.JobHandle和依赖关系"></a>3.JobHandle和依赖关系</h2><p>Job之间经常有依赖关系，例如A计算位置，B读取位置做剔除。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">JobHandle moveHandle = moveJob.Schedule(count, <span class="hljs-number">64</span>);<br>JobHandle cullHandle = cullJob.Schedule(count, <span class="hljs-number">64</span>, moveHandle);<br></code></pre></td></tr></table></figure>
+
+<p>这里CullJob不会在MoveJob完成前执行。Job System根据<code>JobHandle</code>构建依赖关系，保证读写顺序正确。</p>
+<p>多个独立Job都完成后才能继续，可以合并依赖：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">JobHandle dependency = JobHandle.CombineDependencies(handleA, handleB);<br>JobHandle finalHandle = finalJob.Schedule(dependency);<br></code></pre></td></tr></table></figure>
+
+<p>Job依赖应该形成尽量宽的DAG，而不是所有任务排成一条很长的链。</p>
+<pre><code>宽依赖：A、B、C可以同时执行，最后D等待三个结果。
+
+长依赖：A完成后B，B完成后C，CPU核心大部分时间可能空闲。
+</code></pre>
+<h3 id="Complete做了什么？"><a href="#Complete做了什么？" class="headerlink" title="Complete做了什么？"></a>Complete做了什么？</h3><p><code>Complete</code>不仅是查看Job是否结束，还会让调用线程等待依赖链完成，并把NativeContainer的所有权安全地交还给MainThread。</p>
+<p>所以不要只用<code>IsCompleted</code>判断后就直接访问数据。真正访问结果前仍然需要<code>Complete</code>。</p>
+<h2 id="4-常见Job类型"><a href="#4-常见Job类型" class="headerlink" title="4.常见Job类型"></a>4.常见Job类型</h2><h3 id="IJob"><a href="#IJob" class="headerlink" title="IJob"></a>IJob</h3><p><code>Execute</code>只执行一次，适合一个相对完整的任务。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">BurstCompile</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> SumJob : IJob<br>&#123;<br>    [<span class="hljs-meta">ReadOnly</span>] <span class="hljs-keyword">public</span> NativeArray&lt;<span class="hljs-built_in">float</span>&gt; Values;<br>    <span class="hljs-keyword">public</span> NativeArray&lt;<span class="hljs-built_in">float</span>&gt; Result;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Execute</span>()</span><br>    &#123;<br>        <span class="hljs-built_in">float</span> sum = <span class="hljs-number">0</span>;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; Values.Length; i++)<br>            sum += Values[i];<br><br>        Result[<span class="hljs-number">0</span>] = sum;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>IJob会进入WorkerThread，但单个Job本身不会自动拆到多个核心。</p>
+<h3 id="IJobParallelFor"><a href="#IJobParallelFor" class="headerlink" title="IJobParallelFor"></a>IJobParallelFor</h3><p>适合对大量独立元素执行相同逻辑。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">BurstCompile</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> MoveJob : IJobParallelFor<br>&#123;<br>    [<span class="hljs-meta">ReadOnly</span>] <span class="hljs-keyword">public</span> NativeArray&lt;float3&gt; Velocity;<br>    <span class="hljs-keyword">public</span> NativeArray&lt;float3&gt; Position;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">float</span> DeltaTime;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Execute</span>(<span class="hljs-params"><span class="hljs-built_in">int</span> index</span>)</span><br>    &#123;<br>        Position[index] += Velocity[index] * DeltaTime;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>调度：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">JobHandle handle = moveJob.Schedule(Position.Length, <span class="hljs-number">64</span>);<br></code></pre></td></tr></table></figure>
+
+<p>Job System会把所有Index拆成多个Batch分给WorkerThread。当某个线程先做完时，可以通过Work Stealing拿走其他线程的部分Batch。</p>
+<h3 id="IJobFor"><a href="#IJobFor" class="headerlink" title="IJobFor"></a>IJobFor</h3><p><code>IJobFor</code>同样按Index处理数据，可以根据调度方式串行或并行执行。新代码可以根据使用的Unity和Collections版本选择<code>IJobFor</code>、<code>IJobParallelFor</code>或对应的Entities Job。</p>
+<p>重点不在接口名字，而在于每个Index是否可以独立计算，以及数据访问是否连续。</p>
+<h2 id="5-Batch-Size怎么设置？"><a href="#5-Batch-Size怎么设置？" class="headerlink" title="5.Batch Size怎么设置？"></a>5.Batch Size怎么设置？</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">job.Schedule(length, innerloopBatchCount);<br></code></pre></td></tr></table></figure>
+
+<p>第二个参数控制一个Batch连续处理多少个元素。</p>
+<p>Batch很小：</p>
+<pre><code>任务分配更均匀，某些元素特别慢时不容易让一个线程拖尾。
+
+但是Batch数量多，调度、Work Stealing和原子操作开销更大。
+</code></pre>
+<p>Batch很大：</p>
+<pre><code>调度次数少，连续处理数据的Cache Locality更好。
+
+但是任务可能分配不均，部分WorkerThread提前空闲。
+</code></pre>
+<p>常见思路：</p>
+<pre><code>每个元素工作很重且耗时不均匀——&gt;Batch小一些，例如1、8、16。
+
+每个元素只有几条简单计算——&gt;Batch大一些，例如64、128甚至更大。
+</code></pre>
+<p>没有一个值适合所有平台。PC和移动端CPU核心数、大小核结构、Cache都不同，需要用Profiler在目标设备上测试。</p>
+<h2 id="6-NativeContainer为什么需要？"><a href="#6-NativeContainer为什么需要？" class="headerlink" title="6.NativeContainer为什么需要？"></a>6.NativeContainer为什么需要？</h2><p>普通托管对象由GC管理，内存可能移动，而且多个线程同时读写引用对象容易产生Race Condition。Burst也不能随意编译包含托管对象的代码。</p>
+<p>Jobs通常使用NativeContainer：</p>
+<pre><code>NativeArray
+
+NativeList
+
+NativeHashMap
+
+NativeQueue
+
+NativeStream
+</code></pre>
+<p>NativeContainer本质上是Native内存的C#包装，并带有线程安全检查信息。Job Struct本身在Schedule时会复制，但NativeArray复制的是指向Native内存的句柄，不会把数组全部复制一遍。</p>
+<h3 id="ReadOnly很重要"><a href="#ReadOnly很重要" class="headerlink" title="ReadOnly很重要"></a>ReadOnly很重要</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">ReadOnly</span>] <span class="hljs-keyword">public</span> NativeArray&lt;float3&gt; Input;<br><span class="hljs-keyword">public</span> NativeArray&lt;float3&gt; Output;<br></code></pre></td></tr></table></figure>
+
+<p>如果不加<code>[ReadOnly]</code>，Job System默认认为Container可能被写入。多个只读Job本来可以并行，却可能因为写权限产生不必要的依赖或直接无法调度。</p>
+<p>明确读写权限既是安全信息，也是并行调度和Burst优化的重要信息。</p>
+<h3 id="Allocator选择"><a href="#Allocator选择" class="headerlink" title="Allocator选择"></a>Allocator选择</h3><pre><code>Allocator.Temp：生命周期很短，通常只用于当前帧的临时Native内存，不能作为普通Job字段跨线程使用。
+
+Allocator.TempJob：用于短生命周期Job数据，需要在规定帧数内释放。
+
+Allocator.Persistent：可以长期存在，分配释放最贵，适合重复使用的数据。
+</code></pre>
+<p>不要每帧创建和销毁大NativeArray。长度稳定的数据使用Persistent长期复用，通常比每帧分配更好。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">JobHandle disposeHandle = array.Dispose(dependency);<br></code></pre></td></tr></table></figure>
+
+<p>可以让Container在依赖Job执行结束后释放，避免为了Dispose提前Complete。</p>
+<h3 id="Safety-System"><a href="#Safety-System" class="headerlink" title="Safety System"></a>Safety System</h3><p>Unity会跟踪NativeContainer的读写状态：</p>
+<pre><code>多个Job可以并行读取同一个Container。
+
+有Job写入时，其他读写必须通过依赖保证顺序。
+
+Job未完成时，MainThread不能直接访问正在使用的数据。
+</code></pre>
+<p><code>[NativeDisableParallelForRestriction]</code>、Unsafe指针等可以绕过限制，但只是关闭安全保护，不会自动解决Race Condition。除非已经证明每个线程写入互不重叠，否则不要把关闭检查当优化手段。</p>
+<h2 id="7-Burst的编译原理"><a href="#7-Burst的编译原理" class="headerlink" title="7.Burst的编译原理"></a>7.Burst的编译原理</h2><p>普通C#大致执行流程：</p>
+<pre><code>C#——&gt;IL——&gt;Mono JIT或IL2CPP——&gt;机器码
+</code></pre>
+<p>Burst流程可以理解为：</p>
+<pre><code>HPC#代码——&gt;.NET IL——&gt;Burst前端——&gt;LLVM优化——&gt;目标CPU Native机器码
+</code></pre>
+<p>Burst读取标记为<code>[BurstCompile]</code>的Job或静态函数，将支持的C#子集编译成针对目标CPU架构优化的代码。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">BurstCompile</span>]<br><span class="hljs-keyword">public</span> <span class="hljs-keyword">struct</span> MoveJob : IJobParallelFor<br>&#123;<br>    <span class="hljs-comment">//...</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Burst主要带来的收益：</p>
+<pre><code>1.减少普通托管代码的边界检查和运行时开销。
+
+2.函数内联、常量折叠、死代码删除等编译器优化。
+
+3.自动Loop Vectorization，使用SSE、AVX、NEON等SIMD指令。
+
+4.根据内存别名信息进行更激进的加载、存储和循环优化。
+
+5.AOT构建时针对目标平台生成Native代码。
+</code></pre>
+<p>Burst不会自动让一个Job变成多线程。IJob加Burst仍然只执行一次，只是单线程代码更快；并行来自Job System的调度方式。</p>
+<h2 id="8-Burst为什么适合数据导向代码？"><a href="#8-Burst为什么适合数据导向代码？" class="headerlink" title="8.Burst为什么适合数据导向代码？"></a>8.Burst为什么适合数据导向代码？</h2><p>CPU访问内存时，连续数据比到处跳转的对象引用更容易利用Cache和SIMD。</p>
+<p>传统GameObject思路：</p>
+<pre><code>List&lt;Enemy&gt;——&gt;每个Enemy引用Transform、配置、状态对象——&gt;内存位置分散
+</code></pre>
+<p>数据导向思路：</p>
+<pre><code>NativeArray&lt;float3&gt; Positions
+
+NativeArray&lt;float3&gt; Velocities
+
+NativeArray&lt;float&gt; Healths
+</code></pre>
+<p>相同类型数据连续保存，Job按Index顺序访问，更容易预取到Cache Line，也更容易让Burst一次处理多个元素。</p>
+<p>但SoA不是任何时候都比AoS快。如果每次逻辑都需要同一个对象的所有字段，一个紧凑Struct数组也可能很好。重点是只读取当前算法需要的数据，并保持访问连续。</p>
+<h2 id="9-SIMD和Loop-Vectorization"><a href="#9-SIMD和Loop-Vectorization" class="headerlink" title="9.SIMD和Loop Vectorization"></a>9.SIMD和Loop Vectorization</h2><p>例如普通循环：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">for</span> (<span class="hljs-built_in">int</span> i = <span class="hljs-number">0</span>; i &lt; length; i++)<br>&#123;<br>    output[i] = inputA[i] + inputB[i];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>标量代码每次处理一个元素。Burst确认数据不重叠并且循环适合向量化后，可以生成一次处理多个Float或Int的SIMD指令。</p>
+<p>有利于向量化的代码：</p>
+<pre><code>循环次数明确。
+
+连续读写NativeArray。
+
+每次迭代互相独立。
+
+使用Unity.Mathematics的float2、float3、float4和math函数。
+
+循环体简单，没有复杂控制流。
+</code></pre>
+<p>容易阻止向量化的情况：</p>
+<pre><code>循环中间break或return。
+
+每次迭代依赖上一次结果。
+
+大量不可内联函数、异常和复杂分支。
+
+随机访问内存。
+
+编译器无法确定Input与Output是否指向重叠内存。
+</code></pre>
+<p>注意：<code>float4</code>不等于一定产生SIMD，普通Float循环也可能被Burst自动向量化。最终要看Burst Inspector的汇编结果。</p>
+<h2 id="10-内存别名Alias"><a href="#10-内存别名Alias" class="headerlink" title="10.内存别名Alias"></a>10.内存别名Alias</h2><p>如果编译器不知道Input和Output是否指向重叠内存，就不能随意调整读写顺序，否则可能改变结果。</p>
+<p>Job里的不同NativeContainer通常能给Burst更明确的NoAlias信息，从而帮助循环向量化。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">ReadOnly</span>] <span class="hljs-keyword">public</span> NativeArray&lt;<span class="hljs-built_in">float</span>&gt; Input;<br><span class="hljs-keyword">public</span> NativeArray&lt;<span class="hljs-built_in">float</span>&gt; Output;<br></code></pre></td></tr></table></figure>
+
+<p>使用Unsafe指针、切片或复杂函数传参后，别名关系可能更难分析。不要为了“少一个NativeArray”让多个逻辑共享一块难以判断的内存，否则可能失去编译器优化。</p>
+<h2 id="11-FloatMode和精度"><a href="#11-FloatMode和精度" class="headerlink" title="11.FloatMode和精度"></a>11.FloatMode和精度</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">[<span class="hljs-meta">BurstCompile(FloatPrecision.Medium, FloatMode.Fast)</span>]<br></code></pre></td></tr></table></figure>
+
+<p><code>FloatMode.Fast</code>允许Burst重排浮点运算，并使用更快或精度更低的硬件指令，例如把乘法和加法合并。</p>
+<p>适合：</p>
+<pre><code>粒子、视觉效果、普通移动等允许少量误差的计算。
+</code></pre>
+<p>谨慎使用：</p>
+<pre><code>确定性模拟、网络帧同步、精确几何判断、依赖NaN/Inf行为的代码。
+</code></pre>
+<p>现在的Burst还提供Deterministic模式用于跨平台一致性，但它会关闭部分浮点优化，而且确定性仍然要求输入、非Burst代码和硬件特殊指令也满足条件。</p>
+<p>不要全项目无脑Fast。先确定误差可接受，再比较性能。</p>
+<h2 id="12-一个完整的Job执行例子"><a href="#12-一个完整的Job执行例子" class="headerlink" title="12.一个完整的Job执行例子"></a>12.一个完整的Job执行例子</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">UnitMoveSystem</span> : <span class="hljs-title">MonoBehaviour</span><br>&#123;<br>    NativeArray&lt;float3&gt; positions;<br>    NativeArray&lt;float3&gt; velocities;<br>    JobHandle moveHandle;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnEnable</span>()</span><br>    &#123;<br>        positions = <span class="hljs-keyword">new</span> NativeArray&lt;float3&gt;(<span class="hljs-number">10000</span>, Allocator.Persistent);<br>        velocities = <span class="hljs-keyword">new</span> NativeArray&lt;float3&gt;(<span class="hljs-number">10000</span>, Allocator.Persistent);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Update</span>()</span><br>    &#123;<br>        MoveJob job = <span class="hljs-keyword">new</span> MoveJob<br>        &#123;<br>            Position = positions,<br>            Velocity = velocities,<br>            DeltaTime = Time.deltaTime<br>        &#125;;<br><br>        <span class="hljs-comment">// 尽早提交</span><br>        moveHandle = job.Schedule(positions.Length, <span class="hljs-number">64</span>, moveHandle);<br><br>        <span class="hljs-comment">// MainThread继续执行不依赖positions的逻辑</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">LateUpdate</span>()</span><br>    &#123;<br>        <span class="hljs-comment">// 真正需要结果时再同步</span><br>        moveHandle.Complete();<br><br>        <span class="hljs-comment">// 把结果同步给Transform或上传到GPU</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">OnDisable</span>()</span><br>    &#123;<br>        moveHandle.Complete();<br>        positions.Dispose();<br>        velocities.Dispose();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这个例子最重要的不是Move公式，而是生命周期：</p>
+<pre><code>NativeArray长期复用。
+
+Schedule尽量早。
+
+Complete尽量晚。
+
+下一帧调度时传入前一帧Handle，保证数据没有同时写入。
+
+Dispose前一定完成所有使用它的Job。
+</code></pre>
+<p>实际项目也可以做一帧延迟，让第N帧消费第N-1帧的Job结果，获得更大的并行窗口。</p>
+<h2 id="13-常见性能问题"><a href="#13-常见性能问题" class="headerlink" title="13.常见性能问题"></a>13.常见性能问题</h2><h3 id="1-Job粒度太小"><a href="#1-Job粒度太小" class="headerlink" title="1.Job粒度太小"></a>1.Job粒度太小</h3><p>每个单位创建一个IJob，比直接循环还慢。应该把大量同类数据放入一个ParallelFor Job。</p>
+<h3 id="2-Schedule之后马上Complete"><a href="#2-Schedule之后马上Complete" class="headerlink" title="2.Schedule之后马上Complete"></a>2.Schedule之后马上Complete</h3><p>MainThread没有和WorkerThread重叠，Profiler里会看到明显等待。</p>
+<h3 id="3-Job依赖链太长"><a href="#3-Job依赖链太长" class="headerlink" title="3.Job依赖链太长"></a>3.Job依赖链太长</h3><p>所有Job串行执行，多核没有充分利用。应该把无依赖的任务并行调度，最后CombineDependencies。</p>
+<h3 id="4-每帧分配NativeContainer"><a href="#4-每帧分配NativeContainer" class="headerlink" title="4.每帧分配NativeContainer"></a>4.每帧分配NativeContainer</h3><p>产生分配释放开销，也容易忘记Dispose。固定规模数据尽量Persistent复用，需要变长时使用NativeList或容量管理。</p>
+<h3 id="5-Batch-Size不合适"><a href="#5-Batch-Size不合适" class="headerlink" title="5.Batch Size不合适"></a>5.Batch Size不合适</h3><p>Batch太小调度成本高，太大负载不均。不要照抄固定数字。</p>
+<h3 id="6-随机内存访问"><a href="#6-随机内存访问" class="headerlink" title="6.随机内存访问"></a>6.随机内存访问</h3><p>Job虽然跑满所有核心，但都在等待Cache Miss，CPU利用率高不代表有效工作多。</p>
+<h3 id="7-只加BurstCompile就认为结束了"><a href="#7-只加BurstCompile就认为结束了" class="headerlink" title="7.只加BurstCompile就认为结束了"></a>7.只加BurstCompile就认为结束了</h3><p>Burst可能因为不支持的托管代码无法编译，也可能成功编译但没有向量化。要检查Burst Inspector和编译警告。</p>
+<h3 id="8-关闭安全检查掩盖数据竞争"><a href="#8-关闭安全检查掩盖数据竞争" class="headerlink" title="8.关闭安全检查掩盖数据竞争"></a>8.关闭安全检查掩盖数据竞争</h3><p>Editor里的Safety Check确实有成本，但它能发现越界、并发写入和生命周期问题。Release性能要在Player真机测，不要通过关闭安全保护修复错误设计。</p>
+<h3 id="9-在Job里调用UnityEngine对象"><a href="#9-在Job里调用UnityEngine对象" class="headerlink" title="9.在Job里调用UnityEngine对象"></a>9.在Job里调用UnityEngine对象</h3><p>大部分UnityEngine API只能在MainThread调用。常见做法是：</p>
+<pre><code>MainThread收集GameObject数据——&gt;Job批量计算——&gt;MainThread应用结果
+</code></pre>
+<p>如果来回复制和应用结果的成本大于计算本身，就不适合Jobs，或者需要进一步改成数据导向架构。</p>
+<h2 id="14-怎么分析Jobs和Burst性能？"><a href="#14-怎么分析Jobs和Burst性能？" class="headerlink" title="14.怎么分析Jobs和Burst性能？"></a>14.怎么分析Jobs和Burst性能？</h2><h3 id="Unity-Profiler"><a href="#Unity-Profiler" class="headerlink" title="Unity Profiler"></a>Unity Profiler</h3><p>主要查看：</p>
+<pre><code>MainThread是否在等待Job。
+
+WorkerThread是否有大量空闲。
+
+Job之间有没有形成长依赖链。
+
+Schedule和Complete之间是否有足够重叠。
+
+真正耗时是计算、内存访问还是数据同步。
+</code></pre>
+<p>Profiler里MainThread出现等待Job的Marker，不一定说明Job本身慢，也可能是Complete调用太早。</p>
+<h3 id="Burst-Inspector"><a href="#Burst-Inspector" class="headerlink" title="Burst Inspector"></a>Burst Inspector</h3><p>可以查看：</p>
+<pre><code>Burst是否成功编译。
+
+优化后的LLVM IR和目标平台汇编。
+
+循环是否生成SIMD指令。
+
+是否因为分支、Alias或函数调用退化为标量代码。
+</code></pre>
+<p>对Burst优化来说，Inspector里的机器码通常比C#源码看起来“像不像优化”更可靠。</p>
+<h3 id="Profile-Analyzer和真机测试"><a href="#Profile-Analyzer和真机测试" class="headerlink" title="Profile Analyzer和真机测试"></a>Profile Analyzer和真机测试</h3><p>Jobs调度受CPU核心数、大小核、系统负载和温度影响。Editor结果只能帮助定位，最终需要在Player和目标设备上比较：</p>
+<pre><code>普通C#单线程。
+
+Burst单线程。
+
+Jobs不开Burst。
+
+Jobs + Burst。
+</code></pre>
+<p>这样才能判断收益来自多线程还是编译优化，也能发现任务规模太小时Jobs反而更慢。</p>
+<h2 id="15-Jobs和Burst优化顺序"><a href="#15-Jobs和Burst优化顺序" class="headerlink" title="15.Jobs和Burst优化顺序"></a>15.Jobs和Burst优化顺序</h2><p>个人觉得比较稳妥的顺序是：</p>
+<pre><code>1.先用Profiler确认MainThread确实是CPU瓶颈。
+
+2.找到数据量大、逻辑相同、互相独立的循环。
+
+3.把托管对象整理成连续NativeContainer数据。
+
+4.先实现正确的Job依赖和生命周期。
+
+5.加BurstCompile，处理不支持的托管代码。
+
+6.Schedule尽量早，Complete尽量晚。
+
+7.调整Batch Size和Job粒度。
+
+8.用Burst Inspector确认SIMD、Alias和FloatMode。
+
+9.在目标设备上测试耗时、功耗和温度。
+</code></pre>
+<h2 id="16-核心总结"><a href="#16-核心总结" class="headerlink" title="16.核心总结"></a>16.核心总结</h2><p>Jobs优化的是多核利用率，Burst优化的是单个CPU核心执行代码的效率，NativeContainer和数据导向设计是两者能够高效工作的基础。</p>
+<p>一句话理解：</p>
+<pre><code>Jobs负责把活分给多个工人。
+
+Burst负责给每个工人更好的工具和做法。
+
+NativeContainer负责把材料整齐、安全地放在工人能访问的位置。
+</code></pre>
+<p>真正影响性能的核心是：</p>
+<pre><code>Job是否足够大，能够覆盖调度成本。
+
+Job之间是否有足够并行空间。
+
+MainThread有没有过早Complete。
+
+数据是否连续，是否对Cache和SIMD友好。
+
+Burst是否真的生成了更好的机器码。
+</code></pre>
+<p>所以Jobs + Burst不是一个开关，而是调度、依赖、内存布局和编译优化一起工作的结果。</p>
+<hr>
+<p>引用参考：</p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.0/Documentation/Manual/job-system-overview.html">Unity Manual - Job system overview</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.0/Documentation/Manual/job-system-job-dependencies.html">Unity Manual - Job dependencies</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.0/Documentation/Manual/job-system-parallel-for-jobs.html">Unity Manual - ParallelFor jobs</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.0/Documentation/Manual/job-system-native-container.html">Unity Manual - Introduction to NativeContainer</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.burst@1.8/manual/index.html">Unity Burst 1.8 Manual</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.burst@1.8/manual/compilation-burstcompile.html">Unity Burst - Marking code for Burst compilation</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.burst@1.8/manual/optimization-loop-vectorization.html">Unity Burst - Loop vectorization</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.burst@1.8/manual/aliasing.html">Unity Burst - Memory aliasing</a></p>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+          <a href="/2026/06/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Base-Shader分支与GPU线程发散</span>
+          </a>
+        
+        
+          <a href="/2026/06/18/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Base-GPU硬件架构基础</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>
