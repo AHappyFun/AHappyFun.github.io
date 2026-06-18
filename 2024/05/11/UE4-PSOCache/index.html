@@ -419,7 +419,7 @@
     <main class="main">
       
 <article class="post">
-  <div class="container post__container">
+  <div class="container post__layout">
     <header class="post__header">
       <div class="post__meta">
         <time datetime="2024-05-10T16:00:00.000Z">2024 年 5 月 11 日</time>
@@ -440,6 +440,16 @@
         </div>
       
     </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
 
     <div class="post__content">
       <h3 id="1-什么是PSO"><a href="#1-什么是PSO" class="headerlink" title="1.什么是PSO?"></a>1.什么是PSO?</h3><p>PSO(Pipeline State Object)是现代图形API(DX12、Vulkan、Metal)提出的新概念，以前的API设置VS、Rasterizer、PS、BlendState这些状态时，需要一个一个调用设置，PSO可以理解就是把这些状态封装为一个Object，一次调用SetPipelineState的API即可。</p>

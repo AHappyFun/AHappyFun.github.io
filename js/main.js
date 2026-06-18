@@ -110,6 +110,90 @@
     });
   });
 
+  /* --- Post table of contents --- */
+  (function initPostToc() {
+    var toc = document.getElementById('postToc');
+    var tocNav = document.getElementById('postTocNav');
+    var tocToggle = document.getElementById('postTocToggle');
+    var headings = Array.prototype.slice.call(
+      document.querySelectorAll('.post__content h2, .post__content h3')
+    );
+
+    // Very short posts do not need a table of contents.
+    if (!toc || !tocNav || !tocToggle || headings.length < 2) return;
+
+    var usedIds = Object.create(null);
+    var links = [];
+
+    headings.forEach(function (heading, index) {
+      var baseId = heading.id || heading.textContent.trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\u3400-\u9fff-]/g, '') || 'section-' + (index + 1);
+      var id = baseId;
+      var suffix = 2;
+
+      while (usedIds[id] || (document.getElementById(id) && document.getElementById(id) !== heading)) {
+        id = baseId + '-' + suffix;
+        suffix += 1;
+      }
+
+      usedIds[id] = true;
+      heading.id = id;
+
+      var link = document.createElement('a');
+      link.className = 'post-toc__link post-toc__link--' + heading.tagName.toLowerCase();
+      link.href = '#' + encodeURIComponent(id);
+      link.textContent = heading.textContent.trim();
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', '#' + encodeURIComponent(id));
+      });
+
+      tocNav.appendChild(link);
+      links.push(link);
+    });
+
+    toc.hidden = false;
+
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      tocToggle.setAttribute('aria-expanded', 'false');
+      toc.classList.add('is-collapsed');
+    }
+
+    tocToggle.addEventListener('click', function () {
+      var expanded = tocToggle.getAttribute('aria-expanded') === 'true';
+      tocToggle.setAttribute('aria-expanded', String(!expanded));
+      toc.classList.toggle('is-collapsed', expanded);
+    });
+
+    var ticking = false;
+    function updateActiveHeading() {
+      var activeIndex = 0;
+      headings.forEach(function (heading, index) {
+        if (heading.getBoundingClientRect().top <= 120) activeIndex = index;
+      });
+
+      links.forEach(function (link, index) {
+        var isActive = index === activeIndex;
+        link.classList.toggle('is-active', isActive);
+        if (isActive) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(updateActiveHeading);
+        ticking = true;
+      }
+    }, { passive: true });
+
+    updateActiveHeading();
+  })();
+
   /* --- 🐱 Cat vs Mouse --- */
   (function initGame() {
     var container = document.createElement('div');

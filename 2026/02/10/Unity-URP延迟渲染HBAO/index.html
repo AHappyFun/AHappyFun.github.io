@@ -417,7 +417,7 @@
     <main class="main">
       
 <article class="post">
-  <div class="container post__container">
+  <div class="container post__layout">
     <header class="post__header">
       <div class="post__meta">
         <time datetime="2026-02-09T16:00:00.000Z">2026 年 2 月 10 日</time>
@@ -438,6 +438,16 @@
         </div>
       
     </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
 
     <div class="post__content">
       <p>SSAO的进化版。</p>
