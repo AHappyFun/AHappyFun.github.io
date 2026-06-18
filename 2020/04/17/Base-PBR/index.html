@@ -26,11 +26,14 @@
 <meta property="og:site_name" content="锅巴的Blogs">
 <meta property="og:description" content="个人技术博客">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ahappyfun.github.io/2020/04/17/Base-PBR/pbr-overview.svg">
+<meta property="og:image" content="https://ahappyfun.github.io/2020/04/17/Base-PBR/metallic-workflow.svg">
 <meta property="article:published_time" content="2020-04-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-18T04:30:38.564Z">
+<meta property="article:modified_time" content="2026-06-18T15:04:06.819Z">
 <meta property="article:author" content="锅巴">
 <meta property="article:tag" content="原理">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ahappyfun.github.io/2020/04/17/Base-PBR/pbr-overview.svg">
 
 <meta name="generator" content="Hexo 7.3.0"></head>
 <body>
@@ -392,16 +395,16 @@
           
             
             
-            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
               <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
-              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
             </a>
           
             
             
-            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
               <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
-              <span class="sidebar__post-title">锅巴的游戏记录</span>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
             </a>
           
         </nav>
@@ -446,7 +449,218 @@
     </aside>
 
     <div class="post__content">
-      <p>&#x2F;&#x2F;todo 重新整理PBR</p>
+      <p>PBR（Physically Based Rendering，基于物理的渲染）不是某一个固定 Shader，而是一套尽量遵循真实光照规律的材质与渲染方法。</p>
+<p>它的目标不是绝对还原现实，而是让材质满足一些稳定的物理约束：</p>
+<ul>
+<li>同一份材质换到不同光照环境中，仍然能保持合理的外观。</li>
+<li>材质参数有明确含义，而不是靠随意调颜色凑效果。</li>
+<li>表面反射的能量不能凭空增加。</li>
+<li>金属、非金属、粗糙和光滑表面能够用统一模型表达。</li>
+</ul>
+<p>目前游戏引擎常见的 PBR，一般指基于微表面理论的 Cook-Torrance BRDF，再配合金属度工作流和基于图像的环境光照。</p>
+<p><img src="/2020/04/17/Base-PBR/pbr-overview.svg" alt="PBR 光照与表面关系"></p>
+<h2 id="1-光照计算到底在算什么"><a href="#1-光照计算到底在算什么" class="headerlink" title="1. 光照计算到底在算什么"></a>1. 光照计算到底在算什么</h2><p>光线到达表面后，大致会发生两类事情：</p>
+<ol>
+<li>一部分光在表面直接反射，形成<strong>镜面反射（Specular）</strong>。</li>
+<li>一部分光进入材质内部，被吸收或经过散射后重新射出，形成<strong>漫反射（Diffuse）</strong>。</li>
+</ol>
+<p>我们最终计算的是：从光源方向 <code>L</code> 入射的光，有多少能量会沿观察方向 <code>V</code> 离开表面。</p>
+<p>常用方向定义：</p>
+<ul>
+<li><code>N</code>：宏观表面法线。</li>
+<li><code>L</code>：表面指向光源的方向。</li>
+<li><code>V</code>：表面指向相机的方向。</li>
+<li><code>H</code>：<code>L + V</code> 归一化后的半程向量。</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">H = normalize(L + V)<br></code></pre></td></tr></table></figure>
+
+<p>如果某个微表面的法线刚好朝向 <code>H</code>，它就能把来自 <code>L</code> 的光反射到 <code>V</code>。</p>
+<h2 id="2-渲染方程与-BRDF"><a href="#2-渲染方程与-BRDF" class="headerlink" title="2. 渲染方程与 BRDF"></a>2. 渲染方程与 BRDF</h2><p>反射方程可以简化理解为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">Lo(x, V) = Le(x, V)<br>         + ∫Ω fr(x, L, V) × Li(x, L) × (N · L) dL<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>Lo</code>：从表面沿观察方向离开的光。</li>
+<li><code>Le</code>：表面自己发出的光，例如自发光。</li>
+<li><code>Li</code>：从某个方向到达表面的光。</li>
+<li><code>fr</code>：BRDF，描述表面如何把入射光反射到观察方向。</li>
+<li><code>N · L</code>：光线与表面的夹角衰减。</li>
+<li><code>∫Ω</code>：把上半球所有方向的入射光贡献加起来。</li>
+</ul>
+<p>实时渲染不可能对无限方向做完整积分，所以会对直接光逐灯计算，并用预计算、探针或近似算法处理环境间接光。</p>
+<h3 id="2-1-BRDF-是什么"><a href="#2-1-BRDF-是什么" class="headerlink" title="2.1 BRDF 是什么"></a>2.1 BRDF 是什么</h3><p>BRDF（Bidirectional Reflectance Distribution Function，双向反射分布函数）不是一张贴图，而是一个函数：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">fr(L, V) = 某个方向入射的光，有多少被反射到观察方向<br></code></pre></td></tr></table></figure>
+
+<p>一个物理合理的 BRDF 通常应满足：</p>
+<ul>
+<li><strong>能量守恒</strong>：反射出去的能量不应大于入射能量。</li>
+<li><strong>互易性</strong>：交换入射与观察方向，结果不变。</li>
+</ul>
+<p>实时 PBR 通常把 BRDF 分成漫反射和镜面反射：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">BRDF = Diffuse BRDF + Specular BRDF<br></code></pre></td></tr></table></figure>
+
+<h2 id="3-微表面理论"><a href="#3-微表面理论" class="headerlink" title="3. 微表面理论"></a>3. 微表面理论</h2><p>真实表面在微观上并不平整。PBR 把宏观表面看成大量方向不同的微小镜面。</p>
+<ul>
+<li>光滑表面的微表面朝向集中，反射光集中，高光小而清晰。</li>
+<li>粗糙表面的微表面朝向分散，反射光分散，高光宽而模糊。</li>
+</ul>
+<p>粗糙度描述的是<strong>微表面法线分布范围</strong>，不是简单降低高光亮度。粗糙表面的高光峰值通常会降低，但覆盖范围会扩大，整体能量不应该凭空消失。</p>
+<h2 id="4-Cook-Torrance-镜面-BRDF"><a href="#4-Cook-Torrance-镜面-BRDF" class="headerlink" title="4. Cook-Torrance 镜面 BRDF"></a>4. Cook-Torrance 镜面 BRDF</h2><p>常见的 Cook-Torrance 微表面镜面项为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Specular BRDF = D × F × G / (4 × (N · L) × (N · V))<br></code></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li><code>D</code>：微表面法线分布。</li>
+<li><code>F</code>：菲涅尔反射。</li>
+<li><code>G</code>：微表面之间的遮蔽与阴影。</li>
+<li>分母：对微表面投影面积进行归一化。</li>
+</ul>
+<p>实际实现时所有点积都需要限制到合理范围，并处理分母接近 0 的情况。</p>
+<h3 id="4-1-D：Normal-Distribution-Function"><a href="#4-1-D：Normal-Distribution-Function" class="headerlink" title="4.1 D：Normal Distribution Function"></a>4.1 D：Normal Distribution Function</h3><p><code>D</code> 描述微表面法线有多少朝向半程向量 <code>H</code>。</p>
+<p>游戏中常用 GGX &#x2F; Trowbridge-Reitz 分布。它相比一些早期分布具有更长的高光尾部，更接近许多真实材质：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">D_GGX = α² / (π × ((N·H)² × (α² - 1) + 1)²)<br></code></pre></td></tr></table></figure>
+
+<p><code>α</code> 由感知粗糙度转换而来，常见做法是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">α = roughness²<br></code></pre></td></tr></table></figure>
+
+<p>这里的平方是参数映射，并不代表所有引擎的贴图通道都以同样方式存储。跨引擎传递材质时，要确认 Smoothness、Roughness 和内部 <code>α</code> 的转换规则。</p>
+<h3 id="4-2-F：Fresnel"><a href="#4-2-F：Fresnel" class="headerlink" title="4.2 F：Fresnel"></a>4.2 F：Fresnel</h3><p>菲涅尔效应表示反射率随观察角度变化：越接近掠射角，表面反射通常越强。</p>
+<p>实时渲染常用 Schlick 近似：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">F = F0 + (1 - F0) × (1 - V·H)⁵<br></code></pre></td></tr></table></figure>
+
+<p><code>F0</code> 是垂直观察表面时的基础反射率：</p>
+<ul>
+<li>大部分非金属的 <code>F0</code> 较低，游戏中常近似使用 0.04。</li>
+<li>金属的 <code>F0</code> 较高，而且是有颜色的，颜色来自金属本身的光谱反射特性。</li>
+</ul>
+<p>因此，金属的高光会带有颜色，而非金属的高光通常接近光源颜色。</p>
+<h3 id="4-3-G：Geometry-Function"><a href="#4-3-G：Geometry-Function" class="headerlink" title="4.3 G：Geometry Function"></a>4.3 G：Geometry Function</h3><p>微表面会互相遮挡：</p>
+<ul>
+<li>从光源方向看不到的微表面处于 Shadowing。</li>
+<li>从相机方向看不到的微表面处于 Masking。</li>
+</ul>
+<p><code>G</code> 用来描述这种微观遮挡。常见实现使用 Smith 方法，并为 GGX 使用 Schlick-GGX 等近似。</p>
+<p>注意它和场景中的 Shadow Map 不是一回事：</p>
+<ul>
+<li>Shadow Map 处理物体之间的宏观遮挡。</li>
+<li><code>G</code> 处理材质表面内部的微观自遮挡。</li>
+</ul>
+<h2 id="5-漫反射与能量守恒"><a href="#5-漫反射与能量守恒" class="headerlink" title="5. 漫反射与能量守恒"></a>5. 漫反射与能量守恒</h2><p>最简单的漫反射模型是 Lambert：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Diffuse BRDF = BaseColor / π<br></code></pre></td></tr></table></figure>
+
+<p>除以 <code>π</code> 是为了保证在整个半球积分后不超过输入能量。</p>
+<p>但同一束光不能同时被完整地用于镜面反射和漫反射。先被表面反射的部分不会再进入材质内部，因此常写成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">kS = F<br>kD = (1 - kS) × (1 - Metallic)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>kS</code>：分给镜面反射的比例。</li>
+<li><code>kD</code>：分给漫反射的比例。</li>
+</ul>
+<p>金属的 <code>kD</code> 接近 0，因为可见光进入金属后会迅速被吸收，几乎没有普通意义上的漫反射。</p>
+<p>一些更完整的模型会使用 Burley Diffuse、多次散射能量补偿等方法，修正 Lambert 或单次散射微表面模型的不足。但理解基础 PBR 时，先掌握能量如何在 Diffuse 与 Specular 之间分配最重要。</p>
+<h2 id="6-金属度工作流"><a href="#6-金属度工作流" class="headerlink" title="6. 金属度工作流"></a>6. 金属度工作流</h2><p>游戏引擎最常见的是 Metallic-Roughness 工作流。</p>
+<p><img src="/2020/04/17/Base-PBR/metallic-workflow.svg" alt="金属度工作流中的材质参数"></p>
+<h3 id="6-1-Base-Color"><a href="#6-1-Base-Color" class="headerlink" title="6.1 Base Color"></a>6.1 Base Color</h3><p>Base Color 不是简单的“物体看起来是什么颜色”。</p>
+<ul>
+<li>非金属：表示漫反射颜色，不应包含烘焙进去的灯光、高光和阴影。</li>
+<li>金属：表示有色镜面反射的 <code>F0</code>，材质几乎没有漫反射。</li>
+</ul>
+<p>Base Color 通常作为颜色纹理，以 sRGB 方式读取并在线性空间参与光照计算。</p>
+<h3 id="6-2-Metallic"><a href="#6-2-Metallic" class="headerlink" title="6.2 Metallic"></a>6.2 Metallic</h3><p>Metallic 表示材质更接近金属还是非金属：</p>
+<ul>
+<li><code>0</code>：非金属，例如木材、塑料、石头。</li>
+<li><code>1</code>：金属，例如铁、金、铜。</li>
+</ul>
+<p>现实中纯材质通常是 0 或 1。贴图中的中间值主要用于：</p>
+<ul>
+<li>像素覆盖了金属与非金属的交界。</li>
+<li>灰尘、锈迹、涂层等混合材质。</li>
+<li>纹理过滤和抗锯齿产生的过渡。</li>
+</ul>
+<p>生锈的铁表面不能简单理解成“半金属”。氧化层本身通常是非金属，它只是覆盖在下面的金属上。</p>
+<h3 id="6-3-Roughness-Smoothness"><a href="#6-3-Roughness-Smoothness" class="headerlink" title="6.3 Roughness &#x2F; Smoothness"></a>6.3 Roughness &#x2F; Smoothness</h3><p>Roughness 控制微表面朝向的分散程度：</p>
+<ul>
+<li><code>0</code>：光滑，反射清晰，高光集中。</li>
+<li><code>1</code>：粗糙，反射模糊，高光分散。</li>
+</ul>
+<p>有些引擎使用 Smoothness：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Smoothness = 1 - Roughness<br></code></pre></td></tr></table></figure>
+
+<p>但通道位置和内部映射未必相同。例如 glTF 的 Metallic-Roughness 纹理使用 G 通道保存 Roughness、B 通道保存 Metallic，并要求按线性数据读取。Unity 不同渲染管线和工作流的打包方式需要单独确认。</p>
+<h3 id="6-4-Normal、AO-和-Emission"><a href="#6-4-Normal、AO-和-Emission" class="headerlink" title="6.4 Normal、AO 和 Emission"></a>6.4 Normal、AO 和 Emission</h3><ul>
+<li><strong>Normal Map</strong>：改变光照使用的局部法线，增加表面细节，但不会改变真实轮廓。</li>
+<li><strong>Ambient Occlusion</strong>：描述小尺度缝隙对间接光的遮蔽，不应该粗暴乘到所有直接光上。</li>
+<li><strong>Emission</strong>：表面自行发出的光。它能让材质显示得很亮，但是否照亮周围物体取决于 GI、光照贴图或额外光源。</li>
+</ul>
+<p>这些纹理属于数据而不是颜色，除 Base Color、Emission 等颜色纹理外，通常应以 Linear &#x2F; Non-Color 方式读取。</p>
+<h2 id="7-直接光照"><a href="#7-直接光照" class="headerlink" title="7. 直接光照"></a>7. 直接光照</h2><p>对于一个点光源或方向光，可以把单灯贡献简化成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">DirectLighting = (kD × Diffuse + Specular)<br>               × LightColor<br>               × max(N · L, 0)<br>               × Attenuation<br>               × Shadow<br></code></pre></td></tr></table></figure>
+
+<p>其中：</p>
+<ul>
+<li>BRDF 决定材质如何反射光。</li>
+<li><code>N · L</code> 决定表面接收到多少光。</li>
+<li>Attenuation 表示距离和聚光角度衰减。</li>
+<li>Shadow 表示场景级遮挡。</li>
+</ul>
+<p>不要在 BRDF 内外重复乘 <code>N · L</code>。公式的具体组织方式在不同代码库中会有差异，判断时要看函数返回的是完整 BRDF，还是已经包含余弦项的光照响应。</p>
+<h2 id="8-IBL：环境光照"><a href="#8-IBL：环境光照" class="headerlink" title="8. IBL：环境光照"></a>8. IBL：环境光照</h2><p>真实场景的光并不只来自几个解析光源。天空、墙面和周围物体会从所有方向提供入射光。</p>
+<p>IBL（Image Based Lighting）使用 Cubemap 或环境探针表示这些方向的光照。它通常分为两部分：</p>
+<h3 id="8-1-Diffuse-IBL"><a href="#8-1-Diffuse-IBL" class="headerlink" title="8.1 Diffuse IBL"></a>8.1 Diffuse IBL</h3><p>漫反射会把入射光散射到较宽方向，因此环境贴图可以卷积成低频 Irradiance Map，或使用球谐函数保存。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">IndirectDiffuse ≈ Irradiance(N) × BaseColor × kD<br></code></pre></td></tr></table></figure>
+
+<h3 id="8-2-Specular-IBL"><a href="#8-2-Specular-IBL" class="headerlink" title="8.2 Specular IBL"></a>8.2 Specular IBL</h3><p>镜面环境反射同时依赖法线、观察方向和粗糙度。如果运行时对整个半球完整积分，成本会很高，因此通常进行 Split-Sum 近似：</p>
+<ol>
+<li>把环境 Cubemap 按不同粗糙度预过滤到不同 Mip。</li>
+<li>用预积分 BRDF LUT 保存 Fresnel 和几何项的组合结果。</li>
+</ol>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">IndirectSpecular ≈ PrefilteredEnvironment(R, Roughness)<br>                 × BRDF_LUT(N·V, Roughness, F0)<br></code></pre></td></tr></table></figure>
+
+<p>粗糙度越高，采样越模糊的 Mip。Reflection Probe、天空盒预过滤和 BRDF LUT 共同构成了常见的实时镜面 IBL。</p>
+<p>这仍然是近似：探针通常不知道真实遮挡和物体在场景中的准确位置，因此会出现漏光、反射漂浮或物体无法正确出现在反射中的问题。</p>
+<h2 id="9-Tone-Mapping-与颜色空间"><a href="#9-Tone-Mapping-与颜色空间" class="headerlink" title="9. Tone Mapping 与颜色空间"></a>9. Tone Mapping 与颜色空间</h2><p>PBR 光照结果通常是 HDR，可以大于 1。要显示到普通屏幕，还需要曝光和 Tone Mapping 把高动态范围映射到显示范围。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">材质纹理 sRGB → 解码到 Linear<br>              → 在线性空间计算光照<br>              → HDR 颜色<br>              → Exposure / Tone Mapping<br>              → 显示编码<br></code></pre></td></tr></table></figure>
+
+<p>Tone Mapping 不属于 BRDF，但它会强烈影响我们最终看到的高光、对比度和颜色。相同材质在不同引擎中看起来不同，可能不是 PBR 参数错了，而是环境光、曝光、Tone Mapping 和颜色管理不同。</p>
+<h2 id="10-Unity-中的对应关系"><a href="#10-Unity-中的对应关系" class="headerlink" title="10. Unity 中的对应关系"></a>10. Unity 中的对应关系</h2><p>以 Unity 常见 Lit 材质为例：</p>
+<ul>
+<li>Base Map &#x2F; Base Color：材质基础颜色。</li>
+<li>Metallic：金属度。</li>
+<li>Smoothness：通常与 Roughness 相反。</li>
+<li>Normal Map：切线空间法线。</li>
+<li>Occlusion：间接光遮蔽。</li>
+<li>Emission：自发光。</li>
+<li>Main Light &#x2F; Additional Lights：直接光。</li>
+<li>Reflection Probe &#x2F; Environment Reflections：镜面 IBL。</li>
+<li>Light Probe &#x2F; Lightmap &#x2F; SH：漫反射间接光。</li>
+</ul>
+<p>Built-in、URP、HDRP 的 BRDF、贴图打包和能量补偿实现并不完全一致。写自定义 Shader 时，最好复用当前渲染管线提供的光照函数，并阅读对应版本源码，而不是把一份网上的 Cook-Torrance 公式直接复制进来就认为完成了 PBR。</p>
+<h2 id="11-常见错误"><a href="#11-常见错误" class="headerlink" title="11. 常见错误"></a>11. 常见错误</h2><ol>
+<li><strong>把金属度当成高光强度。</strong> 金属度改变的是材质类别和能量分配。</li>
+<li><strong>在 Base Color 中画入高光和阴影。</strong> 光照改变后，这些信息仍然黏在材质上。</li>
+<li><strong>用纯黑金属。</strong> 金属的可见颜色主要来自有色镜面反射，过暗的 Base Color 会让它几乎无法反光。</li>
+<li><strong>随意使用 0 到 1 的半金属值。</strong> 大多数纯表面应接近 0 或 1。</li>
+<li><strong>把 Roughness 当成 Specular 强度。</strong> 它主要控制反射分布宽度。</li>
+<li><strong>把数据贴图按 sRGB 读取。</strong> Metallic、Roughness、Normal、AO 通常应使用线性采样。</li>
+<li><strong>只调材质，不检查环境。</strong> 没有合理的 HDR 环境与曝光，再正确的金属也可能像灰塑料。</li>
+<li><strong>把 AO 乘到所有光照。</strong> AO 主要用于削弱间接光；直接光遮挡应由阴影等机制决定。</li>
+<li><strong>法线贴图强度过大。</strong> 它会破坏宏观法线与微表面粗糙度之间的合理关系，并产生闪烁。</li>
+</ol>
+<h2 id="12-总结"><a href="#12-总结" class="headerlink" title="12. 总结"></a>12. 总结</h2><p>PBR 的知识链可以压缩为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs text">光照环境<br>   ↓<br>入射光 Li<br>   ↓<br>材质 BRDF：Diffuse + D × F × G<br>   ↓<br>直接光 + IBL 间接光<br>   ↓<br>HDR 结果<br>   ↓<br>曝光与 Tone Mapping<br>   ↓<br>最终画面<br></code></pre></td></tr></table></figure>
+
+<p>最需要记住的不是某一条公式，而是四个约束：</p>
+<ul>
+<li>粗糙度描述微表面分布。</li>
+<li>菲涅尔决定反射随角度变化。</li>
+<li>金属与非金属的漫反射和 <code>F0</code> 不同。</li>
+<li>漫反射与镜面反射必须共享有限的入射能量。</li>
+</ul>
+<p>在这个基础上，再去理解 Clear Coat、Sheen、Anisotropy、Subsurface、Transmission 等扩展材质，就不会只是堆参数，而是在基础 BRDF 上增加新的光学层次。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://registry.khronos.org/glTF/specs/2.0/glTF-2.0.html#materials">Khronos glTF 2.0 Specification：Materials</a></li>
+<li><a target="_blank" rel="noopener" href="https://google.github.io/filament/Filament.md.html">Google Filament：Physically Based Rendering</a></li>
+<li><a target="_blank" rel="noopener" href="https://media.disneyanimation.com/uploads/production/publication_asset/48/asset/s2012_pbs_disney_brdf_notes_v3.pdf">Disney：Physically-Based Shading at Disney</a></li>
+</ul>
 
     </div>
 

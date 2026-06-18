@@ -26,11 +26,14 @@
 <meta property="og:site_name" content="锅巴的Blogs">
 <meta property="og:description" content="个人技术博客">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ahappyfun.github.io/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/graphics-pipeline.svg">
+<meta property="og:image" content="https://ahappyfun.github.io/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/rasterization.svg">
 <meta property="article:published_time" content="2020-04-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-06-18T04:30:38.564Z">
+<meta property="article:modified_time" content="2026-06-18T14:56:46.145Z">
 <meta property="article:author" content="锅巴">
 <meta property="article:tag" content="原理">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ahappyfun.github.io/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/graphics-pipeline.svg">
 
 <meta name="generator" content="Hexo 7.3.0"></head>
 <body>
@@ -392,16 +395,16 @@
           
             
             
-            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
               <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
-              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
             </a>
           
             
             
-            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
               <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
-              <span class="sidebar__post-title">锅巴的游戏记录</span>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
             </a>
           
         </nav>
@@ -446,8 +449,260 @@
     </aside>
 
     <div class="post__content">
-      <p>&#x2F;&#x2F;todo重新整理 </p>
-<p>&#x2F;&#x2F;传统图形渲染管线</p>
+      <p>渲染管线（Rendering Pipeline）描述的是：一组场景数据，如何一步步变成屏幕上的像素。</p>
+<p>传统实时渲染管线通常可以从概念上分成三个阶段：</p>
+<ol>
+<li><strong>应用阶段（Application Stage）</strong>：CPU 决定“画什么、以什么顺序画”。</li>
+<li><strong>几何阶段（Geometry Stage）</strong>：GPU 把模型顶点变换成屏幕上的三角形。</li>
+<li><strong>光栅化阶段（Rasterization Stage）</strong>：GPU 找出三角形覆盖的采样点，计算颜色并写入渲染目标。</li>
+</ol>
+<p>这是一种便于理解的划分。真正的 Direct3D、OpenGL、Vulkan 或 Metal 管线会把它继续拆成更多子阶段，并且不同 GPU 的内部实现也不完全相同。</p>
+<p><img src="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/graphics-pipeline.svg" alt="传统图形渲染管线总览"></p>
+<h2 id="1-应用阶段：决定画什么"><a href="#1-应用阶段：决定画什么" class="headerlink" title="1. 应用阶段：决定画什么"></a>1. 应用阶段：决定画什么</h2><p>应用阶段主要运行在 CPU 上，它并不是 GPU 固定管线中的某一个硬件阶段，而是游戏引擎在提交绘制命令之前所做工作的统称。</p>
+<p>这一阶段通常包括：</p>
+<ul>
+<li>更新动画、Transform、粒子和游戏逻辑。</li>
+<li>根据相机做视锥剔除、遮挡剔除和 LOD 选择。</li>
+<li>收集可见的 Renderer，并按照材质、渲染队列或深度排序。</li>
+<li>准备网格、材质、纹理和 Shader 参数。</li>
+<li>设置渲染状态，例如 Cull、ZTest、ZWrite 和 Blend。</li>
+<li>生成 Draw Call，并通过图形 API 提交给 GPU。</li>
+</ul>
+<p>应用阶段的输入是整个场景，输出则是一串 GPU 可以执行的命令。可以把它理解为导演在开拍前整理演员、道具和拍摄顺序，GPU 负责真正把画面拍出来。</p>
+<h3 id="1-1-可见性判断"><a href="#1-1-可见性判断" class="headerlink" title="1.1 可见性判断"></a>1.1 可见性判断</h3><p>最基础的是视锥剔除：物体的包围盒完全处于相机视锥外时，没有必要提交给 GPU。</p>
+<p>除此之外，现代引擎还可能使用：</p>
+<ul>
+<li><strong>遮挡剔除</strong>：物体被其他物体完全挡住时不绘制。</li>
+<li><strong>LOD</strong>：距离越远，使用顶点更少或计算更简单的版本。</li>
+<li><strong>距离剔除</strong>：小到无法产生视觉贡献的物体直接忽略。</li>
+</ul>
+<p>剔除越早，后面所有阶段的压力就越小。但剔除本身也需要 CPU 或 GPU 计算，因此不是规则越复杂越好。</p>
+<h3 id="1-2-排序、合批与-Draw-Call"><a href="#1-2-排序、合批与-Draw-Call" class="headerlink" title="1.2 排序、合批与 Draw Call"></a>1.2 排序、合批与 Draw Call</h3><p>CPU 每次要求 GPU 绘制一批几何体，通常就会产生一次绘制提交。大量 Draw Call、频繁切换材质和渲染状态，会让 CPU 花很多时间组织命令。</p>
+<p>常见优化包括：</p>
+<ul>
+<li>合并使用相同材质的物体。</li>
+<li>使用 GPU Instancing 绘制大量相同网格。</li>
+<li>按材质或管线状态排序，减少状态切换。</li>
+<li>使用 SRP Batcher、间接绘制或 GPU Driven Rendering。</li>
+</ul>
+<p>透明物体通常还需要从远到近排序。这里也能看出：透明渲染并不只是一个 Blend 设置，它同时依赖应用阶段的排序和光栅化末端的混合。</p>
+<h2 id="2-几何阶段：把顶点变成屏幕三角形"><a href="#2-几何阶段：把顶点变成屏幕三角形" class="headerlink" title="2. 几何阶段：把顶点变成屏幕三角形"></a>2. 几何阶段：把顶点变成屏幕三角形</h2><p>几何阶段主要处理顶点和图元。图元（Primitive）是 GPU 能够光栅化的基础几何形状，实时渲染中最常见的是三角形。</p>
+<p>这一阶段的核心流程是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">顶点数据 → 顶点着色器 → 图元装配 → 裁剪 → 透视除法 → 视口变换<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-1-顶点输入"><a href="#2-1-顶点输入" class="headerlink" title="2.1 顶点输入"></a>2.1 顶点输入</h3><p>网格数据一般保存在 Vertex Buffer 和 Index Buffer 中。</p>
+<p>Vertex Buffer 保存：</p>
+<ul>
+<li>模型空间位置。</li>
+<li>法线和切线。</li>
+<li>UV。</li>
+<li>顶点色。</li>
+<li>骨骼索引与权重等自定义数据。</li>
+</ul>
+<p>Index Buffer 保存三角形引用哪些顶点。多个三角形可以复用同一个顶点，减少重复数据和顶点着色计算。GPU 内部还可能使用顶点缓存复用已经处理过的结果。</p>
+<h3 id="2-2-顶点着色器"><a href="#2-2-顶点着色器" class="headerlink" title="2.2 顶点着色器"></a>2.2 顶点着色器</h3><p>顶点着色器（Vertex Shader）至少需要计算顶点的裁剪空间位置。最典型的坐标变换是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">模型空间 → 世界空间 → 观察空间 → 裁剪空间<br></code></pre></td></tr></table></figure>
+
+<p>用矩阵表示就是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">positionCS = Projection × View × Model × positionOS<br></code></pre></td></tr></table></figure>
+
+<p>除了位置，顶点着色器还会输出 UV、颜色、世界空间法线等数据。这些输出会在三角形内部插值，再交给片元着色器。</p>
+<p>顶点着色器适合做：</p>
+<ul>
+<li>顶点变换。</li>
+<li>骨骼蒙皮。</li>
+<li>顶点动画和风摆动。</li>
+<li>计算传给片元阶段的数据。</li>
+</ul>
+<p>它通常一次只知道当前顶点，不能直接知道整个三角形最终覆盖了哪些像素。</p>
+<h3 id="2-3-可选的细分和几何处理"><a href="#2-3-可选的细分和几何处理" class="headerlink" title="2.3 可选的细分和几何处理"></a>2.3 可选的细分和几何处理</h3><p>在传统可编程管线中，顶点着色器之后还可能存在：</p>
+<ul>
+<li><strong>曲面细分阶段（Tessellation）</strong>：把较粗的图元细分成更多三角形。</li>
+<li><strong>几何着色器（Geometry Shader）</strong>：以完整图元为输入，可以丢弃或生成图元。</li>
+</ul>
+<p>它们不是每次绘制都必须使用。移动端尤其要谨慎使用，因为生成大量几何体可能迅速增加带宽、缓存和光栅化压力。更新的硬件还可能提供 Mesh Shader，用另一种方式组织几何处理，但它不属于所有平台都支持的传统基础管线。</p>
+<h3 id="2-4-图元装配"><a href="#2-4-图元装配" class="headerlink" title="2.4 图元装配"></a>2.4 图元装配</h3><p>图元装配（Primitive Assembly）根据索引，把处理后的顶点组合成点、线或三角形。</p>
+<p>例如索引序列 <code>0, 1, 2</code> 表示第一个三角形引用 0、1、2 三个顶点。顶点绕序还会决定哪一面是正面，从而支持背面剔除。</p>
+<h3 id="2-5-裁剪与剔除"><a href="#2-5-裁剪与剔除" class="headerlink" title="2.5 裁剪与剔除"></a>2.5 裁剪与剔除</h3><p>这两个概念很容易混淆：</p>
+<ul>
+<li><strong>剔除（Culling）</strong>：整个图元不需要绘制，例如背面剔除。</li>
+<li><strong>裁剪（Clipping）</strong>：图元有一部分超出可见范围，需要在边界上生成新顶点，留下可见部分。</li>
+</ul>
+<p>GPU 会在齐次裁剪空间中判断三角形是否处于可见体内。完全在外面的三角形被丢弃，跨越边界的三角形被切开。</p>
+<p>必须在透视除法之前裁剪。特别是穿过相机或近裁剪面的三角形，如果先除以 <code>w</code>，坐标可能变得无穷大或方向翻转。</p>
+<h3 id="2-6-透视除法与-NDC"><a href="#2-6-透视除法与-NDC" class="headerlink" title="2.6 透视除法与 NDC"></a>2.6 透视除法与 NDC</h3><p>顶点着色器输出的裁剪空间位置是四维齐次坐标 <code>(x, y, z, w)</code>。裁剪后执行透视除法：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">(x, y, z)NDC = (x / w, y / w, z / w)<br></code></pre></td></tr></table></figure>
+
+<p>结果进入 NDC（Normalized Device Coordinates，归一化设备坐标）。透视投影中，远处物体之所以显得更小，关键就来自除以 <code>w</code>。</p>
+<p>不同图形 API 对 NDC 的 Y 轴方向和 Z 范围存在差异，例如 Z 可能是 <code>[-1, 1]</code> 或 <code>[0, 1]</code>。使用引擎提供的变换函数，通常可以避免手动处理这些平台差异。</p>
+<h3 id="2-7-视口变换"><a href="#2-7-视口变换" class="headerlink" title="2.7 视口变换"></a>2.7 视口变换</h3><p>视口变换把 NDC 映射到渲染目标的屏幕坐标：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">NDC → Viewport → 屏幕坐标与深度范围<br></code></pre></td></tr></table></figure>
+
+<p>到这里，GPU 已经知道三角形三个顶点在屏幕上的位置。几何阶段的输出不是最终颜色，而是一批等待光栅化的屏幕空间图元，以及随后需要插值的顶点属性。</p>
+<h2 id="3-光栅化阶段：把三角形变成片元"><a href="#3-光栅化阶段：把三角形变成片元" class="headerlink" title="3. 光栅化阶段：把三角形变成片元"></a>3. 光栅化阶段：把三角形变成片元</h2><p>光栅化不是“给模型贴一张图”这么简单。它首先回答一个非常具体的问题：这个屏幕空间三角形覆盖了哪些采样点？</p>
+<p><img src="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/rasterization.svg" alt="三角形光栅化与片元处理"></p>
+<h3 id="3-1-三角形设置与覆盖测试"><a href="#3-1-三角形设置与覆盖测试" class="headerlink" title="3.1 三角形设置与覆盖测试"></a>3.1 三角形设置与覆盖测试</h3><p>GPU 根据三个屏幕空间顶点建立三角形的边方程，并遍历它可能覆盖的区域。采样点满足三条边的内外判断时，就被认为处于三角形内部。</p>
+<p>GPU 并不一定逐个像素笨拙地判断，而会以并行的小块进行处理。屏幕上的三角形越大，覆盖的采样点越多，后续片元着色工作的上限也越高。</p>
+<h3 id="3-2-Fragment-不完全等于-Pixel"><a href="#3-2-Fragment-不完全等于-Pixel" class="headerlink" title="3.2 Fragment 不完全等于 Pixel"></a>3.2 Fragment 不完全等于 Pixel</h3><p>光栅化产生的是 Fragment（片元），可以理解为“可能对某个像素采样点产生贡献的一次候选记录”。它包含：</p>
+<ul>
+<li>屏幕位置和深度。</li>
+<li>插值后的 UV、法线、颜色等属性。</li>
+<li>正反面信息。</li>
+<li>多重采样时的覆盖信息。</li>
+</ul>
+<p>片元不一定成为最终像素，因为它可能在深度测试、模板测试或 <code>discard</code> 中被丢弃；多个透明片元也可能混合到同一个像素中。开启 MSAA 后，一个像素还可能包含多个采样点。</p>
+<h3 id="3-3-属性插值"><a href="#3-3-属性插值" class="headerlink" title="3.3 属性插值"></a>3.3 属性插值</h3><p>三角形只有三个顶点，但内部会产生大量片元。光栅化器使用重心坐标，对顶点着色器输出的数据进行插值。</p>
+<p>普通线性插值可以写成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">attribute = λ0 × attribute0 + λ1 × attribute1 + λ2 × attribute2<br></code></pre></td></tr></table></figure>
+
+<p>其中 <code>λ0 + λ1 + λ2 = 1</code>。</p>
+<p>UV 等属性不能简单地在屏幕空间线性插值，否则透视下的纹理会扭曲。因此 GPU 默认使用透视正确插值：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">attribute = Σ(λi × attributei / wi) ÷ Σ(λi / wi)<br></code></pre></td></tr></table></figure>
+
+<p>这也是顶点阶段传少量数据，就能在整个三角形表面得到连续 UV 和法线的原因。</p>
+<h3 id="3-4-片元着色器-像素着色器"><a href="#3-4-片元着色器-像素着色器" class="headerlink" title="3.4 片元着色器 &#x2F; 像素着色器"></a>3.4 片元着色器 &#x2F; 像素着色器</h3><p>片元着色器（OpenGL&#x2F;Vulkan 常用叫法）和像素着色器（Direct3D 常用叫法）在这里可以看作同一阶段。</p>
+<p>它通常会：</p>
+<ul>
+<li>采样纹理。</li>
+<li>计算材质颜色与光照。</li>
+<li>使用法线贴图重建法线。</li>
+<li>计算透明度并决定是否 <code>discard</code>。</li>
+<li>输出一个或多个 Render Target，例如延迟渲染的 GBuffer。</li>
+</ul>
+<p>顶点着色器决定三角形在哪里，片元着色器决定三角形覆盖区域呈现什么结果。一般的片元着色器不能再改变三角形的形状，但某些 API 允许它修改片元深度。</p>
+<h3 id="3-5-Early-Z、深度和模板测试"><a href="#3-5-Early-Z、深度和模板测试" class="headerlink" title="3.5 Early-Z、深度和模板测试"></a>3.5 Early-Z、深度和模板测试</h3><p>深度测试比较当前片元深度和 Depth Buffer 中已有的深度，从而决定谁更靠近相机。模板测试则根据 Stencil Buffer 中的值控制片元是否通过。</p>
+<p>硬件可能在运行片元着色器之前执行 Early-Z。被遮挡的片元可以提前丢弃，省去昂贵的着色计算。</p>
+<p>但下面这些行为可能限制 Early-Z：</p>
+<ul>
+<li>片元着色器主动修改深度。</li>
+<li>使用 <code>discard</code> 或 Alpha Test。</li>
+<li>某些会产生读写顺序依赖的操作。</li>
+</ul>
+<p>因此“最终没显示出来”不代表它一定没有运行片元着色器。大量被遮挡表面仍然执行了着色，就是常说的 Overdraw。</p>
+<h3 id="3-6-混合与输出合并"><a href="#3-6-混合与输出合并" class="headerlink" title="3.6 混合与输出合并"></a>3.6 混合与输出合并</h3><p>通过测试的片元会进入输出合并阶段（Output Merger）。这里会综合：</p>
+<ul>
+<li>片元着色器输出。</li>
+<li>Render Target 中已有的颜色。</li>
+<li>Depth Buffer 和 Stencil Buffer。</li>
+<li>Blend、Color Mask、ZWrite 等固定管线状态。</li>
+</ul>
+<p>常见 Alpha 混合近似为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">result = sourceColor × sourceAlpha<br>       + destinationColor × (1 - sourceAlpha)<br></code></pre></td></tr></table></figure>
+
+<p>不透明物体通常开启深度写入并关闭混合；透明物体通常关闭深度写入、保留深度测试并开启混合。透明表面的结果与绘制顺序有关，所以通常要在应用阶段从远到近排序。</p>
+<p>最终结果被写入颜色缓冲、GBuffer、阴影贴图或其他 Render Texture。它不一定立刻显示到屏幕，也可能成为后续渲染 Pass 的输入。</p>
+<h2 id="4-哪些阶段可编程，哪些是固定功能"><a href="#4-哪些阶段可编程，哪些是固定功能" class="headerlink" title="4. 哪些阶段可编程，哪些是固定功能"></a>4. 哪些阶段可编程，哪些是固定功能</h2><p>传统 GPU 管线不是每一步都由 Shader 编写。</p>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>是否通常可编程</th>
+<th>主要工作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>顶点输入 &#x2F; 图元装配</td>
+<td>固定功能</td>
+<td>读取顶点并组成三角形</td>
+</tr>
+<tr>
+<td>Vertex Shader</td>
+<td>可编程</td>
+<td>顶点变换、蒙皮、顶点动画</td>
+</tr>
+<tr>
+<td>Tessellation &#x2F; Geometry</td>
+<td>可选、可编程</td>
+<td>细分、生成或修改图元</td>
+</tr>
+<tr>
+<td>裁剪 &#x2F; 透视除法 &#x2F; 视口变换</td>
+<td>固定功能</td>
+<td>获得屏幕空间图元</td>
+</tr>
+<tr>
+<td>光栅化 &#x2F; 插值</td>
+<td>固定功能</td>
+<td>生成片元并插值属性</td>
+</tr>
+<tr>
+<td>Fragment &#x2F; Pixel Shader</td>
+<td>可编程</td>
+<td>材质、纹理和光照计算</td>
+</tr>
+<tr>
+<td>深度、模板、混合</td>
+<td>固定功能状态</td>
+<td>可见性判断与输出合并</td>
+</tr>
+</tbody></table>
+<p>所谓“固定功能”不是不能配置，而是我们通过状态选择行为，不需要自己实现对应硬件算法。例如 <code>Cull Back</code>、<code>ZTest LEqual</code>、<code>ZWrite On</code> 和 <code>Blend SrcAlpha OneMinusSrcAlpha</code> 都是在配置固定功能单元。</p>
+<h2 id="5-在-Unity-Shader-中如何对应"><a href="#5-在-Unity-Shader-中如何对应" class="headerlink" title="5. 在 Unity Shader 中如何对应"></a>5. 在 Unity Shader 中如何对应</h2><p>一段简化的 Unity HLSL，大致能对应到以下流程：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">struct Attributes<br>&#123;<br>    float3 positionOS : POSITION;<br>    float2 uv         : TEXCOORD0;<br>&#125;;<br><br>struct Varyings<br>&#123;<br>    float4 positionCS : SV_POSITION;<br>    float2 uv         : TEXCOORD0;<br>&#125;;<br><br>Varyings Vert(Attributes input)<br>&#123;<br>    Varyings output;<br>    output.positionCS = TransformObjectToHClip(input.positionOS);<br>    output.uv = input.uv;<br>    return output;<br>&#125;<br><br>half4 Frag(Varyings input) : SV_Target<br>&#123;<br>    return SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>它们在管线中的位置是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">Mesh / Vertex Buffer<br>        ↓<br>Vert：模型空间 → 裁剪空间<br>        ↓<br>固定管线：裁剪、透视除法、光栅化、插值<br>        ↓<br>Frag：纹理采样和材质计算<br>        ↓<br>固定管线：深度、模板、混合<br>        ↓<br>Render Target<br></code></pre></td></tr></table></figure>
+
+<p>Unity 中常见概念的对应关系：</p>
+<ul>
+<li><code>MeshRenderer</code>、剔除和排序：主要属于应用阶段。</li>
+<li><code>Mesh</code>、Vertex Buffer、Index Buffer：几何输入。</li>
+<li><code>Vert</code>：顶点着色器。</li>
+<li><code>Frag</code>：片元着色器。</li>
+<li><code>Cull</code>、<code>ZTest</code>、<code>ZWrite</code>、<code>Stencil</code>、<code>Blend</code>：固定功能状态。</li>
+<li><code>RenderTexture</code>、Camera Color、GBuffer：渲染目标。</li>
+<li>一个 Shader 中的多个 Pass：多次经过管线，而不是一次管线里自动完成所有效果。</li>
+</ul>
+<h2 id="6-从性能问题反推阶段"><a href="#6-从性能问题反推阶段" class="headerlink" title="6. 从性能问题反推阶段"></a>6. 从性能问题反推阶段</h2><p>知道工作发生在哪个阶段，优化才不会凭感觉乱改。</p>
+<h3 id="应用阶段瓶颈"><a href="#应用阶段瓶颈" class="headerlink" title="应用阶段瓶颈"></a>应用阶段瓶颈</h3><p>常见表现：CPU Render Thread 或 Main Thread 耗时高，GPU 没有吃满。</p>
+<p>优先检查：</p>
+<ul>
+<li>Draw Call 和状态切换是否过多。</li>
+<li>剔除和 LOD 是否有效。</li>
+<li>是否存在大量小物体、频繁更新的 Renderer。</li>
+<li>合批、Instancing 或命令生成成本。</li>
+</ul>
+<h3 id="几何阶段瓶颈"><a href="#几何阶段瓶颈" class="headerlink" title="几何阶段瓶颈"></a>几何阶段瓶颈</h3><p>常见表现：顶点量、蒙皮或曲面细分增加后，GPU 时间明显上升。</p>
+<p>优先检查：</p>
+<ul>
+<li>实际提交的顶点和三角形数量。</li>
+<li>顶点着色器是否过重。</li>
+<li>骨骼数量、蒙皮顶点和额外顶点属性。</li>
+<li>细分倍率是否失控。</li>
+<li>小三角形是否过多。小到接近像素尺寸的三角形会让光栅化效率也变差。</li>
+</ul>
+<h3 id="光栅化-片元阶段瓶颈"><a href="#光栅化-片元阶段瓶颈" class="headerlink" title="光栅化 &#x2F; 片元阶段瓶颈"></a>光栅化 &#x2F; 片元阶段瓶颈</h3><p>常见表现：降低分辨率后帧率明显改善，或屏幕覆盖面积越大越慢。</p>
+<p>优先检查：</p>
+<ul>
+<li>片元着色器的指令、纹理采样和分支。</li>
+<li>透明物、粒子和多层 UI 导致的 Overdraw。</li>
+<li>Render Target 数量、格式和带宽。</li>
+<li>MSAA 采样数。</li>
+<li>全屏后处理次数。</li>
+</ul>
+<p>判断瓶颈时最好使用 Unity Profiler、Frame Debugger、RenderDoc，以及对应平台的 GPU Profiler。只看三角形数量或 Draw Call 其中一个数字，很容易误判。</p>
+<h2 id="7-最容易混淆的几个结论"><a href="#7-最容易混淆的几个结论" class="headerlink" title="7. 最容易混淆的几个结论"></a>7. 最容易混淆的几个结论</h2><ol>
+<li><strong>应用阶段不等于某个 Shader 阶段。</strong> 它主要是 CPU 和引擎组织渲染工作的过程。</li>
+<li><strong>顶点着色器的输出不是屏幕像素。</strong> 中间还要经过装配、裁剪、透视除法和光栅化。</li>
+<li><strong>光栅化不等于片元着色。</strong> 光栅化负责产生片元和插值数据，片元着色器才计算材质结果。</li>
+<li><strong>片元不等于最终像素。</strong> 它可能被测试丢弃，也可能和其他片元混合。</li>
+<li><strong>深度测试不保证一定发生在片元着色之后。</strong> 硬件可以使用 Early-Z 提前排除遮挡片元。</li>
+<li><strong>透明渲染跨越多个阶段。</strong> 应用阶段负责排序，片元阶段计算颜色和透明度，输出阶段负责混合。</li>
+</ol>
+<h2 id="8-总结"><a href="#8-总结" class="headerlink" title="8. 总结"></a>8. 总结</h2><p>传统渲染管线可以记成一句话：</p>
+<blockquote>
+<p>CPU 选择并提交物体，GPU 把顶点变成三角形，把三角形变成片元，再经过深度、模板和混合写入渲染目标。</p>
+</blockquote>
+<p>进一步压缩就是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">应用阶段：场景 → 绘制命令<br>几何阶段：顶点 → 屏幕三角形<br>光栅化阶段：屏幕三角形 → 渲染目标<br></code></pre></td></tr></table></figure>
+
+<p>理解这条链路以后，很多看似独立的概念——Draw Call、坐标空间、裁剪、插值、Overdraw、Early-Z、透明排序和 Blend——都会回到各自正确的位置。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/direct3d11/overviews-direct3d-11-graphics-pipeline">Microsoft：Direct3D 11 Graphics Pipeline</a></li>
+<li><a target="_blank" rel="noopener" href="https://wikis.khronos.org/opengl/Rendering_Pipeline_Overview">Khronos OpenGL Wiki：Rendering Pipeline Overview</a></li>
+<li><a target="_blank" rel="noopener" href="https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#primsrast">Khronos Vulkan Specification：Rasterization</a></li>
+<li><a target="_blank" rel="noopener" href="https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#fragops">Khronos Vulkan Specification：Fragment Operations</a></li>
+</ul>
 
     </div>
 

@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="t d">
+  <title id="t">PBR 光照与表面关系</title><desc id="d">入射光、观察方向、法线、半程向量以及漫反射与镜面反射。</desc>
+  <defs>
+    <linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#faf7ff"/><stop offset="1" stop-color="#eef7f4"/></linearGradient>
+    <linearGradient id="s" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#d5c3f5"/><stop offset="1" stop-color="#b8dfd2"/></linearGradient>
+    <marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M1 1L11 6L1 11Z" fill="#56576b"/></marker>
+  </defs>
+  <rect width="1200" height="620" rx="28" fill="url(#b)"/>
+  <text x="65" y="72" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif" font-size="29" font-weight="700" fill="#303241">PBR：光如何与微表面作用</text>
+  <text x="65" y="107" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif" font-size="17" fill="#6d7080">BRDF 描述从 L 入射的光，有多少会沿 V 离开表面</text>
+  <path d="M95 492 Q315 430 520 482 T905 468 T1120 486 L1120 550H95Z" fill="url(#s)"/>
+  <path d="M95 492 Q315 430 520 482 T905 468 T1120 486" fill="none" stroke="#50796d" stroke-width="4"/>
+  <g stroke="#7b699d" stroke-width="3"><path d="M412 470l-18-48"/><path d="M475 472l15-54"/><path d="M542 476l-5-42"/><path d="M606 472l25-45"/><path d="M673 464l-12-48"/></g>
+  <circle cx="542" cy="476" r="9" fill="#554470"/>
+  <g stroke="#56576b" stroke-width="4" fill="none" marker-end="url(#a)">
+    <path d="M540 456L332 198"/><path d="M551 456L794 198"/><path d="M545 450V164"/><path d="M550 452L575 183" stroke="#a75f72" stroke-dasharray="8 7"/>
+  </g>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif">
+    <text x="292" y="178" font-size="22" font-weight="700" fill="#3b3c4d">L · 入射光方向</text>
+    <text x="792" y="178" font-size="22" font-weight="700" fill="#3b3c4d">V · 观察方向</text>
+    <text x="505" y="145" font-size="22" font-weight="700" fill="#3b3c4d">N</text>
+    <text x="577" y="174" font-size="21" font-weight="700" fill="#9b4f64">H</text>
+    <rect x="140" y="278" width="252" height="102" rx="18" fill="#f0e6ff" stroke="#d6c0f1" stroke-width="2"/>
+    <text x="166" y="317" font-size="19" font-weight="700" fill="#624a80">镜面反射 Specular</text>
+    <text x="166" y="350" font-size="16" fill="#6e6379">表面直接反射 · D × F × G</text>
+    <rect x="806" y="278" width="252" height="102" rx="18" fill="#e1f4ed" stroke="#b7ddcf" stroke-width="2"/>
+    <text x="832" y="317" font-size="19" font-weight="700" fill="#396a5b">漫反射 Diffuse</text>
+    <text x="832" y="350" font-size="16" fill="#5b776e">进入材质后散射并重新射出</text>
+    <text x="443" y="575" font-size="17" fill="#606577">宏观表面由大量方向不同的微小镜面组成</text>
+  </g>
+</svg>

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="610" viewBox="0 0 1200 610" role="img" aria-labelledby="t2 d2">
+  <title id="t2">金属度工作流中的材质参数</title><desc id="d2">基础颜色、金属度和粗糙度如何共同决定漫反射与镜面反射。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#faf8ff"/><stop offset="1" stop-color="#eff6fb"/></linearGradient>
+    <marker id="ar" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M1 1L10 5.5L1 10Z" fill="#7a7889"/></marker>
+    <filter id="sh"><feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#526075" flood-opacity=".13"/></filter>
+  </defs>
+  <rect width="1200" height="610" rx="28" fill="url(#bg)"/>
+  <text x="64" y="70" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif" font-size="29" font-weight="700" fill="#303241">Metallic-Roughness 工作流</text>
+  <text x="64" y="105" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif" font-size="17" fill="#6d7080">三个主要参数共同决定能量如何分配，以及反射如何展开</text>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif" filter="url(#sh)">
+    <rect x="65" y="155" width="285" height="138" rx="22" fill="#f1e6ff"/>
+    <text x="92" y="198" font-size="21" font-weight="700" fill="#5d447a">Base Color</text><text x="92" y="234" font-size="16" fill="#685e72">非金属：漫反射颜色</text><text x="92" y="264" font-size="16" fill="#685e72">金属：有色镜面 F0</text>
+    <rect x="65" y="326" width="285" height="138" rx="22" fill="#e4f1ff"/>
+    <text x="92" y="369" font-size="21" font-weight="700" fill="#385d7d">Metallic</text><text x="92" y="405" font-size="16" fill="#566b7d">0：非金属，有漫反射</text><text x="92" y="435" font-size="16" fill="#566b7d">1：金属，漫反射接近 0</text>
+    <rect x="65" y="497" width="285" height="72" rx="22" fill="#e4f5ef"/>
+    <text x="92" y="541" font-size="21" font-weight="700" fill="#396a5b">Roughness</text><text x="225" y="541" font-size="16" fill="#56766c">微表面分布宽度</text>
+  </g>
+  <path d="M372 224H493" stroke="#7a7889" stroke-width="3" marker-end="url(#ar)"/><path d="M372 395H493" stroke="#7a7889" stroke-width="3" marker-end="url(#ar)"/><path d="M372 532H493" stroke="#7a7889" stroke-width="3" marker-end="url(#ar)"/>
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif">
+    <rect x="510" y="165" width="260" height="324" rx="26" fill="#fff" stroke="#d9d9e2" stroke-width="2"/>
+    <text x="548" y="210" font-size="22" font-weight="700" fill="#3d3e4c">能量分配与 BRDF</text>
+    <text x="548" y="261" font-size="18" fill="#626471">kS = Fresnel</text><text x="548" y="299" font-size="18" fill="#626471">kD = (1-kS)(1-Metallic)</text>
+    <line x1="548" y1="329" x2="732" y2="329" stroke="#dedee5" stroke-width="2"/>
+    <text x="548" y="374" font-size="18" fill="#624a80">Specular = D × F × G</text><text x="548" y="412" font-size="18" fill="#396a5b">Diffuse = BaseColor / π</text><text x="548" y="454" font-size="15" fill="#777986">反射能量不能超过入射能量</text>
+    <path d="M787 327H895" stroke="#7a7889" stroke-width="3" marker-end="url(#ar)"/>
+    <rect x="912" y="165" width="225" height="324" rx="26" fill="#f7f2fc" stroke="#dacbe7" stroke-width="2"/>
+    <text x="943" y="210" font-size="22" font-weight="700" fill="#544164">最终材质响应</text>
+    <circle cx="1024" cy="315" r="72" fill="#9b7566"/><ellipse cx="997" cy="283" rx="25" ry="16" fill="#f9e8db" opacity=".9"/><ellipse cx="1024" cy="315" rx="72" ry="72" fill="none" stroke="#6b4d43" stroke-width="4"/>
+    <text x="943" y="431" font-size="16" fill="#695e70">光照环境改变时</text><text x="943" y="460" font-size="16" fill="#695e70">材质属性仍保持一致</text>
+  </g>
+</svg>
