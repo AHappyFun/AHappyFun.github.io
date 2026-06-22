@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="410" viewBox="0 0 960 410">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#182740"/></linearGradient>
+    <linearGradient id="normalTex" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#748cff"/><stop offset=".3" stop-color="#8b80ff"/><stop offset=".55" stop-color="#6f9aff"/><stop offset=".78" stop-color="#ae79e9"/><stop offset="1" stop-color="#648fff"/></linearGradient>
+    <marker id="a3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#8eb7f5"/></marker>
+  </defs>
+  <rect width="960" height="410" rx="22" fill="url(#bg3)"/>
+  <text x="48" y="54" fill="#f3f7ff" font-size="24" font-weight="700" font-family="sans-serif">法线向量的纹理编码</text>
+  <text x="48" y="84" fill="#9eb0cb" font-size="15" font-family="sans-serif">方向分量 [-1, 1] 映射到纹理通道 [0, 1]</text>
+  <g transform="translate(58 127)">
+    <rect width="224" height="214" rx="16" fill="#202e46" stroke="#3a4e6c"/>
+    <text x="20" y="34" fill="#d9e4f5" font-size="17" font-weight="700" font-family="sans-serif">切线空间向量</text>
+    <text x="22" y="85" fill="#ff7f8a" font-size="18" font-family="monospace">X =  0.0</text>
+    <text x="22" y="122" fill="#72e199" font-size="18" font-family="monospace">Y =  0.0</text>
+    <text x="22" y="159" fill="#6dabff" font-size="18" font-family="monospace">Z =  1.0</text>
+    <text x="22" y="194" fill="#9eb0cb" font-size="14" font-family="sans-serif">默认法线 (0, 0, 1)</text>
+  </g>
+  <line x1="300" y1="234" x2="429" y2="234" stroke="#8eb7f5" stroke-width="3" marker-end="url(#a3)"/>
+  <text x="314" y="211" fill="#d9e4f5" font-size="14" font-family="monospace">N × 0.5 + 0.5</text>
+  <g transform="translate(446 127)">
+    <rect width="224" height="214" rx="16" fill="#202e46" stroke="#3a4e6c"/>
+    <text x="20" y="34" fill="#d9e4f5" font-size="17" font-weight="700" font-family="sans-serif">纹理 RGB</text>
+    <text x="22" y="85" fill="#ff7f8a" font-size="18" font-family="monospace">R =  0.5</text>
+    <text x="22" y="122" fill="#72e199" font-size="18" font-family="monospace">G =  0.5</text>
+    <text x="22" y="159" fill="#6dabff" font-size="18" font-family="monospace">B =  1.0</text>
+    <text x="22" y="194" fill="#9eb0cb" font-size="14" font-family="sans-serif">约等于 RGB(128,128,255)</text>
+  </g>
+  <line x1="687" y1="234" x2="747" y2="234" stroke="#8eb7f5" stroke-width="3" marker-end="url(#a3)"/>
+  <g transform="translate(765 139)">
+    <rect width="145" height="145" rx="18" fill="url(#normalTex)" stroke="#aeb8ff" stroke-width="2"/>
+    <path d="M18 97Q45 32 74 83T127 38" fill="none" stroke="#c0a1ff" stroke-width="15" opacity=".32"/>
+  </g>
+  <text x="776" y="315" fill="#9eb0cb" font-size="14" font-family="sans-serif">常见蓝紫色外观</text>
+  <text x="48" y="380" fill="#ffd166" font-size="14" font-family="sans-serif">注意：法线贴图是线性数据，不能按 sRGB 颜色纹理读取。</text>
+</svg>

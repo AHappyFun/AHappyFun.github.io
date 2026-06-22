@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#1b2941"/></linearGradient>
+    <radialGradient id="plane" cx="50%" cy="25%"><stop stop-color="#526581"/><stop offset="1" stop-color="#27364e"/></radialGradient>
+    <marker id="r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#ff6b7a"/></marker>
+    <marker id="g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#67db91"/></marker>
+    <marker id="b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#61a8ff"/></marker>
+    <marker id="p" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#c68cff"/></marker>
+  </defs>
+  <rect width="960" height="520" rx="22" fill="url(#bg2)"/>
+  <text x="48" y="54" fill="#f3f7ff" font-size="24" font-weight="700" font-family="sans-serif">切线空间的局部坐标基</text>
+  <text x="48" y="84" fill="#9eb0cb" font-size="15" font-family="sans-serif">每个顶点都有自己的 T、B、N，法线贴图记录相对于这组坐标轴的方向</text>
+  <path d="M115 378L424 207L835 336L520 466Z" fill="url(#plane)" stroke="#71829b" stroke-width="2"/>
+  <path d="M424 207L520 466M115 378L835 336" stroke="#8493a8" opacity=".22"/>
+  <circle cx="474" cy="338" r="9" fill="#fff"/>
+  <line x1="474" y1="338" x2="687" y2="351" stroke="#ff6b7a" stroke-width="6" marker-end="url(#r)"/>
+  <line x1="474" y1="338" x2="343" y2="414" stroke="#67db91" stroke-width="6" marker-end="url(#g)"/>
+  <line x1="474" y1="338" x2="474" y2="151" stroke="#61a8ff" stroke-width="6" marker-end="url(#b)"/>
+  <line x1="474" y1="338" x2="582" y2="193" stroke="#c68cff" stroke-width="6" stroke-dasharray="10 7" marker-end="url(#p)"/>
+  <text x="700" y="362" fill="#ff8f9b" font-size="21" font-weight="700" font-family="sans-serif">T / X</text>
+  <text x="267" y="438" fill="#83e7a5" font-size="21" font-weight="700" font-family="sans-serif">B / Y</text>
+  <text x="486" y="148" fill="#7db8ff" font-size="21" font-weight="700" font-family="sans-serif">N / Z</text>
+  <text x="594" y="193" fill="#d6adff" font-size="17" font-weight="700" font-family="sans-serif">normalTS</text>
+  <g transform="translate(660 112)">
+    <rect width="230" height="120" rx="14" fill="#202e46" stroke="#3b506e"/>
+    <text x="20" y="32" fill="#d9e4f5" font-size="15" font-weight="700" font-family="sans-serif">TBN 转换</text>
+    <text x="20" y="61" fill="#ff8f9b" font-size="14" font-family="monospace">Tangent  → X</text>
+    <text x="20" y="84" fill="#83e7a5" font-size="14" font-family="monospace">Bitangent→ Y</text>
+    <text x="20" y="107" fill="#7db8ff" font-size="14" font-family="monospace">Normal   → Z</text>
+  </g>
+</svg>

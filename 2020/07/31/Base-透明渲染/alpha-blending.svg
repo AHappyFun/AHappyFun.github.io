@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="460" viewBox="0 0 1000 460">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#192942"/></linearGradient>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#8eb7f5"/></marker>
+    <filter id="shadow"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-opacity=".28"/></filter>
+  </defs>
+  <rect width="1000" height="460" rx="22" fill="url(#bg)"/>
+  <text x="48" y="54" fill="#f3f7ff" font-size="24" font-weight="700" font-family="sans-serif">Alpha Blend：透明是颜色的加权混合</text>
+  <text x="48" y="84" fill="#9eb0cb" font-size="15" font-family="sans-serif">当前透明片元 Src 与颜色缓冲中的 Dst 组合，得到新的像素颜色</text>
+  <g filter="url(#shadow)">
+    <g transform="translate(70 132)"><rect width="210" height="190" rx="18" fill="#253650" stroke="#45617f"/><rect x="28" y="28" width="154" height="92" rx="12" fill="#ff596d" opacity=".58"/><circle cx="105" cy="74" r="32" fill="#ff9aa6" opacity=".75"/><text x="66" y="151" fill="#f4f7ff" font-size="19" font-weight="700" font-family="sans-serif">Src</text><text x="40" y="176" fill="#aebed4" font-size="14" font-family="sans-serif">当前透明片元</text></g>
+    <g transform="translate(395 132)"><rect width="210" height="190" rx="18" fill="#253650" stroke="#45617f"/><rect x="28" y="28" width="154" height="92" rx="12" fill="#4287f5"/><path d="M28 91L75 53L110 82L146 43L182 89V120H28Z" fill="#76b7ff" opacity=".65"/><text x="67" y="151" fill="#f4f7ff" font-size="19" font-weight="700" font-family="sans-serif">Dst</text><text x="38" y="176" fill="#aebed4" font-size="14" font-family="sans-serif">颜色缓冲背景</text></g>
+    <g transform="translate(720 132)"><rect width="210" height="190" rx="18" fill="#253650" stroke="#45617f"/><rect x="28" y="28" width="154" height="92" rx="12" fill="#4287f5"/><path d="M28 91L75 53L110 82L146 43L182 89V120H28Z" fill="#76b7ff" opacity=".65"/><circle cx="105" cy="74" r="34" fill="#ff6578" opacity=".58"/><text x="52" y="151" fill="#f4f7ff" font-size="19" font-weight="700" font-family="sans-serif">Result</text><text x="35" y="176" fill="#aebed4" font-size="14" font-family="sans-serif">写回颜色缓冲</text></g>
+  </g>
+  <line x1="292" y1="227" x2="379" y2="227" stroke="#8eb7f5" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="310" y="209" fill="#c9d7ea" font-size="25" font-family="sans-serif">+</text>
+  <line x1="617" y1="227" x2="704" y2="227" stroke="#8eb7f5" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="646" y="209" fill="#c9d7ea" font-size="25" font-family="sans-serif">=</text>
+  <rect x="208" y="360" width="584" height="55" rx="15" fill="#202f48" stroke="#3b5270"/>
+  <text x="262" y="394" fill="#f3f7ff" font-size="19" font-family="monospace">C = Src.rgb × Src.a + Dst.rgb × (1 − Src.a)</text>
+</svg>

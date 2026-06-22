@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Base-法线贴图 | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="原理">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ahappyfun.github.io/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/normal-map-principle.svg">
+<meta property="og:image" content="https://ahappyfun.github.io/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/normal-encoding.svg">
+<meta property="og:image" content="https://ahappyfun.github.io/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/tangent-space-tbn.svg">
+<meta property="og:image" content="https://ahappyfun.github.io/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/dx-opengl-normal.svg">
+<meta property="og:image" content="https://ahappyfun.github.io/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/normal-map-pipeline.svg">
+<meta property="article:published_time" content="2019-07-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-21T13:35:26.487Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="原理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ahappyfun.github.io/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/normal-map-principle.svg">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 41 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2019-07-27T16:00:00.000Z">2019 年 7 月 28 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/%E5%8E%9F%E7%90%86/">原理</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">Base-法线贴图</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E5%8E%9F%E7%90%86/" class="tag">#原理</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>法线贴图（Normal Map）用纹理保存表面法线方向，在不增加模型顶点和三角形的情况下，让光照表现出凹凸、刻痕、褶皱等细节。</p>
+<p>它改变的是<strong>参与光照计算的法线</strong>，而不是真正修改几何体：</p>
+<ul>
+<li>能改变明暗、高光和反射的细节。</li>
+<li>不能改变模型轮廓。</li>
+<li>不能产生真实的遮挡关系和视差。</li>
+<li>物体投射的阴影通常仍然来自原始几何体。</li>
+</ul>
+<p>因此法线贴图适合表现尺度较小的表面细节，轮廓、深缝和大幅度起伏仍然需要真实几何、视差映射或位移贴图。</p>
+<p><img src="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/normal-map-principle.svg" alt="法线贴图改变着色法线但不改变几何轮廓"></p>
+<h2 id="1-法线是什么"><a href="#1-法线是什么" class="headerlink" title="1. 法线是什么"></a>1. 法线是什么</h2><p>法线是垂直于表面的单位向量。光照计算中常见的漫反射为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Diffuse = LightColor × BaseColor × max(dot(N, L), 0)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>N</code>：表面法线。</li>
+<li><code>L</code>：表面指向光源的方向。</li>
+</ul>
+<p>法线方向发生变化，<code>N · L</code> 就会变化，像素的明暗也随之变化。镜面反射同样依赖法线，所以法线贴图还会改变高光与环境反射的形状。</p>
+<p>模型本身已经有顶点法线。光栅化时，三个顶点的法线会被插值到三角形内部，再归一化后用于逐像素光照。法线贴图是在这个插值法线的基础上继续增加细节。</p>
+<h3 id="1-1-几何法线与着色法线"><a href="#1-1-几何法线与着色法线" class="headerlink" title="1.1 几何法线与着色法线"></a>1.1 几何法线与着色法线</h3><p>需要区分两类法线：</p>
+<ul>
+<li><strong>几何法线（Geometric Normal）</strong>：由三角形边叉乘得到，代表真实几何表面的朝向。</li>
+<li><strong>着色法线（Shading Normal）</strong>：由顶点法线插值并叠加法线贴图后得到，参与 BRDF 光照计算。</li>
+</ul>
+<p>着色法线可以与几何法线不同，但不能无限偏离。偏差太大会产生漏光、明暗翻转、能量异常和高光闪烁。</p>
+<h2 id="2-怎么把方向保存到纹理"><a href="#2-怎么把方向保存到纹理" class="headerlink" title="2. 怎么把方向保存到纹理"></a>2. 怎么把方向保存到纹理</h2><p>单位法线的三个分量范围是 <code>[-1, 1]</code>，普通纹理通道范围是 <code>[0, 1]</code>，所以写入纹理时需要编码：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">EncodedNormal = Normal × 0.5 + 0.5<br></code></pre></td></tr></table></figure>
+
+<p>Shader 采样后再解码：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Normal = EncodedNormal × 2 - 1<br></code></pre></td></tr></table></figure>
+
+<p>例如切线空间中没有任何扰动的法线为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">(0, 0, 1)<br></code></pre></td></tr></table></figure>
+
+<p>编码后的颜色为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">(0.5, 0.5, 1.0)<br></code></pre></td></tr></table></figure>
+
+<p>所以常见的切线空间法线贴图整体呈蓝紫色。</p>
+<p><img src="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/normal-encoding.svg" alt="法线向量从负一到一编码到纹理颜色"></p>
+<p>法线贴图存的是向量数据，不是颜色。导入引擎时不能把它当作 sRGB 颜色纹理读取，否则 Gamma 转换会破坏向量方向。</p>
+<h2 id="3-法线贴图保存在哪个空间"><a href="#3-法线贴图保存在哪个空间" class="headerlink" title="3. 法线贴图保存在哪个空间"></a>3. 法线贴图保存在哪个空间</h2><p>法线方向只有结合坐标空间才有意义。常见的法线贴图分为切线空间、模型空间和世界空间三种。</p>
+<h3 id="3-1-切线空间法线贴图"><a href="#3-1-切线空间法线贴图" class="headerlink" title="3.1 切线空间法线贴图"></a>3.1 切线空间法线贴图</h3><p>游戏中最常见的是切线空间法线贴图。</p>
+<p>切线空间以表面每个顶点的局部坐标基为基础：</p>
+<ul>
+<li><code>T</code>：Tangent，切线，通常对应纹理 U 增大的方向，也就是局部 X 轴。</li>
+<li><code>B</code>：Bitangent，副切线，通常对应纹理 V 增大的方向，也就是局部 Y 轴。</li>
+<li><code>N</code>：Normal，顶点法线，也就是局部 Z 轴。</li>
+</ul>
+<p>这三个方向组成 TBN 矩阵：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">TBN = [ T  B  N ]<br></code></pre></td></tr></table></figure>
+
+<p><img src="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/tangent-space-tbn.svg" alt="切线空间中的 TBN 坐标基"></p>
+<p>切线空间法线表示的是“相对于模型原有表面朝向的偏移”：</p>
+<ul>
+<li><code>(0, 0, 1)</code>：沿原始法线方向，没有扰动。</li>
+<li><code>(1, 0, 0)</code>：偏向切线 <code>T</code>。</li>
+<li><code>(0, 1, 0)</code>：偏向副切线 <code>B</code>。</li>
+</ul>
+<p>它的优点是：</p>
+<ul>
+<li>模型移动、旋转和变形后仍然可用。</li>
+<li>可以在结构相似的表面之间复用。</li>
+<li>适合骨骼动画和蒙皮模型。</li>
+<li>大部分方向集中在正 Z，压缩效果通常较好。</li>
+</ul>
+<p>缺点是渲染端与烘焙端必须使用一致的切线基。如果切线生成方式、UV 方向或分裂规则不同，就容易出现接缝和阴影错误。</p>
+<h3 id="3-2-模型空间法线贴图"><a href="#3-2-模型空间法线贴图" class="headerlink" title="3.2 模型空间法线贴图"></a>3.2 模型空间法线贴图</h3><p>模型空间法线直接保存法线在 Object Space 中的方向，颜色通常比较丰富，不再整体偏蓝。</p>
+<p>优点：</p>
+<ul>
+<li>不需要 TBN 转换。</li>
+<li>方向覆盖相对均匀，精度较稳定。</li>
+<li>对固定、不变形的模型可以得到较好的效果。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>强依赖模型朝向，难以复用。</li>
+<li>模型发生非刚性变形后不再正确。</li>
+<li>镜像模型和骨骼动画处理困难。</li>
+</ul>
+<p>因此它更适合静态物体，实时游戏中远少于切线空间法线。</p>
+<h3 id="3-3-世界空间法线贴图"><a href="#3-3-世界空间法线贴图" class="headerlink" title="3.3 世界空间法线贴图"></a>3.3 世界空间法线贴图</h3><p>世界空间法线保存固定在 World Space 中的方向。它几乎只适合不会旋转、不会变形的特殊对象或离线数据缓存。</p>
+<p>屏幕空间效果中的 GBuffer Normal、法线缓存等也可能保存世界空间或视角空间法线，但这类纹理是渲染结果，不等同于美术制作的材质法线贴图。</p>
+<h2 id="4-TBN-矩阵"><a href="#4-TBN-矩阵" class="headerlink" title="4. TBN 矩阵"></a>4. TBN 矩阵</h2><p>从法线贴图采样出来的是切线空间法线，而光照一般在世界空间或视角空间计算，所以需要把它转换到对应空间。</p>
+<p>假设 <code>T</code>、<code>B</code>、<code>N</code> 都已经位于世界空间，并按列组成矩阵：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">TBN = float3x3(T, B, N)<br>normalWS = normalize(mul(TBN, normalTS))<br></code></pre></td></tr></table></figure>
+
+<p>矩阵的行列约定和 <code>mul</code> 参数顺序依赖 Shader 语言与代码写法。不要只背乘法顺序，应该检查矩阵中保存的是基向量的行还是列。</p>
+<h3 id="4-1-副切线如何计算"><a href="#4-1-副切线如何计算" class="headerlink" title="4.1 副切线如何计算"></a>4.1 副切线如何计算</h3><p>模型通常只保存 Normal、Tangent 和一个手性符号，不必额外保存 Bitangent：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">B = cross(N, T) × tangentSign<br></code></pre></td></tr></table></figure>
+
+<p><code>tangentSign</code> 常保存在顶点 Tangent 的 <code>w</code> 分量中，通常是 <code>+1</code> 或 <code>-1</code>。它用于处理 UV 镜像后切线空间手性翻转的问题。</p>
+<p>有些引擎还会把模型变换的负缩放符号乘进来。忽略这个符号，镜像 UV 或负缩放区域的法线通常会翻转。</p>
+<h3 id="4-2-正交化"><a href="#4-2-正交化" class="headerlink" title="4.2 正交化"></a>4.2 正交化</h3><p>插值、蒙皮和非均匀缩放后，<code>T</code> 与 <code>N</code> 可能不再互相垂直。可以使用 Gram-Schmidt 方法重新正交化：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">N = normalize(N)<br>T = normalize(T - N × dot(T, N))<br>B = cross(N, T) × tangentSign<br></code></pre></td></tr></table></figure>
+
+<p>最后转换得到的法线也需要归一化。</p>
+<h3 id="4-3-法线为什么不能直接乘模型矩阵"><a href="#4-3-法线为什么不能直接乘模型矩阵" class="headerlink" title="4.3 法线为什么不能直接乘模型矩阵"></a>4.3 法线为什么不能直接乘模型矩阵</h3><p>位置可以使用 ObjectToWorld 矩阵转换，但法线在存在非均匀缩放时不能直接使用同一个矩阵，否则法线可能不再垂直于表面。</p>
+<p>正确的法线变换矩阵是模型矩阵左上角 <code>3×3</code> 部分的逆转置：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">NormalMatrix = transpose(inverse(ModelMatrix3x3))<br>normalWS = normalize(mul(NormalMatrix, normalOS))<br></code></pre></td></tr></table></figure>
+
+<p>切线是沿表面的方向，变换规则和法线并不完全相同。工程中优先使用引擎提供的法线、切线转换函数，它们通常已经考虑非均匀缩放和平台约定。</p>
+<h2 id="5-一个完整的-Shader-过程"><a href="#5-一个完整的-Shader-过程" class="headerlink" title="5. 一个完整的 Shader 过程"></a>5. 一个完整的 Shader 过程</h2><p>下面是简化后的 HLSL 风格伪代码。代码只表达整体过程，具体接口需要根据 Unity、UE 或自定义引擎调整。</p>
+<h3 id="5-1-顶点阶段"><a href="#5-1-顶点阶段" class="headerlink" title="5.1 顶点阶段"></a>5.1 顶点阶段</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">struct Attributes<br>&#123;<br>    float3 positionOS : POSITION;<br>    float3 normalOS   : NORMAL;<br>    float4 tangentOS  : TANGENT;<br>    float2 uv         : TEXCOORD0;<br>&#125;;<br><br>struct Varyings<br>&#123;<br>    float4 positionCS : SV_POSITION;<br>    float2 uv         : TEXCOORD0;<br>    float3 normalWS   : TEXCOORD1;<br>    float3 tangentWS  : TEXCOORD2;<br>    float  tangentSign: TEXCOORD3;<br>&#125;;<br><br>Varyings Vert(Attributes v)<br>&#123;<br>    Varyings o;<br>    o.positionCS  = TransformObjectToHClip(v.positionOS);<br>    o.normalWS    = TransformObjectToWorldNormal(v.normalOS);<br>    o.tangentWS   = TransformObjectToWorldDir(v.tangentOS.xyz);<br>    o.tangentSign = v.tangentOS.w * GetOddNegativeScale();<br>    o.uv          = v.uv;<br>    return o;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="5-2-像素阶段"><a href="#5-2-像素阶段" class="headerlink" title="5.2 像素阶段"></a>5.2 像素阶段</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float3 Frag(Varyings i) : SV_Target<br>&#123;<br>    float3 N = normalize(i.normalWS);<br>    float3 T = normalize(i.tangentWS - N * dot(i.tangentWS, N));<br>    float3 B = cross(N, T) * i.tangentSign;<br><br>    float3 normalTS = SAMPLE_TEXTURE2D(_NormalMap, sampler_NormalMap, i.uv).xyz;<br>    normalTS = normalTS * 2.0 - 1.0;<br>    normalTS = normalize(normalTS);<br><br>    float3x3 tangentToWorld = float3x3(T, B, N);<br>    float3 normalWS = normalize(mul(normalTS, tangentToWorld));<br><br>    return EvaluateLighting(normalWS);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里故意写出了解码过程。实际引擎中法线贴图可能使用 BC5、DXT5nm 等格式，通道并不一定直接对应 RGB，应使用引擎提供的 <code>UnpackNormal</code> 一类函数。</p>
+<h2 id="6-DirectX-与-OpenGL-法线格式"><a href="#6-DirectX-与-OpenGL-法线格式" class="headerlink" title="6. DirectX 与 OpenGL 法线格式"></a>6. DirectX 与 OpenGL 法线格式</h2><p>切线空间法线贴图常见两种 Y 方向约定：</p>
+<ul>
+<li><strong>DirectX 格式</strong>：通常认为绿色通道采用 <code>Y-</code> 约定。</li>
+<li><strong>OpenGL 格式</strong>：通常认为绿色通道采用 <code>Y+</code> 约定。</li>
+</ul>
+<p>两者最直观的转换方式是翻转绿色通道：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">G = 1 - G<br></code></pre></td></tr></table></figure>
+
+<p>如果格式用错，凸起通常会看起来像凹陷，表面上下方向的受光会颠倒。</p>
+<p><img src="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/dx-opengl-normal.svg" alt="DirectX 与 OpenGL 法线贴图的绿色通道约定"></p>
+<p>但根本原因不是 API 名字，而是烘焙工具和渲染器对切线空间 Y 轴的约定不同。最终应该以目标引擎的导入设置和实际光照结果为准。</p>
+<h2 id="7-法线贴图的制作与烘焙"><a href="#7-法线贴图的制作与烘焙" class="headerlink" title="7. 法线贴图的制作与烘焙"></a>7. 法线贴图的制作与烘焙</h2><p>常见流程是用高模向低模烘焙切线空间法线贴图：</p>
+<ol>
+<li>低模准备正确的 UV、硬边和顶点法线。</li>
+<li>高模提供倒角、刻痕等几何细节。</li>
+<li>从低模表面沿 Cage 或射线方向采样高模表面法线。</li>
+<li>把高模法线转换到低模的切线空间。</li>
+<li>将结果写入低模 UV 对应的纹理像素。</li>
+</ol>
+<p>法线贴图不是独立于模型的图片。烘焙结果依赖低模的：</p>
+<ul>
+<li>UV 布局和镜像方式。</li>
+<li>顶点法线与平滑组。</li>
+<li>硬边位置。</li>
+<li>切线空间算法。</li>
+<li>三角形划分。</li>
+</ul>
+<p>烘焙完成后如果重新修改这些数据，原法线贴图可能不再匹配。为了减少不同软件之间的差异，常使用 MikkTSpace 作为统一的切线空间算法，但烘焙工具与引擎仍然需要同时保持一致。</p>
+<h3 id="7-1-UV-接缝与硬边"><a href="#7-1-UV-接缝与硬边" class="headerlink" title="7.1 UV 接缝与硬边"></a>7.1 UV 接缝与硬边</h3><p>UV 接缝处的切线方向可能不连续，因此顶点通常会被拆分。只要烘焙和渲染使用相同切线基，法线贴图可以补偿这种变化，让最终光照尽量连续。</p>
+<p>常见经验是：</p>
+<ul>
+<li>几何硬边通常也应该拆 UV。</li>
+<li>UV 拆分不一定必须成为几何硬边。</li>
+<li>UV 岛之间要留足 Padding，避免 MipMap 采到其他岛的颜色。</li>
+</ul>
+<p>把角度很大的几何折角全部设为平滑，会迫使法线贴图存储很强的反向补偿。这会降低有效精度，也更容易在低分辨率和 MipMap 下出现伪影。</p>
+<h3 id="7-2-三角化"><a href="#7-2-三角化" class="headerlink" title="7.2 三角化"></a>7.2 三角化</h3><p>四边形最终会被 GPU 渲染成三角形。不同软件如果选择了不同的对角线，顶点切线与插值结果可能变化。</p>
+<p>对要求严格的资产，应该在烘焙前固定三角化，并让烘焙、导出和引擎使用同一份三角形拓扑。</p>
+<h3 id="7-3-Cage-与投射错误"><a href="#7-3-Cage-与投射错误" class="headerlink" title="7.3 Cage 与投射错误"></a>7.3 Cage 与投射错误</h3><p>Cage 决定低模向高模投射射线的范围和方向：</p>
+<ul>
+<li>Cage 太小，会漏掉高模细节。</li>
+<li>Cage 太大，可能投射到不相关表面。</li>
+<li>相邻部件过近，容易互相污染。</li>
+<li>深凹槽和尖角处容易产生射线交叉。</li>
+</ul>
+<p>这些问题常表现为渐变扭曲、黑斑、细节断裂。它们不是靠提高纹理分辨率就能解决的，需要检查投射范围、分件烘焙或使用 Match by Name。</p>
+<h2 id="8-导入、压缩与采样"><a href="#8-导入、压缩与采样" class="headerlink" title="8. 导入、压缩与采样"></a>8. 导入、压缩与采样</h2><h3 id="8-1-关闭-sRGB"><a href="#8-1-关闭-sRGB" class="headerlink" title="8.1 关闭 sRGB"></a>8.1 关闭 sRGB</h3><p>法线是线性向量数据。对法线贴图进行 sRGB 解码会改变各分量比例，导致方向错误。</p>
+<p>在引擎中把纹理标记为 Normal Map，通常会自动设置正确的颜色空间、压缩格式和解码方式。</p>
+<h3 id="8-2-为什么常用两个通道"><a href="#8-2-为什么常用两个通道" class="headerlink" title="8.2 为什么常用两个通道"></a>8.2 为什么常用两个通道</h3><p>单位法线满足：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">x² + y² + z² = 1<br></code></pre></td></tr></table></figure>
+
+<p>对于普通切线空间法线，通常只使用朝向表面外侧的半球，所以 <code>z &gt;= 0</code>。只保存 X、Y 后，可以重建 Z：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">z = sqrt(max(1 - x² - y², 0))<br></code></pre></td></tr></table></figure>
+
+<p>因此 BC5 常用两个独立通道保存 X、Y，通常比把三个分量放入普通颜色压缩格式更适合法线数据。</p>
+<p>采样后的向量仍建议归一化，因为纹理过滤、压缩误差和分量重建都可能让长度偏离 1。</p>
+<h3 id="8-3-MipMap-与远距离闪烁"><a href="#8-3-MipMap-与远距离闪烁" class="headerlink" title="8.3 MipMap 与远距离闪烁"></a>8.3 MipMap 与远距离闪烁</h3><p>MipMap 会对相邻法线做平均，但多个单位向量的线性平均结果通常不再是单位向量：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">length(average(N1, N2, ...)) &lt;= 1<br></code></pre></td></tr></table></figure>
+
+<p>简单归一化可以恢复方向，却会丢失该区域法线分布的方差。远距离下，高频法线细节可能导致高光闪烁或材质显得过亮、过光滑。</p>
+<p>可用的处理包括：</p>
+<ul>
+<li>使用正确的法线纹理压缩和 Mip 生成方式。</li>
+<li>控制法线细节强度与频率。</li>
+<li>使用 Toksvig、LEAN Mapping 或基于法线方差的粗糙度修正。</li>
+<li>生成 Mip 时把消失的法线变化转移到 Roughness 中。</li>
+</ul>
+<p>最后一种思路也叫 Specular Anti-Aliasing：细小法线变化在远处无法直接显示时，应该让高光变宽，而不是继续产生亚像素闪烁。</p>
+<h2 id="9-法线强度"><a href="#9-法线强度" class="headerlink" title="9. 法线强度"></a>9. 法线强度</h2><p>调整法线强度不能简单地对整个 RGB 颜色相乘。常见做法是放大切线空间法线的 XY 偏移，再重新构造或归一化：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">normalTS.xy *= strength;<br>normalTS.z = sqrt(saturate(1.0 - dot(normalTS.xy, normalTS.xy)));<br>normalTS = normalize(normalTS);<br></code></pre></td></tr></table></figure>
+
+<p>也有实现保留原 Z，再做归一化：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">normalTS = normalize(float3(normalTS.xy * strength, normalTS.z));<br></code></pre></td></tr></table></figure>
+
+<p>两种方法的强度曲线并不完全相同。<code>strength = 0</code> 时应该得到 <code>(0, 0, 1)</code>，而不是零向量。</p>
+<p>过强的法线会让着色法线接近与几何表面平行，产生黑边、漏光、反射拉伸和闪烁。大尺度起伏应该交给几何或位移，不应该全塞进法线贴图。</p>
+<h2 id="10-多张法线贴图如何混合"><a href="#10-多张法线贴图如何混合" class="headerlink" title="10. 多张法线贴图如何混合"></a>10. 多张法线贴图如何混合</h2><p>角色或地形材质经常需要把基础法线与细节法线叠加。直接平均两张法线会削弱细节，也不符合旋转组合的含义。</p>
+<p>最简单的近似是 Whiteout Blend：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float3 BlendNormal(float3 n1, float3 n2)<br>&#123;<br>    return normalize(float3(n1.xy + n2.xy, n1.z * n2.z));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>质量要求更高时可以使用 RNM（Reoriented Normal Mapping）。它把细节法线重新定向到基础法线的局部表面上，比线性相加更能保持两者强度。</p>
+<p>实际项目中优先使用引擎提供的法线混合节点，尤其要确认输入是否已经解码到 <code>[-1, 1]</code>。</p>
+<h2 id="11-双面材质与背面法线"><a href="#11-双面材质与背面法线" class="headerlink" title="11. 双面材质与背面法线"></a>11. 双面材质与背面法线</h2><p>双面渲染时，背面使用的几何法线、切线基和法线贴图都需要统一翻转规则。只翻转 <code>N</code> 而不处理 <code>TBN</code> 的手性，可能让背面凹凸方向错误。</p>
+<p>常见处理方式是根据 <code>FrontFace</code> &#x2F; <code>VFACE</code> 判断正反面，再由引擎统一调整切线空间或世界空间法线。不同引擎的双面法线模式不同，需要结合材质设置确认。</p>
+<h2 id="12-法线贴图与其他凹凸技术"><a href="#12-法线贴图与其他凹凸技术" class="headerlink" title="12. 法线贴图与其他凹凸技术"></a>12. 法线贴图与其他凹凸技术</h2><h3 id="12-1-Bump-Map-Height-Map"><a href="#12-1-Bump-Map-Height-Map" class="headerlink" title="12.1 Bump Map &#x2F; Height Map"></a>12.1 Bump Map &#x2F; Height Map</h3><p>高度图保存标量高度。Shader 可以对高度求导，得到局部坡度，再转换成法线。</p>
+<ul>
+<li>高度图容易绘制和组合。</li>
+<li>法线贴图直接存方向，能表达更复杂的局部细节。</li>
+<li>从高度生成的法线必须是可积的，而手工法线不一定对应真实高度场。</li>
+</ul>
+<h3 id="12-2-Parallax-Mapping"><a href="#12-2-Parallax-Mapping" class="headerlink" title="12.2 Parallax Mapping"></a>12.2 Parallax Mapping</h3><p>视差映射根据观察方向偏移 UV，让纹理细节看起来具有深度。它通常仍然配合法线贴图完成光照。</p>
+<p>它能产生一定视差，但一般仍不改变真实轮廓和几何阴影。POM 等高级方法可以模拟局部自遮挡，但成本更高。</p>
+<h3 id="12-3-Displacement-Mapping"><a href="#12-3-Displacement-Mapping" class="headerlink" title="12.3 Displacement Mapping"></a>12.3 Displacement Mapping</h3><p>位移贴图真正移动顶点或细分后的几何表面，因此可以改变轮廓、遮挡和阴影，成本也更高。</p>
+<p>一个常见的尺度分工是：</p>
+<ul>
+<li>大尺度形状：真实几何或位移。</li>
+<li>中尺度凹凸：法线贴图。</li>
+<li>高频微小变化：法线细节与 Roughness。</li>
+</ul>
+<h2 id="13-与-PBR-的关系"><a href="#13-与-PBR-的关系" class="headerlink" title="13. 与 PBR 的关系"></a>13. 与 PBR 的关系</h2><p>法线贴图修改的是 PBR 中使用的着色法线 <code>N</code>，会影响：</p>
+<ul>
+<li><code>N · L</code>：直接光漫反射。</li>
+<li><code>N · V</code>、<code>N · H</code>：镜面 BRDF。</li>
+<li>环境贴图的反射方向。</li>
+<li>GBuffer 中写入的法线。</li>
+<li>SSAO、SSR、延迟灯光等依赖法线的屏幕空间效果。</li>
+</ul>
+<p>它没有直接改变材质的 Roughness。两者描述的尺度不同：</p>
+<ul>
+<li>Normal Map：可被纹理分辨率表达的中高频表面方向变化。</li>
+<li>Roughness：更微观、无法逐条解析的法线分布范围。</li>
+</ul>
+<p>如果法线贴图包含很强的高频变化，却仍使用极低 Roughness，远距离很容易出现高光闪烁。两者需要一起匹配。</p>
+<p>着色法线偏离几何法线后，普通 BRDF 还可能产生非物理的能量增益。一些渲染器会使用 Shading Normal Correction、限制法线朝向或其他能量补偿方法，但具体实现依赖渲染管线。</p>
+<h2 id="14-常见问题与排查"><a href="#14-常见问题与排查" class="headerlink" title="14. 常见问题与排查"></a>14. 常见问题与排查</h2><h3 id="14-1-凸起看起来像凹陷"><a href="#14-1-凸起看起来像凹陷" class="headerlink" title="14.1 凸起看起来像凹陷"></a>14.1 凸起看起来像凹陷</h3><p>优先检查绿色通道是否需要翻转，也就是 DirectX &#x2F; OpenGL 的 Y 方向约定是否匹配。</p>
+<h3 id="14-2-模型上出现明显接缝"><a href="#14-2-模型上出现明显接缝" class="headerlink" title="14.2 模型上出现明显接缝"></a>14.2 模型上出现明显接缝</h3><p>检查：</p>
+<ul>
+<li>烘焙器与引擎的切线空间是否一致。</li>
+<li>模型导入后是否重新计算了 Normal 或 Tangent。</li>
+<li>UV 镜像区域的 Tangent Sign 是否正确。</li>
+<li>硬边是否拆分了 UV。</li>
+<li>UV 岛 Padding 是否足够。</li>
+<li>烘焙前后模型是否保持相同三角化。</li>
+</ul>
+<h3 id="14-3-整体光照方向很怪"><a href="#14-3-整体光照方向很怪" class="headerlink" title="14.3 整体光照方向很怪"></a>14.3 整体光照方向很怪</h3><p>检查：</p>
+<ul>
+<li>法线贴图是否被当成 sRGB 读取。</li>
+<li>是否忘记从 <code>[0, 1]</code> 解码到 <code>[-1, 1]</code>。</li>
+<li>TBN 的矩阵行列与 <code>mul</code> 顺序是否正确。</li>
+<li>法线、灯光和观察方向是否位于同一坐标空间。</li>
+<li>世界空间法线是否归一化。</li>
+</ul>
+<h3 id="14-4-镜像-UV-的一半方向错误"><a href="#14-4-镜像-UV-的一半方向错误" class="headerlink" title="14.4 镜像 UV 的一半方向错误"></a>14.4 镜像 UV 的一半方向错误</h3><p>检查 Tangent 的 <code>w</code> 手性符号、Bitangent 的叉乘顺序，以及负缩放符号是否参与计算。</p>
+<h3 id="14-5-移动或骨骼动画后法线错误"><a href="#14-5-移动或骨骼动画后法线错误" class="headerlink" title="14.5 移动或骨骼动画后法线错误"></a>14.5 移动或骨骼动画后法线错误</h3><p>切线空间的 <code>T</code>、<code>N</code> 必须和顶点位置一起完成蒙皮，之后重新归一化、正交化并构造 <code>B</code>。模型空间法线贴图通常不适合非刚性变形。</p>
+<h3 id="14-6-远处高光闪烁"><a href="#14-6-远处高光闪烁" class="headerlink" title="14.6 远处高光闪烁"></a>14.6 远处高光闪烁</h3><p>检查法线是否过强、细节频率是否过高、MipMap 是否正确生成，以及是否需要 Specular AA 或 Roughness 修正。</p>
+<h3 id="14-7-法线贴图看起来完全没效果"><a href="#14-7-法线贴图看起来完全没效果" class="headerlink" title="14.7 法线贴图看起来完全没效果"></a>14.7 法线贴图看起来完全没效果</h3><p>检查：</p>
+<ul>
+<li>材质是否真的采样并使用了该法线。</li>
+<li>网格是否具有有效 UV、Normal 和 Tangent。</li>
+<li>法线强度是否为 0。</li>
+<li>贴图是否接近默认法线色 <code>(0.5, 0.5, 1.0)</code>。</li>
+<li>场景光照和 Roughness 是否足以显示表面方向变化。</li>
+</ul>
+<h2 id="15-调试方法"><a href="#15-调试方法" class="headerlink" title="15. 调试方法"></a>15. 调试方法</h2><p>排查法线问题时，可以按下面顺序观察中间结果：</p>
+<ol>
+<li>直接显示法线贴图，确认通道和 UV 正常。</li>
+<li>显示解码后的 <code>normalTS * 0.5 + 0.5</code>。</li>
+<li>分别显示世界空间 <code>T</code>、<code>B</code>、<code>N</code>。</li>
+<li>显示最终 <code>normalWS * 0.5 + 0.5</code>。</li>
+<li>使用一个可移动的方向光，只观察 <code>dot(N, L)</code>。</li>
+<li>临时关闭法线贴图，对比原始顶点法线。</li>
+<li>检查网格导入信息中的 Normal、Tangent、UV 和三角形数量。</li>
+</ol>
+<p>还可以使用几张简单测试纹理：</p>
+<ul>
+<li>纯色 <code>(0.5, 0.5, 1.0)</code>：结果应与顶点法线一致。</li>
+<li>X 方向倾斜法线：验证 Tangent。</li>
+<li>Y 方向倾斜法线：验证 Bitangent 和绿色通道。</li>
+<li>带凹凸文字或圆球的标准测试图：快速判断整体约定。</li>
+</ul>
+<h2 id="16-总结"><a href="#16-总结" class="headerlink" title="16. 总结"></a>16. 总结</h2><p>法线贴图的完整链路是：</p>
+<p><img src="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/normal-map-pipeline.svg" alt="法线贴图从烘焙到参与 PBR 光照的数据链路"></p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs text">高模表面方向<br>    ↓ 烘焙到低模切线空间<br>纹理编码 [0, 1]<br>    ↓ 线性采样、格式解压<br>切线空间法线 [-1, 1]<br>    ↓ TBN 转换并归一化<br>世界空间或视角空间着色法线<br>    ↓<br>参与 PBR、反射与屏幕空间效果<br></code></pre></td></tr></table></figure>
+
+<p>最核心的几个点：</p>
+<ol>
+<li>法线贴图只改变着色，不改变真实几何轮廓。</li>
+<li>切线空间法线依赖 <code>T</code>、<code>B</code>、<code>N</code> 和手性符号共同定义。</li>
+<li>烘焙器与引擎必须使用一致的切线基、三角化和通道约定。</li>
+<li>法线贴图属于线性数据，不能按 sRGB 颜色读取。</li>
+<li>采样、插值和转换后的法线都要注意归一化。</li>
+<li>法线强度、压缩、MipMap 和 Roughness 会共同影响远距离稳定性。</li>
+<li>遇到错误时，从切线空间法线、TBN 到最终世界空间法线逐级可视化，通常比直接猜材质参数更有效。</li>
+</ol>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+          <a href="/2020/01/01/Shader-RayMarch/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Shader-RayMarch</span>
+          </a>
+        
+        
+          <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Loy-Hexo使用备份</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>

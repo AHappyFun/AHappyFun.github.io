@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="480" viewBox="0 0 1100 480">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#192942"/></linearGradient>
+    <marker id="a4" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#84b7ff"/></marker>
+  </defs>
+  <rect width="1100" height="480" rx="22" fill="url(#bg4)"/>
+  <text x="48" y="54" fill="#f3f7ff" font-size="24" font-weight="700" font-family="sans-serif">Weighted Blended OIT</text>
+  <text x="48" y="84" fill="#9eb0cb" font-size="15" font-family="sans-serif">不保存并排序所有透明层，而是累计颜色与覆盖率，再统一合成</text>
+  <g transform="translate(55 132)" font-family="sans-serif">
+    <rect width="250" height="250" rx="18" fill="#21314a" stroke="#3d5675"/>
+    <circle cx="83" cy="85" r="48" fill="#ff5f76" opacity=".58"/><circle cx="132" cy="108" r="48" fill="#4fa7ff" opacity=".58"/><circle cx="165" cy="70" r="42" fill="#70dc98" opacity=".58"/>
+    <text x="47" y="176" fill="#f1f5fb" font-size="20" font-weight="700">① Accumulate</text>
+    <text x="37" y="205" fill="#aebed4" font-size="14">Σ(color × alpha × weight)</text>
+    <text x="67" y="228" fill="#aebed4" font-size="14">Blend ONE ONE</text>
+  </g>
+  <g transform="translate(425 132)" font-family="sans-serif">
+    <rect width="250" height="250" rx="18" fill="#21314a" stroke="#3d5675"/>
+    <rect x="51" y="37" width="148" height="94" rx="12" fill="#fff" opacity=".12"/>
+    <rect x="51" y="37" width="112" height="94" rx="12" fill="#d9e6f8" opacity=".36"/>
+    <text x="53" y="176" fill="#f1f5fb" font-size="20" font-weight="700">② Revealage</text>
+    <text x="47" y="205" fill="#aebed4" font-size="14">Π(1 − alpha)</text>
+    <text x="17" y="228" fill="#aebed4" font-size="14">Blend Zero OneMinusSrcAlpha</text>
+  </g>
+  <g transform="translate(795 132)" font-family="sans-serif">
+    <rect width="250" height="250" rx="18" fill="#21314a" stroke="#3d5675"/>
+    <rect x="49" y="37" width="152" height="95" rx="12" fill="#356da8"/>
+    <path d="M49 107L91 67L126 97L164 54L201 93V132H49Z" fill="#70b5f7" opacity=".55"/>
+    <circle cx="119" cy="87" r="35" fill="#bb738f" opacity=".72"/>
+    <text x="60" y="176" fill="#f1f5fb" font-size="20" font-weight="700">③ Composite</text>
+    <text x="33" y="205" fill="#aebed4" font-size="14">透明结果 + 不透明背景</text>
+    <text x="30" y="228" fill="#aebed4" font-size="14">一次全屏合成</text>
+  </g>
+  <g stroke="#84b7ff" stroke-width="4" marker-end="url(#a4)"><line x1="320" y1="257" x2="407" y2="257"/><line x1="690" y1="257" x2="777" y2="257"/></g>
+  <text x="337" y="237" fill="#d9e6f8" font-size="14" font-family="sans-serif">两张缓冲</text><text x="715" y="237" fill="#d9e6f8" font-size="14" font-family="sans-serif">合成</text>
+  <rect x="55" y="418" width="990" height="34" rx="10" fill="#202f48"/>
+  <text x="210" y="440" fill="#ffd166" font-size="14" font-family="sans-serif">优点：不依赖严格排序、内存固定　　代价：它是近似算法，重叠颜色与覆盖率不完全精确</text>
+</svg>

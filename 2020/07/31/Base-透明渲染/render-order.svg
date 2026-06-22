@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="390" viewBox="0 0 1100 390">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#192942"/></linearGradient>
+    <marker id="a2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#7caef5"/></marker>
+  </defs>
+  <rect width="1100" height="390" rx="22" fill="url(#bg2)"/>
+  <text x="48" y="54" fill="#f3f7ff" font-size="24" font-weight="700" font-family="sans-serif">常见的透明渲染顺序</text>
+  <text x="48" y="84" fill="#9eb0cb" font-size="15" font-family="sans-serif">先建立不透明场景，再按从远到近绘制透明物体</text>
+  <g font-family="sans-serif">
+    <g transform="translate(42 134)"><circle cx="58" cy="58" r="58" fill="#2f4f78" stroke="#5f86b8"/><text x="35" y="53" fill="#fff" font-size="22" font-weight="700">01</text><text x="20" y="80" fill="#dbe8fa" font-size="14">不透明物体</text><text x="7" y="142" fill="#9eb0cb" font-size="13">Front-to-Back</text></g>
+    <g transform="translate(218 134)"><circle cx="58" cy="58" r="58" fill="#3a4769" stroke="#68799e"/><text x="35" y="53" fill="#fff" font-size="22" font-weight="700">02</text><text x="26" y="80" fill="#dbe8fa" font-size="14">不透明后处理</text><text x="17" y="142" fill="#9eb0cb" font-size="13">Depth / Opaque</text></g>
+    <g transform="translate(394 134)"><circle cx="58" cy="58" r="58" fill="#355b78" stroke="#65a2c6"/><text x="35" y="53" fill="#fff" font-size="22" font-weight="700">03</text><text x="37" y="80" fill="#dbe8fa" font-size="14">天空盒</text><text x="31" y="142" fill="#9eb0cb" font-size="13">Skybox</text></g>
+    <g transform="translate(570 134)"><circle cx="58" cy="58" r="58" fill="#654569" stroke="#a573a9"/><text x="35" y="53" fill="#fff" font-size="22" font-weight="700">04</text><text x="22" y="80" fill="#f0dff3" font-size="14">透明物体排序</text><text x="18" y="142" fill="#bda8c2" font-size="13">按对象距离近似</text></g>
+    <g transform="translate(746 134)"><circle cx="58" cy="58" r="58" fill="#755063" stroke="#bd7e99"/><text x="35" y="53" fill="#fff" font-size="22" font-weight="700">05</text><text x="22" y="80" fill="#ffe5ed" font-size="14">透明物体绘制</text><text x="10" y="142" fill="#cbb0bb" font-size="13">Back-to-Front</text></g>
+    <g transform="translate(922 134)"><circle cx="58" cy="58" r="58" fill="#4a4168" stroke="#8075aa"/><text x="35" y="53" fill="#fff" font-size="22" font-weight="700">06</text><text x="30" y="80" fill="#ece9ff" font-size="14">最终后处理</text><text x="23" y="142" fill="#b6b1cc" font-size="13">Post Process</text></g>
+  </g>
+  <g stroke="#7caef5" stroke-width="3" marker-end="url(#a2)"><line x1="166" y1="192" x2="204" y2="192"/><line x1="342" y1="192" x2="380" y2="192"/><line x1="518" y1="192" x2="556" y2="192"/><line x1="694" y1="192" x2="732" y2="192"/><line x1="870" y1="192" x2="908" y2="192"/></g>
+  <rect x="48" y="326" width="1004" height="34" rx="10" fill="#202f48"/>
+  <rect x="48" y="326" width="520" height="34" rx="10" fill="#2e527a"/>
+  <rect x="568" y="326" width="484" height="34" rx="10" fill="#704c69"/>
+  <text x="259" y="348" fill="#dcecff" font-size="13" font-family="sans-serif">不透明阶段</text><text x="780" y="348" fill="#ffe6f0" font-size="13" font-family="sans-serif">透明与合成阶段</text>
+</svg>
