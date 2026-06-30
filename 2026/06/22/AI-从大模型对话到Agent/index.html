@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>AI-从大模型对话、生图到Agent | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="AI, 大模型, Agent, 生成式AI">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-21T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-22T03:50:04.432Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="大模型">
+<meta property="article:tag" content="Agent">
+<meta property="article:tag" content="生成式AI">
+<meta name="twitter:card" content="summary">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 47 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2022</div>
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-06-21T16:00:00.000Z">2026 年 6 月 22 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/AI/">AI</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">AI-从大模型对话、生图到Agent</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/AI/" class="tag">#AI</a>
+          
+            <a href="/tags/%E5%A4%A7%E6%A8%A1%E5%9E%8B/" class="tag">#大模型</a>
+          
+            <a href="/tags/Agent/" class="tag">#Agent</a>
+          
+            <a href="/tags/%E7%94%9F%E6%88%90%E5%BC%8FAI/" class="tag">#生成式AI</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>这一轮AI浪潮最容易被看见的变化，是机器突然“会聊天”了。但如果只把大模型理解为更聪明的聊天机器人，就会低估它真正带来的变化。</p>
+<p>从文字对话、代码生成，到图片、视频和声音，再到能够操作软件、调用工具、连续完成任务的Agent，AI正在经历一次角色转换：</p>
+<pre><code>对话模型：给出答案。
+
+多模态模型：理解并生成不同形式的内容。
+
+Agent：围绕目标采取行动，并根据结果继续调整。
+</code></pre>
+<p>这三者并不是彼此替代的产品，而是一层层叠加的能力。大模型提供理解与推理，多模态扩展感知和表达，工具与Agent系统则把模型接入真实世界。</p>
+<h2 id="大模型为什么首先表现为“对话”？"><a href="#大模型为什么首先表现为“对话”？" class="headerlink" title="大模型为什么首先表现为“对话”？"></a>大模型为什么首先表现为“对话”？</h2><p>大语言模型的基本训练目标，可以粗略理解为：根据已有上下文，预测下一个最可能出现的Token。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">输入：今天天气很好，适合出去____<br>输出概率：散步 0.42，游玩 0.21，跑步 0.13……<br></code></pre></td></tr></table></figure>
+
+<p>模型不断重复这个过程，就能生成一段连贯文字。这里的Token不一定是一个完整汉字或单词，而是模型处理文本时使用的基本单位。</p>
+<p>2017年的Transformer架构使用Attention，让模型能够根据上下文动态关注不同位置的信息，并且比传统循环网络更容易并行训练。模型规模、数据规模和算力持续增长后，“预测下一个Token”逐渐表现出总结、翻译、写作、编程、问答和一定程度的推理能力。</p>
+<p>这件事看起来有些反直觉：一个做概率预测的模型，为什么会像是在理解问题？</p>
+<p>因为要准确预测大量不同领域的文本，模型必须在参数中压缩语言规律、概念关系、常见事实和解决问题的模式。它没有像数据库一样保存一份可以精确定位的原文，也不等于像人一样理解世界，但确实形成了一套能够泛化的内部表示。</p>
+<p>所以，大模型既不能简单说成“只是在复制粘贴”，也不能直接等同于真正理解一切的智能。</p>
+<h2 id="对话模型真正改变了什么？"><a href="#对话模型真正改变了什么？" class="headerlink" title="对话模型真正改变了什么？"></a>对话模型真正改变了什么？</h2><p>传统软件要求人适应机器：学习菜单、参数、命令、脚本和固定流程。大模型让自然语言第一次成为一种通用交互界面。</p>
+<p>用户不再需要准确知道功能位于哪个按钮下面，而可以直接描述目标：</p>
+<pre><code>把这份会议记录整理成待办事项。
+
+分析这段Shader为什么在移动端很慢。
+
+用更容易理解的方式解释这篇论文。
+
+根据报错信息检查项目，并提出修复方案。
+</code></pre>
+<p>这降低了知识和工具的使用门槛。不过，语言足够自然也带来一个问题：人很容易把“表达流畅”误认为“结论可靠”。</p>
+<p>大模型生成的是统计上合理的后续内容，不是在内部查询一个永远正确的事实库。当信息缺失、问题含糊或者训练数据中存在冲突时，模型仍可能非常自信地补全一个错误答案，也就是常说的幻觉。</p>
+<p>因此，对话模型比较适合：</p>
+<pre><code>1.整理、改写、总结已有材料。
+
+2.生成初稿、方案和备选思路。
+
+3.解释知识，辅助学习和头脑风暴。
+
+4.编写、阅读和重构能够被验证的代码。
+</code></pre>
+<p>而涉及医疗、法律、财务、生产权限和不可逆操作时，必须引入可靠资料、验证步骤和人工确认。</p>
+<h2 id="从“记忆回答”到“查资料回答”"><a href="#从“记忆回答”到“查资料回答”" class="headerlink" title="从“记忆回答”到“查资料回答”"></a>从“记忆回答”到“查资料回答”</h2><p>大模型有知识截止时间，参数里的知识也不方便精确更新。为了回答私有或实时问题，常见做法是RAG（Retrieval-Augmented Generation，检索增强生成）。</p>
+<p>它的基本流程是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">用户问题<br>   ↓<br>从文档、数据库或网络检索相关内容<br>   ↓<br>把检索结果连同问题交给大模型<br>   ↓<br>模型依据材料组织答案，并附上来源<br></code></pre></td></tr></table></figure>
+
+<p>RAG并没有让模型本身知道更多，而是在回答时给它一本临时打开的参考书。它特别适合企业知识库、项目文档、客服手册和经常更新的资料。</p>
+<p>但“接入知识库”不等于自动可靠。如果检索找错了段落，文档已经过期，或者模型忽略了材料中的限制条件，最终答案仍然会错。一个可用的RAG系统，真正困难的部分通常包括文档清洗、切分方式、权限隔离、检索排序、引用定位和效果评估，而不只是把文本存入向量数据库。</p>
+<h2 id="生图：AI开始生成像素"><a href="#生图：AI开始生成像素" class="headerlink" title="生图：AI开始生成像素"></a>生图：AI开始生成像素</h2><p>文字模型预测下一个Token，图像生成模型则学习图像分布。当前常见的扩散模型，可以粗略理解为两个过程：</p>
+<p>训练时，逐步向图片加入噪声，让模型学习如何预测并去除噪声；生成时，从随机噪声出发，根据文字、参考图、姿势或边缘等条件，经过多次去噪得到图片。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">随机噪声 → 粗略构图 → 物体轮廓 → 材质与光照 → 最终图像<br>                  ↑<br>            文本和参考图约束<br></code></pre></td></tr></table></figure>
+
+<p>它不是从素材库里找到一张图片再拼接，而是根据训练中学到的视觉规律生成新的像素组合。但训练数据的来源、版权、风格模仿和人物肖像权，仍然是不能回避的问题。</p>
+<p>生图最重要的价值不是“输入一句话就得到完美作品”，而是把视觉创作的试错成本大幅降低。它适合概念探索、情绪板、分镜、构图草案、材质参考、广告变体和游戏前期设计。</p>
+<p>实际使用时，比堆砌一长串形容词更有效的方法，是把需求拆成明确维度：</p>
+<pre><code>主体：画面里是谁或什么。
+
+场景：主体处于怎样的环境。
+
+构图：景别、机位、主体位置和画面比例。
+
+光照：光源方向、时间、软硬和颜色。
+
+风格：写实、插画、胶片、概念设计等视觉方向。
+
+限制：不要出现的元素，以及需要保持一致的部分。
+</code></pre>
+<p>不过，生成模型对“看起来合理”比对“结构严格正确”更擅长。文字排版、复杂机械结构、精确空间关系、连续镜头的一致性，以及像素级可控修改，仍然需要专业软件、控制条件或人工调整。</p>
+<h2 id="多模态：不只是把生图接到聊天框"><a href="#多模态：不只是把生图接到聊天框" class="headerlink" title="多模态：不只是把生图接到聊天框"></a>多模态：不只是把生图接到聊天框</h2><p>多模态模型能够处理文字、图片、声音和视频中的一种或多种信息。它带来的变化，不只是模型可以生成更多媒体，而是模型开始拥有更丰富的输入通道。</p>
+<p>例如：</p>
+<pre><code>看到一张性能分析截图，定位异常DrawCall。
+
+阅读UI设计稿，生成前端结构和样式。
+
+根据语音会议内容，区分说话人并整理结论。
+
+对比一段游戏录屏和策划需求，发现交互差异。
+
+观察软件界面，并判断下一步应该点击哪里。
+</code></pre>
+<p>文本适合表达抽象规则，图像适合传递空间和视觉信息，声音包含语气与时间变化，视频则进一步包含动作和因果顺序。当这些信息进入同一个上下文后，AI就不再局限于纯文字世界。</p>
+<p>但多模态也会放大错误来源。图片可能看不清，语音可能识别错误，视频可能漏掉关键帧，模型还可能对视觉内容作出过度推断。因此，模型“看到了”不代表它准确理解了每个细节。</p>
+<h2 id="Tool-Use：模型开始连接外部世界"><a href="#Tool-Use：模型开始连接外部世界" class="headerlink" title="Tool Use：模型开始连接外部世界"></a>Tool Use：模型开始连接外部世界</h2><p>大模型本身只能生成内容。要查询实时天气、运行代码、读取项目、发送邮件或修改数据库，就必须调用外部工具。</p>
+<p>工具调用通常不是模型直接执行任意操作，而是模型按照约定输出结构化请求：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-punctuation">&#123;</span><br>  <span class="hljs-attr">&quot;tool&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;get_weather&quot;</span><span class="hljs-punctuation">,</span><br>  <span class="hljs-attr">&quot;arguments&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">&#123;</span><br>    <span class="hljs-attr">&quot;city&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Shanghai&quot;</span><br>  <span class="hljs-punctuation">&#125;</span><br><span class="hljs-punctuation">&#125;</span><br></code></pre></td></tr></table></figure>
+
+<p>应用程序验证参数、检查权限并执行工具，再把结果返回给模型。模型根据结果继续回答或决定下一步动作。</p>
+<p>这层结构非常关键。大模型负责理解意图和选择动作，传统程序负责确定性执行、权限控制和记录结果。二者结合，比让模型凭记忆回答更可靠，也比为每一种自然语言表达编写规则更灵活。</p>
+<h2 id="Agent到底是什么？"><a href="#Agent到底是什么？" class="headerlink" title="Agent到底是什么？"></a>Agent到底是什么？</h2><p>Agent并没有一个完全统一的定义。工程上可以把它理解为：<strong>让大模型围绕一个目标，在反馈循环中自主选择并使用工具，直到完成任务或触发停止条件。</strong></p>
+<p>一个基础Agent通常包含：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">目标<br> ↓<br>观察当前状态<br> ↓<br>规划或选择下一步<br> ↓<br>调用工具执行<br> ↓<br>读取结果并判断<br> ↓<br>继续、调整、请求人工确认或结束<br></code></pre></td></tr></table></figure>
+
+<p>普通对话是一问一答，Agent则可能连续工作很多步。例如“修复这个项目的构建错误”可以被拆成：读取报错、搜索相关代码、判断原因、修改文件、运行测试、分析新结果，再继续修正。</p>
+<p>ReAct一类研究把Reasoning与Acting结合起来：模型交替进行推理和行动，根据环境返回的观察结果更新后续决策。今天常见的编程Agent、浏览器Agent和研究Agent，大体都能看到这种循环的影子。</p>
+<h3 id="Workflow和Agent的区别"><a href="#Workflow和Agent的区别" class="headerlink" title="Workflow和Agent的区别"></a>Workflow和Agent的区别</h3><p>两者经常被混在一起。</p>
+<p>Workflow的步骤主要由程序预先规定：先分类，再检索，再生成，失败就转人工。它更稳定、更容易测试，也更适合流程明确的任务。</p>
+<p>Agent的步骤主要由模型根据当前状态动态决定。它更灵活，适合无法提前写死路径的开放任务，但成本、延迟和失败方式也更难预测。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">固定流程明确、风险较高  ——&gt;  优先Workflow<br><br>路径未知、需要探索判断  ——&gt;  考虑Agent<br></code></pre></td></tr></table></figure>
+
+<p>实际系统往往是二者结合：外层使用确定性Workflow控制权限和阶段，在局部环节允许Agent自主搜索、分析和尝试。</p>
+<h2 id="Agent为什么还没有成为万能数字员工？"><a href="#Agent为什么还没有成为万能数字员工？" class="headerlink" title="Agent为什么还没有成为万能数字员工？"></a>Agent为什么还没有成为万能数字员工？</h2><p>Agent把单次回答的不确定性扩展成了多步行动的不确定性。假设每一步有95%的概率正确，连续执行20个相互依赖的步骤，全部正确的理论概率只有：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">0.95 ^ 20 ≈ 35.8%<br></code></pre></td></tr></table></figure>
+
+<p>真实任务并不满足完全独立的假设，Agent也能够发现并修复部分错误，但这个简单计算说明了一个问题：单步看起来很聪明，不代表长流程一定可靠。</p>
+<p>当前Agent常见的困难包括：</p>
+<pre><code>1.目标理解偏差。最初理解错一点，后续行动可能越走越远。
+
+2.上下文有限。长任务中的细节会被压缩、遗漏或相互干扰。
+
+3.错误累积。一次错误搜索或工具返回可能污染后续判断。
+
+4.缺少稳定的完成标准。模型可能过早宣布成功，也可能陷入重复尝试。
+
+5.现实环境不断变化。网页、权限、软件状态和接口都可能超出预期。
+
+6.安全风险。提示注入、恶意文档和越权操作会从“答错”升级为“做错”。
+</code></pre>
+<p>因此，可靠Agent系统需要的不只是更强的模型，还需要任务状态、工具协议、最小权限、预算限制、超时与重试、日志、测试、沙箱和人工审批。</p>
+<h2 id="多Agent一定比单Agent更强吗？"><a href="#多Agent一定比单Agent更强吗？" class="headerlink" title="多Agent一定比单Agent更强吗？"></a>多Agent一定比单Agent更强吗？</h2><p>多Agent系统会给不同模型实例分配角色，例如规划者、研究者、编码者和审查者。它的优势是可以并行探索、隔离上下文，并让不同角色交叉检查。</p>
+<p>但多Agent不是免费的能力放大器。它同时增加通信开销、Token成本、信息丢失和协调错误。如果一个Agent加几个工具就能解决问题，拆成五个角色反而可能让系统更慢、更不稳定。</p>
+<p>适合多Agent的任务通常具有以下特征：</p>
+<pre><code>1.子任务可以真正并行，而且彼此依赖较少。
+
+2.不同子任务需要明显不同的上下文或工具。
+
+3.任务规模足够大，协调成本小于并行收益。
+
+4.需要独立复核，而不是让多个角色重复给出相似答案。
+</code></pre>
+<p>模型数量不是系统智能程度的直接指标。合理的任务边界、共享状态和验证机制，通常比“多开几个Agent”更重要。</p>
+<h2 id="应该怎样更有效地使用AI？"><a href="#应该怎样更有效地使用AI？" class="headerlink" title="应该怎样更有效地使用AI？"></a>应该怎样更有效地使用AI？</h2><h3 id="1-给目标，也给上下文和验收标准"><a href="#1-给目标，也给上下文和验收标准" class="headerlink" title="1.给目标，也给上下文和验收标准"></a>1.给目标，也给上下文和验收标准</h3><p>与其说“帮我优化一下”，不如说明当前问题、目标平台、不能改变的部分，以及怎样才算完成。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">目标：降低移动端GPU耗时。<br>背景：Unity URP，目标设备为中端Android手机。<br>限制：不能改变最终画面效果，不能增加新的RenderTexture。<br>验收：GPU耗时至少降低1ms，并解释修改的原理和副作用。<br></code></pre></td></tr></table></figure>
+
+<p>高质量输入的核心不是某种神奇Prompt格式，而是减少任务中的隐含信息。</p>
+<h3 id="2-先让AI理解，再让它行动"><a href="#2-先让AI理解，再让它行动" class="headerlink" title="2.先让AI理解，再让它行动"></a>2.先让AI理解，再让它行动</h3><p>在复杂代码或文档任务中，可以先要求模型总结现状、列出不确定点和修改范围，确认理解一致后再执行。这样能够减少模型在错误假设上快速工作。</p>
+<h3 id="3-把大任务拆成能够验证的阶段"><a href="#3-把大任务拆成能够验证的阶段" class="headerlink" title="3.把大任务拆成能够验证的阶段"></a>3.把大任务拆成能够验证的阶段</h3><p>“做一个完整项目”太容易失控，“先梳理需求—建立最小版本—运行测试—补充功能”则每一步都有反馈。AI最擅长在短反馈循环里工作，而不是在没有检查点的情况下长时间自由发挥。</p>
+<h3 id="4-让工具提供事实，让模型负责判断"><a href="#4-让工具提供事实，让模型负责判断" class="headerlink" title="4.让工具提供事实，让模型负责判断"></a>4.让工具提供事实，让模型负责判断</h3><p>需要最新信息时让它搜索，需要精确计算时让它运行程序，需要确认代码时让它执行测试，需要分析数据时让它读取真实文件。能验证的内容不要只依赖模型记忆。</p>
+<h3 id="5-根据风险决定自动化程度"><a href="#5-根据风险决定自动化程度" class="headerlink" title="5.根据风险决定自动化程度"></a>5.根据风险决定自动化程度</h3><p>可以把AI操作分成三档：</p>
+<pre><code>低风险：搜索、总结、生成草稿，可以自动执行。
+
+中风险：修改代码、批量处理文件，需要测试、差异检查和可回滚机制。
+
+高风险：付款、发布、删除数据、修改生产环境，必须最小权限并保留人工确认。
+</code></pre>
+<p>AI能力越强，权限设计越重要。真正成熟的系统不是让Agent什么都能做，而是让它只拥有完成当前任务所需的权限。</p>
+<h2 id="AI接下来会怎样发展？"><a href="#AI接下来会怎样发展？" class="headerlink" title="AI接下来会怎样发展？"></a>AI接下来会怎样发展？</h2><p>短期内，AI的发展重点可能不是单纯把聊天回答写得更像人，而是提高完整任务的成功率。</p>
+<h3 id="1-从单模态走向原生多模态"><a href="#1-从单模态走向原生多模态" class="headerlink" title="1.从单模态走向原生多模态"></a>1.从单模态走向原生多模态</h3><p>文字、图片、声音和视频会逐渐成为统一交互的一部分。AI能够看到问题、听到反馈、解释过程，并生成适合任务的输出形式。</p>
+<h3 id="2-从生成结果走向操作环境"><a href="#2-从生成结果走向操作环境" class="headerlink" title="2.从生成结果走向操作环境"></a>2.从生成结果走向操作环境</h3><p>AI会更深地进入IDE、浏览器、设计软件、办公套件和操作系统。交互单位会从“一段回答”变成“一组已经完成并可检查的变更”。</p>
+<h3 id="3-从追求一次答对走向持续验证"><a href="#3-从追求一次答对走向持续验证" class="headerlink" title="3.从追求一次答对走向持续验证"></a>3.从追求一次答对走向持续验证</h3><p>搜索、代码执行、测试、模拟器和形式化规则会成为模型的外部反馈。未来系统的可靠性，很大程度来自模型能否发现自己错了并及时修正。</p>
+<h3 id="4-从通用能力走向个人和组织上下文"><a href="#4-从通用能力走向个人和组织上下文" class="headerlink" title="4.从通用能力走向个人和组织上下文"></a>4.从通用能力走向个人和组织上下文</h3><p>真正有价值的AI不仅需要通用知识，还要理解项目结构、团队规范、个人偏好和历史决策。这里的关键同时包括长期记忆、数据权限和隐私边界。</p>
+<h3 id="5-模型能力逐渐商品化，系统设计更加重要"><a href="#5-模型能力逐渐商品化，系统设计更加重要" class="headerlink" title="5.模型能力逐渐商品化，系统设计更加重要"></a>5.模型能力逐渐商品化，系统设计更加重要</h3><p>当不同模型都具备不错的对话、视觉和工具调用能力后，产品差异会更多来自数据质量、工具生态、任务闭环、评估体系、交互体验和安全设计，而不只是模型排行榜上的分数。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>大模型对话让自然语言成为通用接口，生图和多模态扩展了AI感知与表达的边界，Agent则尝试把理解转化为真实行动。</p>
+<p>这条发展路线可以概括为：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">生成语言<br>   ↓<br>理解和生成多种信息<br>   ↓<br>连接知识与工具<br>   ↓<br>围绕目标持续行动<br></code></pre></td></tr></table></figure>
+
+<p>AI正在从一个“回答问题的模型”，变成一层新的计算接口。但它目前最合理的位置，仍然不是完全替代人的黑盒，而是一个速度很快、能力很广、需要目标约束和结果验证的协作者。</p>
+<p>会不会写Prompt只是表层技巧。更长期的能力是：能否清楚定义问题、提供必要上下文、拆分任务、设计验证方式，并判断哪些权力可以交给AI。</p>
+<p>当生成越来越便宜，提出好问题、识别好结果和为结果负责，反而会变得更加重要。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.03762">Attention Is All You Need</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2006.11239">Denoising Diffusion Probabilistic Models</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2005.11401">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2210.03629">ReAct: Synergizing Reasoning and Acting in Language Models</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.anthropic.com/research/building-effective-agents">Building Effective AI Agents</a></li>
+</ol>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+          <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Unity-XCode_Instruments真机性能分析指南</span>
+          </a>
+        
+        
+          <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Unity-Jobs与Burst原理和优化</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>

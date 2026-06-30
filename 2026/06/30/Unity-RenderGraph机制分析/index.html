@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Unity-RenderGraph机制分析 | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="Unity, URP, RenderGraph, 渲染管线">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/rendergraph-flow.png">
+<meta property="article:published_time" content="2026-06-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-30T06:53:14.805Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="URP">
+<meta property="article:tag" content="RenderGraph">
+<meta property="article:tag" content="渲染管线">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ahappyfun.github.io/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/rendergraph-flow.png">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 47 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2022</div>
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-06-29T16:00:00.000Z">2026 年 6 月 30 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/Unity/">Unity</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">Unity-RenderGraph机制分析</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/Unity/" class="tag">#Unity</a>
+          
+            <a href="/tags/URP/" class="tag">#URP</a>
+          
+            <a href="/tags/RenderGraph/" class="tag">#RenderGraph</a>
+          
+            <a href="/tags/%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="tag">#渲染管线</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>RenderGraph（渲染图）解决的核心问题不是“换一种写 Pass 的语法”，而是让渲染管线先知道整帧会发生什么，再决定怎么执行。</p>
+<p>传统 SRP 写法里，<code>ScriptableRenderPass</code> 往往在执行阶段直接申请临时 RT、设置 RenderTarget、读写纹理并提交 CommandBuffer。这样写很直观，但管线看到的是一串已经排好的命令，很难全局判断哪些资源可以复用、哪些 Pass 没有贡献、哪些 Render Target 切换可以合并。RenderGraph 把这件事拆成两步：先声明 Pass 与资源依赖，再由系统编译执行计划。</p>
+<p><img src="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/rendergraph-flow.png" alt="Unity URP RenderGraph 执行思路"></p>
+<span id="more"></span>
+
+<h2 id="1-从命令列表到资源依赖图"><a href="#1-从命令列表到资源依赖图" class="headerlink" title="1. 从命令列表到资源依赖图"></a>1. 从命令列表到资源依赖图</h2><p>RenderGraph 可以理解成一张有向图：</p>
+<ol>
+<li>节点是一个个渲染 Pass。</li>
+<li>边是资源读写依赖，例如某个 Pass 写入 Color Texture，后面的 Bloom Pass 读取它。</li>
+<li>资源是图里的对象，例如 Texture、Buffer、RendererList，而不是手动管理生命周期的裸 RTHandle。</li>
+</ol>
+<p>这种组织方式的关键变化是：Pass 不再只告诉 GPU “现在做什么”，而是先告诉管线“我要读什么、写什么、产出什么”。管线拿到这些信息后，可以在执行前分析整帧。</p>
+<p>例如一个后处理链路可能写成：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs text">Opaque Pass<br>    写入 CameraColor<br><br>Bloom Prefilter<br>    读取 CameraColor<br>    写入 BloomMip0<br><br>Bloom Blur<br>    读取 BloomMip0<br>    写入 BloomMip1<br><br>Final Composite<br>    读取 CameraColor、BloomMip1<br>    写入 BackBuffer<br></code></pre></td></tr></table></figure>
+
+<p>如果使用传统命令式写法，临时纹理的申请、释放、读写关系通常散落在各个 Pass 里。RenderGraph 会把这些依赖集中记录下来，然后计算资源生命周期：<code>BloomMip0</code> 只需要活到 <code>Bloom Blur</code> 结束，之后它占用的内存就可能被别的临时纹理复用。</p>
+<p>这也是 RenderGraph 相比普通 Pass 队列更有价值的地方。它不是简单地把 <code>Execute()</code> 改名，而是让管线拥有了优化所需的信息。</p>
+<h2 id="2-URP-中-RenderGraph-的位置"><a href="#2-URP-中-RenderGraph-的位置" class="headerlink" title="2. URP 中 RenderGraph 的位置"></a>2. URP 中 RenderGraph 的位置</h2><p>在较新的 URP 里，自定义 Pass 的入口从过去常见的 <code>Execute()</code> 逐渐转向 <code>RecordRenderGraph()</code>。直观理解：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">UniversalRenderPipeline<br>    驱动 Camera 渲染<br><br>UniversalRenderer<br>    组织一帧内置 Pass 和自定义 Feature<br><br>ScriptableRenderPass.RecordRenderGraph<br>    把当前 Pass 的资源读写声明到 RenderGraph<br><br>RenderGraph<br>    编译整帧图并执行<br></code></pre></td></tr></table></figure>
+
+<p><code>ScriptableRendererFeature</code> 的职责没有消失。它仍然负责创建并注入自定义 <code>ScriptableRenderPass</code>。变化主要发生在 Pass 内部：以前在 <code>Execute()</code> 里直接拿 <code>CommandBuffer</code> 干活，现在要在 <code>RecordRenderGraph()</code> 里声明图节点、资源和真正执行函数。</p>
+<p>一个很简化的结构如下：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">CustomPass</span> : <span class="hljs-title">ScriptableRenderPass</span><br>&#123;<br>    <span class="hljs-keyword">class</span> <span class="hljs-title">PassData</span><br>    &#123;<br>        <span class="hljs-keyword">public</span> TextureHandle source;<br>        <span class="hljs-keyword">public</span> TextureHandle destination;<br>        <span class="hljs-keyword">public</span> Material material;<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">RecordRenderGraph</span>(<span class="hljs-params">RenderGraph renderGraph, ContextContainer frameData</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">using</span> <span class="hljs-keyword">var</span> builder = renderGraph.AddRasterRenderPass&lt;PassData&gt;(<br>            <span class="hljs-string">&quot;Custom Blit Pass&quot;</span>,<br>            <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> passData);<br><br>        <span class="hljs-comment">// 从 frameData 里拿当前相机资源，实际字段名会随 URP 版本变化。</span><br>        <span class="hljs-keyword">var</span> resourceData = frameData.Get&lt;UniversalResourceData&gt;();<br>        passData.source = resourceData.activeColorTexture;<br><br>        <span class="hljs-keyword">var</span> desc = renderGraph.GetTextureDesc(passData.source);<br>        desc.name = <span class="hljs-string">&quot;CustomBlitTexture&quot;</span>;<br>        passData.destination = renderGraph.CreateTexture(desc);<br><br>        builder.UseTexture(passData.source);<br>        builder.SetRenderAttachment(passData.destination, <span class="hljs-number">0</span>);<br>        builder.SetRenderFunc((PassData data, RasterGraphContext context) =&gt;<br>        &#123;<br>            <span class="hljs-comment">// 在这里记录真正的绘制或 Blit 命令。</span><br>        &#125;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这段代码不应该当成跨版本模板直接复制。URP 的资源数据类、Blit 工具和 RenderGraph API 在不同 Unity 6 小版本里有调整。重点是它体现了 RenderGraph 的写法分工：</p>
+<ol>
+<li><code>RecordRenderGraph()</code> 负责描述这个 Pass。</li>
+<li><code>PassData</code> 保存执行阶段需要的数据。</li>
+<li><code>UseTexture()</code>、<code>SetRenderAttachment()</code> 等调用负责声明资源读写。</li>
+<li><code>SetRenderFunc()</code> 里的函数才是真正记录 GPU 命令的地方。</li>
+</ol>
+<h2 id="3-RenderGraph-能优化什么"><a href="#3-RenderGraph-能优化什么" class="headerlink" title="3. RenderGraph 能优化什么"></a>3. RenderGraph 能优化什么</h2><h3 id="3-1-临时资源生命周期"><a href="#3-1-临时资源生命周期" class="headerlink" title="3.1 临时资源生命周期"></a>3.1 临时资源生命周期</h3><p>屏幕空间效果经常产生大量临时纹理。HBAO、SSR、Bloom、TAA、Color Grading、Depth Pyramid 这类功能都可能需要中间 RT。传统写法里，开发者需要自己决定何时申请、何时释放、是否复用。</p>
+<p>RenderGraph 通过读写声明可以知道资源最后一次被使用在哪里。一个临时纹理如果只在两个相邻 Pass 之间传递，就不必占用整帧生命周期。多个生命周期不重叠的纹理也可能复用同一块底层内存。</p>
+<p>这对移动端尤其重要。很多移动 GPU 对带宽和 Render Target 存取非常敏感，多申请一张全分辨率 HDR RT，成本不只是显存占用，还包括清屏、Load、Store 和 Tile Memory 与系统内存之间的数据交换。</p>
+<h3 id="3-2-Pass-剔除"><a href="#3-2-Pass-剔除" class="headerlink" title="3.2 Pass 剔除"></a>3.2 Pass 剔除</h3><p>如果一个 Pass 的输出没有被后续 Pass 或最终 BackBuffer 使用，它理论上可以被剔除。RenderGraph 能从图依赖里发现这类无效节点。</p>
+<p>当然，这个优化有前提：Pass 不能隐式产生外部副作用。比如写全局状态、读写不受图管理的资源、依赖某个外部 CommandBuffer 副作用，都可能让管线无法安全剔除。因此 RenderGraph 写法鼓励把输入输出显式声明出来。</p>
+<h3 id="3-3-Native-Render-Pass-合并"><a href="#3-3-Native-Render-Pass-合并" class="headerlink" title="3.3 Native Render Pass 合并"></a>3.3 Native Render Pass 合并</h3><p>在支持的图形 API 和平台上，URP 可以结合 RenderGraph 信息尝试合并 Native Render Pass。这个优化在 TBDR（Tile-Based Deferred Rendering，基于 Tile 的延迟渲染）移动 GPU 上很有意义。</p>
+<p>如果多个 Pass 对同一组附件进行连续操作，并且中间没有必须落回系统内存的依赖，管线可以减少 Render Target 的 Load&#x2F;Store。对移动端来说，这类优化有时比减少一点 ALU 更重要，因为瓶颈经常在带宽和片上&#x2F;片外交互。</p>
+<p>但这不是“用了 RenderGraph 就一定更快”。如果 Pass 之间频繁采样前一个 Pass 的颜色结果，或者需要把颜色 RT 当普通 Texture 读取，就可能打断合并条件。RenderGraph 提供的是分析和调度基础，具体收益仍然取决于资源访问模式、平台和效果实现。</p>
+<h2 id="4-自定义-Pass-迁移时要注意什么"><a href="#4-自定义-Pass-迁移时要注意什么" class="headerlink" title="4. 自定义 Pass 迁移时要注意什么"></a>4. 自定义 Pass 迁移时要注意什么</h2><h3 id="4-1-不要把旧-Execute-代码原样塞进-RenderFunc"><a href="#4-1-不要把旧-Execute-代码原样塞进-RenderFunc" class="headerlink" title="4.1 不要把旧 Execute 代码原样塞进 RenderFunc"></a>4.1 不要把旧 Execute 代码原样塞进 RenderFunc</h3><p>最常见误区是把旧版 <code>Execute()</code> 里的逻辑整体搬到 <code>SetRenderFunc()</code>。这样虽然可能跑起来，但很容易失去 RenderGraph 的意义。</p>
+<p>需要拆开看：</p>
+<ol>
+<li>创建临时纹理：尽量改成 <code>renderGraph.CreateTexture()</code>。</li>
+<li>声明输入纹理：用 <code>UseTexture()</code> 或对应 builder API。</li>
+<li>声明输出附件：用 <code>SetRenderAttachment()</code> 或对应写入 API。</li>
+<li>真正绘制命令：放到 <code>SetRenderFunc()</code>。</li>
+</ol>
+<p>也就是说，资源关系在外面声明，命令记录在里面执行。</p>
+<h3 id="4-2-PassData-只放必要数据"><a href="#4-2-PassData-只放必要数据" class="headerlink" title="4.2 PassData 只放必要数据"></a>4.2 PassData 只放必要数据</h3><p><code>PassData</code> 是执行函数的数据桥。它适合放 <code>TextureHandle</code>、<code>BufferHandle</code>、<code>RendererListHandle</code>、材质引用、少量参数。不要把大对象、临时容器或依赖当前帧外部状态的复杂对象随手塞进去。</p>
+<p>RenderGraph 的一个设计目标是让执行阶段更可预测。<code>PassData</code> 越小、越明确，越容易看出这个 Pass 的输入输出。</p>
+<h3 id="4-3-区分-TextureHandle-和真实纹理"><a href="#4-3-区分-TextureHandle-和真实纹理" class="headerlink" title="4.3 区分 TextureHandle 和真实纹理"></a>4.3 区分 TextureHandle 和真实纹理</h3><p><code>TextureHandle</code> 不是普通 <code>RenderTexture</code>。它更像图里的资源引用。实际底层资源什么时候创建、是否复用、什么时候释放，由 RenderGraph 在编译和执行阶段决定。</p>
+<p>这意味着不要在记录阶段假设自己已经拿到了真实 GPU 纹理，也不要在图外长期保存某个临时 <code>TextureHandle</code>。如果资源需要跨帧存在，例如历史帧 TAA、SSR history、上一帧深度等，通常要使用管线允许的持久资源管理方式，再在每帧导入或声明给 RenderGraph 使用。</p>
+<h3 id="4-4-注意版本差异"><a href="#4-4-注意版本差异" class="headerlink" title="4.4 注意版本差异"></a>4.4 注意版本差异</h3><p>Unity RenderGraph 在 URP 中的接入经历过迁移阶段。Unity 6 里 RenderGraph 已经是 URP 的重要路径，但具体 API 名称、资源数据类型和示例代码会随 URP 包版本变化。写教程或项目封装时，不建议只记住某一段网上代码，而应该围绕这几个稳定概念组织：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">声明 Pass<br>声明资源读写<br>保存执行数据<br>设置执行函数<br>让 RenderGraph 编译执行<br></code></pre></td></tr></table></figure>
+
+<p>只要这个模型清楚，API 小变化通常比较容易适配。</p>
+<h2 id="5-和传统-SRP-Pass-写法的区别"><a href="#5-和传统-SRP-Pass-写法的区别" class="headerlink" title="5. 和传统 SRP Pass 写法的区别"></a>5. 和传统 SRP Pass 写法的区别</h2><p>可以用一句话概括：传统写法偏“我现在怎么画”，RenderGraph 写法偏“这一帧有哪些依赖”。</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>传统 ScriptableRenderPass</th>
+<th>RenderGraph 写法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pass 表达</td>
+<td>手动按顺序入队并执行</td>
+<td>入队后记录成图节点</td>
+</tr>
+<tr>
+<td>临时 RT</td>
+<td>开发者显式申请释放</td>
+<td>图系统根据生命周期管理</td>
+</tr>
+<tr>
+<td>资源依赖</td>
+<td>隐含在命令顺序里</td>
+<td>通过读写声明显式表达</td>
+</tr>
+<tr>
+<td>Pass 剔除</td>
+<td>很难全局判断</td>
+<td>可基于最终依赖判断</td>
+</tr>
+<tr>
+<td>移动端带宽优化</td>
+<td>依赖手工组织 Pass</td>
+<td>更容易分析合并条件</td>
+</tr>
+<tr>
+<td>调试方式</td>
+<td>看 Frame Debugger 和命令</td>
+<td>同时看图结构、资源生命周期、命令</td>
+</tr>
+</tbody></table>
+<p>这并不代表传统写法已经没有价值。对于很简单、一次性的渲染逻辑，命令式写法更直接。RenderGraph 的优势会在 Pass 数量变多、临时资源变多、平台差异变复杂时逐渐体现出来。</p>
+<h2 id="6-适合用-RenderGraph-思考的效果"><a href="#6-适合用-RenderGraph-思考的效果" class="headerlink" title="6. 适合用 RenderGraph 思考的效果"></a>6. 适合用 RenderGraph 思考的效果</h2><p>RenderGraph 特别适合资源链路清晰的屏幕空间效果，例如：</p>
+<ol>
+<li>Bloom：多级降采样、模糊、合成。</li>
+<li>SSAO &#x2F; HBAO：深度法线输入、AO 中间结果、Blur、Composite。</li>
+<li>SSR：深度、法线、颜色、Hit Buffer、Resolve。</li>
+<li>TAA：当前帧颜色、Motion Vector、History、输出颜色。</li>
+<li>Depth Pyramid：深度输入、多级 Mip 输出。</li>
+</ol>
+<p>这些效果的共同点是：输入输出明确，中间纹理多，Pass 之间依赖清楚。RenderGraph 可以把这种链路表达得更结构化。</p>
+<p>反过来，如果一个 Pass 强依赖外部状态、跨帧副作用很多、资源生命周期不清晰，迁移到 RenderGraph 时就要先整理数据边界。否则只是换了 API，复杂度并不会消失。</p>
+<h2 id="7-工程上的使用建议"><a href="#7-工程上的使用建议" class="headerlink" title="7. 工程上的使用建议"></a>7. 工程上的使用建议</h2><ol>
+<li><p>先画资源链路，再写代码。</p>
+<p> 写 RenderGraph Pass 之前，先把输入、输出、中间资源画出来。比如“读 CameraColor 和 Depth，写 AOTexture，再读 AOTexture 合成回 CameraColor”。这比直接开写更不容易漏声明。</p>
+</li>
+<li><p>把持久资源和临时资源分开。</p>
+<p> 临时纹理交给 RenderGraph 管理；跨帧历史、缓存贴图、长期 Buffer 则用明确的生命周期管理，并在每帧接入图。</p>
+</li>
+<li><p>避免隐式副作用。</p>
+<p> 如果一个 Pass 修改了全局纹理、全局关键字或图外资源，要非常小心。隐式副作用会削弱 RenderGraph 的优化空间，也会让调试变困难。</p>
+</li>
+<li><p>不要为了“看起来现代”强行拆 Pass。</p>
+<p> Pass 越多，图越细，调度信息越丰富，但也可能增加状态切换和理解成本。拆分应该服务于真实资源依赖，而不是把每两行命令都包装成一个 Pass。</p>
+</li>
+<li><p>用 Frame Debugger、RenderGraph Viewer 和平台抓帧一起看。</p>
+<p> RenderGraph 能告诉你资源和 Pass 的逻辑关系，但最终性能仍然要看 GPU 抓帧。尤其是移动端，要关注 Render Target Load&#x2F;Store、Resolve、带宽和 Tile Pass 是否被打断。</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>RenderGraph 的本质是把渲染管线从“命令顺序管理”推进到“资源依赖管理”。它让 URP 在执行前知道一帧里有哪些 Pass、每个 Pass 读写哪些资源、资源生命周期在哪里开始和结束，从而为临时纹理复用、Pass 剔除、Native Render Pass 合并和跨平台调度提供基础。</p>
+<p>对写自定义 URP Feature 来说，RenderGraph 最大的心智变化是：不要急着写命令，先把资源关系说清楚。<code>RecordRenderGraph()</code> 是声明阶段，<code>SetRenderFunc()</code> 才是执行阶段。只要理解这条边界，RenderGraph 就不是一套更绕的 API，而是一种更适合复杂渲染管线的组织方式。</p>
+<p>真正落地时也不要迷信它。RenderGraph 提供优化可能性，不保证所有效果自动变快。好的 Pass 划分、清晰的资源生命周期、少做不必要的全分辨率中间图、避免隐式副作用，仍然是渲染优化的基本功。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.0/Documentation/Manual/urp/render-graph-introduction.html">Unity Manual：Introduction to the render graph system in URP</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.0/Documentation/Manual/urp/render-graph-write-render-pass.html">Unity Manual：Write a render pass using the render graph system in URP</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.0/Documentation/Manual/urp/render-graph-optimize.html">Unity Manual：Optimize the render graph system in URP</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/urp/render-graph.html">Unity Manual：Render graph system in URP</a></p>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+        
+          <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Unity-XCode_Instruments真机性能分析指南</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>

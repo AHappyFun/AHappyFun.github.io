@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Base-前向渲染与延迟渲染 | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="原理">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-30T07:41:59.173Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="原理">
+<meta name="twitter:card" content="summary">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 47 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2022</div>
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2022-04-29T16:00:00.000Z">2022 年 4 月 30 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/%E5%8E%9F%E7%90%86/">原理</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">Base-前向渲染与延迟渲染</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E5%8E%9F%E7%90%86/" class="tag">#原理</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>渲染管线中，光照计算阶段的组织方式决定了渲染器的整体架构。前向渲染（Forward）和延迟渲染（Deferred）是两种最主流的方案，它们各自衍生出一系列变体。</p>
+<p>本文梳理它们的核心思路、演进分支、以及在不同场景下的取舍。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-Forward-Rendering（前向渲染）"><a href="#1-Forward-Rendering（前向渲染）" class="headerlink" title="1. Forward Rendering（前向渲染）"></a>1. Forward Rendering（前向渲染）</h2><h3 id="1-1-基本原理"><a href="#1-1-基本原理" class="headerlink" title="1.1 基本原理"></a>1.1 基本原理</h3><p>前向渲染是最直观的渲染方式：<strong>遍历每个物体 → 对该物体计算所有影响它的光源 → 得到最终颜色 → 写入 Framebuffer</strong>。</p>
+<p>伪代码逻辑：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">for each object:<br>    for each light affecting this object:<br>        shading += calculate_lighting(object, light)<br>    write shading to framebuffer<br></code></pre></td></tr></table></figure>
+
+<p>每渲染一个物体，就要把所有光源照一遍。场景中 N 个物体 × M 个光源 &#x3D; O(N × M) 的复杂度。</p>
+<h3 id="1-2-优点"><a href="#1-2-优点" class="headerlink" title="1.2 优点"></a>1.2 优点</h3><ul>
+<li><strong>实现简单直观</strong></li>
+<li><strong>透明渲染原生支持</strong> — 一个 Pass 完成所有计算，Alpha Blend 直接工作</li>
+<li><strong>MSAA 友好</strong> — 逐样本计算的颜色在光栅化阶段自然抗锯齿</li>
+<li><strong>带宽低</strong> — 只需要当前物体的数据，不需要读写 G-Buffer</li>
+<li><strong>硬件兼容性好</strong> — 不需要 MRT 等高级特性</li>
+</ul>
+<h3 id="1-3-缺点"><a href="#1-3-缺点" class="headerlink" title="1.3 缺点"></a>1.3 缺点</h3><ul>
+<li><strong>光源数量受限</strong> — 每物体需要对所有光源逐一计算，性能随光源数线性增长</li>
+<li><strong>无效计算多</strong> — 即便物体只受极少数光源影响，也可能要遍历全部光源（虽然有 per-object light culling 优化，但效率有限）</li>
+<li><strong>复杂度 O(N × M)</strong> — N（物体数）和 M（光源数）任何一个增长都会带来性能悬崖</li>
+</ul>
+<h3 id="1-4-传统-Forward-的优化思路"><a href="#1-4-传统-Forward-的优化思路" class="headerlink" title="1.4 传统 Forward 的优化思路"></a>1.4 传统 Forward 的优化思路</h3><p>为了避免 O(N × M) 的失控，传统做法是限制光源数：</p>
+<ul>
+<li><strong>严格限制每物体影响光源数量</strong>（通常 4~8 个）</li>
+<li>超出部分通过低精度的 Lightmap &#x2F; SH（球谐光照）作为间接补充</li>
+<li>依赖引擎的 per-object light culling（如 Unity 在前向渲染中按物体裁减光源列表）</li>
+</ul>
+<p>但这些优化只能延迟瓶颈，不能从根本上突破 O(N × M) 的约束。</p>
+<hr>
+<h2 id="2-Forward-Rendering"><a href="#2-Forward-Rendering" class="headerlink" title="2. Forward+ Rendering"></a>2. Forward+ Rendering</h2><p>Forward+（Tiled Forward Rendering）是对传统 Forward 的重要改进，将复杂度从 O(N × M) 降为 <strong>O(N + M × TileCount)</strong>。</p>
+<h3 id="2-1-核心思想"><a href="#2-1-核心思想" class="headerlink" title="2.1 核心思想"></a>2.1 核心思想</h3><p>把屏幕划分为多个 <strong>Tile（网格块，通常 16×16 或 32×32 像素）</strong>，在渲染前先用 Compute Shader 计算每个 Tile 内<strong>实际影响该区域的光源列表</strong>。渲染物体时，Shader 通过屏幕坐标查询当前像素所在 Tile 的光源列表，只计算列表中的光源。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">// CPU or Compute Shader 阶段：逐 Tile 求光源影响关系<br>for each tile:<br>    tile_light_list[tile] = frustum_cull(lights, tile)<br><br>// 渲染阶段：每个物体通过屏幕坐标查光源<br>for each object:<br>    for each fragment:<br>        tile = get_tile(fragment.screenPos)<br>        for light in tile_light_list[tile]:<br>            shading += calculate_lighting(fragment, light)<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-2-关键改进"><a href="#2-2-关键改进" class="headerlink" title="2.2 关键改进"></a>2.2 关键改进</h3><ul>
+<li>共享了光源裁减的结果 — 同一 Tile 内的所有像素共享同一个光源列表</li>
+<li>不再需要 per-object light culling，计算量更稳定</li>
+<li>光源数量可以大幅提升（数十到上百个），只要在同一 Tile 内的光源数可控</li>
+</ul>
+<h3 id="2-3-缺点"><a href="#2-3-缺点" class="headerlink" title="2.3 缺点"></a>2.3 缺点</h3><ul>
+<li><strong>Z 轴浪费</strong> — Tile 是 2D 划分的，不区分深度。一个 Tile 中可能同时包含近处和极远处的光源，它们在深度方向上互不影响，但 2D Tile 无法区分，导致光源列表过重</li>
+<li><strong>仍需逐物体渲染</strong> — 和传统 Forward 一样，物体数多时仍然有 CPU 提交压力</li>
+<li><strong>透明物体仍需处理</strong></li>
+</ul>
+<hr>
+<h2 id="3-Clustered-Forward-（Clustered-Forward-Rendering）"><a href="#3-Clustered-Forward-（Clustered-Forward-Rendering）" class="headerlink" title="3. Clustered Forward+（Clustered Forward Rendering）"></a>3. Clustered Forward+（Clustered Forward Rendering）</h2><h3 id="3-1-核心思想"><a href="#3-1-核心思想" class="headerlink" title="3.1 核心思想"></a>3.1 核心思想</h3><p>在 Forward+ 的基础上再加一个维度：<strong>将视锥体在 Z 方向（深度方向）也分层</strong>，形成 3D 空间中的 <strong>Cluster（簇）</strong>。每个物体&#x2F;像素通过屏幕坐标 + 深度值确定自己属于哪个 Cluster，只查询该 Cluster 内的光源。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">// 预处理阶段：将视锥划分为 (TileX × TileY × SliceZ) 个 Cluster<br>// 每个 Cluster 有该空间范围内的光源列表<br><br>// 渲染阶段<br>for each fragment:<br>    cluster = get_cluster(fragment.screenPos, fragment.depth)<br>    for light in cluster_light_list[cluster]:<br>        shading += calculate_lighting(fragment, light)<br></code></pre></td></tr></table></figure>
+
+<p>Cluster 划分示意：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">视锥体侧视图：<br>     近平面<br>┌────┬────┬────┬────┐<br>│    │    │    │    │  Z-slice 1<br>├────┼────┼────┼────┤<br>│    │    │    │    │  Z-slice 2<br>├────┼────┼────┼────┤<br>│    │    │    │    │  Z-slice 3<br>└────┴────┴────┴────┘<br>     Tile X 方向 →<br></code></pre></td></tr></table></figure>
+
+<p>Z 轴分层通常<strong>不是均匀划分</strong>的，而是按 <strong>log-depth（对数深度）</strong> 或指数方式划分，使近处的 Cluster 更密集（因为近处的光源对视差更敏感），远处的 Cluster 更稀疏。</p>
+<h3 id="3-2-解决了什么问题"><a href="#3-2-解决了什么问题" class="headerlink" title="3.2 解决了什么问题"></a>3.2 解决了什么问题</h3><ul>
+<li>消除了 Forward+ 的 Z 轴浪费 — 不再把远处的光源和近处的放在同一个列表里</li>
+<li>同样场景下，每个像素要计算的光源数更少</li>
+<li>支持的光源上限进一步上升（可达数百个动态光源）</li>
+</ul>
+<h3 id="3-3-代价"><a href="#3-3-代价" class="headerlink" title="3.3 代价"></a>3.3 代价</h3><ul>
+<li>需要更多的 GPU 内存来存储 3D Cluster 的光源索引</li>
+<li>Compute Shader 预处理逻辑更复杂</li>
+<li>仍然是逐物体渲染，不减少 DrawCall 数</li>
+</ul>
+<hr>
+<h2 id="4-Deferred-Rendering（延迟渲染）"><a href="#4-Deferred-Rendering（延迟渲染）" class="headerlink" title="4. Deferred Rendering（延迟渲染）"></a>4. Deferred Rendering（延迟渲染）</h2><h3 id="4-1-基本原理"><a href="#4-1-基本原理" class="headerlink" title="4.1 基本原理"></a>4.1 基本原理</h3><p>延迟渲染的核心思路是<strong>把光照计算推迟到所有物体都画完以后</strong>，分为两个 Pass：</p>
+<ul>
+<li><p><strong>Pass 1（Geometry Pass &#x2F; G-Buffer Pass）</strong>：将场景的几何信息逐像素写入多个 Render Target（MRT）。常见 G-Buffer 包含：</p>
+<ul>
+<li>法线、Albedo（漫反射颜色）</li>
+<li>金属度、粗糙度&#x2F;光泽度</li>
+<li>深度</li>
+<li>运动向量、Subsurface Mask 等（按需求扩展）</li>
+</ul>
+</li>
+<li><p><strong>Pass 2（Lighting Pass &#x2F; Shading Pass）</strong>：读取 G-Buffer，对每个像素计算所有影响它的光照。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">// Pass 1: 几何信息写入<br>for each opaque object:<br>    write gbuffer: normal, albedo, roughness, metallic, depth, ...<br><br>// Pass 2: 逐像素光照计算<br>for each light:<br>    for each pixel covered by this light:<br>        read gbuffer(pixel)<br>        shading += calculate_lighting(gbuffer, light)<br></code></pre></td></tr></table></figure>
+
+<p>复杂度：<strong>O(N × M’)</strong> — N 是物体数（仅 Pass 1），M’ 是实际参与计算的光源 × 受影响的像素。物体数和光源数解耦。</p>
+<h3 id="4-2-优点"><a href="#4-2-优点" class="headerlink" title="4.2 优点"></a>4.2 优点</h3><ul>
+<li><strong>光源数不受限</strong> — 因为光照 Pass 是在屏幕空间逐像素做的，渲染 N 个光源的代价 ≈ 每光源一个全屏或局部光照 Pass</li>
+<li><strong>物体数与光源数解耦</strong> — Pass 1 只关心有多少物体要画，Pass 2 只关心有多少光源要算</li>
+<li><strong>过度绘制少</strong> — 每个像素只计算一次光照，不会有 Forward 中同一像素被多个半透明物体覆盖时多次计算的问题</li>
+</ul>
+<h3 id="4-3-缺点"><a href="#4-3-缺点" class="headerlink" title="4.3 缺点"></a>4.3 缺点</h3><ul>
+<li><strong>G-Buffer 带宽大</strong> — MRT 写 4~6 张 RT，带宽和内存消耗远高于 Forward</li>
+<li><strong>不支持 MSAA</strong> — G-Buffer 存的是逐像素信息，MSAA 的逐样本处理在延迟渲染中非常棘手（虽然可以结合 MSAA 做，但实现复杂且效果差）</li>
+<li><strong>透明渲染不原生支持</strong> — 透明物体无法在 G-Buffer 中表达（需要额外的 Forward Pass 兜底）</li>
+<li><strong>硬件要求高</strong> — 需要 MRT（Multiple Render Targets）、较高显存带宽</li>
+<li><strong>难以处理 Subsurface、Clear Coat 等复杂材质</strong> — G-Buffer 只能存有限的信息，复杂材质需要额外的编码&#x2F;压缩技巧</li>
+</ul>
+<hr>
+<h2 id="5-Deferred-分类与变体"><a href="#5-Deferred-分类与变体" class="headerlink" title="5. Deferred 分类与变体"></a>5. Deferred 分类与变体</h2><h3 id="5-1-Classic-Deferred（标准延迟渲染-Deferred-Shading）"><a href="#5-1-Classic-Deferred（标准延迟渲染-Deferred-Shading）" class="headerlink" title="5.1 Classic Deferred（标准延迟渲染 &#x2F; Deferred Shading）"></a>5.1 Classic Deferred（标准延迟渲染 &#x2F; Deferred Shading）</h3><ul>
+<li>上述标准的两 Pass 架构</li>
+<li>G-Buffer 中存储所有着色需要的信息（法线、Albedo、材质参数）</li>
+<li>Lighting Pass 一次性计算出最终颜色</li>
+<li>最早出现在《杀戮地带 2》的 Mark 论文中</li>
+<li>代表：UE4 Deferred、Unity URP&#x2F;HDRP Deferred</li>
+</ul>
+<h3 id="5-2-Deferred-Lighting（Light-Pre-Pass-延迟光照）"><a href="#5-2-Deferred-Lighting（Light-Pre-Pass-延迟光照）" class="headerlink" title="5.2 Deferred Lighting（Light Pre-Pass &#x2F; 延迟光照）"></a>5.2 Deferred Lighting（Light Pre-Pass &#x2F; 延迟光照）</h3><p>也称为 <strong>Deferred Lighting</strong> 或 <strong>Light Pre-Pass</strong>，将 G-Buffer 拆成了两个阶段：</p>
+<ul>
+<li><strong>Pass 1</strong>（Light Pre-Pass）：只写深度和法线</li>
+<li><strong>Pass 2</strong>（Light Accumulation Pass）：用深度+法线计算光照，输出光照缓冲</li>
+<li><strong>Pass 3</strong>（Material Pass）：读光照缓冲 + 材质属性计算最终颜色</li>
+</ul>
+<p>优点：G-Buffer 更小（只需要深度+法线），带宽节省约 50%。材质属性在最后 Pass 才读取，可以支持更多的材质种类，不受固定 G-Buffer 编码限制。</p>
+<p>缺点：需要三个 Pass，Light Accumulation Pass 和 Material Pass 之间需要额外的上下文切换。</p>
+<h3 id="5-3-Tile-based-Deferred（TBDR）"><a href="#5-3-Tile-based-Deferred（TBDR）" class="headerlink" title="5.3 Tile-based Deferred（TBDR）"></a>5.3 Tile-based Deferred（TBDR）</h3><p>结合 Forward+ 思路的延迟渲染：</p>
+<ul>
+<li>将屏幕分为 Tile</li>
+<li>在 Lighting Pass 前，用 Compute Shader 逐 Tile 裁减光源</li>
+<li>Lighting Pass 按 Tile 调度，只处理影响当前 Tile 的光源</li>
+</ul>
+<p>适合移动端 GPU（如 PowerVR TBDR），利用 Tile-based 架构的 Local Memory 避免多次带宽消耗。</p>
+<h3 id="5-4-Clustered-Deferred"><a href="#5-4-Clustered-Deferred" class="headerlink" title="5.4 Clustered Deferred"></a>5.4 Clustered Deferred</h3><p>类似 Clustered Forward+ 的思路应用于 Deferred：</p>
+<ul>
+<li>在 Z 方向分层 + 屏幕 Tile，构成 3D Cluster</li>
+<li>每个 Cluster 有独立的光源列表</li>
+<li>Lighting Pass 逐像素查询所在 Cluster 的光源</li>
+</ul>
+<h3 id="5-5-变体对比总览"><a href="#5-5-变体对比总览" class="headerlink" title="5.5 变体对比总览"></a>5.5 变体对比总览</h3><table>
+<thead>
+<tr>
+<th>变体</th>
+<th align="center">G-Buffer Passes</th>
+<th align="center">光源 Culling</th>
+<th align="center">带宽</th>
+<th align="center">透明支持</th>
+<th align="center">MSAA</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Classic Deferred</td>
+<td align="center">1</td>
+<td align="center">无</td>
+<td align="center">高</td>
+<td align="center">需 Forward 兜底</td>
+<td align="center">差</td>
+</tr>
+<tr>
+<td>Deferred Lighting</td>
+<td align="center">2（法线+光照+材质）</td>
+<td align="center">无</td>
+<td align="center">中</td>
+<td align="center">需 Forward 兜底</td>
+<td align="center">差</td>
+</tr>
+<tr>
+<td>Tile Deferred</td>
+<td align="center">1</td>
+<td align="center">2D Tile</td>
+<td align="center">中</td>
+<td align="center">需 Forward 兜底</td>
+<td align="center">差</td>
+</tr>
+<tr>
+<td>Clustered Deferred</td>
+<td align="center">1</td>
+<td align="center">3D Cluster</td>
+<td align="center">中</td>
+<td align="center">需 Forward 兜底</td>
+<td align="center">差</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="6-整体对比：Forward-vs-Deferred"><a href="#6-整体对比：Forward-vs-Deferred" class="headerlink" title="6. 整体对比：Forward vs Deferred"></a>6. 整体对比：Forward vs Deferred</h2><h3 id="6-1-核心维度"><a href="#6-1-核心维度" class="headerlink" title="6.1 核心维度"></a>6.1 核心维度</h3><table>
+<thead>
+<tr>
+<th align="left">维度</th>
+<th align="center">Forward</th>
+<th align="center">Forward+</th>
+<th align="center">Clustered Forward+</th>
+<th align="center">Deferred</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>光照计算时机</strong></td>
+<td align="center">物体绘制时</td>
+<td align="center">物体绘制时</td>
+<td align="center">物体绘制时</td>
+<td align="center">物体绘制后</td>
+</tr>
+<tr>
+<td align="left"><strong>复杂度</strong></td>
+<td align="center">O(N × M)</td>
+<td align="center">O(N + M × Tile)</td>
+<td align="center">O(N + M × Cluster)</td>
+<td align="center">O(N + M × Pixel)</td>
+</tr>
+<tr>
+<td align="left"><strong>光源上限</strong></td>
+<td align="center">受限（~4-8&#x2F;物体）</td>
+<td align="center">中等（~数十）</td>
+<td align="center">高（~数百）</td>
+<td align="center">几乎无限</td>
+</tr>
+<tr>
+<td align="left"><strong>DrawCall 数</strong></td>
+<td align="center">高（逐物体）</td>
+<td align="center">高（逐物体）</td>
+<td align="center">高（逐物体）</td>
+<td align="center">低（逐光源 Pass）</td>
+</tr>
+<tr>
+<td align="left"><strong>物体数上限</strong></td>
+<td align="center">视 CPU 开销</td>
+<td align="center">视 CPU 开销</td>
+<td align="center">视 CPU 开销</td>
+<td align="center">仅受 G-Buffer 带宽</td>
+</tr>
+</tbody></table>
+<h3 id="6-2-功能维度"><a href="#6-2-功能维度" class="headerlink" title="6.2 功能维度"></a>6.2 功能维度</h3><table>
+<thead>
+<tr>
+<th align="left">维度</th>
+<th align="center">Forward</th>
+<th align="center">Forward+ &#x2F; Cluster Forward+</th>
+<th align="center">Deferred</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>MSAA</strong></td>
+<td align="center">✅ 原生支持</td>
+<td align="center">✅ 原生支持</td>
+<td align="center">❌ 复杂 &#x2F; 不支持</td>
+</tr>
+<tr>
+<td align="left"><strong>透明渲染</strong></td>
+<td align="center">✅ 原生支持</td>
+<td align="center">✅ 原生支持</td>
+<td align="center">❌ 需 Forward 兜底</td>
+</tr>
+<tr>
+<td align="left"><strong>复杂材质</strong></td>
+<td align="center">✅ 灵活</td>
+<td align="center">✅ 灵活</td>
+<td align="center">⚠️ 受 G-Buffer 编码限制</td>
+</tr>
+<tr>
+<td align="left"><strong>带宽</strong></td>
+<td align="center">低</td>
+<td align="center">低</td>
+<td align="center">高</td>
+</tr>
+<tr>
+<td align="left"><strong>半透明 Overdraw</strong></td>
+<td align="center">严重</td>
+<td align="center">严重</td>
+<td align="center">极少（不透明部分）</td>
+</tr>
+</tbody></table>
+<h3 id="6-3-场景适用性"><a href="#6-3-场景适用性" class="headerlink" title="6.3 场景适用性"></a>6.3 场景适用性</h3><table>
+<thead>
+<tr>
+<th align="left">场景</th>
+<th align="left">推荐方案</th>
+<th align="left">原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong>移动端（GPU 带宽受限）</strong></td>
+<td align="left">Forward &#x2F; Forward+</td>
+<td align="left">带宽低，MSAA 有用</td>
+</tr>
+<tr>
+<td align="left"><strong>PC 端多光源场景</strong></td>
+<td align="left">Deferred &#x2F; Clustered Deferred</td>
+<td align="left">光源数不受限</td>
+</tr>
+<tr>
+<td align="left"><strong>主机端（高画质）</strong></td>
+<td align="left">Clustered Forward+ 混合 Deferred</td>
+<td align="left">兼顾光源数和 MSAA</td>
+</tr>
+<tr>
+<td align="left"><strong>VR（需要 MSAA + 高帧率）</strong></td>
+<td align="left">Clustered Forward+</td>
+<td align="left">MSAA 刚需</td>
+</tr>
+<tr>
+<td align="left"><strong>大量半透明物体</strong></td>
+<td align="left">Forward 为主，Deferred 兜底透明</td>
+<td align="left">Forward 支持透明混合</td>
+</tr>
+<tr>
+<td align="left"><strong>复杂材质（SSS、Clear Coat）</strong></td>
+<td align="left">Forward &#x2F; Clustered Forward+</td>
+<td align="left">不受 G-Buffer 编码限制</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="7-现代引擎的混合策略"><a href="#7-现代引擎的混合策略" class="headerlink" title="7. 现代引擎的混合策略"></a>7. 现代引擎的混合策略</h2><p>很少有引擎只用一种方案。常见的是 <strong>混合 Forward + Deferred</strong> 的策略：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">渲染流程示例：<br>1. 不透明物体 → Deferred Shading（多光源高效）<br>2. 透明物体 → Forward Rendering（透明混合）<br>3. 特殊材质 → Forward Rendering（SSS、Clear Coat 等 G-Buffer 难以表达的材质）<br></code></pre></td></tr></table></figure>
+
+<p>Unity URP 在 Deferred 模式下就是这样的混合管线：不透明物体走 G-Buffer + Lighting Pass，透明物体退回到 Forward。HDRP 更是支持在同一个相机中按 Material 级别切换 Forward &#x2F; Deferred。</p>
+<hr>
+<h2 id="8-总结"><a href="#8-总结" class="headerlink" title="8. 总结"></a>8. 总结</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">┌─────────────────────────────┐<br>│         Forward 家族          │<br>│   ┌─────────────────────┐    │<br>│   │    Forward          │    │   O(N × M), 简单, MSAA ✓<br>│   ├─────────────────────┤    │<br>│   │    Forward+         │    │   + Tile Culling<br>│   ├─────────────────────┤    │<br>│   │    Clustered Forward+│    │   + Z 方向分层<br>│   └─────────────────────┘    │<br>└─────────────────────────────┘<br><br>┌─────────────────────────────┐<br>│        Deferred 家族         │<br>│   ┌─────────────────────┐    │<br>│   │    Classic Deferred │    │   G-Buffer → Lighting Pass<br>│   ├─────────────────────┤    │<br>│   │    Deferred Lighting│    │   Light Pre-Pass（分拆法线）<br>│   ├─────────────────────┤    │<br>│   │    Tile Deferred    │    │   + 2D Tile Culling<br>│   ├─────────────────────┤    │<br>│   │    Clustered Deferred│   │   + Z 方向分层<br>│   └─────────────────────┘    │<br>└─────────────────────────────┘<br><br>关键选择依据：<br>- 光源多 → 走 Deferred<br>- MSAA 刚需 / 复杂材质 / 透明多 → 走 Forward<br>- 现代方案：两者混合<br></code></pre></td></tr></table></figure>
+
+<p><strong>Forward 演进路线</strong>：传统 Forward（逐物体逐光源）→ Forward+（+2D Tile Culling）→ Clustered Forward+（+Z 方向 Cluster）。每次演进都是增加空间剖分的精度，减少无效光照计算。</p>
+<p><strong>Deferred 演进路线</strong>：Classic Deferred → Deferred Lighting（分拆法线减少带宽）→ Tile&#x2F;Clustered Deferred（+空间 Culling）。演进方向同样是减少带宽浪费和提升光源管理效率。</p>
+<p>两种方案没有绝对的优劣——<strong>选择取决于场景特征和硬件目标</strong>。移动端受带宽限制时 Forward+ 往往更好，PC&#x2F;主机多光源场景 Deferred 更有优势，而 VR 因 MSAA 刚需通常倾向 Clustered Forward+。</p>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>《Real-Time Rendering》4th Edition, Chapters 19-20</li>
+<li>Forward+: 基于 Tile 的光源裁减方案</li>
+<li>Clustered Deferred and Forward: Ola Olsson 等人的论文</li>
+<li>Unity URP &#x2F; HDRP 官方文档</li>
+<li>UE4 Deferred Shading 文档</li>
+</ul>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+          <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Base-TBDR架构</span>
+          </a>
+        
+        
+          <a href="/2021/12/18/Unity-SRPBatcher/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Unity-SRP Batcher 原理与使用</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>

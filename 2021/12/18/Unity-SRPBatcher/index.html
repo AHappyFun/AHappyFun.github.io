@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Unity-SRP Batcher 原理与使用 | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="优化, Unity">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ahappyfun.github.io/urp-srp-batcher-setting.png">
+<meta property="og:image" content="https://ahappyfun.github.io/frame-debug-srp-batch.png">
+<meta property="article:published_time" content="2021-12-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-30T07:41:59.173Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="优化">
+<meta property="article:tag" content="Unity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ahappyfun.github.io/urp-srp-batcher-setting.png">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 47 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2022</div>
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2021-12-17T16:00:00.000Z">2021 年 12 月 18 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/Unity/">Unity</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">Unity-SRP Batcher 原理与使用</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E4%BC%98%E5%8C%96/" class="tag">#优化</a>
+          
+            <a href="/tags/Unity/" class="tag">#Unity</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>对 SRP Batcher 的个人理解整理。之前的笔记比较零散，现在系统梳理一下，顺便验证是否有理解偏差。</p>
+<span id="more"></span>
+
+<h2 id="1-概述：SRP-Batcher-是什么"><a href="#1-概述：SRP-Batcher-是什么" class="headerlink" title="1. 概述：SRP Batcher 是什么"></a>1. 概述：SRP Batcher 是什么</h2><p>SRP Batcher 是 Unity Scriptable Render Pipeline（URP &#x2F; HDRP）中的一个 CPU 端优化机制。它<strong>不会减少实际的 DrawCall 数量</strong>，但能显著降低每个 DrawCall 的 CPU 开销——特别是渲染状态切换和 Buffer 绑定这部分。</p>
+<p>一句话概括：<strong>用 GPU 内存换 CPU 状态切换时间。</strong></p>
+<p>核心思想是：把低频变化的数据（材质属性）持久化缓存在 GPU 上，CPU 在材质不变的情况下只需要更新物体级别的数据（MVP 矩阵等），省去了大量重复的 Buffer 绑定和状态设置。</p>
+<hr>
+<h2 id="2-如何使用"><a href="#2-如何使用" class="headerlink" title="2. 如何使用"></a>2. 如何使用</h2><h3 id="2-1-在-URP-Asset-中启用"><a href="#2-1-在-URP-Asset-中启用" class="headerlink" title="2.1 在 URP Asset 中启用"></a>2.1 在 URP Asset 中启用</h3><ul>
+<li>选中 URP 配置文件（UniversalRenderPipelineAsset）</li>
+<li>在 <strong>Advanced</strong> 部分勾选 <strong>SRP Batcher</strong></li>
+<li>较新的 URP 版本中默认是开启的</li>
+</ul>
+<p><img src="/urp-srp-batcher-setting.png"></p>
+<h3 id="2-2-Shader-中声明-CBuffer"><a href="#2-2-Shader-中声明-CBuffer" class="headerlink" title="2.2 Shader 中声明 CBuffer"></a>2.2 Shader 中声明 CBuffer</h3><p>SRP Batcher 要求材质属性声明在名为 <code>UnityPerMaterial</code> 的 CBuffer 中：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">CBUFFER_START(UnityPerMaterial)<br>    float4 _BaseColor;<br>    float4 _BaseMap_ST;<br>    half _Cutoff;<br>    half _Smoothness;<br>CBUFFER_END<br></code></pre></td></tr></table></figure>
+
+<p>Unity 内置的 Lit &#x2F; Unlit Shader 已经按此规范声明，但如果你写<strong>自定义 Shader</strong>，必须手动加上 <code>CBUFFER_START(UnityPerMaterial)</code> &#x2F; <code>CBUFFER_END</code>，否则 SRP Batcher 不会生效，Unity 会 fallback 到传统渲染路径。</p>
+<hr>
+<h2 id="3-核心原理：CPU-与-GPU-的数据分离架构"><a href="#3-核心原理：CPU-与-GPU-的数据分离架构" class="headerlink" title="3. 核心原理：CPU 与 GPU 的数据分离架构"></a>3. 核心原理：CPU 与 GPU 的数据分离架构</h2><blockquote>
+<p>高频变化的数据（物体级别：MVP 矩阵、Color 等）和低频变化的数据（全局设置、材质固有属性）在 GPU 上做物理分离。</p>
+</blockquote>
+<p>SRP Batcher 在底层维护了两个概念上的 Buffer 区域：</p>
+<table>
+<thead>
+<tr>
+<th>Buffer</th>
+<th>内容</th>
+<th>更新频率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>PerBuffer</strong>（单个 CBuffer 槽位）</td>
+<td>同一 Shader Variant 共享的材质属性（_BaseColor、_Smoothness 等）</td>
+<td>仅材质切换时更新</td>
+</tr>
+<tr>
+<td><strong>PerDraw</strong>（引擎内部维护的 Buffer）</td>
+<td>每个物体的独有数据（MVP 矩阵、Lightmap UV、Instance ID、_BaseColor 等）</td>
+<td>每帧按物体更新，高频</td>
+</tr>
+</tbody></table>
+<h3 id="3-1-具体工作流程"><a href="#3-1-具体工作流程" class="headerlink" title="3.1 具体工作流程"></a>3.1 具体工作流程</h3><ol>
+<li><strong>准备阶段</strong>（CPU）：将材质数据上传到 GPU 的持久 Buffer 中，原地保留</li>
+<li><strong>渲染阶段</strong>：当遍历可见物体列表时：<ul>
+<li>如果物体使用的 Shader Variant 和上一个物体相同 → 跳过所有材质属性上传，只更新 PerDraw 数据（矩阵等），直接发 Draw</li>
+<li>如果 Shader Variant 变了 → 更新 PerBuffer 中的材质属性，再发 Draw</li>
+</ul>
+</li>
+</ol>
+<p>也就是说，<strong>CPU 在材质不变的情况下，只更新物体级别的数据，不切换渲染状态，也不重新绑定 Buffer</strong>。</p>
+<h3 id="3-2-架构对比"><a href="#3-2-架构对比" class="headerlink" title="3.2 架构对比"></a>3.2 架构对比</h3><p><strong>传统渲染（无 SRP Batcher）：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">物体 A: 绑定材质 Buffer → 上传属性 → 绑定物体 Buffer → 上传矩阵 → Draw<br>物体 B: 绑定材质 Buffer → 上传属性 → 绑定物体 Buffer → 上传矩阵 → Draw  (同一材质也要重新绑定)<br>物体 C: 切换 Shader → 绑定新材质 Buffer → 上传属性 → ... <br></code></pre></td></tr></table></figure>
+
+<p><strong>有 SRP Batcher：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">物体 A: 材质已驻留 GPU → 更新物体矩阵 → Draw<br>物体 B: 材质已驻留 GPU → 更新物体矩阵 → Draw   (材质相同，跳过)<br>物体 C: 切换 Shader → 上传新材质到 GPU → 更新物体矩阵 → Draw<br></code></pre></td></tr></table></figure>
+
+<p><strong>关键区别</strong>：在同一材质批量渲染时，SRP Batcher 省去了每物体都要做的 Buffer 绑定和属性上传。</p>
+<hr>
+<h2 id="4-为什么材质属性必须在一个-CBuffer-里？"><a href="#4-为什么材质属性必须在一个-CBuffer-里？" class="headerlink" title="4. 为什么材质属性必须在一个 CBuffer 里？"></a>4. 为什么材质属性必须在一个 CBuffer 里？</h2><p>这是 SRP Batcher 高效工作的重要前提，有两个原因：</p>
+<h3 id="4-1-固定内存布局"><a href="#4-1-固定内存布局" class="headerlink" title="4.1 固定内存布局"></a>4.1 固定内存布局</h3><p>引擎需要保证 GPU Buffer 的内存布局在运行时是确定且固定的。如果 Shader 属性分散在多个 CBuffer 里：</p>
+<ul>
+<li>引擎无法保证多个 Buffer 之间的布局关系是固定的</li>
+<li>可能需要运行时逐个绑定多个 Buffer，或不断重组布局</li>
+<li>PerDraw 数据也无法干净地分离出来</li>
+</ul>
+<h3 id="4-2-内存拷贝效率"><a href="#4-2-内存拷贝效率" class="headerlink" title="4.2 内存拷贝效率"></a>4.2 内存拷贝效率</h3><p>如果所有材质属性在<strong>一个 CBuffer</strong> 里，CPU 可以用<strong>一次内存拷贝</strong>（memcpy）把整个块送上 GPU。分散到多个 CBuffer 意味着多次单独的提交操作，效率低得多。</p>
+<h3 id="4-3-SRP-中定义的标准-CBuffer-布局"><a href="#4-3-SRP-中定义的标准-CBuffer-布局" class="headerlink" title="4.3 SRP 中定义的标准 CBuffer 布局"></a>4.3 SRP 中定义的标准 CBuffer 布局</h3><p>SRP 预定义了三个标准 CBuffer，SHader 中应严格遵循：</p>
+<table>
+<thead>
+<tr>
+<th>CBuffer 名称</th>
+<th>用途</th>
+<th>生命周期</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>UnityPerMaterial</code></td>
+<td>材质级属性（颜色、贴图、参数）</td>
+<td>材质切换时更新</td>
+</tr>
+<tr>
+<td><code>UnityPerDraw</code></td>
+<td>物体级属性（矩阵、LM UV、Instance ID）</td>
+<td>每物体更新，SRP 自动管理</td>
+</tr>
+<tr>
+<td><code>UnityInstancing</code></td>
+<td>GPU Instancing 相关数据</td>
+<td>Instancing 启用时使用</td>
+</tr>
+</tbody></table>
+<p>自定义 Shader 中若遗漏 <code>CBUFFER_START(UnityPerMaterial)</code>&#x2F;<code>CBUFFER_END</code>，SRP Batcher 会检测到 CBuffer 布局不兼容，自动退化为非 batched 渲染。</p>
+<hr>
+<h2 id="5-SRP-Batcher-vs-GPU-Instancing"><a href="#5-SRP-Batcher-vs-GPU-Instancing" class="headerlink" title="5. SRP Batcher vs GPU Instancing"></a>5. SRP Batcher vs GPU Instancing</h2><p>这是两个容易混淆的优化，需要明确区分：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>SRP Batcher</th>
+<th>GPU Instancing</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>目标</strong></td>
+<td>降低每个 DrawCall 的 CPU 开销</td>
+<td>减少 DrawCall 数量</td>
+</tr>
+<tr>
+<td><strong>DrawCall 数量</strong></td>
+<td>不变</td>
+<td>显著减少（N 合 1）</td>
+</tr>
+<tr>
+<td><strong>同一 Mesh 要求</strong></td>
+<td>❌ 不需要</td>
+<td>✅ 需要相同 Mesh</td>
+</tr>
+<tr>
+<td><strong>同一 Material 要求</strong></td>
+<td>✅ 需要同一 Shader Variant</td>
+<td>✅ 需要完全相同的材质</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>场景中大量不同 Mesh 但使用同一 Shader</td>
+<td>大量相同 Mesh 的物体（草、树、粒子）</td>
+</tr>
+<tr>
+<td><strong>原理</strong></td>
+<td>持久化 GPU Buffer，跳过重复绑定</td>
+<td>一次性提交多个 Instance 数据</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p><strong>两者可以共存。</strong> Unity 在 SRP 中会先尝试 Instancing（如果能合批），退而求其次走 SRP Batcher（同 Shader 不同 Mesh），最后 fallback 到传统 Draw。</p>
+</blockquote>
+<hr>
+<h2 id="6-如何在-Frame-Debugger-中查看"><a href="#6-如何在-Frame-Debugger-中查看" class="headerlink" title="6. 如何在 Frame Debugger 中查看"></a>6. 如何在 Frame Debugger 中查看</h2><p>开启 Frame Debugger（Window → Analysis → Frame Debugger），点击一个 DrawCall：</p>
+<ul>
+<li><strong>Batching 显示为 “SRP Batch”</strong> → SRP Batcher 生效</li>
+<li>显示 “DrawDynamic” 或 “SetPassCall” → 没有命中 SRP Batcher</li>
+</ul>
+<center><img src="frame-debug-srp-batch.png" width = "80%"></center>
+
+<p>常见的导致 SRP Batcher 退出的原因：</p>
+<ol>
+<li>Shader 中材质属性没有放在 <code>CBUFFER_START(UnityPerMaterial)</code> &#x2F; <code>CBUFFER_END</code> 内</li>
+<li>使用了 Multi-Pass Shader</li>
+<li>Shader 包含了 Procedural Instancing（<code>#pragma instancing_options procedural</code>），且没有正确处理</li>
+<li>材质使用了不同 Shader Variant（例如关键字状态不同）</li>
+</ol>
+<hr>
+<h2 id="7-优缺点与限制"><a href="#7-优缺点与限制" class="headerlink" title="7. 优缺点与限制"></a>7. 优缺点与限制</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
+<li><strong>显著降低 CPU 开销</strong>：在大量同 Shader 物体的场景下，CPU 端的渲染提交耗时可以降低 50%~80%</li>
+<li><strong>无需合 Mesh</strong>：不需要像 Static Batching 那样合并模型，不同 Mesh 也可以受益</li>
+<li><strong>透明集成</strong>：开启后对项目无侵入，Shader 符合规范即可自动生效</li>
+</ul>
+<h3 id="缺点与限制"><a href="#缺点与限制" class="headerlink" title="缺点与限制"></a>缺点与限制</h3><table>
+<thead>
+<tr>
+<th>限制</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>仅 SRP 管线</strong></td>
+<td>不适用于 Built-in Render Pipeline</td>
+</tr>
+<tr>
+<td><strong>同 Shader Variant 要求</strong></td>
+<td>即使同一 Shader，关键字状态不同也不会 batch</td>
+</tr>
+<tr>
+<td><strong>Multi-Pass 不支持</strong></td>
+<td>使用了多 Pass 的 Shader 会禁用 SRP Batcher</td>
+</tr>
+<tr>
+<td><strong>CBuffer 布局必须一致</strong></td>
+<td>所有 Variant 的 UnityPerMaterial CBuffer 声明必须完全相同</td>
+</tr>
+<tr>
+<td><strong>GPU 内存占用</strong></td>
+<td>材质属性常驻 GPU，多材质时会有额外的显存开销</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="8-总结"><a href="#8-总结" class="headerlink" title="8. 总结"></a>8. 总结</h2><ul>
+<li><strong>本质</strong>：CPU 端的提交优化，不减少 DrawCall 数量</li>
+<li><strong>原理</strong>：把材质数据持久化缓存在 GPU，省去重复的 Buffer 绑定和状态设置</li>
+<li><strong>代价</strong>：牺牲 GPU 内存，换来 CPU 状态切换时间的降低</li>
+<li><strong>关键</strong>：Shader 中声明 <code>CBUFFER_START(UnityPerMaterial)</code> &#x2F; <code>CBUFFER_END</code>，且保证所有 Variant 的 CBuffer 布局一致</li>
+<li><strong>优势场景</strong>：大量不同 Mesh 但使用同一种 Shader 的场景（如开放世界的建筑、物件）</li>
+<li><strong>与 Instancing 关系</strong>：互补，可共存</li>
+</ul>
+<blockquote>
+<p>对比你的原始笔记，主要补充的内容：</p>
+<ul>
+<li>完整的 CBuffer 体系（UnityPerDraw &#x2F; UnityInstancing）说明</li>
+<li>与 GPU Instancing 的详细对比</li>
+<li>Frame Debugger 验证方法</li>
+<li>SRP Batcher 工作流程图解</li>
+<li>优缺点和限制清单</li>
+<li>针对”优化 SetPassCall” 说法的更加精确的描述</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.unity.com/engine-platform/srp-batcher-speed-up-your-rendering">Unity Blog: SRP Batcher</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/SRPBatcher.html">Unity Documentation: SRP Batcher</a></li>
+</ul>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+          <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Base-前向渲染与延迟渲染</span>
+          </a>
+        
+        
+          <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Shader-屏幕空间</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>

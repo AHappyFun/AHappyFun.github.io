@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Unity-TA面试复习大纲 | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="Shader, Unity, TA, 面试">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-05-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-30T07:41:59.173Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="Shader">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="TA">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 47 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2022</div>
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-05-29T16:00:00.000Z">2026 年 5 月 30 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/Shader/">Shader</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">Unity-TA面试复习大纲</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/Shader/" class="tag">#Shader</a>
+          
+            <a href="/tags/Unity/" class="tag">#Unity</a>
+          
+            <a href="/tags/TA/" class="tag">#TA</a>
+          
+            <a href="/tags/%E9%9D%A2%E8%AF%95/" class="tag">#面试</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>这次岗位是客户端 TA 方向，重点不是单纯背 Shader 语法，而是看你能不能把 <strong>Unity URP&#x2F;HDRP 管线、Shader 效果、性能分析、工具插件、美术工作流</strong> 串成一个能落地的技术支持体系。</p>
+<p>明天面试前的目标很明确：</p>
+<ol>
+<li>能讲清楚 URP &#x2F; SRP 的执行结构，以及自定义 Pass &#x2F; Feature 怎么接入。</li>
+<li>能用自己的项目经历讲 Shader、后处理、GPU Driven、延迟渲染 Feature。</li>
+<li>能从 GPU 瓶颈角度解释优化，而不是只说“少采样、少分支、少 DrawCall”。</li>
+<li>能给美术和程序之间的问题提供定位路径、工具方案和规范建议。</li>
+<li>Houdini 程序化如果不是强项，要准备诚实但不空的回答。</li>
+</ol>
+<h2 id="岗位要求拆解"><a href="#岗位要求拆解" class="headerlink" title="岗位要求拆解"></a>岗位要求拆解</h2><p>截图里的岗位可以拆成五类能力。</p>
+<h3 id="1-Unity-URP-HDRP-Shader-编写"><a href="#1-Unity-URP-HDRP-Shader-编写" class="headerlink" title="1. Unity URP &#x2F; HDRP Shader 编写"></a>1. Unity URP &#x2F; HDRP Shader 编写</h3><p>需要准备的关键词：</p>
+<pre><code>URP、HDRP、ShaderLab、HLSL、SRP Batcher、RenderFeature、ScriptableRenderPass、RenderGraph、Forward、Deferred、GBuffer、Depth、Normal、MotionVector、ShadowCaster。
+</code></pre>
+<p>你要能回答：</p>
+<ol>
+<li>URP 的渲染入口是什么？</li>
+<li>一个自定义后处理或渲染效果如何接进 URP？</li>
+<li>Forward 和 Deferred 的差别是什么？</li>
+<li>URP 做一个自定义 Feature 时，资源怎么申请、Pass 在哪里执行、如何避免多余 CopyColor &#x2F; CopyDepth？</li>
+<li>Shader 变体为什么会爆炸，怎么剔除？</li>
+</ol>
+<p>关联笔记：</p>
+<pre><code>Unity-URP架构
+Unity-SRP前向渲染管线
+Unity-URP延迟渲染Feature
+Base-面试问题汇总
+</code></pre>
+<h3 id="2-CG-GLSL-HLSL-基础"><a href="#2-CG-GLSL-HLSL-基础" class="headerlink" title="2. CG &#x2F; GLSL &#x2F; HLSL 基础"></a>2. CG &#x2F; GLSL &#x2F; HLSL 基础</h3><p>面试里不会只问语法，更可能通过问题看你是否理解 Shader 数据流。</p>
+<p>必须过一遍：</p>
+<ol>
+<li>顶点阶段到片元阶段的数据传递：Attributes、Varyings、插值器、语义。</li>
+<li>坐标空间：Object、World、View、Clip、NDC、Screen、Tangent。</li>
+<li>法线贴图：TBN、切线空间、法线编码、DX &#x2F; OpenGL 绿通道差异。</li>
+<li>纹理采样：sRGB &#x2F; Linear、Mip、LOD、Sampler、Wrap &#x2F; Filter。</li>
+<li>精度：float &#x2F; half 的真实收益与风险。</li>
+<li>分支：静态分支、Uniform 动态分支、线程发散。</li>
+</ol>
+<p>一句话版本：</p>
+<pre><code>Shader 优化不能只看源码里有没有 if 或 half，要看最终编译到目标 GPU 后的寄存器、Occupancy、纹理等待、带宽和线程发散。
+</code></pre>
+<p>关联笔记：</p>
+<pre><code>Base-各个坐标空间
+Base-法线贴图
+Base-Shader分支与线程发散
+Base-GPU硬件架构基础
+</code></pre>
+<h3 id="3-引擎与渲染效果开发"><a href="#3-引擎与渲染效果开发" class="headerlink" title="3. 引擎与渲染效果开发"></a>3. 引擎与渲染效果开发</h3><p>岗位提到“编写插件，提升生产效率”，所以最好把你的经验说成工具链，而不是单个效果。</p>
+<p>可以主讲三个案例。</p>
+<h4 id="案例-A：URP-延迟渲染-Feature"><a href="#案例-A：URP-延迟渲染-Feature" class="headerlink" title="案例 A：URP 延迟渲染 Feature"></a>案例 A：URP 延迟渲染 Feature</h4><p>可讲内容：</p>
+<ol>
+<li>自定义 GBuffer Shader。</li>
+<li>HBAO、SSAO、SSGI、SSR、TAA、Contact Shadow 等屏幕空间效果。</li>
+<li>Hi-Z Build 的用途：遮挡查询、SSR Ray March 加速、屏幕空间效果快速深度判断。</li>
+<li>MotionVector 对 TAA 的作用。</li>
+<li>RenderFeature 接入点、RT 生命周期、Debug 视图和性能验证。</li>
+</ol>
+<p>可能追问：</p>
+<ol>
+<li>SSR 为什么会丢失屏幕外信息？</li>
+<li>TAA 为什么会有拖影，怎么处理 History？</li>
+<li>HBAO &#x2F; SSAO 为什么依赖深度和法线？</li>
+<li>延迟渲染为什么不适合所有透明物体？</li>
+</ol>
+<p>关联笔记：</p>
+<pre><code>Unity-URP延迟渲染Feature
+Shader-RayMarch
+Shader-屏幕空间
+Base-透明渲染
+</code></pre>
+<h4 id="案例-B：GPU-Driven-草地渲染"><a href="#案例-B：GPU-Driven-草地渲染" class="headerlink" title="案例 B：GPU Driven 草地渲染"></a>案例 B：GPU Driven 草地渲染</h4><p>可讲内容：</p>
+<ol>
+<li>离线或加载时根据地形 Mesh 和草地 Mask 生成 GrassInfo。</li>
+<li>上传 StructuredBuffer。</li>
+<li>Compute Shader 做视锥剔除。</li>
+<li>输出可见实例列表和 Indirect Args。</li>
+<li>DrawMeshInstancedIndirect 绘制。</li>
+<li>Pre-Z 降低草地 Overdraw。</li>
+</ol>
+<p>回答重点：</p>
+<pre><code>这个方案主要解决 CPU 逐对象提交和大量实例剔除的问题。如果瓶颈在透明 Overdraw、阴影或片元采样，DrawIndirect 本身不会自动解决。
+</code></pre>
+<p>可能追问：</p>
+<ol>
+<li>Indirect Draw 为什么叫间接？</li>
+<li>Compute 写 Buffer 后 Draw 读取需要注意什么？</li>
+<li>草地阴影、LOD、风动、Lightmap &#x2F; ShadowMask 怎么处理？</li>
+<li>Bounds 过大或过小有什么问题？</li>
+</ol>
+<p>关联笔记：</p>
+<pre><code>Unity-GPUDriven草地渲染
+Base-面试问题汇总
+Unity-渲染性能优化
+</code></pre>
+<h4 id="案例-C：自定义-SRP-RenderGraph-前向管线"><a href="#案例-C：自定义-SRP-RenderGraph-前向管线" class="headerlink" title="案例 C：自定义 SRP &#x2F; RenderGraph 前向管线"></a>案例 C：自定义 SRP &#x2F; RenderGraph 前向管线</h4><p>可讲内容：</p>
+<ol>
+<li>基于 RenderGraph 组织基础 Pass。</li>
+<li>PCSS 软阴影。</li>
+<li>Tiled Based Forward 光照。</li>
+<li>资源声明、Pass Culling、临时 RT 复用。</li>
+</ol>
+<p>回答重点：</p>
+<pre><code>RenderGraph 不是自动变快的开关，它的价值是显式声明 Pass 依赖和资源生命周期，让引擎有机会做 Pass 裁剪、资源复用和 Native Render Pass 合并。
+</code></pre>
+<p>关联笔记：</p>
+<pre><code>Unity-SRP前向渲染管线
+Base-面试问题汇总
+Base-TBDR架构
+</code></pre>
+<h2 id="高频技术主题"><a href="#高频技术主题" class="headerlink" title="高频技术主题"></a>高频技术主题</h2><h3 id="URP-架构"><a href="#URP-架构" class="headerlink" title="URP 架构"></a>URP 架构</h3><p>复习顺序：</p>
+<ol>
+<li>UniversalRenderPipelineAsset：序列化管线设置。</li>
+<li>UniversalRenderPipeline：Render 入口，遍历 Camera。</li>
+<li>CameraData、LightData、ShadowData、RenderingData：渲染上下文数据。</li>
+<li>ScriptableRenderer：组织 Pass 队列。</li>
+<li>ScriptableRenderPass：实际执行渲染逻辑。</li>
+<li>ScriptableRenderFeature：序列化配置，并向 Renderer 添加 Pass。</li>
+<li>UniversalRenderer：Unity 提供的 Forward &#x2F; Deferred Renderer 实现。</li>
+</ol>
+<p>面试回答模板：</p>
+<pre><code>URP 的核心是 Pipeline 负责驱动每个 Camera，Renderer 负责组织一帧里要跑哪些 Pass，RenderFeature 用来把自定义功能挂进 Renderer，RenderPass 则真正记录 CommandBuffer 或执行绘制。
+</code></pre>
+<h3 id="Forward-Deferred"><a href="#Forward-Deferred" class="headerlink" title="Forward &#x2F; Deferred"></a>Forward &#x2F; Deferred</h3><p>Forward：</p>
+<ol>
+<li>每个物体渲染时直接算光照。</li>
+<li>材质和透明支持自然。</li>
+<li>多光源可能导致重复计算或多 Pass。</li>
+<li>MSAA 支持相对直接。</li>
+</ol>
+<p>Deferred：</p>
+<ol>
+<li>先写 GBuffer，再统一做 Lighting。</li>
+<li>多光源更容易控制。</li>
+<li>GBuffer 占显存和带宽。</li>
+<li>透明物体通常仍需 Forward。</li>
+<li>移动端要特别注意 MRT、带宽和 Tile Store &#x2F; Load。</li>
+</ol>
+<p>可以补一句：</p>
+<pre><code>URP 里的 Deferred 不是替代 Forward，而是根据场景光源数量、材质需求、平台带宽和透明比例做取舍。
+</code></pre>
+<h3 id="ShadowMap-CSM-PCF-PCSS"><a href="#ShadowMap-CSM-PCF-PCSS" class="headerlink" title="ShadowMap &#x2F; CSM &#x2F; PCF &#x2F; PCSS"></a>ShadowMap &#x2F; CSM &#x2F; PCF &#x2F; PCSS</h3><p>必须会讲：</p>
+<ol>
+<li>ShadowMap 是从光源视角渲染深度，再在主相机渲染时比较当前点到光源的深度。</li>
+<li>Bias 用来处理 Shadow Acne，但过大导致 Peter Panning。</li>
+<li>Normal Bias 沿法线偏移，Depth Bias 改变深度比较。</li>
+<li>CSM 把相机视锥按距离分段，提高近处阴影精度。</li>
+<li>PCF 通过多次比较平均软化边缘。</li>
+<li>PCSS 先估算遮挡物距离，再根据接收面距离扩大 Filter 半径，得到接触硬、远处软的阴影。</li>
+</ol>
+<p>可结合你的 SRP 前向管线讲 PCSS 经验。</p>
+<p>关联笔记：</p>
+<pre><code>Base-阴影ShadowMap
+Unity-SRP前向渲染管线
+</code></pre>
+<h3 id="PBR"><a href="#PBR" class="headerlink" title="PBR"></a>PBR</h3><p>面试最容易问基础公式。</p>
+<p>必须背熟：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">BRDF = Diffuse + Specular<br>Diffuse = BaseColor / π<br>Specular = D × F × G / (4 × NdotL × NdotV)<br></code></pre></td></tr></table></figure>
+
+<p>核心解释：</p>
+<ol>
+<li>PBR 的重点是能量守恒、菲涅尔、微表面。</li>
+<li>Diffuse 除以 π 是 Lambert 半球积分归一化。</li>
+<li>Specular 不额外整体除以 π，因为 D、G 和分母已经包含微表面分布和投影变换，GGX 的 D 项里本身也有 π。</li>
+<li>非金属 F0 常用 0.04，金属 F0 有颜色。</li>
+<li>Metallic 为 1 时，Diffuse 接近 0。</li>
+</ol>
+<p>关联笔记：</p>
+<pre><code>Base-PBR
+Base-法线贴图
+</code></pre>
+<h3 id="TAA"><a href="#TAA" class="headerlink" title="TAA"></a>TAA</h3><p>回答结构：</p>
+<ol>
+<li>当前帧加 Jitter，跨帧积累不同采样位置。</li>
+<li>使用 MotionVector 把当前像素重投影到上一帧。</li>
+<li>采样 History Color。</li>
+<li>用当前帧邻域颜色做 Clamp &#x2F; Clip，避免历史颜色不可信。</li>
+<li>根据运动、遮挡显露、亮度变化决定混合权重。</li>
+</ol>
+<p>追问准备：</p>
+<ol>
+<li>Ghosting 来源：遮挡显露、透明、粒子、反射、MotionVector 缺失。</li>
+<li>颜色空间转换：YCoCg 或亮度压缩让 History Clamp 更稳定。</li>
+<li>边缘 MotionVector：常取邻域更近深度对应的 MotionVector，避免背景历史拖到前景。</li>
+</ol>
+<p>关联笔记：</p>
+<pre><code>Base-面试问题汇总
+Unity-URP延迟渲染Feature
+</code></pre>
+<h3 id="TBDR-与移动端性能"><a href="#TBDR-与移动端性能" class="headerlink" title="TBDR 与移动端性能"></a>TBDR 与移动端性能</h3><p>必须能讲：</p>
+<ol>
+<li>TBR &#x2F; TBDR 把屏幕分成 Tile，尽量在片上内存完成 Color &#x2F; Depth &#x2F; Stencil。</li>
+<li>Binning 阶段收集每个 Tile 覆盖的图元。</li>
+<li>Tile Rendering 阶段在片上内存做光栅化、深度测试、着色。</li>
+<li>HSR 试图在片元着色前剔除不可见表面。</li>
+<li>Tile Flush &#x2F; Store &#x2F; Load 是移动端性能杀手之一。</li>
+<li>Pre-Z 在移动端不一定赚，因为可能增加 Binning 和 Tile 读写。</li>
+<li>Framebuffer Fetch &#x2F; Subpass Input 适合当前像素读写，不适合邻域采样类算法。</li>
+</ol>
+<p>关联笔记：</p>
+<pre><code>Base-TBDR架构
+Base-面试问题汇总
+</code></pre>
+<h2 id="性能优化复习"><a href="#性能优化复习" class="headerlink" title="性能优化复习"></a>性能优化复习</h2><h3 id="分析流程"><a href="#分析流程" class="headerlink" title="分析流程"></a>分析流程</h3><p>面试不要直接说“我会优化 Shader”。先说流程：</p>
+<ol>
+<li>先确定瓶颈：CPU、GPU、内存、带宽、加载、脚本还是渲染线程。</li>
+<li>用 Profiler &#x2F; Frame Debugger &#x2F; RenderDoc &#x2F; Xcode &#x2F; Snapdragon Profiler 抓证据。</li>
+<li>做控制变量：关闭 Feature、替换材质、降采样、减少灯光、关闭阴影。</li>
+<li>定位到 Pass、DrawCall、Shader、RT、纹理采样或带宽。</li>
+<li>提方案并比较画质、性能和维护成本。</li>
+<li>建立规范或工具，防止问题重复出现。</li>
+</ol>
+<h3 id="Shader-优化"><a href="#Shader-优化" class="headerlink" title="Shader 优化"></a>Shader 优化</h3><p>按收益排序准备：</p>
+<ol>
+<li>减少无效绘制：剔除、LOD、距离裁剪、Pre-Z、遮挡剔除。</li>
+<li>减少 Overdraw：透明层数、AlphaTest、排序、粒子范围。</li>
+<li>减少采样：贴图合并、Mip、LUT、降分辨率、缓存中间结果。</li>
+<li>控制变体：shader_feature、multi_compile、SVC、OnProcessShader 剔除。</li>
+<li>控制分支：重路径用变体，统一开关用 Uniform Branch，避免高频数据导致发散。</li>
+<li>控制寄存器和插值器：少传无用 Varying，复杂中间量不要滥塞。</li>
+<li>精度优化：half 用于范围受控的数据，float 保留给世界坐标、深度重建、矩阵、长累加和阴影。</li>
+</ol>
+<h3 id="GPU-硬件视角"><a href="#GPU-硬件视角" class="headerlink" title="GPU 硬件视角"></a>GPU 硬件视角</h3><p>需要会说这些词的关系：</p>
+<ol>
+<li>ALU：执行数学运算的电路。</li>
+<li>SIMD &#x2F; SIMT：一条指令驱动多个 Lane &#x2F; 多个 Shader 线程。</li>
+<li>Warp &#x2F; Wave：GPU 调度的一组线程。</li>
+<li>SM &#x2F; CU &#x2F; Shader Core：包含 ALU、寄存器、调度器、缓存等。</li>
+<li>Register：线程局部变量，过多会降低 Occupancy。</li>
+<li>L1 &#x2F; L2 &#x2F; Texture Cache：缓存不同访问模式的数据。</li>
+<li>Memory &#x2F; Texture Bound：采样和带宽才是瓶颈时，少几条 ALU 没意义。</li>
+</ol>
+<p>一句话：</p>
+<pre><code>优化要先判断 Shader 是 ALU Bound、Texture Bound、Bandwidth Bound、Latency Bound 还是 Occupancy 受限，否则容易改了很多代码但没有性能收益。
+</code></pre>
+<h2 id="美术工作流与工具支持"><a href="#美术工作流与工具支持" class="headerlink" title="美术工作流与工具支持"></a>美术工作流与工具支持</h2><p>岗位强调“解决美术开发需求和问题”，这里要准备 TA 的沟通方式。</p>
+<h3 id="可讲的支持内容"><a href="#可讲的支持内容" class="headerlink" title="可讲的支持内容"></a>可讲的支持内容</h3><ol>
+<li>材质规范：BaseColor 不带光照，法线贴图 Non-Color，Metallic &#x2F; Roughness 通道打包规则。</li>
+<li>贴图规范：尺寸、压缩格式、Mip、移动端 ASTC &#x2F; ETC、Mask 合并。</li>
+<li>Shader 规范：关键字数量、变体限制、功能开关、性能等级。</li>
+<li>场景规范：LOD、阴影距离、透明层数、特效 Overdraw。</li>
+<li>Debug 工具：显示 GBuffer、法线、深度、Overdraw、Cascade、Mip、变体数量。</li>
+<li>自动检查：导入器脚本、资源扫描、ShaderVariant 收集、构建前检查。</li>
+</ol>
+<h3 id="可以举的工具插件方向"><a href="#可以举的工具插件方向" class="headerlink" title="可以举的工具插件方向"></a>可以举的工具插件方向</h3><ol>
+<li>材质检查器：检查贴图 sRGB、压缩格式、通道占用、关键字。</li>
+<li>Shader 变体统计工具：统计每个 Shader 的变体数和关键字组合。</li>
+<li>场景性能扫描：找超大贴图、透明材质、过远阴影投射物、未设置 LOD 的对象。</li>
+<li>美术 Debug 面板：一键切换法线、粗糙度、AO、深度、光照通道。</li>
+<li>草地 &#x2F; 植被生成与剔除工具：结合你 GPU Driven 草地项目讲。</li>
+</ol>
+<p>回答重点：</p>
+<pre><code>TA 的价值不是只写一个效果，而是把效果、规范、检查工具和问题定位流程一起交给团队。
+</code></pre>
+<h2 id="Houdini-程序化准备"><a href="#Houdini-程序化准备" class="headerlink" title="Houdini 程序化准备"></a>Houdini 程序化准备</h2><p>你当前笔记里没有明显 Houdini 系列，所以明天建议走“了解流程 + 能协作接入 Unity”的答法，不要硬装资深 Houdini。</p>
+<p>准备三句话：</p>
+<ol>
+<li>Houdini 程序化的核心是把可重复的美术生产逻辑节点化、参数化，例如地形、道路、建筑、植被散布、破碎和烘焙。</li>
+<li>对 Unity 项目来说，重点是 Houdini Engine &#x2F; HDA 的参数暴露、生成结果的 Mesh &#x2F; 材质 &#x2F; UV &#x2F; 碰撞 &#x2F; LOD &#x2F; Lightmap 数据是否符合运行时规范。</li>
+<li>我更熟的是 Unity 渲染和性能落地，可以和 TA &#x2F; 美术一起把 Houdini 产出的资源接入材质、Shader、LOD、烘焙和性能检查流程。</li>
+</ol>
+<p>可能追问：</p>
+<ol>
+<li>HDA 是什么？</li>
+<li>程序化资产进入 Unity 后要检查什么？</li>
+<li>程序化生成的植被如何和渲染管线结合？</li>
+</ol>
+<p>回答方向：</p>
+<pre><code>我会关注生成资产的数据质量：拓扑、UV、法线 / 切线、顶点色、实例属性、材质槽、LOD、碰撞、包围盒、Lightmap UV、贴图通道和运行时剔除。
+</code></pre>
+<h2 id="明天前复习顺序"><a href="#明天前复习顺序" class="headerlink" title="明天前复习顺序"></a>明天前复习顺序</h2><h3 id="第一轮：1-小时，保底必会"><a href="#第一轮：1-小时，保底必会" class="headerlink" title="第一轮：1 小时，保底必会"></a>第一轮：1 小时，保底必会</h3><ol>
+<li><code>Unity-URP架构</code></li>
+<li><code>Base-面试问题汇总</code></li>
+<li><code>Base-GPU硬件架构基础</code></li>
+<li><code>Base-Shader分支与线程发散</code></li>
+</ol>
+<p>目标：</p>
+<pre><code>能把 URP、RenderFeature、RenderGraph、DrawIndirect、TAA、PBR、TBDR、half、分支发散这些问题讲成完整回答。
+</code></pre>
+<h3 id="第二轮：1-小时，项目案例"><a href="#第二轮：1-小时，项目案例" class="headerlink" title="第二轮：1 小时，项目案例"></a>第二轮：1 小时，项目案例</h3><ol>
+<li><code>Unity-URP延迟渲染Feature</code></li>
+<li><code>Unity-GPUDriven草地渲染</code></li>
+<li><code>Unity-SRP前向渲染管线</code></li>
+<li><code>Unity-渲染性能优化</code></li>
+</ol>
+<p>目标：</p>
+<pre><code>准备 2 到 3 个“我做过 / 我研究过 / 我能落地”的案例，每个案例都包含背景、方案、难点、性能、工具和结果。
+</code></pre>
+<h3 id="第三轮：40-分钟，基础图形学"><a href="#第三轮：40-分钟，基础图形学" class="headerlink" title="第三轮：40 分钟，基础图形学"></a>第三轮：40 分钟，基础图形学</h3><ol>
+<li><code>Base-PBR</code></li>
+<li><code>Base-法线贴图</code></li>
+<li><code>Base-阴影ShadowMap</code></li>
+<li><code>Base-透明渲染</code></li>
+<li><code>Base-各个坐标空间</code></li>
+</ol>
+<p>目标：</p>
+<pre><code>避免基础题翻车。PBR、法线、阴影、透明排序、坐标变换都是 TA 面试高频。
+</code></pre>
+<h3 id="第四轮：20-分钟，软能力和岗位匹配"><a href="#第四轮：20-分钟，软能力和岗位匹配" class="headerlink" title="第四轮：20 分钟，软能力和岗位匹配"></a>第四轮：20 分钟，软能力和岗位匹配</h3><p>准备这些问题：</p>
+<ol>
+<li>遇到美术说“效果不对”，你怎么排查？</li>
+<li>遇到移动端发热 &#x2F; 掉帧，你怎么定位？</li>
+<li>如何制定 Shader 和材质规范？</li>
+<li>如何推动美术使用工具，而不是只靠口头约定？</li>
+<li>你如何和程序沟通管线改造的风险？</li>
+</ol>
+<h2 id="自我介绍技术版"><a href="#自我介绍技术版" class="headerlink" title="自我介绍技术版"></a>自我介绍技术版</h2><p>可以按这个结构说：</p>
+<pre><code>我主要偏 Unity 渲染和客户端 TA 方向，平时关注 URP / SRP 管线、Shader 效果、屏幕空间算法和性能优化。做过 URP 延迟渲染 Feature，包括 GBuffer、HBAO、SSR、TAA、Contact Shadow 这类效果；也做过 GPU Driven 草地，用 Compute 做剔除，再用 DrawIndirect 绘制。底层方面我整理过 GPU 架构、TBDR、Shader 分支发散、half 精度和 RenderGraph 这些内容。我的优势是能把效果实现、性能分析和美术工作流规范结合起来，既能写 Shader，也能做工具和定位问题。
+</code></pre>
+<h2 id="项目案例模板"><a href="#项目案例模板" class="headerlink" title="项目案例模板"></a>项目案例模板</h2><p>每个项目都按这个顺序讲。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs text">背景：<br>    项目里遇到什么需求或问题。<br><br>方案：<br>    我选择了什么渲染路径、Shader 结构、Pass 组织或工具流程。<br><br>关键实现：<br>    数据从哪里来，经过哪些 Buffer / RT / Pass，最后怎么输出。<br><br>难点：<br>    兼容性、性能、画质、资源生命周期、调试成本。<br><br>优化：<br>    如何定位瓶颈，做了哪些取舍。<br><br>结果：<br>    画质、性能、生产效率或维护成本有什么改善。<br></code></pre></td></tr></table></figure>
+
+<h2 id="可能被问的问题清单"><a href="#可能被问的问题清单" class="headerlink" title="可能被问的问题清单"></a>可能被问的问题清单</h2><h3 id="管线类"><a href="#管线类" class="headerlink" title="管线类"></a>管线类</h3><ol>
+<li>URP 的 ScriptableRenderer 和 ScriptableRenderPass 分别负责什么？</li>
+<li>RenderFeature 如何插入自定义 Pass？</li>
+<li>RenderGraph 和传统 CommandBuffer 写法有什么区别？</li>
+<li>Forward 和 Deferred 怎么选？</li>
+<li>透明物体为什么一般不能直接走延迟光照？</li>
+<li>CopyColor &#x2F; CopyDepth 为什么可能影响性能？</li>
+</ol>
+<h3 id="Shader-类"><a href="#Shader-类" class="headerlink" title="Shader 类"></a>Shader 类</h3><ol>
+<li>HLSL 中 <code>half</code> 一定比 <code>float</code> 快吗？</li>
+<li>Shader 分支一定慢吗？</li>
+<li><code>discard</code> 会影响什么优化？</li>
+<li>法线贴图为什么不能用 sRGB？</li>
+<li>TBN 里的 tangent.w 有什么用？</li>
+<li>非均匀缩放下法线为什么用逆转置矩阵？</li>
+</ol>
+<h3 id="PBR-类"><a href="#PBR-类" class="headerlink" title="PBR 类"></a>PBR 类</h3><ol>
+<li>Diffuse 为什么除以 π？</li>
+<li>GGX 的 D、F、G 分别是什么？</li>
+<li>Metallic 工作流里 BaseColor 表示什么？</li>
+<li>Roughness 和 Smoothness 有什么关系？</li>
+<li>AO 应该影响直接光还是间接光？</li>
+</ol>
+<h3 id="性能类"><a href="#性能类" class="headerlink" title="性能类"></a>性能类</h3><ol>
+<li>怎么判断一个 Shader 是 ALU 瓶颈还是带宽瓶颈？</li>
+<li>Overdraw 怎么看，怎么优化？</li>
+<li>Pre-Z 什么时候有收益，什么时候亏？</li>
+<li>移动端 TBDR 为什么怕 Tile Flush？</li>
+<li>Shader Variant 爆炸怎么处理？</li>
+<li>DrawCall、Batch、Instancing、SRP Batcher 的差异是什么？</li>
+</ol>
+<h3 id="项目类"><a href="#项目类" class="headerlink" title="项目类"></a>项目类</h3><ol>
+<li>GPU Driven 草地的完整流程？</li>
+<li>DrawIndirect 的 Args Buffer 里有什么？</li>
+<li>TAA 的 Ghosting 怎么处理？</li>
+<li>SSR 的局限是什么？</li>
+<li>HBAO &#x2F; SSAO 的输入是什么？</li>
+<li>PCSS 和 PCF 的区别？</li>
+</ol>
+<h3 id="TA-协作类"><a href="#TA-协作类" class="headerlink" title="TA 协作类"></a>TA 协作类</h3><ol>
+<li>美术提交的材质太贵，你怎么处理？</li>
+<li>如何制定 Shader 规范？</li>
+<li>如何让美术知道某个效果为什么贵？</li>
+<li>如何做资源导入检查？</li>
+<li>项目中你怎么平衡画质和性能？</li>
+</ol>
+<h2 id="临场回答原则"><a href="#临场回答原则" class="headerlink" title="临场回答原则"></a>临场回答原则</h2><ol>
+<li>不确定版本细节时，说“具体实现和 Unity 版本有关”，再讲通用原理。</li>
+<li>不要只说结论，要说定位路径。</li>
+<li>遇到性能问题，先问瓶颈类型，再给优化方案。</li>
+<li>遇到美术问题，先复现和可视化，再谈规范和工具。</li>
+<li>不会 Houdini 深水区就承认边界，但把 Unity 接入和资源规范讲清楚。</li>
+<li>多把答案落回你的案例：URP Feature、GPU Driven 草、SRP 前向管线、性能优化。</li>
+</ol>
+<h2 id="最后一遍速记"><a href="#最后一遍速记" class="headerlink" title="最后一遍速记"></a>最后一遍速记</h2><pre><code>URP：Pipeline 驱动 Camera，Renderer 管 Pass，Feature 加 Pass，Pass 做渲染。
+
+RenderGraph：显式声明资源依赖，换来 Pass 裁剪、RT 复用、同步和 Native Pass 合并机会。
+
+DrawIndirect：GPU Buffer 提供绘制参数，适合 GPU Culling 后直接绘制可见实例。
+
+PBR：能量守恒 + 微表面 + Fresnel；Diffuse 除 π，Specular 的归一化在 DFG 和分母里。
+
+TAA：Jitter + MotionVector Reprojection + History Clamp + 动态权重。
+
+TBDR：Tile 内片上渲染省带宽，怕 Tile Flush，多 Pass 和中间 RT 要谨慎。
+
+Shader 分支：关键不是有没有 if，而是同一 Wave 内路径是否一致、是否真的跳过重工作。
+
+half：看平台 FP16 支持、寄存器压力和数值范围，不是写了就一定快。
+
+TA：效果实现只是第一步，真正价值是规范、工具、定位流程和跨团队落地。
+</code></pre>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这次面试最适合你的打法是：用 Unity 渲染管线和 Shader 基础打底，用 URP 延迟 Feature、GPU Driven 草地、自定义 SRP &#x2F; RenderGraph 三个案例证明你能落地，再用 GPU 架构和性能分析说明你不是只会写效果。</p>
+<p>Houdini 可以作为协作项处理，重点强调你能把程序化资产接入 Unity 的材质、Shader、LOD、剔除、烘焙和性能规范。只要别把不会的部分说满，反而会显得稳。</p>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+          <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Base-GPU硬件架构基础</span>
+          </a>
+        
+        
+          <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Base-Shader分支与GPU线程发散</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>

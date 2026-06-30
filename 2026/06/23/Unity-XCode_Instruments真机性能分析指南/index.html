@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Unity-XCode_Instruments真机性能分析指南 | 锅巴的Blogs</title>
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="优化, Unity">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-06-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-06-30T07:41:59.173Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="优化">
+<meta property="article:tag" content="Unity">
+<meta name="twitter:card" content="summary">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 47 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2022</div>
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-%E5%81%9A%E6%B8%B8%E6%88%8F%E7%9A%84%E5%BC%80%E5%A7%8B/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-2018做游戏的开始</span>
+            </a>
+          
+            
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E6%B8%B8%E6%88%8F%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的游戏记录</span>
+            </a>
+          
+            
+            
+            <a href="/2018/02/10/Loy-%E9%94%85%E5%B7%B4%E7%9A%84%E7%BA%AA%E5%BD%95%E7%89%87%E8%AE%B0%E5%BD%95/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">锅巴的纪录片记录</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-06-22T16:00:00.000Z">2026 年 6 月 23 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/Unity/">Unity</a>
+            
+          </span>
+        
+      </div>
+      <h1 class="post__title">Unity-XCode_Instruments真机性能分析指南</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E4%BC%98%E5%8C%96/" class="tag">#优化</a>
+          
+            <a href="/tags/Unity/" class="tag">#Unity</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>应用能通过 Xcode 安装到真机之后，下一步就不是“<del>感觉卡不卡</del>”，而是用 Instruments 把 CPU、内存、GPU、线程、能耗这些问题拆开看。Instruments 的价值不在于给一个万能分数，而在于把某一段可复现操作拆成时间线：什么时候卡、哪个线程忙、内存有没有持续上涨、GPU 是不是被某个 pass 卡住、系统有没有因为温度或能耗把频率压下来。</p>
+<p>本文以 Unity 导出的 iOS 工程为背景，整理一套常用的 Instruments 使用流程，以及各项指标应该怎么看。</p>
+<span id="more"></span>
+
+<h2 id="开始前的构建设置"><a href="#开始前的构建设置" class="headerlink" title="开始前的构建设置"></a>开始前的构建设置</h2><p>分析性能之前，先保证被测包本身接近真实运行环境。开发包、真机调试包、Release 包的行为可能差很多，尤其是日志、断言、脚本调试、Metal 校验和符号设置。</p>
+<h3 id="Unity-侧"><a href="#Unity-侧" class="headerlink" title="Unity 侧"></a>Unity 侧</h3><ol>
+<li><p>关闭不必要的调试选项</p>
+<p>如果要看接近线上性能的数据，Unity 的 <code>Development Build</code>、<code>Script Debugging</code>、<code>Autoconnect Profiler</code> 通常都应该关闭。它们会带来额外开销，也可能改变线程调度和内存分布。</p>
+</li>
+<li><p>保留必要的符号信息</p>
+<p>如果完全没有符号，Time Profiler 里会看到大量地址或不容易理解的函数名。iOS IL2CPP 工程一般需要保留 dSYM，并确认 Xcode Archive 或构建产物里能找到对应符号。符号越完整，越容易从 “某个 native 地址很耗时” 追到 Unity、插件或业务代码。</p>
+</li>
+<li><p>控制变量</p>
+<p>测试时尽量固定场景、账号、画质、帧率上限、设备温度和网络环境。Instruments 采样本身也是一次实验，实验条件不稳定，结论就会飘。</p>
+</li>
+</ol>
+<h3 id="Xcode-侧"><a href="#Xcode-侧" class="headerlink" title="Xcode 侧"></a>Xcode 侧</h3><p>在 Xcode 中连接真机，选择目标设备，然后使用：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">Product -&gt; Profile<br></code></pre></td></tr></table></figure>
+
+<p>Xcode 会重新构建并启动 Instruments。也可以先在手机上安装应用，再打开 Instruments 选择设备和进程进行 Attach。前者适合从启动开始采集，后者适合分析已经进入某个场景后的运行状态。</p>
+<p>常见建议：</p>
+<ol>
+<li>性能对比用 Release 或接近 Release 的配置。</li>
+<li>GPU 分析时关闭 Metal API Validation、Shader Validation 等调试开关，除非正在查 API 使用错误。</li>
+<li>每次只分析一个明确问题，比如“进入战斗后 10 秒内卡顿”或“打开背包后内存不下降”。</li>
+</ol>
+<h2 id="Instruments-的基本读法"><a href="#Instruments-的基本读法" class="headerlink" title="Instruments 的基本读法"></a>Instruments 的基本读法</h2><p>Instruments 的界面可以理解为三层：</p>
+<ol>
+<li><p>时间线</p>
+<p>上面横向的轨道显示 CPU、内存、线程、GPU、能耗等指标随时间变化。先在这里找峰值、抖动、持续上涨和明显异常。</p>
+</li>
+<li><p>详情表</p>
+<p>选中某一段时间后，下面会显示调用栈、分配记录、线程状态、系统事件等。真正定位问题主要看这里。</p>
+</li>
+<li><p>调用栈</p>
+<p>调用栈回答“是谁导致的”。CPU 看谁占用采样时间，内存看谁分配，系统调用看谁阻塞，GPU 看哪个命令或 pass 把时间吃掉。</p>
+</li>
+</ol>
+<p>一个比较稳的流程是：</p>
+<ol>
+<li>先录 20 到 60 秒，覆盖一次完整操作。</li>
+<li>在时间线上框选问题发生的区间，而不是看整段平均值。</li>
+<li>从主线程、渲染线程、内存曲线、GPU 时间线分别确认瓶颈方向。</li>
+<li>修改后用同样流程再录一次，比较同一段操作，而不是只看单次结果。</li>
+</ol>
+<h2 id="Time-Profiler：看-CPU-时间花在哪里"><a href="#Time-Profiler：看-CPU-时间花在哪里" class="headerlink" title="Time Profiler：看 CPU 时间花在哪里"></a>Time Profiler：看 CPU 时间花在哪里</h2><p>Time Profiler 是最常用的 CPU 采样工具。它不是记录每一次函数调用，而是周期性暂停线程，记录当前调用栈。某个函数在采样里出现得越多，说明 CPU 时间越可能花在它或它的子调用上。</p>
+<h3 id="重点指标"><a href="#重点指标" class="headerlink" title="重点指标"></a>重点指标</h3><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>含义</th>
+<th>怎么看</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Weight &#x2F; Running Time</td>
+<td>被采样命中的时间权重</td>
+<td>越高说明越可能是 CPU 热点</td>
+</tr>
+<tr>
+<td>Self Weight</td>
+<td>函数自身消耗，不含子调用</td>
+<td>高 Self 通常说明函数内部逻辑重</td>
+</tr>
+<tr>
+<td>Heaviest Stack Trace</td>
+<td>最重调用路径</td>
+<td>用来找到从入口到热点的完整链路</td>
+</tr>
+<tr>
+<td>Thread</td>
+<td>线程</td>
+<td>区分主线程、渲染线程、Job 线程、系统线程</td>
+</tr>
+</tbody></table>
+<p>常用 Call Tree 选项：</p>
+<ol>
+<li><p><code>Separate by Thread</code></p>
+<p>按线程拆开看。游戏里最重要的是主线程和渲染相关线程，后台线程很忙不一定直接导致掉帧，但主线程被阻塞通常会立刻表现为卡顿。</p>
+</li>
+<li><p><code>Invert Call Tree</code></p>
+<p>把最底层的热点函数翻上来，适合找真正烧 CPU 的函数。比如排序、路径搜索、序列化、字符串处理、资源加载等。</p>
+</li>
+<li><p><code>Hide System Libraries</code></p>
+<p>隐藏系统库后更容易看到自己的代码、Unity 引擎层和第三方 SDK。但不要永远打开这个选项，有些问题本来就发生在系统调用里，例如文件 IO、锁等待、网络请求、图像解码。</p>
+</li>
+<li><p><code>Flatten Recursion</code></p>
+<p>如果有递归或重复包装调用，可以减少调用栈噪音。</p>
+</li>
+</ol>
+<h3 id="Unity-项目里常见现象"><a href="#Unity-项目里常见现象" class="headerlink" title="Unity 项目里常见现象"></a>Unity 项目里常见现象</h3><ol>
+<li><p>主线程出现大量脚本逻辑</p>
+<p>如果热点集中在业务逻辑、UI 刷新、列表排序、Lua&#x2F;ILRuntime&#x2F;热更层调用、JSON 解析等，通常是 CPU 逻辑瓶颈。需要继续回到 Unity Profiler 或代码埋点里拆更细。</p>
+</li>
+<li><p>主线程卡在资源加载</p>
+<p>如果看到文件读取、解压、纹理创建、AssetBundle 加载、图像解码等路径，说明卡顿可能来自同步加载。解决方向通常是异步加载、预加载、分帧初始化、减少运行时解压和避免主线程创建过多资源。</p>
+</li>
+<li><p>渲染线程很重</p>
+<p>如果渲染线程长期高占用，可能是 Draw Call 提交、状态切换、Command Buffer 构建、渲染资源更新过重。此时 CPU 端的渲染提交可能先于 GPU 成为瓶颈。</p>
+</li>
+<li><p>Worker 线程很忙但帧率正常</p>
+<p>Job 或后台线程忙不一定是坏事。关键看它有没有反过来让主线程等待。如果主线程出现锁等待、信号量等待或 <code>WaitForJobGroup</code> 之类的等待路径，就要查任务拆分和同步点。</p>
+</li>
+</ol>
+<h2 id="Allocations：看内存分配和上涨"><a href="#Allocations：看内存分配和上涨" class="headerlink" title="Allocations：看内存分配和上涨"></a>Allocations：看内存分配和上涨</h2><p>Allocations 用来观察对象和内存块的分配情况。它最适合回答两个问题：运行过程中是不是在频繁分配，以及某个操作之后内存为什么没有降下来。</p>
+<h3 id="重点指标-1"><a href="#重点指标-1" class="headerlink" title="重点指标"></a>重点指标</h3><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>含义</th>
+<th>怎么看</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Persistent Bytes</td>
+<td>当前仍存活的分配量</td>
+<td>持续上涨要重点看</td>
+</tr>
+<tr>
+<td>Transient Bytes</td>
+<td>临时分配量</td>
+<td>高峰值会带来 GC 或内存压力</td>
+</tr>
+<tr>
+<td># Persistent</td>
+<td>当前仍存活对象数量</td>
+<td>数量上涨可能说明对象泄漏或缓存膨胀</td>
+</tr>
+<tr>
+<td>Total Bytes</td>
+<td>累计分配量</td>
+<td>用来看某段操作制造了多少分配</td>
+</tr>
+<tr>
+<td>VM &#x2F; Dirty Memory</td>
+<td>进程实际占用的虚拟内存页</td>
+<td>更接近系统压力</td>
+</tr>
+</tbody></table>
+<p>看 Allocations 时不要只盯总内存。更重要的是曲线形态：</p>
+<ol>
+<li><p>阶梯式上涨后不下降</p>
+<p>常见于资源缓存、静态引用、事件未注销、场景卸载不完整、纹理或 Mesh 没释放。需要在操作前后分别 Mark Generation，比较新增且仍然存活的分配。</p>
+</li>
+<li><p>高频锯齿</p>
+<p>说明运行中有大量临时分配。Unity C# 层可能最终表现为 GC 压力，Native 层也可能造成 allocator 压力。UI 刷新、字符串拼接、LINQ、临时 List、频繁装箱都值得查。</p>
+</li>
+<li><p>总内存不高但瞬时峰值高</p>
+<p>iOS 上内存峰值也很危险。加载大图、解压 AssetBundle、同时保留压缩数据和解压后资源，可能短时间冲高导致系统杀进程。</p>
+</li>
+</ol>
+<h3 id="Mark-Generation-的用法"><a href="#Mark-Generation-的用法" class="headerlink" title="Mark Generation 的用法"></a>Mark Generation 的用法</h3><p>Allocations 里可以使用 Mark Generation 做阶段对比。比如：</p>
+<ol>
+<li>进入主城稳定后 Mark 一次。</li>
+<li>打开背包、滑动列表、关闭背包。</li>
+<li>再 Mark 一次。</li>
+<li>查看两次 Mark 之间新增且仍存活的对象。</li>
+</ol>
+<p>这比看整段运行的总量更有效，因为游戏运行过程中本来就有大量基础分配。我们关心的是“这次操作额外留下了什么”。</p>
+<h2 id="Leaks：看真正的泄漏"><a href="#Leaks：看真正的泄漏" class="headerlink" title="Leaks：看真正的泄漏"></a>Leaks：看真正的泄漏</h2><p>Leaks 会尝试扫描不可达但仍未释放的内存。它适合抓 native 泄漏，比如插件、C&#x2F;C++ 代码、系统对象使用不当等。</p>
+<p>需要注意，Leaks 没报泄漏不代表没有内存问题。很多游戏内存问题不是传统意义的泄漏，而是“仍然被引用的无用对象”。比如一个已经关闭的界面还被全局事件、单例、闭包、缓存字典引用着，在 Leaks 看来它仍然可达，不算泄漏，但对游戏来说它就是该释放而没有释放的资源。</p>
+<p>所以内存问题建议组合看：</p>
+<ol>
+<li>Allocations 看增长趋势和存活对象。</li>
+<li>Leaks 看 native 不可达泄漏。</li>
+<li>Unity Memory Profiler 看 Unity 对象、纹理、Mesh、AudioClip、Managed 对象引用链。</li>
+</ol>
+<h2 id="VM-Tracker：看系统层内存压力"><a href="#VM-Tracker：看系统层内存压力" class="headerlink" title="VM Tracker：看系统层内存压力"></a>VM Tracker：看系统层内存压力</h2><p>VM Tracker 关注虚拟内存区域，包括 dirty memory、resident memory、mapped file、IOKit、Metal 资源等。它比普通对象分配更接近系统视角。</p>
+<p>常见关注点：</p>
+<ol>
+<li><p>Dirty Size</p>
+<p>脏页是不能简单丢弃的内存，对系统压力更大。脏页持续上涨，比 mapped file 上涨更危险。</p>
+</li>
+<li><p>Resident Size</p>
+<p>实际驻留在物理内存中的部分。iOS 内存紧张时，系统更关心进程的真实驻留和脏页压力。</p>
+</li>
+<li><p>IOKit &#x2F; Metal 相关区域</p>
+<p>如果纹理、RenderTexture、Buffer、Metal heap 增长明显，问题可能在 GPU 资源生命周期，而不是普通 C# 对象。</p>
+</li>
+</ol>
+<h2 id="Core-Animation：看帧率、卡顿和显示链路"><a href="#Core-Animation：看帧率、卡顿和显示链路" class="headerlink" title="Core Animation：看帧率、卡顿和显示链路"></a>Core Animation：看帧率、卡顿和显示链路</h2><p>Core Animation 工具可以看帧率、帧时间、提交和显示相关的情况。对 Unity 游戏来说，它不一定能解释所有渲染细节，但很适合确认用户可见的卡顿区间。</p>
+<p>关键看：</p>
+<ol>
+<li><p>FPS 是否稳定</p>
+<p>60 FPS 对应每帧约 16.67 ms，30 FPS 对应每帧约 33.33 ms。如果目标是 60 FPS，只要某些帧超过 16.67 ms，就可能出现掉帧。</p>
+</li>
+<li><p>Hitches</p>
+<p>偶发长帧比平均帧率更影响手感。比如平均 58 FPS 但每 5 秒卡 200 ms，体验会明显差。</p>
+</li>
+<li><p>CPU 和 GPU 的对应关系</p>
+<p>同一段时间里，如果 CPU 线程先出现尖峰，然后 FPS 掉，通常先查主线程或渲染提交。如果 GPU 时间线明显拉长，则要继续用 Metal System Trace 分析。</p>
+</li>
+</ol>
+<h2 id="Metal-System-Trace：看-GPU-和渲染提交"><a href="#Metal-System-Trace：看-GPU-和渲染提交" class="headerlink" title="Metal System Trace：看 GPU 和渲染提交"></a>Metal System Trace：看 GPU 和渲染提交</h2><p>Metal System Trace 用来分析 Metal 命令提交、GPU 执行、Command Buffer、Encoder、Drawable 等。对于 Unity iOS 渲染问题，它比普通 CPU 采样更接近 GPU 真相。</p>
+<h3 id="重点看什么"><a href="#重点看什么" class="headerlink" title="重点看什么"></a>重点看什么</h3><ol>
+<li><p>CPU 是否在等 GPU</p>
+<p>如果 CPU 提交很快，但后续等待 drawable、等待 command buffer 完成，可能说明 GPU 跟不上，或者帧队列被塞满。</p>
+</li>
+<li><p>GPU 是否长期满负载</p>
+<p>GPU 时间持续超过目标帧预算，说明需要从渲染成本入手，例如分辨率、后处理、阴影、透明叠加、粒子、复杂 shader、过多 render pass。</p>
+</li>
+<li><p>Command Buffer 是否过多或过碎</p>
+<p>过多 command buffer、encoder 或频繁状态切换会增加 CPU&#x2F;GPU 调度成本。移动端尤其要注意 render pass 切换、临时 RT、后处理链路和 UI 叠加。</p>
+</li>
+<li><p>Drawable 等待</p>
+<p>如果看到等待下一个 drawable，可能是显示链路、帧队列或 GPU 处理延迟造成的表现。它不一定是根因，需要结合前面的 GPU 执行时间看。</p>
+</li>
+</ol>
+<h3 id="与-Xcode-GPU-Frame-Capture-的区别"><a href="#与-Xcode-GPU-Frame-Capture-的区别" class="headerlink" title="与 Xcode GPU Frame Capture 的区别"></a>与 Xcode GPU Frame Capture 的区别</h3><p>Metal System Trace 看的是一段时间的运行轨迹，适合定位“哪一段时间 GPU 忙、CPU 和 GPU 如何互相等待”。Xcode GPU Frame Capture 更像抓一帧显微镜，适合看某一帧里有哪些 render pass、draw call、纹理、buffer、shader 和 GPU counter。</p>
+<p>实际优化时通常是：</p>
+<ol>
+<li>用 Core Animation 或 Metal System Trace 找到掉帧区间。</li>
+<li>用 GPU Frame Capture 抓问题帧。</li>
+<li>分析 draw call、overdraw、带宽、shader、RT 和 pass 结构。</li>
+</ol>
+<h2 id="System-Trace：看线程调度和等待"><a href="#System-Trace：看线程调度和等待" class="headerlink" title="System Trace：看线程调度和等待"></a>System Trace：看线程调度和等待</h2><p>System Trace 更偏系统层，会记录线程状态、调度、系统调用、中断等。它适合分析 Time Profiler 里不容易解释的问题，比如 CPU 看起来不高但帧还是卡。</p>
+<p>重点看：</p>
+<ol>
+<li><p>主线程是不是 Running</p>
+<p>主线程不在 Running，而是在 Waiting、Blocked、Sleeping，就不是“代码算太慢”，而是被锁、IO、信号量、系统调用或其他线程卡住。</p>
+</li>
+<li><p>有没有锁竞争</p>
+<p>多线程优化后常见问题是锁竞争和同步点太多。Job 很多不等于更快，如果主线程最后集中等待，帧时间还是会爆。</p>
+</li>
+<li><p>线程优先级和调度</p>
+<p>后台线程过多可能抢占 CPU，也可能让系统调度变复杂。移动端 CPU 核心有性能核和能效核，不同负载、温度、电量下调度结果会变化。</p>
+</li>
+</ol>
+<h2 id="Energy-Log：看功耗和降频风险"><a href="#Energy-Log：看功耗和降频风险" class="headerlink" title="Energy Log：看功耗和降频风险"></a>Energy Log：看功耗和降频风险</h2><p>移动端性能不是只看某一帧跑多快，还要看能不能持续跑。Energy Log 用来观察 CPU、GPU、网络、定位、显示等能耗压力。</p>
+<p>常见判断：</p>
+<ol>
+<li><p>短时间性能很好，但几分钟后明显变慢</p>
+<p>可能是设备升温后降频。此时要看持续负载，而不是只看冷机启动后的前 30 秒。</p>
+</li>
+<li><p>CPU&#x2F;GPU 同时长期高负载</p>
+<p>游戏可能短时间满帧，但耗电和发热会很差。需要考虑动态分辨率、画质档位、帧率上限、后台任务频率。</p>
+</li>
+<li><p>网络、定位、音频等非渲染系统持续活跃</p>
+<p>如果游戏逻辑不需要，却看到某些系统能力长时间高频使用，可能是 SDK、轮询或后台服务造成额外功耗。</p>
+</li>
+</ol>
+<h2 id="Network-和-File-Activity：看-IO-问题"><a href="#Network-和-File-Activity：看-IO-问题" class="headerlink" title="Network 和 File Activity：看 IO 问题"></a>Network 和 File Activity：看 IO 问题</h2><p>游戏卡顿不总是 CPU 或 GPU，IO 也很常见。</p>
+<p>Network 可以看请求时序、连接、传输量。适合排查登录、资源热更、下载、接口轮询导致的等待。File Activity 可以看文件读写、路径、调用栈，适合排查同步读文件、频繁写日志、资源解压、缓存扫描。</p>
+<p>如果主线程卡在文件或网络相关系统调用上，就要优先处理：</p>
+<ol>
+<li>文件读取是否同步发生在主线程。</li>
+<li>解压和反序列化是否集中在一帧。</li>
+<li>日志是否在真机上大量写入。</li>
+<li>网络回调里是否直接做了重计算或大量 UI 刷新。</li>
+</ol>
+<h2 id="OS-Signpost：给时间线加自己的标记"><a href="#OS-Signpost：给时间线加自己的标记" class="headerlink" title="OS Signpost：给时间线加自己的标记"></a>OS Signpost：给时间线加自己的标记</h2><p>Instruments 最大的问题是它知道系统发生了什么，但不一定知道游戏业务正在做什么。OS Signpost 可以在时间线上加入自定义标记，例如“开始加载战斗场景”“打开背包”“创建 200 个格子”“进入 Boss 技能阶段”。</p>
+<p>Unity 项目里可以通过 native plugin 封装 <code>os_signpost</code>，或者在关键 native 代码、SDK、引擎扩展里加标记。这样分析 Instruments 时，就不用靠肉眼猜某个峰值对应哪次操作。</p>
+<p>更轻量的做法是在测试脚本里固定操作节奏，并手动记录时间点。例如录制开始后第 5 秒点击登录，第 12 秒进入场景，第 30 秒打开背包。虽然不如 signpost 精确，但也比完全没有阶段信息好。</p>
+<h2 id="常见问题判断路径"><a href="#常见问题判断路径" class="headerlink" title="常见问题判断路径"></a>常见问题判断路径</h2><h3 id="帧率低"><a href="#帧率低" class="headerlink" title="帧率低"></a>帧率低</h3><ol>
+<li>先看 Core Animation 确认掉帧区间。</li>
+<li>看 Time Profiler：主线程或渲染线程是否超过帧预算。</li>
+<li>看 Metal System Trace：GPU 是否持续忙。</li>
+<li>如果 CPU 忙，继续拆调用栈；如果 GPU 忙，抓 GPU Frame Capture 分析具体 pass。</li>
+</ol>
+<h3 id="偶发卡顿"><a href="#偶发卡顿" class="headerlink" title="偶发卡顿"></a>偶发卡顿</h3><ol>
+<li>在时间线上框选长帧附近 1 到 2 秒。</li>
+<li>看主线程有没有同步加载、锁等待、GC、资源创建。</li>
+<li>看 File Activity 是否有同步 IO。</li>
+<li>看 Allocations 是否有瞬时大量分配。</li>
+</ol>
+<h3 id="内存越来越高"><a href="#内存越来越高" class="headerlink" title="内存越来越高"></a>内存越来越高</h3><ol>
+<li>用 Allocations 观察 Persistent Bytes 曲线。</li>
+<li>用 Mark Generation 比较操作前后新增存活分配。</li>
+<li>用 VM Tracker 看是否是 Metal&#x2F;IOKit&#x2F;Dirty Memory 上涨。</li>
+<li>回到 Unity Memory Profiler 查资源和 Managed 引用链。</li>
+</ol>
+<h3 id="真机跑一会儿才变卡"><a href="#真机跑一会儿才变卡" class="headerlink" title="真机跑一会儿才变卡"></a>真机跑一会儿才变卡</h3><ol>
+<li>用 Energy Log 看持续功耗和热压力。</li>
+<li>用 Time Profiler 对比冷机前 1 分钟和运行 10 分钟后的 CPU 分布。</li>
+<li>用 Metal System Trace 看 GPU 时间是否变长。</li>
+<li>如果频率下降，需要降低持续负载，而不是只优化启动阶段尖峰。</li>
+</ol>
+<h2 id="读数据时的几个误区"><a href="#读数据时的几个误区" class="headerlink" title="读数据时的几个误区"></a>读数据时的几个误区</h2><ol>
+<li><p>平均值不等于体验</p>
+<p>游戏体验更怕长帧和抖动。平均 16 ms 但每隔几秒有一帧 150 ms，玩家感受到的是卡。</p>
+</li>
+<li><p>CPU 占用低不代表没问题</p>
+<p>主线程可能在等待锁、IO、GPU 或系统事件。等待状态下 CPU 不高，但帧照样出不来。</p>
+</li>
+<li><p>内存没泄漏不代表没问题</p>
+<p>很多对象仍然被引用，所以 Leaks 不会报。但从业务生命周期看，它们已经不该存在。</p>
+</li>
+<li><p>一次采样不能定案</p>
+<p>真机性能受温度、电量、后台状态、网络和系统调度影响。关键结论至少重复录几次，并和修改后的版本做同条件对比。</p>
+</li>
+<li><p>Instruments 和 Unity Profiler 是互补关系</p>
+<p>Unity Profiler 更懂引擎对象和脚本采样，Instruments 更懂系统、线程、native、GPU 和 iOS 运行环境。两者结合，定位速度会快很多。</p>
+</li>
+</ol>
+<h2 id="推荐的一套日常流程"><a href="#推荐的一套日常流程" class="headerlink" title="推荐的一套日常流程"></a>推荐的一套日常流程</h2><ol>
+<li>先用 Unity Profiler 找大方向：脚本、渲染、GC、资源加载。</li>
+<li>真机上用 Instruments 的 Time Profiler 录一次完整操作，确认 CPU 调用栈。</li>
+<li>同时观察 Allocations 和 VM Tracker，判断有没有内存上涨或峰值。</li>
+<li>如果是渲染问题，用 Core Animation 找长帧，用 Metal System Trace 看 GPU 和提交关系。</li>
+<li>如果是偶发卡顿，加 File Activity、System Trace 或 OS Signpost。</li>
+<li>修改后用同一设备、同一场景、同一操作路径复测。</li>
+</ol>
+<p>比较结果时建议记录一张表：</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>修改前</th>
+<th>修改后</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>平均帧时间</td>
+<td></td>
+<td></td>
+<td>只作参考</td>
+</tr>
+<tr>
+<td>最长帧</td>
+<td></td>
+<td></td>
+<td>重点看卡顿</td>
+</tr>
+<tr>
+<td>主线程峰值</td>
+<td></td>
+<td></td>
+<td>Time Profiler</td>
+</tr>
+<tr>
+<td>GPU 峰值</td>
+<td></td>
+<td></td>
+<td>Metal&#x2F;System Trace</td>
+</tr>
+<tr>
+<td>Persistent Memory</td>
+<td></td>
+<td></td>
+<td>操作后是否回落</td>
+</tr>
+<tr>
+<td>峰值内存</td>
+<td></td>
+<td></td>
+<td>iOS 上很关键</td>
+</tr>
+<tr>
+<td>设备温度状态</td>
+<td></td>
+<td></td>
+<td>持续性能参考</td>
+</tr>
+</tbody></table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Instruments 的核心用法不是打开一个模板然后看红色警告，而是围绕一个可复现问题建立证据链。卡顿先定位时间段，再判断 CPU、GPU、IO、线程等待还是内存峰值；内存问题先看曲线形态，再区分真实泄漏、缓存增长、Unity 资源未释放和 Metal 资源膨胀；持续性能问题则要把能耗和温度也纳入判断。</p>
+<p>对 Unity iOS 项目来说，推荐把 Instruments 当成 Unity Profiler 的下半场：Unity Profiler 负责告诉我们引擎层大概哪里重，Instruments 负责告诉我们在真机系统里到底发生了什么。只要每次采样都固定场景、框选问题区间、保留符号并做前后对比，性能优化就会从“凭感觉调参数”变成可验证的工程过程。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://help.apple.com/instruments/mac/current/">Apple Instruments Help</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/xcode">Apple Developer Documentation - Xcode</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.apple.com/documentation/metal">Apple Developer Documentation - Metal</a></li>
+</ul>
+
+    </div>
+
+    <footer class="post__footer">
+      <div class="post__nav">
+        
+          <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Unity-RenderGraph机制分析</span>
+          </a>
+        
+        
+          <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">AI-从大模型对话、生图到Agent</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+</body>
+</html>

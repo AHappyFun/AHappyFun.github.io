@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980" role="img" aria-labelledby="title desc">
+  <title id="title">Unity URP code architecture class diagram</title>
+  <desc id="desc">A clean class diagram showing RenderPipeline, UniversalRenderPipeline, ScriptableRenderer, UniversalRenderer, ScriptableRenderFeature, ScriptableRenderPass and built-in render passes.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#344054"/>
+    </marker>
+    <marker id="inherit" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,7 L12,2 L12,12 Z" fill="#fff" stroke="#344054" stroke-width="1.5"/>
+    </marker>
+    <style>
+      .bg { fill: #f7f9fc; }
+      .box { fill: #fff; stroke: #1d2939; stroke-width: 2; rx: 8; }
+      .box-blue { fill: #eef6ff; stroke: #175cd3; }
+      .box-green { fill: #ecfdf3; stroke: #067647; }
+      .box-amber { fill: #fffaeb; stroke: #b54708; }
+      .box-purple { fill: #f4f3ff; stroke: #5925dc; }
+      .head { fill: #1d2939; }
+      .head-blue { fill: #175cd3; }
+      .head-green { fill: #067647; }
+      .head-amber { fill: #b54708; }
+      .head-purple { fill: #5925dc; }
+      .title { fill: #fff; font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .text { fill: #344054; font: 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .small { fill: #475467; font: 17px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .mono { fill: #344054; font: 17px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .label { fill: #344054; font: 700 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .line { stroke: #344054; stroke-width: 2.4; fill: none; marker-end: url(#arrow); }
+      .inherit-line { stroke: #344054; stroke-width: 2.4; stroke-dasharray: 8 6; fill: none; marker-end: url(#inherit); }
+      .soft-line { stroke: #98a2b3; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .note { fill: #f2f4f7; stroke: #98a2b3; stroke-width: 1.5; rx: 8; }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="980"/>
+  <text x="80" y="72" fill="#101828" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="38" font-weight="800">Unity URP 代码架构类图</text>
+  <text x="80" y="110" class="text">Pipeline 驱动 Camera，Renderer 组织 Pass。</text>
+
+  <!-- RenderPipeline -->
+  <g transform="translate(80 155)">
+    <rect class="box" width="420" height="130"/>
+    <rect class="head" width="420" height="42" rx="8"/>
+    <path d="M0,34 H420 V42 H0 Z" class="head"/>
+    <text x="210" y="28" text-anchor="middle" class="title">RenderPipeline</text>
+    <text x="22" y="78" class="mono">+ Render(context, cameras)</text>
+    <text x="22" y="108" class="small">SRP 管线基类，定义渲染入口</text>
+  </g>
+
+  <!-- UniversalRenderPipeline -->
+  <g transform="translate(80 365)">
+    <rect class="box box-blue" width="420" height="210"/>
+    <rect class="head-blue" width="420" height="42" rx="8"/>
+    <path d="M0,34 H420 V42 H0 Z" class="head-blue"/>
+    <text x="210" y="28" text-anchor="middle" class="title">UniversalRenderPipeline</text>
+    <text x="22" y="78" class="mono">+ Render(context, cameras)</text>
+    <text x="22" y="108" class="mono">+ RenderSingleCamera(...)</text>
+    <text x="22" y="138" class="mono">+ InitializeCameraData(...)</text>
+    <text x="22" y="174" class="small">Asset 配置管线，Camera 逐个提交给 Renderer</text>
+  </g>
+
+  <!-- Asset -->
+  <g transform="translate(80 690)">
+    <rect class="box box-green" width="420" height="170"/>
+    <rect class="head-green" width="420" height="42" rx="8"/>
+    <path d="M0,34 H420 V42 H0 Z" class="head-green"/>
+    <text x="210" y="28" text-anchor="middle" class="title">UniversalRenderPipelineAsset</text>
+    <text x="22" y="78" class="small">ScriptableObject 配置资源</text>
+    <text x="22" y="110" class="mono">General / Quality / Lighting</text>
+    <text x="22" y="140" class="mono">Shadows / PostProcess / RendererList</text>
+  </g>
+
+  <!-- Core data -->
+  <g transform="translate(565 690)">
+    <rect class="box box-green" width="430" height="210"/>
+    <rect class="head-green" width="430" height="42" rx="8"/>
+    <path d="M0,34 H430 V42 H0 Z" class="head-green"/>
+    <text x="215" y="28" text-anchor="middle" class="title">UniversalRenderPipelineCore</text>
+    <text x="22" y="78" class="mono">RenderingData</text>
+    <text x="22" y="108" class="mono">CameraData / LightData</text>
+    <text x="22" y="138" class="mono">ShadowData / PostProcessingData</text>
+    <text x="22" y="168" class="mono">ShaderPropertyId</text>
+    <text x="22" y="198" class="mono">ShaderKeywordStrings</text>
+  </g>
+
+  <!-- UniversalRenderer -->
+  <g transform="translate(575 330)">
+    <rect class="box box-purple" width="455" height="240"/>
+    <rect class="head-purple" width="455" height="42" rx="8"/>
+    <path d="M0,34 H455 V42 H0 Z" class="head-purple"/>
+    <text x="227.5" y="28" text-anchor="middle" class="title">UniversalRenderer</text>
+    <text x="22" y="78" class="mono">: ScriptableRenderer</text>
+    <text x="22" y="110" class="small">URP 默认 Renderer：Forward / Deferred</text>
+    <text x="22" y="144" class="mono">+ Setup(context, renderingData)</text>
+    <text x="22" y="174" class="mono">+ EnqueuePass(renderPass)</text>
+    <text x="22" y="204" class="small">组合内置 Pass，接收 Feature 注入</text>
+  </g>
+
+  <!-- ScriptableRenderer -->
+  <g transform="translate(1110 155)">
+    <rect class="box box-purple" width="410" height="230"/>
+    <rect class="head-purple" width="410" height="42" rx="8"/>
+    <path d="M0,34 H410 V42 H0 Z" class="head-purple"/>
+    <text x="205" y="28" text-anchor="middle" class="title">ScriptableRenderer</text>
+    <text x="22" y="78" class="mono">+ Setup(...)</text>
+    <text x="22" y="108" class="mono">+ Execute(...)</text>
+    <text x="22" y="138" class="mono">+ SetCameraMatrices(...)</text>
+    <text x="22" y="168" class="mono">+ SetCameraShaderVars(...)</text>
+    <text x="22" y="200" class="small">维护 Feature 列表与 Pass 队列</text>
+  </g>
+
+  <!-- RenderFeature -->
+  <g transform="translate(1110 490)">
+    <rect class="box box-amber" width="410" height="205"/>
+    <rect class="head-amber" width="410" height="42" rx="8"/>
+    <path d="M0,34 H410 V42 H0 Z" class="head-amber"/>
+    <text x="205" y="28" text-anchor="middle" class="title">ScriptableRenderFeature</text>
+    <text x="22" y="78" class="small">序列化自定义渲染功能设置</text>
+    <text x="22" y="112" class="mono">+ Create()</text>
+    <text x="22" y="142" class="mono">+ AddRenderPasses(...)</text>
+    <text x="22" y="172" class="mono">+ Dispose()</text>
+  </g>
+
+  <!-- RenderPass -->
+  <g transform="translate(1110 765)">
+    <rect class="box box-amber" width="410" height="150"/>
+    <rect class="head-amber" width="410" height="42" rx="8"/>
+    <path d="M0,34 H410 V42 H0 Z" class="head-amber"/>
+    <text x="205" y="28" text-anchor="middle" class="title">ScriptableRenderPass</text>
+    <text x="22" y="78" class="mono">renderPassEvent</text>
+    <text x="22" y="108" class="mono">Configure / Setup / Execute</text>
+  </g>
+
+  <!-- Built-in passes -->
+  <g transform="translate(575 70)">
+    <rect class="note" width="455" height="160"/>
+    <text x="22" y="40" class="label">内置 Pass 示例</text>
+    <text x="22" y="78" class="mono">MainLightShadowCasterPass</text>
+    <text x="22" y="108" class="mono">DepthOnly / DepthNormal</text>
+    <text x="22" y="138" class="mono">DrawObjects / CopyColor / FinalBlit</text>
+  </g>
+
+  <g transform="translate(575 585)">
+    <rect class="note" width="455" height="70"/>
+    <text x="22" y="44" class="small">PassQueue：按 Event 排序执行</text>
+  </g>
+
+  <!-- Arrows -->
+  <path class="inherit-line" d="M290 365 V295"/>
+  <text x="312" y="330" class="label">继承</text>
+
+  <path class="soft-line" d="M290 690 V586"/>
+  <text x="315" y="642" class="label">创建管线</text>
+
+  <path class="line" d="M500 470 H575"/>
+  <text x="517" y="450" class="label">调用</text>
+
+  <path class="inherit-line" d="M1030 450 H1110"/>
+  <text x="1046" y="430" class="label">继承</text>
+
+  <path class="line" d="M1320 385 V490"/>
+  <text x="1342" y="444" class="label">管理</text>
+
+  <path class="line" d="M1320 695 V765"/>
+  <text x="1342" y="738" class="label">创建 / 注入</text>
+
+  <path class="line" d="M1110 835 H1040 V620 H1030"/>
+  <text x="1048" y="740" class="label">Enqueue</text>
+
+  <path class="soft-line" d="M790 570 V585"/>
+  <path class="soft-line" d="M790 230 V330"/>
+  <text x="815" y="282" class="label">组合</text>
+
+  <path class="soft-line" d="M575 780 H510"/>
+  <text x="520" y="812" class="label">数据</text>
+</svg>
