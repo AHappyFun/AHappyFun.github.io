@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="360" viewBox="0 0 1100 360">
+  <defs>
+    <linearGradient id="bg5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#182740"/></linearGradient>
+    <marker id="arr5" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#7caef5"/></marker>
+  </defs>
+  <rect width="1100" height="360" rx="22" fill="url(#bg5)"/>
+  <text x="48" y="54" fill="#f3f7ff" font-size="24" font-weight="700" font-family="sans-serif">法线贴图的完整数据链路</text>
+  <text x="48" y="84" fill="#9eb0cb" font-size="15" font-family="sans-serif">从高模方向到最终参与 PBR 的世界空间着色法线</text>
+  <g font-family="sans-serif">
+    <g transform="translate(38 128)"><rect width="172" height="116" rx="14" fill="#263650" stroke="#47617f"/><circle cx="86" cy="39" r="21" fill="#7185a3"/><path d="M57 41Q86 6 115 41" fill="none" stroke="#a8b7cc" stroke-width="3"/><text x="49" y="82" fill="#f0f5ff" font-size="17" font-weight="700">高模表面</text><text x="35" y="104" fill="#9eb0cb" font-size="13">几何细节方向</text></g>
+    <g transform="translate(250 128)"><rect width="172" height="116" rx="14" fill="#263650" stroke="#47617f"/><rect x="55" y="17" width="62" height="48" rx="8" fill="#788cff"/><path d="M60 49Q80 19 111 45" fill="none" stroke="#b69bff" stroke-width="7" opacity=".7"/><text x="44" y="82" fill="#f0f5ff" font-size="17" font-weight="700">烘焙纹理</text><text x="27" y="104" fill="#9eb0cb" font-size="13">编码到 [0, 1]</text></g>
+    <g transform="translate(462 128)"><rect width="172" height="116" rx="14" fill="#263650" stroke="#47617f"/><text x="45" y="45" fill="#8fbcff" font-size="20" font-family="monospace">2 × tex − 1</text><text x="48" y="82" fill="#f0f5ff" font-size="17" font-weight="700">采样解码</text><text x="30" y="104" fill="#9eb0cb" font-size="13">得到 normalTS</text></g>
+    <g transform="translate(674 128)"><rect width="172" height="116" rx="14" fill="#263650" stroke="#47617f"/><text x="62" y="48" fill="#ff8090" font-size="18" font-weight="700">T</text><text x="82" y="48" fill="#72df98" font-size="18" font-weight="700">B</text><text x="103" y="48" fill="#6dabff" font-size="18" font-weight="700">N</text><text x="48" y="82" fill="#f0f5ff" font-size="17" font-weight="700">TBN 转换</text><text x="25" y="104" fill="#9eb0cb" font-size="13">切线空间 → 世界空间</text></g>
+    <g transform="translate(886 128)"><rect width="176" height="116" rx="14" fill="#263650" stroke="#47617f"/><circle cx="88" cy="39" r="24" fill="#536783"/><path d="M88 39L105 17" stroke="#6dabff" stroke-width="4"/><circle cx="105" cy="17" r="4" fill="#6dabff"/><text x="38" y="82" fill="#f0f5ff" font-size="17" font-weight="700">PBR 光照</text><text x="22" y="104" fill="#9eb0cb" font-size="13">normalWS 参与 BRDF</text></g>
+  </g>
+  <g stroke="#7caef5" stroke-width="3" marker-end="url(#arr5)"><line x1="216" y1="186" x2="240" y2="186"/><line x1="428" y1="186" x2="452" y2="186"/><line x1="640" y1="186" x2="664" y2="186"/><line x1="852" y1="186" x2="876" y2="186"/></g>
+  <g fill="#9eb0cb" font-size="13" font-family="sans-serif"><text x="210" y="280">烘焙</text><text x="420" y="280">线性采样</text><text x="640" y="280">归一化</text><text x="852" y="280">着色</text></g>
+  <path d="M48 314H1052" stroke="#31455f"/>
+  <text x="48" y="338" fill="#ffd166" font-size="14" font-family="sans-serif">任何一环的空间、手性、通道或颜色空间不一致，都会在最终光照中暴露出来。</text>
+</svg>

@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="760" viewBox="0 0 1500 760" role="img" aria-labelledby="title desc">
+  <title id="title">Unity URP RenderGraph flow</title>
+  <desc id="desc">A diagram showing how ScriptableRenderPass records resources into RenderGraph, then RenderGraph compiles, optimizes, and executes GPU commands.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#344054"/>
+    </marker>
+    <style>
+      .bg { fill: #f7f9fc; }
+      .box { fill: #fff; stroke: #1d2939; stroke-width: 2; rx: 10; }
+      .blue { fill: #eef6ff; stroke: #175cd3; }
+      .green { fill: #ecfdf3; stroke: #067647; }
+      .amber { fill: #fffaeb; stroke: #b54708; }
+      .purple { fill: #f4f3ff; stroke: #5925dc; }
+      .head { fill: #1d2939; }
+      .head-blue { fill: #175cd3; }
+      .head-green { fill: #067647; }
+      .head-amber { fill: #b54708; }
+      .head-purple { fill: #5925dc; }
+      .title { fill: #fff; font: 700 24px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .h1 { fill: #101828; font: 800 36px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .text { fill: #344054; font: 20px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .small { fill: #475467; font: 18px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .mono { fill: #344054; font: 18px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .line { stroke: #344054; stroke-width: 2.6; fill: none; marker-end: url(#arrow); }
+      .soft { stroke: #98a2b3; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" width="1500" height="760"/>
+  <text x="70" y="70" class="h1">Unity URP RenderGraph 执行思路</text>
+  <text x="70" y="108" class="text">先声明资源依赖，再由 RenderGraph 编译、优化，最后执行真正的 GPU 命令。</text>
+
+  <g transform="translate(70 170)">
+    <rect class="box blue" width="320" height="190"/>
+    <rect class="head-blue" width="320" height="46" rx="10"/>
+    <path d="M0,36 H320 V46 H0 Z" class="head-blue"/>
+    <text x="160" y="30" text-anchor="middle" class="title">ScriptableRenderPass</text>
+    <text x="24" y="82" class="mono">RecordRenderGraph()</text>
+    <text x="24" y="118" class="small">声明 Pass、资源和依赖</text>
+    <text x="24" y="150" class="small">不直接写 CommandBuffer</text>
+  </g>
+
+  <g transform="translate(470 150)">
+    <rect class="box purple" width="350" height="230"/>
+    <rect class="head-purple" width="350" height="46" rx="10"/>
+    <path d="M0,36 H350 V46 H0 Z" class="head-purple"/>
+    <text x="175" y="30" text-anchor="middle" class="title">RenderGraph Builder</text>
+    <text x="24" y="84" class="mono">UseTexture()</text>
+    <text x="24" y="116" class="mono">SetRenderAttachment()</text>
+    <text x="24" y="148" class="mono">CreateTexture()</text>
+    <text x="24" y="180" class="mono">SetRenderFunc()</text>
+  </g>
+
+  <g transform="translate(910 120)">
+    <rect class="box green" width="500" height="290"/>
+    <rect class="head-green" width="500" height="46" rx="10"/>
+    <path d="M0,36 H500 V46 H0 Z" class="head-green"/>
+    <text x="250" y="30" text-anchor="middle" class="title">RenderGraph Compile</text>
+    <text x="26" y="88" class="small">建立资源生命周期：首次写入到最后读取</text>
+    <text x="26" y="124" class="small">剔除未贡献到最终结果的 Pass</text>
+    <text x="26" y="160" class="small">复用临时纹理内存，减少无效分配</text>
+    <text x="26" y="196" class="small">分析读写顺序和队列同步</text>
+    <text x="26" y="232" class="small">在合适平台尝试合并 Native Render Pass</text>
+  </g>
+
+  <g transform="translate(470 500)">
+    <rect class="box amber" width="350" height="160"/>
+    <rect class="head-amber" width="350" height="46" rx="10"/>
+    <path d="M0,36 H350 V46 H0 Z" class="head-amber"/>
+    <text x="175" y="30" text-anchor="middle" class="title">PassData</text>
+    <text x="24" y="86" class="small">只保存执行函数需要的数据</text>
+    <text x="24" y="120" class="small">TextureHandle / RendererList / 参数</text>
+  </g>
+
+  <g transform="translate(910 500)">
+    <rect class="box" width="500" height="160"/>
+    <rect class="head" width="500" height="46" rx="10"/>
+    <path d="M0,36 H500 V46 H0 Z" class="head"/>
+    <text x="250" y="30" text-anchor="middle" class="title">Execute</text>
+    <text x="26" y="88" class="mono">SetRenderFunc(data, context)</text>
+    <text x="26" y="124" class="small">用 RasterGraphContext / ComputeGraphContext 记录命令</text>
+  </g>
+
+  <path class="line" d="M390 265 H470"/>
+  <path class="line" d="M820 265 H910"/>
+  <path class="soft" d="M645 380 V500"/>
+  <path class="line" d="M1160 410 V500"/>
+  <path class="soft" d="M820 580 H910"/>
+</svg>

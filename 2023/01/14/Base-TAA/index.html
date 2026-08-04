@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Base-时域抗锯齿 TAA | 锅巴的Blogs</title>
+<link rel="canonical" href="https://ahappyfun.github.io/2023/01/14/Base-TAA/">
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="原理, 抗锯齿">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-01-13T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-07-29T06:21:43.253Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="原理">
+<meta property="article:tag" content="抗锯齿">
+<meta name="twitter:card" content="summary">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 49 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/08/03/Art-%E4%BA%91%E7%9A%84%E5%88%86%E7%B1%BB/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-08-02T16:00:00.000Z">08-03</time>
+              <span class="sidebar__post-title">Art-云的分类——从国际云图集到观云识天</span>
+            </a>
+          
+            
+            
+            <a href="/2026/07/29/Art-%E6%8E%92%E7%BA%BF%E6%8A%80%E6%B3%95%E5%8F%91%E5%B1%95%E5%8F%B2/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-07-28T16:00:00.000Z">07-29</time>
+              <span class="sidebar__post-title">Art-排线技法发展史</span>
+            </a>
+          
+            
+            
+            <a href="/2026/07/02/DevTool-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-07-01T16:00:00.000Z">07-02</time>
+              <span class="sidebar__post-title">DevTool-主流跨平台桌面应用技术栈</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/30/Loy-%E6%8A%8A%E7%9B%B4%E8%A7%89%E8%AE%AD%E7%BB%83%E6%88%90%E6%B8%85%E6%A5%9A%E8%A1%A8%E8%BE%BE/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Loy-把直觉训练成清楚表达</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/01/14/Base-TAA/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2023-01-13T16:00:00.000Z">01-14</time>
+              <span class="sidebar__post-title">Base-时域抗锯齿 TAA</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2022</div>
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2023-01-13T16:00:00.000Z">2023 年 1 月 14 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/%E5%8E%9F%E7%90%86/">原理</a>
+            
+          </span>
+        
+        
+          <span class="post__views" aria-label="文章阅读量">
+            阅读 <span id="busuanzi_page_pv" aria-live="polite">加载中…</span>
+          </span>
+        
+      </div>
+      <h1 class="post__title">Base-时域抗锯齿 TAA</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E5%8E%9F%E7%90%86/" class="tag">#原理</a>
+          
+            <a href="/tags/%E6%8A%97%E9%94%AF%E9%BD%BF/" class="tag">#抗锯齿</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>Temporal Anti-Aliasing（TAA，时域抗锯齿）是当前游戏中最主流的抗锯齿方案。它不直接增加采样数，而是把过去若干帧的样本沿时间轴累积，以极低的每帧开销实现接近超采样的抗锯齿效果。</p>
+<p>但它并非无代价——时域复用带来了 Ghosting、Bleeding、Smearing 等一系列 artifact。理解这些问题的根源和对应的缓解方法，比背诵 TAA 的步骤更重要。</p>
+<span id="more"></span>
+
+<hr>
+<h2 id="1-为什么要用时间换采样"><a href="#1-为什么要用时间换采样" class="headerlink" title="1. 为什么要用时间换采样"></a>1. 为什么要用时间换采样</h2><h3 id="1-1-传统抗锯齿的局限"><a href="#1-1-传统抗锯齿的局限" class="headerlink" title="1.1 传统抗锯齿的局限"></a>1.1 传统抗锯齿的局限</h3><ul>
+<li><strong>SSAA（超级采样）</strong>：每个像素做 N 次采样再平均。效果好，但开销翻 N 倍，移动端和 VR 不可接受。</li>
+<li><strong>MSAA（多重采样）</strong>：只在三角形边缘增加采样，对 Shading Aliasing（高光闪烁、Shading 噪声）无效。</li>
+<li><strong>FXAA（快速近似）</strong>：后处理模糊边缘，会导致画面模糊、细节损失。</li>
+<li><strong>SMAA（子像素增强）</strong>：比 FXAA 聪明但依然基于单帧信息，对 Shading Aliasing 无能为力。</li>
+</ul>
+<p>TAA 的出发点很简单：<strong>GPU 每帧都在做各种各样的采样（光照、阴影、AO），把这些样本跨帧累积起来，等效于在时间维度上做了超采样。</strong> 每帧只需渲染一帧，但累积 N 帧后的有效样本数 ≈ N 倍。</p>
+<h3 id="1-2-核心思路"><a href="#1-2-核心思路" class="headerlink" title="1.2 核心思路"></a>1.2 核心思路</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">每帧：<br>  1. 对投影矩阵施加一个亚像素偏移（Jitter），使每帧的采样位置略微不同<br>  2. 渲染当前帧<br>  3. 将上一帧的颜色缓冲（History Buffer）通过 Motion Vector 重新投影到当前帧<br>  4. 将历史颜色与当前帧颜色做加权混合<br>  5. 输出累积结果作为当前帧的最终颜色，同时存入 History Buffer 供下一帧使用<br></code></pre></td></tr></table></figure>
+
+<p>通过 Jitter 让采样点随时间错开，再通过累积覆盖更多采样位置。N 帧累积后等效于 N× SSAA 的采样密度，但每帧只做一次着色。</p>
+<hr>
+<h2 id="2-核心流程拆解"><a href="#2-核心流程拆解" class="headerlink" title="2. 核心流程拆解"></a>2. 核心流程拆解</h2><h3 id="2-1-亚像素-Jitter"><a href="#2-1-亚像素-Jitter" class="headerlink" title="2.1 亚像素 Jitter"></a>2.1 亚像素 Jitter</h3><p>在每帧渲染前，对投影矩阵施加一个亚像素级的偏移，让采样网格在子像素位置上每帧错开。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">// 投影矩阵偏移<br>Projection[2][0] += JitterX / ScreenWidth<br>Projection[2][1] += JitterY / ScreenHeight<br></code></pre></td></tr></table></figure>
+
+<p>Jitter 序列通常使用 <strong>Halton 序列</strong>（一种低差异序列，保证采样点覆盖均匀，避免周期性图案）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs text">Halton(2) = 1/2, 1/4, 3/4, 1/8, 5/8, 3/8, 7/8, ...<br>Halton(3) = 1/3, 2/3, 1/9, 4/9, 7/9, 2/9, 5/9, ...<br></code></pre></td></tr></table></figure>
+
+<p>每帧使用 <code>(Halton2(frameIndex), Halton3(frameIndex))</code> 作为 Jitter 偏移。</p>
+<blockquote>
+<p>注意：Jitter 改变的是采样位置，不是最终像素的显示位置。输出颜色时不需要”取消 Jitter”，TAA 累积的结果已经对应正确像素位置。</p>
+</blockquote>
+<h3 id="2-2-Motion-Vector（运动向量）"><a href="#2-2-Motion-Vector（运动向量）" class="headerlink" title="2.2 Motion Vector（运动向量）"></a>2.2 Motion Vector（运动向量）</h3><p>TAA 要混合历史帧，必须知道”上一帧的像素 p 对应到当前帧的哪个位置”。这个对应关系由 Motion Vector 提供。</p>
+<p>Motion Vector 的核心逻辑：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">// 对每个像素：<br>// 1. 取当前像素的世界位置或屏幕位置<br>// 2. 用上一帧的 View-Projection Matrix 计算它在上帧的 UV<br>// 3. 用当前帧的 View-Projection Matrix 计算它在当前帧的 UV<br>// 4. Motion Vector = UV_prev - UV_current<br><br>float2 motionVector = uv_prev - uv_current;<br></code></pre></td></tr></table></figure>
+
+<p>生成方式：</p>
+<ul>
+<li><strong>相机运动</strong>：直接根据 View-Projection Matrix 前后变换计算</li>
+<li><strong>物体运动</strong>：Vertex Shader 输出上一帧和当前帧的裁剪坐标，Pixel Shader 中做差</li>
+<li><strong>引擎封装</strong>：Unity 的 <code>_CameraMotionVectorsTexture</code>、UE4 的 <code>GBuffer Velocity</code> 都是预生成的 Motion Vector RT</li>
+</ul>
+<p>没有 Motion Vector 的区域（如粒子、透明度混合物体），TAA 只能靠颜色相近度来混合，效果受限。</p>
+<h3 id="2-3-历史帧累积与混合"><a href="#2-3-历史帧累积与混合" class="headerlink" title="2.3 历史帧累积与混合"></a>2.3 历史帧累积与混合</h3><p>拿到 History Buffer 和 Motion Vector 后，对每个像素：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs text">// 1. 重投影：用 Motion Vector 找到历史帧中对应的 UV<br>float2 historyUV = currentUV + motionVector;<br>float4 historyColor = SampleHistory(historyUV);<br><br>// 2. 混合当前帧和历史帧<br>float blendFactor = 0.05 ~ 0.2;  // 历史权重<br>float4 finalColor = lerp(currentColor, historyColor, blendFactor);<br></code></pre></td></tr></table></figure>
+
+<p>混合权重受多种因素调节：场景变化速度、运动速度、曝光变化等。</p>
+<hr>
+<h2 id="3-核心问题与解决方案"><a href="#3-核心问题与解决方案" class="headerlink" title="3. 核心问题与解决方案"></a>3. 核心问题与解决方案</h2><p>TAA 的难点不在正向流程，而在处理时域复用带来的各种 artifact。如果只是简单混合历史帧，结果会充满拖影和鬼影。</p>
+<h3 id="3-1-Ghosting（拖影-鬼影）"><a href="#3-1-Ghosting（拖影-鬼影）" class="headerlink" title="3.1 Ghosting（拖影 &#x2F; 鬼影）"></a>3.1 Ghosting（拖影 &#x2F; 鬼影）</h3><p><strong>现象</strong>：运动物体后面拖着彩色尾巴，或者物体移动后原来的位置残留旧颜色。</p>
+<p><strong>原因</strong>：历史帧中包含了物体<strong>移动前</strong>的位置的颜色，但当前帧中物体已经移走，简单混合会把旧位置的颜色带到新位置。</p>
+<p><strong>解决方案</strong>：</p>
+<p><strong>方案一：History Clipping &#x2F; Clamping（最核心、最常见）</strong></p>
+<p>对当前帧像素的一定邻域（通常是 3×3）计算颜色的 <strong>AABB（轴对齐包围盒）</strong> 或更紧致的凸包，然后将历史颜色向这个包围盒做 clip&#x2F;clamp，强制历史颜色落在当前帧”合理”的颜色范围内。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs text">// 1. 取当前帧 3×3 邻域的颜色<br>float3 neighborhood[9] = GatherNeighborColors(currentColor, uv);<br><br>// 2. 计算颜色的 AABB<br>float3 cMin = min(neighborhood);<br>float3 cMax = max(neighborhood);<br><br>// 3. 将历史颜色 clamp 到 AABB 内<br>float3 clippedHistory = clamp(historyColor, cMin, cMax);<br><br>// 4. 使用 clip 后的历史颜色做混合<br>finalColor = lerp(currentColor, clippedHistory, blendFactor);<br></code></pre></td></tr></table></figure>
+
+<p>如果历史颜色中的某个通道明显超出当前帧邻域的范围，说明那个像素包含了一个已经不存在的物体信息，直接 clip 掉。</p>
+<p><strong>方案二：Variance Clipping（更紧致的裁剪）</strong></p>
+<p>AABB clipping 在色彩范围大时仍然不够紧。Variance Clipping 进一步缩小允许的范围：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs text">// 在 AABB 范围内，再计算均值和方差<br>float3 mean, variance;<br>ComputeMeanAndVariance(neighborhood, mean, variance);<br>float3 standardDeviation = sqrt(variance);<br><br>// 用均值 ± γ×标准差 构成更紧的边界<br>float3 clipMin = mean - gamma * standardDeviation;<br>float3 clipMax = mean + gamma * standardDeviation;<br><br>// 对历史颜色做 clamp<br>float3 clippedHistory = clamp(historyColor, clipMin, clipMax);<br></code></pre></td></tr></table></figure>
+
+<p>γ（gamma）通常取 1.0~3.0。γ 越小裁剪越激进、Ghosting 越少，但可能造成闪烁。</p>
+<p><strong>在哪个颜色空间做 clip 很重要</strong>：在 <strong>YCoCg</strong> 空间做 clip 比 RGB 空间效果更好，因为 YCoCg 去除了亮度与色度的耦合，能让 clipping 在不同通道间更独立。</p>
+<h3 id="3-2-Bleeding（颜色渗漏）"><a href="#3-2-Bleeding（颜色渗漏）" class="headerlink" title="3.2 Bleeding（颜色渗漏）"></a>3.2 Bleeding（颜色渗漏）</h3><p><strong>现象</strong>：前景物体边缘沾染了背景的颜色，或者背景颜色”渗入”了前景物体边缘。</p>
+<p><strong>原因</strong>：在物体边缘处，Motion Vector 可能不正确，导致采样历史帧时取到了前景&#x2F;背景的混合值，或者重投影后的位置落入了另一个物体。</p>
+<p><strong>解决方案</strong>：</p>
+<p><strong>利用深度进行颜色排斥</strong>：在采样历史帧时，对比当前像素与历史采样点的深度。如果深度差异超过阈值，说明重投影到了错误的物体上，降低历史权重或完全放弃历史。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">float historyDepth = SampleHistoryDepth(historyUV);<br>float depthDiff = abs(currentDepth - historyDepth);<br><br>float depthWeight = 1.0 - saturate(depthDiff / depthThreshold);<br>blendFactor *= depthWeight;  // 深度差异大时减少历史混合<br></code></pre></td></tr></table></figure>
+
+<p><strong>配合 Neighborhood Clamping</strong>：上述的 AABB &#x2F; Variance Clipping 在边缘区域同样能自动抑制颜色渗漏，因为邻域内的颜色范围限制了历史颜色的极端值。</p>
+<h3 id="3-3-Smearing（涂抹感-细节丢失）"><a href="#3-3-Smearing（涂抹感-细节丢失）" class="headerlink" title="3.3 Smearing（涂抹感 &#x2F; 细节丢失）"></a>3.3 Smearing（涂抹感 &#x2F; 细节丢失）</h3><p><strong>现象</strong>：动态物体表面细节模糊，像被”涂抹”了一层，尤其在快速运动时更明显。</p>
+<p><strong>原因</strong>：Motion Vector 精度有限，历史帧重投影不能完美对齐。加上 TAA 默认使用长时间累积（低混合率），运动中的细节会在时间维度上被平均化。</p>
+<p><strong>解决方案</strong>：</p>
+<p><strong>提高运动物体的混合速率</strong>：根据 Motion Vector 长度动态调整 blendFactor。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">float motionLength = length(motionVector);<br>float motionWeight = saturate(motionLength * motionScale);<br>blendFactor = lerp(0.1, 0.5, motionWeight);  // 运动越大，越依赖当前帧<br></code></pre></td></tr></table></figure>
+
+<p><strong>锐化 Pass</strong>：TAA 之后通常跟一个后处理锐化（如 Adaptive Sharpen），补偿被时域平均模糊掉的高频细节。这部分锐化不是可选而是推荐——绝大多数实际部署的 TAA 都搭配了锐化。</p>
+<p><strong>反馈 Feedback 调整</strong>：在混合时考虑当前帧与历史帧的差异程度，差异大时降低历史权重。</p>
+<h3 id="3-4-Disocclusion（新暴露区域）"><a href="#3-4-Disocclusion（新暴露区域）" class="headerlink" title="3.4 Disocclusion（新暴露区域）"></a>3.4 Disocclusion（新暴露区域）</h3><p><strong>现象</strong>：相机运动后，原本被遮挡的区域暴露出新像素，这些像素没有有效的历史——历史帧对应位置是另一个物体。直接混合会导致鬼影。</p>
+<p><strong>原因</strong>：没有有效的历史帧信息。</p>
+<p><strong>解决方案</strong>：</p>
+<p><strong>减小历史权重</strong>：检测到 disocclusion 时，大幅降低甚至归零 blendFactor，完全信任当前帧。</p>
+<p>检测方法：</p>
+<ul>
+<li><strong>Motion Vector 不连续</strong>：当前像素的 Motion Vector 与周围像素差异过大，说明处于遮挡边界</li>
+<li><strong>深度不连续</strong>：当前像素深度与历史采样点深度差异大</li>
+<li><strong>Sub-pixel Movement 过大</strong>：Motion Vector 的亚像素部分过大，说明重投影精度不够</li>
+</ul>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs text">// 检测 motion vector 与邻域的差异<br>float2 neighborhoodMV[8] = GatherNeighborMV(uv);<br>float2 mvDiff = 0;<br>for each neighbor:<br>    mvDiff += abs(neighborMV - currentMV);<br>    <br>bool isDisoccluded = any(mvDiff &gt; threshold);<br>if (isDisoccluded) blendFactor = 0;  // 完全信任当前帧<br></code></pre></td></tr></table></figure>
+
+<p><strong>引入干净帧（Clean Frame）</strong>：每 N 帧存储一份不应用 Jitter 的”干净”渲染结果，专门用于 disoccluded 区域的初始化。代价是需要额外渲染一次。</p>
+<h3 id="3-5-闪烁（Flickering）"><a href="#3-5-闪烁（Flickering）" class="headerlink" title="3.5 闪烁（Flickering）"></a>3.5 闪烁（Flickering）</h3><p><strong>现象</strong>：细小物体（铁丝网、草叶、远处高光）在高频闪烁。</p>
+<p><strong>原因</strong>：亚像素物体在 Jitter 不同偏移下每帧的覆盖情况剧烈变化，时域累积来不及稳定。</p>
+<p><strong>解决方案</strong>：</p>
+<ul>
+<li>增加样本累积帧数（降低 blendFactor 或增加反馈延迟）</li>
+<li>使用更稳定的 Jitter 序列（Halton 序列的优势在这里）</li>
+<li>对细小物体做预滤波或降低其高频细节</li>
+<li>Temporal Upsampling（TAAU）方案中，通过更高分辨率的累积缓解</li>
+</ul>
+<hr>
+<h2 id="4-TAA-的典型实现要点"><a href="#4-TAA-的典型实现要点" class="headerlink" title="4. TAA 的典型实现要点"></a>4. TAA 的典型实现要点</h2><h3 id="4-1-像素邻域采样"><a href="#4-1-像素邻域采样" class="headerlink" title="4.1 像素邻域采样"></a>4.1 像素邻域采样</h3><p>TAA 的质量很大程度上取决于邻域颜色范围的计算是否准确。常见做法：</p>
+<ul>
+<li>使用 <strong>3×3 或 5×5</strong> 邻域</li>
+<li>采样时用 <strong>点采样（point sampling）</strong> 而非双线性，避免引入额外混合</li>
+<li>当前帧使用 <strong>4× 旋转棋盘采样</strong>（UE4 的做法）来减少带宽</li>
+</ul>
+<h3 id="4-2-YCoCg-颜色空间"><a href="#4-2-YCoCg-颜色空间" class="headerlink" title="4.2 YCoCg 颜色空间"></a>4.2 YCoCg 颜色空间</h3><p>RGB 空间各通道相关性高，clip 一个通道可能不当影响另一个。YCoCg 是一个去相关的颜色空间：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs text">// RGB → YCoCg<br>Co = R - B<br>Y  = G + (Co &gt;&gt; 1)   // &gt;&gt; 1 表示除以 2<br>Cg = B + (Y &gt;&gt; 1) - G<br><br>// YCoCg → RGB<br>G = Y - (Cg &gt;&gt; 1)<br>B = Cg + G<br>R = Co + B<br></code></pre></td></tr></table></figure>
+
+<p>在 YCoCg 空间做 clipping 和 variance 计算，比 RGB 更精确。</p>
+<h3 id="4-3-反馈机制"><a href="#4-3-反馈机制" class="headerlink" title="4.3 反馈机制"></a>4.3 反馈机制</h3><p>TAA 是一个反馈回路：当前帧的输出就是下一帧的 History。如果当前帧的混合或 clipping 有错误，会持续影响后续帧。</p>
+<p>因此：</p>
+<ul>
+<li><strong>避免过于激进的 clipping</strong>：γ 太小或 AABB 范围太紧会引入闪烁，且闪烁会在帧间积累</li>
+<li><strong>Feedback 补偿</strong>：可以根据帧间差异动态调整混合率</li>
+</ul>
+<h3 id="4-4-锐化"><a href="#4-4-锐化" class="headerlink" title="4.4 锐化"></a>4.4 锐化</h3><p>TAA 天然会引入模糊，几乎所有工程实现都跟随一个锐化 Pass：</p>
+<ul>
+<li><strong>简单方案</strong>：Unsharp Mask</li>
+<li><strong>方案</strong>：Adaptive Sharpening（FidelityFX CAS）</li>
+<li><strong>注意</strong>：锐化强度不应超过 TAA 带来的模糊，否则会放大 Jitter 产生的噪点</li>
+</ul>
+<hr>
+<h2 id="5-TAA-的变体与演进"><a href="#5-TAA-的变体与演进" class="headerlink" title="5. TAA 的变体与演进"></a>5. TAA 的变体与演进</h2><h3 id="TAAU（Temporal-Anti-Aliasing-Upsampling）"><a href="#TAAU（Temporal-Anti-Aliasing-Upsampling）" class="headerlink" title="TAAU（Temporal Anti-Aliasing Upsampling）"></a>TAAU（Temporal Anti-Aliasing Upsampling）</h3><p>TAAU（UE5 的叫法）将 TAA 和上采样合并：在低分辨率渲染，利用 TAA 累积出高分辨率效果。核心逻辑与 TAA 相同，但额外处理：</p>
+<ul>
+<li>低分辨率像素到高分辨率像素的分散（Distribute）</li>
+<li>使用抖动序列控制像素的渲染位置</li>
+<li>在高分辨率网格上累积样本</li>
+</ul>
+<h3 id="DLSS-FSR-XeSS"><a href="#DLSS-FSR-XeSS" class="headerlink" title="DLSS &#x2F; FSR &#x2F; XeSS"></a>DLSS &#x2F; FSR &#x2F; XeSS</h3><p>这些是 AI 辅助的 TAA 上采样方案：</p>
+<ul>
+<li><strong>DLSS</strong>：用神经网络替代人工设计的 clipping&#x2F;clamp，学习最优的历史帧融合</li>
+<li><strong>FSR 2&#x2F;3</strong>：基于 TAAU 框架，使用手工调优的时域累积 + 锐化</li>
+<li><strong>XeSS</strong>：结合矩阵加速器做 NN 推理，原理类似 DLSS</li>
+</ul>
+<p>它们的共同基础仍然是 TAA 的重投影 + 累积框架，只是把经验规则替换为了学习结果。</p>
+<hr>
+<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6. 总结"></a>6. 总结</h2><p>TAA 是一组<strong>以时域累积为核心的抗锯齿和后处理技术</strong>。它的核心不是某一公式，而是处理时域复用带来的 artifact 的技巧集合：</p>
+<table>
+<thead>
+<tr>
+<th align="left">问题</th>
+<th align="left">根源</th>
+<th align="left">核心缓解手段</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Ghosting</td>
+<td align="left">历史帧包含过时信息</td>
+<td align="left">AABB &#x2F; Variance Clipping</td>
+</tr>
+<tr>
+<td align="left">Bleeding</td>
+<td align="left">重投影取到错误位置</td>
+<td align="left">深度排斥、Neighborhood Clamp</td>
+</tr>
+<tr>
+<td align="left">Smearing</td>
+<td align="left">运动物体细节被平均</td>
+<td align="left">动态混合率、锐化 Pass</td>
+</tr>
+<tr>
+<td align="left">Disocclusion</td>
+<td align="left">无有效历史</td>
+<td align="left">检测遮挡边界、归零权重</td>
+</tr>
+<tr>
+<td align="left">Flickering</td>
+<td align="left">亚像素覆盖不稳定</td>
+<td align="left">低差异序列、帧间稳定</td>
+</tr>
+</tbody></table>
+<p>理解 TAA 的关键不在于记住 Halton 序列怎么算，而在于理解：</p>
+<ol>
+<li><strong>TAA 用时间换样本数</strong> — 不增加单帧开销，累积多帧信息</li>
+<li><strong>所有 artifact 都来自过时的历史</strong> — 解决方案都是让历史更快被淘汰</li>
+<li><strong>AABB &#x2F; Variance Clipping 是 TAA 的基石</strong> — 几乎所有引擎的 TAA 核心都在做这件事</li>
+<li><strong>TAA 是一个反馈系统</strong> — 一帧的误差会持续影响后续帧，因此需要平衡抑制 ghosting 和避免引入新噪声</li>
+</ol>
+<hr>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://developer.download.nvidia.com/assets/gamedev/files/HighQualityTemporalSupersampling.pdf">High Quality Temporal Supersampling（NVIDIA 2014）</a> — 第一篇系统阐述 TAA 的论文，AABB Clipping 和 Variance Clipping 的原始出处</li>
+<li><a target="_blank" rel="noopener" href="https://docs.unrealengine.com/5.0/en-US/temporal-upsampling-in-unreal-engine/">Unreal Engine 4 Temporal Upsampling</a> — TAAU 的工程实现描述</li>
+<li><a target="_blank" rel="noopener" href="https://gpuopen.com/fidelityfx-taa/">FidelityFX TAAU（AMD）</a> — AMD 的开源 TAAU 方案</li>
+<li><a target="_blank" rel="noopener" href="https://www.60fpsrendering.com/posts/art-of-taa/">The Art of TAA（60fps Rendering 博客）</a> — 对 TAA 常见问题与 trade-off 的深入讨论</li>
+</ul>
+
+    </div>
+
+    <footer class="post__footer">
+      
+        
+<section class="comments" aria-labelledby="commentsTitle">
+  <div class="comments__header">
+    <p class="comments__eyebrow">DISCUSSION</p>
+    <h2 class="comments__title" id="commentsTitle">评论与交流</h2>
+    <p class="comments__description">使用 GitHub 账号参与讨论；首次评论时会自动创建对应话题。</p>
+  </div>
+  <div class="giscus"></div>
+  <script src="https://giscus.app/client.js"
+          data-repo="AHappyFun/AHappyFun.github.io"
+          data-repo-id="R_kgDOJAassQ"
+          data-category="Announcements"
+          data-category-id="DIC_kwDOJAassc4DCUGK"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="zh-CN"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+  </script>
+</section>
+
+      
+
+      <div class="post__nav">
+        
+          <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Base-TBDR架构</span>
+          </a>
+        
+        
+          <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Base-前向渲染与延迟渲染</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+  <script src="https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>
+
+
+</body>
+</html>

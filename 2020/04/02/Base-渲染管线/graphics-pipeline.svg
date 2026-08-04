@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">传统图形渲染管线总览</title>
+  <desc id="desc">从应用阶段、几何阶段到光栅化阶段，最终写入渲染目标。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8f6ff"/>
+      <stop offset="1" stop-color="#eef5ff"/>
+    </linearGradient>
+    <linearGradient id="app" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f2e9ff"/>
+      <stop offset="1" stop-color="#dfd0ff"/>
+    </linearGradient>
+    <linearGradient id="geo" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e0f2ff"/>
+      <stop offset="1" stop-color="#c7e4ff"/>
+    </linearGradient>
+    <linearGradient id="ras" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#dcf8ed"/>
+      <stop offset="1" stop-color="#bdebd9"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="9" stdDeviation="12" flood-color="#566078" flood-opacity="0.15"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M1 1L11 6L1 11Z" fill="#74728a"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="560" rx="28" fill="url(#bg)"/>
+  <text x="70" y="75" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif" font-size="30" font-weight="700" fill="#2e3040">传统图形渲染管线</text>
+  <text x="70" y="110" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif" font-size="17" fill="#6c6d7c">一组场景数据，如何逐步变成渲染目标中的像素</text>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="155" width="285" height="290" rx="24" fill="url(#app)"/>
+    <rect x="405" y="155" width="350" height="290" rx="24" fill="url(#geo)"/>
+    <rect x="815" y="155" width="325" height="290" rx="24" fill="url(#ras)"/>
+  </g>
+
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif">
+    <text x="88" y="202" font-size="15" font-weight="700" fill="#7253a6">CPU</text>
+    <text x="88" y="238" font-size="25" font-weight="700" fill="#383246">应用阶段</text>
+    <text x="88" y="281" font-size="17" fill="#555064">场景更新与可见性判断</text>
+    <text x="88" y="317" font-size="17" fill="#555064">排序、LOD、合批</text>
+    <text x="88" y="353" font-size="17" fill="#555064">准备材质与渲染状态</text>
+    <text x="88" y="389" font-size="17" fill="#555064">提交 Draw Call</text>
+
+    <text x="433" y="202" font-size="15" font-weight="700" fill="#3879a9">GPU · 顶点 / 图元</text>
+    <text x="433" y="238" font-size="25" font-weight="700" fill="#263b4c">几何阶段</text>
+    <text x="433" y="281" font-size="17" fill="#415a6d">顶点输入 → Vertex Shader</text>
+    <text x="433" y="317" font-size="17" fill="#415a6d">图元装配与裁剪</text>
+    <text x="433" y="353" font-size="17" fill="#415a6d">透视除法与 NDC</text>
+    <text x="433" y="389" font-size="17" fill="#415a6d">视口变换 → 屏幕三角形</text>
+
+    <text x="843" y="202" font-size="15" font-weight="700" fill="#287c62">GPU · 片元 / 采样</text>
+    <text x="843" y="238" font-size="25" font-weight="700" fill="#25483e">光栅化阶段</text>
+    <text x="843" y="281" font-size="17" fill="#3d6257">覆盖测试与属性插值</text>
+    <text x="843" y="317" font-size="17" fill="#3d6257">Fragment / Pixel Shader</text>
+    <text x="843" y="353" font-size="17" fill="#3d6257">深度、模板测试</text>
+    <text x="843" y="389" font-size="17" fill="#3d6257">混合 → Render Target</text>
+  </g>
+
+  <path d="M348 300H395" stroke="#74728a" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M758 300H805" stroke="#74728a" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <g font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans SC',sans-serif" font-size="15" fill="#777889">
+    <text x="77" y="500">场景</text>
+    <path d="M121 495H1067" stroke="#b6b5c2" stroke-width="2" stroke-dasharray="5 7" marker-end="url(#arrow)"/>
+    <text x="1078" y="500">图像</text>
+  </g>
+</svg>

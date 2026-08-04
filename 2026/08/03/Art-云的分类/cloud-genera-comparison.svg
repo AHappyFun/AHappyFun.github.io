@@ -1,0 +1,260 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 680" font-family="'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#90a4ae" flood-opacity="0.2"/>
+    </filter>
+    <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f5f8fb"/>
+    </linearGradient>
+    <linearGradient id="highTag" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#90caf9"/>
+      <stop offset="100%" stop-color="#64b5f6"/>
+    </linearGradient>
+    <linearGradient id="midTag" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a5d6a7"/>
+      <stop offset="100%" stop-color="#81c784"/>
+    </linearGradient>
+    <linearGradient id="lowTag" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#b0bec5"/>
+      <stop offset="100%" stop-color="#90a4ae"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1000" height="680" fill="#f8fafc" rx="8"/>
+
+  <!-- Title -->
+  <text x="500" y="36" text-anchor="middle" font-size="18" font-weight="700" fill="#2c3e50">十大云属 · 典型形态对比</text>
+  <text x="500" y="54" text-anchor="middle" font-size="11" fill="#90a4ae">卷/积/层三种基础形态在三个高度层上的组合变化 · 基于 WMO 国际云图集</text>
+
+  <!-- ===== TOP ROW: HIGH CLOUDS (3 types) ===== -->
+  <text x="30" y="90" font-size="12" font-weight="700" fill="#546e7a">高云族</text>
+  <text x="30" y="106" font-size="10" fill="#90a4ae">5–13 km</text>
+
+  <!-- Cirrus -->
+  <g transform="translate(130, 70)">
+    <rect width="260" height="170" rx="8" fill="url(#cardBg)" stroke="#e0e8f0" stroke-width="1" filter="url(#softShadow)"/>
+    <rect x="0" y="0" width="260" height="4" rx="2" fill="url(#highTag)"/>
+    <text x="130" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#455a64">卷云 Cirrus (Ci)</text>
+    <!-- Cloud illustration -->
+    <g transform="translate(20, 55)">
+      <!-- Wispy hair-like strands -->
+      <path d="M0,30 Q40,22 70,28 Q100,20 130,26 Q160,18 190,25 Q210,22 220,26" fill="none" stroke="#cfd8dc" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M5,36 Q35,30 65,34 Q95,28 125,33 Q155,28 185,32 Q200,30 215,33" fill="none" stroke="#d9e0e6" stroke-width="1.2" stroke-linecap="round"/>
+      <path d="M10,42 Q30,38 50,40 Q70,36 90,40" fill="none" stroke="#e0e6ec" stroke-width="1" stroke-linecap="round"/>
+      <!-- Hook (uncinus) detail -->
+      <path d="M70,24 Q75,16 78,14 Q82,18 75,24" fill="none" stroke="#b0bec5" stroke-width="1.3" stroke-linecap="round"/>
+      <path d="M160,22 Q168,12 172,8 Q177,14 168,22" fill="none" stroke="#b0bec5" stroke-width="1.3" stroke-linecap="round"/>
+    </g>
+    <text x="130" y="128" text-anchor="middle" font-size="10" fill="#78909c">纤维·丝缕·钩状</text>
+    <text x="130" y="144" text-anchor="middle" font-size="9" fill="#b0bec5">冰晶组成的"天空素描"</text>
+  </g>
+
+  <!-- Cirrocumulus -->
+  <g transform="translate(410, 70)">
+    <rect width="260" height="170" rx="8" fill="url(#cardBg)" stroke="#e0e8f0" stroke-width="1" filter="url(#softShadow)"/>
+    <rect x="0" y="0" width="260" height="4" rx="2" fill="url(#highTag)"/>
+    <text x="130" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#455a64">卷积云 Cirrocumulus (Cc)</text>
+    <!-- Small grain-like pattern -->
+    <g transform="translate(30, 50)">
+      <circle cx="20" cy="30" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="45" cy="24" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="70" cy="32" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="95" cy="22" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="120" cy="30" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="145" cy="26" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="170" cy="32" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="195" cy="24" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="32" cy="50" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="58" cy="46" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="82" cy="52" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="108" cy="44" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="132" cy="50" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="158" cy="46" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <circle cx="182" cy="52" r="9" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+    </g>
+    <text x="130" y="128" text-anchor="middle" font-size="10" fill="#78909c">细小颗粒·鱼鳞状排列</text>
+    <text x="130" y="144" text-anchor="middle" font-size="9" fill="#b0bec5">单粒 ＜ 手指宽度 (1°)</text>
+  </g>
+
+  <!-- Cirrostratus -->
+  <g transform="translate(690, 70)">
+    <rect width="260" height="170" rx="8" fill="url(#cardBg)" stroke="#e0e8f0" stroke-width="1" filter="url(#softShadow)"/>
+    <rect x="0" y="0" width="260" height="4" rx="2" fill="url(#highTag)"/>
+    <text x="130" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#455a64">卷层云 Cirrostratus (Cs)</text>
+    <!-- Thin veil with halo -->
+    <g transform="translate(30, 50)">
+      <ellipse cx="100" cy="38" rx="90" ry="14" fill="#f0f4f8" stroke="#d0d8e0" stroke-width="0.8"/>
+      <!-- Halo ring -->
+      <circle cx="100" cy="20" r="32" fill="none" stroke="#cfd8dc" stroke-width="0.8" stroke-dasharray="4,5" opacity="0.6"/>
+      <circle cx="100" cy="20" r="5" fill="#f9a825" opacity="0.6"/>
+      <ellipse cx="100" cy="38" rx="90" ry="14" fill="#f0f4f8" opacity="0.4"/>
+    </g>
+    <text x="130" y="128" text-anchor="middle" font-size="10" fill="#78909c">薄纱·日晕/月晕</text>
+    <text x="130" y="144" text-anchor="middle" font-size="9" fill="#b0bec5">薄到几乎看不见的云层</text>
+  </g>
+
+  <!-- ===== MIDDLE ROW: MIDDLE CLOUDS (3 types) ===== -->
+  <text x="30" y="290" font-size="12" font-weight="700" fill="#546e7a">中云族</text>
+  <text x="30" y="306" font-size="10" fill="#90a4ae">2–7 km</text>
+
+  <!-- Altocumulus -->
+  <g transform="translate(130, 270)">
+    <rect width="260" height="170" rx="8" fill="url(#cardBg)" stroke="#e0e8f0" stroke-width="1" filter="url(#softShadow)"/>
+    <rect x="0" y="0" width="260" height="4" rx="2" fill="url(#midTag)"/>
+    <text x="130" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#455a64">高积云 Altocumulus (Ac)</text>
+    <g transform="translate(25, 50)">
+      <ellipse cx="25" cy="30" rx="22" ry="14" fill="white" stroke="#c8d4e0" stroke-width="1"/>
+      <ellipse cx="75" cy="24" rx="22" ry="14" fill="white" stroke="#c8d4e0" stroke-width="1"/>
+      <ellipse cx="125" cy="32" rx="22" ry="14" fill="white" stroke="#c8d4e0" stroke-width="1"/>
+      <ellipse cx="175" cy="26" rx="22" ry="14" fill="white" stroke="#c8d4e0" stroke-width="1"/>
+      <ellipse cx="25" cy="56" rx="22" ry="14" fill="#e8ecf2" stroke="#c8d4e0" stroke-width="1" opacity="0.7"/>
+      <ellipse cx="75" cy="52" rx="22" ry="14" fill="#e8ecf2" stroke="#c8d4e0" stroke-width="1" opacity="0.7"/>
+      <ellipse cx="125" cy="58" rx="22" ry="14" fill="#e8ecf2" stroke="#c8d4e0" stroke-width="1" opacity="0.7"/>
+    </g>
+    <text x="130" y="128" text-anchor="middle" font-size="10" fill="#78909c">块状排列·白或灰白</text>
+    <text x="130" y="144" text-anchor="middle" font-size="9" fill="#b0bec5">1°–5° 视角 · 可见阴影</text>
+  </g>
+
+  <!-- Altostratus -->
+  <g transform="translate(410, 270)">
+    <rect width="260" height="170" rx="8" fill="url(#cardBg)" stroke="#e0e8f0" stroke-width="1" filter="url(#softShadow)"/>
+    <rect x="0" y="0" width="260" height="4" rx="2" fill="url(#midTag)"/>
+    <text x="130" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#455a64">高层云 Altostratus (As)</text>
+    <g transform="translate(30, 50)">
+      <ellipse cx="100" cy="38" rx="95" ry="16" fill="#d8dfe6" stroke="#b0bcc8" stroke-width="1"/>
+      <!-- Muted sun -->
+      <circle cx="100" cy="36" r="18" fill="#f5f0d0" opacity="0.3"/>
+      <ellipse cx="100" cy="38" rx="95" ry="16" fill="#dce2e8" opacity="0.4"/>
+    </g>
+    <text x="130" y="128" text-anchor="middle" font-size="10" fill="#78909c">均匀灰色幕布·无日晕</text>
+    <text x="130" y="144" text-anchor="middle" font-size="9" fill="#b0bec5">太阳如毛玻璃后的模糊光斑</text>
+  </g>
+
+  <!-- Nimbostratus -->
+  <g transform="translate(690, 270)">
+    <rect width="260" height="170" rx="8" fill="url(#cardBg)" stroke="#e0e8f0" stroke-width="1" filter="url(#softShadow)"/>
+    <rect x="0" y="0" width="260" height="4" rx="2" fill="url(#midTag)"/>
+    <text x="130" y="22" text-anchor="middle" font-size="12" font-weight="600" fill="#455a64">雨层云 Nimbostratus (Ns)</text>
+    <g transform="translate(30, 50)">
+      <ellipse cx="100" cy="32" rx="95" ry="14" fill="#c0cad4" stroke="#90a0b0" stroke-width="1"/>
+      <ellipse cx="100" cy="36" rx="95" ry="12" fill="#b0bac4" opacity="0.5"/>
+      <!-- Continuous rain -->
+      <line x1="40" y1="40" x2="36" y2="65" stroke="#78909c" stroke-width="0.7" opacity="0.35"/>
+      <line x1="60" y1="42" x2="58" y2="68" stroke="#78909c" stroke-width="0.7" opacity="0.35"/>
+      <line x1="80" y1="43" x2="80" y2="70" stroke="#78909c" stroke-width="0.7" opacity="0.35"/>
+      <line x1="100" y1="44" x2="100" y2="72" stroke="#78909c" stroke-width="0.7" opacity="0.35"/>
+      <line x1="120" y1="43" x2="122" y2="70" stroke="#78909c" stroke-width="0.7" opacity="0.35"/>
+      <line x1="140" y1="42" x2="142" y2="68" stroke="#78909c" stroke-width="0.7" opacity="0.35"/>
+      <line x1="160" y1="40" x2="164" y2="66" stroke="#78909c" stroke-width="0.7" opacity="0.35"/>
+    </g>
+    <text x="130" y="128" text-anchor="middle" font-size="10" fill="#78909c">暗灰色·持续均匀降水</text>
+    <text x="130" y="144" text-anchor="middle" font-size="9" fill="#b0bec5">从天空均匀降落的雨或雪</text>
+  </g>
+
+  <!-- ===== BOTTOM ROW: LOW CLOUDS (4 types) ===== -->
+  <text x="30" y="490" font-size="12" font-weight="700" fill="#546e7a">低云族</text>
+  <text x="30" y="506" font-size="10" fill="#90a4ae">0–2 km</text>
+
+  <!-- Stratocumulus -->
+  <g transform="translate(50, 470)">
+    <rect width="205" height="175" rx="8" fill="url(#cardBg)" stroke="#e0e8f0" stroke-width="1" filter="url(#softShadow)"/>
+    <rect x="0" y="0" width="205" height="4" rx="2" fill="url(#lowTag)"/>
+    <text x="102" y="21" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">层积云</text>
+    <text x="102" y="36" text-anchor="middle" font-size="9" fill="#90a4ae">Stratocumulus (Sc)</text>
+    <g transform="translate(15, 60)">
+      <ellipse cx="25" cy="28" rx="22" ry="16" fill="#e4e8ee" stroke="#a0b0c0" stroke-width="1"/>
+      <ellipse cx="72" cy="22" rx="22" ry="16" fill="#e0e4ea" stroke="#a0b0c0" stroke-width="1"/>
+      <ellipse cx="120" cy="30" rx="22" ry="16" fill="#e4e8ee" stroke="#a0b0c0" stroke-width="1"/>
+      <ellipse cx="168" cy="20" rx="22" ry="16" fill="#e0e4ea" stroke="#a0b0c0" stroke-width="1"/>
+      <ellipse cx="48" cy="52" rx="22" ry="16" fill="#dce0e6" stroke="#a0b0c0" stroke-width="1" opacity="0.8"/>
+      <ellipse cx="96" cy="48" rx="22" ry="16" fill="#d8dce4" stroke="#a0b0c0" stroke-width="1" opacity="0.8"/>
+      <ellipse cx="144" cy="54" rx="22" ry="16" fill="#dce0e6" stroke="#a0b0c0" stroke-width="1" opacity="0.8"/>
+    </g>
+    <text x="102" y="138" text-anchor="middle" font-size="10" fill="#78909c">灰色大块排列</text>
+    <text x="102" y="153" text-anchor="middle" font-size="9" fill="#b0bec5">> 5° · 最常见的低云</text>
+  </g>
+
+  <!-- Stratus -->
+  <g transform="translate(270, 470)">
+    <rect width="205" height="175" rx="8" fill="url(#cardBg)" stroke="#e0e8f0" stroke-width="1" filter="url(#softShadow)"/>
+    <rect x="0" y="0" width="205" height="4" rx="2" fill="url(#lowTag)"/>
+    <text x="102" y="21" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">层云</text>
+    <text x="102" y="36" text-anchor="middle" font-size="9" fill="#90a4ae">Stratus (St)</text>
+    <g transform="translate(15, 65)">
+      <rect x="0" y="25" width="180" height="10" rx="5" fill="#d8dfe5" stroke="#a0b0c0" stroke-width="1"/>
+      <!-- ground fog hint -->
+      <rect x="10" y="55" width="160" height="8" rx="4" fill="#d8dfe5" opacity="0.4" stroke="#c0c8d0" stroke-width="0.5"/>
+      <text x="90" y="80" text-anchor="middle" font-size="7" fill="#b0bec5">≈ 雾</text>
+    </g>
+    <text x="102" y="138" text-anchor="middle" font-size="10" fill="#78909c">均匀灰白·全无结构</text>
+    <text x="102" y="153" text-anchor="middle" font-size="9" fill="#b0bec5">"雾抬起来了"</text>
+  </g>
+
+  <!-- Cumulus -->
+  <g transform="translate(490, 470)">
+    <rect width="205" height="175" rx="8" fill="url(#cardBg)" stroke="#e0e8f0" stroke-width="1" filter="url(#softShadow)"/>
+    <rect x="0" y="0" width="205" height="4" rx="2" fill="url(#lowTag)"/>
+    <text x="102" y="21" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">积云</text>
+    <text x="102" y="36" text-anchor="middle" font-size="9" fill="#90a4ae">Cumulus (Cu)</text>
+    <g transform="translate(20, 60)">
+      <!-- Flat base -->
+      <rect x="20" y="50" width="130" height="12" rx="4" fill="white" stroke="#c8d4e0" stroke-width="1"/>
+      <!-- Puffy top -->
+      <ellipse cx="55" cy="32" rx="28" ry="28" fill="white" stroke="#c8d4e0" stroke-width="1"/>
+      <ellipse cx="85" cy="28" rx="24" ry="30" fill="white" stroke="#c8d4e0" stroke-width="1"/>
+      <ellipse cx="115" cy="34" rx="22" ry="26" fill="white" stroke="#c8d4e0" stroke-width="1"/>
+      <!-- Small rising thermal -->
+      <ellipse cx="115" cy="16" rx="12" ry="14" fill="white" stroke="#d0d8e0" stroke-width="0.8"/>
+      <!-- Arrows for thermal -->
+      <path d="M85,-5 L85,12" fill="none" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+      <path d="M80,0 L85,-8 L90,0" fill="none" stroke="#e0e0e0" stroke-width="0.8" opacity="0.5"/>
+    </g>
+    <text x="102" y="138" text-anchor="middle" font-size="10" fill="#78909c">平底·蓬松菜花顶</text>
+    <text x="102" y="153" text-anchor="middle" font-size="9" fill="#b0bec5">热力气流上升形成</text>
+  </g>
+
+  <!-- Cumulonimbus -->
+  <g transform="translate(710, 470)">
+    <rect width="240" height="175" rx="8" fill="url(#cardBg)" stroke="#e0e8f0" stroke-width="1" filter="url(#softShadow)"/>
+    <rect x="0" y="0" width="240" height="4" rx="2" fill="#ef5350" opacity="0.7"/>
+    <text x="120" y="21" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">积雨云</text>
+    <text x="120" y="36" text-anchor="middle" font-size="9" fill="#90a4ae">Cumulonimbus (Cb)</text>
+    <g transform="translate(30, 58)">
+      <!-- Dark base -->
+      <ellipse cx="80" cy="62" rx="65" ry="12" fill="#b0bac4" stroke="#8090a0" stroke-width="1"/>
+      <!-- Towering body -->
+      <ellipse cx="68" cy="40" rx="24" ry="30" fill="#d0d8e0" stroke="#a0b0c0" stroke-width="1"/>
+      <ellipse cx="95" cy="38" rx="22" ry="32" fill="#c8d0d8" stroke="#a0b0c0" stroke-width="1"/>
+      <!-- Anvil -->
+      <ellipse cx="82" cy="12" rx="56" ry="8" fill="#e8ecf2" stroke="#c0ccd8" stroke-width="1"/>
+      <ellipse cx="82" cy="10" rx="62" ry="5" fill="#f0f4f8" opacity="0.5"/>
+      <!-- Lightning -->
+      <polyline points="100,35 96,46 102,46 94,60" fill="none" stroke="#f9a825" stroke-width="1" opacity="0.6"/>
+      <!-- Rain -->
+      <line x1="30" y1="68" x2="26" y2="88" stroke="#78909c" stroke-width="0.7" opacity="0.3"/>
+      <line x1="55" y1="70" x2="54" y2="90" stroke="#78909c" stroke-width="0.7" opacity="0.3"/>
+      <line x1="82" y1="72" x2="82" y2="92" stroke="#78909c" stroke-width="0.7" opacity="0.3"/>
+      <line x1="108" y1="70" x2="110" y2="90" stroke="#78909c" stroke-width="0.7" opacity="0.3"/>
+      <line x1="132" y1="68" x2="136" y2="88" stroke="#78909c" stroke-width="0.7" opacity="0.3"/>
+    </g>
+    <text x="120" y="138" text-anchor="middle" font-size="10" fill="#78909c">巨塔·砧顶·雷暴</text>
+    <text x="120" y="153" text-anchor="middle" font-size="9" fill="#b0bec5">贯穿对流层全层</text>
+  </g>
+
+  <!-- Bottom legend -->
+  <g transform="translate(30, 660)">
+    <rect x="0" y="-4" width="10" height="4" rx="2" fill="#64b5f6" opacity="0.7"/>
+    <text x="16" y="0" font-size="9" fill="#90a4ae">高云族</text>
+    <rect x="60" y="-4" width="10" height="4" rx="2" fill="#81c784" opacity="0.7"/>
+    <text x="76" y="0" font-size="9" fill="#90a4ae">中云族</text>
+    <rect x="120" y="-4" width="10" height="4" rx="2" fill="#90a4ae" opacity="0.7"/>
+    <text x="136" y="0" font-size="9" fill="#90a4ae">低云族</text>
+    <rect x="180" y="-4" width="10" height="4" rx="2" fill="#ef5350" opacity="0.7"/>
+    <text x="196" y="0" font-size="9" fill="#90a4ae">特殊: 贯穿全层</text>
+  </g>
+
+  <!-- Frame -->
+  <rect x="1" y="1" width="998" height="678" rx="8" fill="none" stroke="#d0d8e0" stroke-width="1"/>
+</svg>

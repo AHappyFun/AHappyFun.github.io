@@ -1,0 +1,215 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 720" font-family="'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <!-- Sky gradient backgrounds for each étage -->
+    <linearGradient id="highSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e8f0f8"/>
+      <stop offset="100%" stop-color="#dce8f2"/>
+    </linearGradient>
+    <linearGradient id="midSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e2ecf4"/>
+      <stop offset="100%" stop-color="#d4e2ed"/>
+    </linearGradient>
+    <linearGradient id="lowSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dae6f2"/>
+      <stop offset="100%" stop-color="#cddce8"/>
+    </linearGradient>
+    <linearGradient id="groundGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bcc8d4"/>
+      <stop offset="100%" stop-color="#a8b4c0"/>
+    </linearGradient>
+    <!-- Drop shadow for cloud icons -->
+    <filter id="cloudShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-color="#8899aa" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="720" fill="#f5f8fb" rx="6"/>
+
+  <!-- Title -->
+  <text x="450" y="38" text-anchor="middle" font-size="19" font-weight="700" fill="#2c3e50" letter-spacing="0.5">十大云属 —— 按高度分类总览</text>
+  <text x="450" y="58" text-anchor="middle" font-size="12" fill="#7f8c8d">基于世界气象组织 (WMO) 国际云图集分类标准 · 高度范围对应温带地区</text>
+
+  <!-- ===== HEIGHT AXIS (left side) ===== -->
+  <line x1="85" y1="80" x2="85" y2="660" stroke="#b0bec5" stroke-width="1.5"/>
+  <!-- Altitude markers -->
+  <line x1="78" y1="660" x2="92" y2="660" stroke="#b0bec5" stroke-width="1"/>
+  <text x="72" y="665" text-anchor="end" font-size="11" fill="#78909c">0</text>
+  <line x1="78" y1="578" x2="92" y2="578" stroke="#b0bec5" stroke-width="1"/>
+  <text x="72" y="583" text-anchor="end" font-size="11" fill="#78909c">2</text>
+  <line x1="78" y1="433" x2="92" y2="433" stroke="#b0bec5" stroke-width="1"/>
+  <text x="72" y="438" text-anchor="end" font-size="11" fill="#78909c">7</text>
+  <line x1="78" y1="252" x2="92" y2="252" stroke="#b0bec5" stroke-width="1"/>
+  <text x="72" y="257" text-anchor="end" font-size="11" fill="#78909c">13</text>
+  <line x1="78" y1="80" x2="92" y2="80" stroke="#b0bec5" stroke-width="1"/>
+  <text x="72" y="85" text-anchor="end" font-size="11" fill="#78909c">15</text>
+  <!-- Y-axis label -->
+  <text x="30" y="370" text-anchor="middle" font-size="12" fill="#78909c" transform="rotate(-90, 30, 370)">高度 (km)</text>
+
+  <!-- ===== HIGH ÉTAGE (5–13 km) ===== -->
+  <rect x="100" y="80" width="770" height="172" fill="url(#highSky)" rx="8" stroke="#c8d8e8" stroke-width="1"/>
+  <text x="120" y="102" font-size="13" font-weight="700" fill="#546e7a">高云族 High Clouds</text>
+  <text x="120" y="118" font-size="10" fill="#90a4ae">5–13 km · 冰晶组成 · 纤维状、半透明</text>
+
+  <!-- Cirrus -->
+  <g transform="translate(140, 160)" filter="url(#cloudShadow)">
+    <ellipse cx="48" cy="12" rx="50" ry="10" fill="white" stroke="#bcc8d4" stroke-width="1"/>
+    <path d="M2,9 Q24,0 48,7 Q72,2 94,10" fill="none" stroke="#cfd8dc" stroke-width="1.2"/>
+    <ellipse cx="48" cy="14" rx="52" ry="6" fill="white" opacity="0.5"/>
+  </g>
+  <text x="188" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">卷云</text>
+  <text x="188" y="206" text-anchor="middle" font-size="9" fill="#90a4ae">Cirrus (Ci)</text>
+
+  <!-- Cirrocumulus -->
+  <g transform="translate(310, 148)" filter="url(#cloudShadow)">
+    <circle cx="15" cy="12" r="8" fill="white" stroke="#cfd8dc" stroke-width="0.8"/>
+    <circle cx="33" cy="8" r="8" fill="white" stroke="#cfd8dc" stroke-width="0.8"/>
+    <circle cx="51" cy="14" r="8" fill="white" stroke="#cfd8dc" stroke-width="0.8"/>
+    <circle cx="69" cy="7" r="8" fill="white" stroke="#cfd8dc" stroke-width="0.8"/>
+    <circle cx="87" cy="13" r="8" fill="white" stroke="#cfd8dc" stroke-width="0.8"/>
+  </g>
+  <text x="360" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">卷积云</text>
+  <text x="360" y="206" text-anchor="middle" font-size="9" fill="#90a4ae">Cirrocumulus (Cc)</text>
+
+  <!-- Cirrostratus -->
+  <g transform="translate(520, 170)" filter="url(#cloudShadow)">
+    <ellipse cx="65" cy="10" rx="68" ry="6" fill="white" stroke="#cfd8dc" stroke-width="0.8"/>
+    <!-- halo ring -->
+    <circle cx="65" cy="-15" r="28" fill="none" stroke="#90a4ae" stroke-width="0.8" stroke-dasharray="3,4" opacity="0.5"/>
+    <circle cx="65" cy="-15" r="4" fill="#f9a825" opacity="0.7"/>
+  </g>
+  <text x="590" y="192" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">卷层云</text>
+  <text x="590" y="206" text-anchor="middle" font-size="9" fill="#90a4ae">Cirrostratus (Cs)</text>
+  <text x="590" y="218" text-anchor="middle" font-size="8" fill="#90a4ae">◎ 日晕现象</text>
+
+  <!-- ===== MIDDLE ÉTAGE (2–7 km) ===== -->
+  <rect x="100" y="258" width="770" height="175" fill="url(#midSky)" rx="8" stroke="#c8d8e8" stroke-width="1"/>
+  <text x="120" y="280" font-size="13" font-weight="700" fill="#546e7a">中云族 Middle Clouds</text>
+  <text x="120" y="296" font-size="10" fill="#90a4ae">2–7 km · 冰晶与过冷水滴混合</text>
+
+  <!-- Altocumulus -->
+  <g transform="translate(135, 335)" filter="url(#cloudShadow)">
+    <ellipse cx="18" cy="12" rx="14" ry="10" fill="white" stroke="#bcc8d4" stroke-width="1"/>
+    <ellipse cx="48" cy="8" rx="14" ry="10" fill="white" stroke="#bcc8d4" stroke-width="1"/>
+    <ellipse cx="78" cy="14" rx="14" ry="10" fill="white" stroke="#bcc8d4" stroke-width="1"/>
+    <ellipse cx="108" cy="6" rx="14" ry="10" fill="white" stroke="#bcc8d4" stroke-width="1"/>
+    <ellipse cx="138" cy="12" rx="14" ry="10" fill="white" stroke="#bcc8d4" stroke-width="1"/>
+  </g>
+  <text x="208" y="376" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">高积云</text>
+  <text x="208" y="390" text-anchor="middle" font-size="9" fill="#90a4ae">Altocumulus (Ac)</text>
+
+  <!-- Altostratus -->
+  <g transform="translate(370, 350)" filter="url(#cloudShadow)">
+    <ellipse cx="60" cy="12" rx="62" ry="8" fill="#e8ecf0" stroke="#bcc8d4" stroke-width="1"/>
+    <!-- muted sun barely visible -->
+    <circle cx="60" cy="14" r="14" fill="#f5f0d0" opacity="0.4"/>
+    <ellipse cx="60" cy="12" rx="62" ry="8" fill="#e8ecf0" opacity="0.5"/>
+  </g>
+  <text x="430" y="376" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">高层云</text>
+  <text x="430" y="390" text-anchor="middle" font-size="9" fill="#90a4ae">Altostratus (As)</text>
+  <text x="430" y="402" text-anchor="middle" font-size="8" fill="#90a4ae">太阳如隔毛玻璃</text>
+
+  <!-- Nimbostratus -->
+  <g transform="translate(560, 338)" filter="url(#cloudShadow)">
+    <ellipse cx="45" cy="16" rx="48" ry="12" fill="#cfd8e0" stroke="#a0b0c0" stroke-width="1"/>
+    <ellipse cx="45" cy="20" rx="50" ry="8" fill="#c0ccd6" opacity="0.6"/>
+    <!-- rain streaks -->
+    <line x1="15" y1="24" x2="12" y2="42" stroke="#90a4ae" stroke-width="0.6" opacity="0.4"/>
+    <line x1="30" y1="26" x2="28" y2="44" stroke="#90a4ae" stroke-width="0.6" opacity="0.4"/>
+    <line x1="45" y1="27" x2="45" y2="46" stroke="#90a4ae" stroke-width="0.6" opacity="0.4"/>
+    <line x1="60" y1="26" x2="62" y2="44" stroke="#90a4ae" stroke-width="0.6" opacity="0.4"/>
+    <line x1="75" y1="24" x2="78" y2="42" stroke="#90a4ae" stroke-width="0.6" opacity="0.4"/>
+  </g>
+  <text x="605" y="376" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">雨层云</text>
+  <text x="605" y="390" text-anchor="middle" font-size="9" fill="#90a4ae">Nimbostratus (Ns)</text>
+  <text x="605" y="402" text-anchor="middle" font-size="8" fill="#90a4ae">⬇ 持续降水</text>
+
+  <!-- ===== LOW ÉTAGE (0–2 km) ===== -->
+  <rect x="100" y="439" width="770" height="128" fill="url(#lowSky)" rx="8" stroke="#c8d8e8" stroke-width="1"/>
+  <text x="120" y="461" font-size="13" font-weight="700" fill="#546e7a">低云族 Low Clouds</text>
+  <text x="120" y="477" font-size="10" fill="#90a4ae">0–2 km · 多由液态水滴组成</text>
+
+  <!-- Stratocumulus -->
+  <g transform="translate(120, 508)" filter="url(#cloudShadow)">
+    <ellipse cx="16" cy="14" rx="14" ry="12" fill="#e8ecf0" stroke="#a0b0c0" stroke-width="1"/>
+    <ellipse cx="46" cy="10" rx="14" ry="12" fill="#e8ecf0" stroke="#a0b0c0" stroke-width="1"/>
+    <ellipse cx="76" cy="15" rx="14" ry="12" fill="#e8ecf0" stroke="#a0b0c0" stroke-width="1"/>
+    <ellipse cx="106" cy="9" rx="14" ry="12" fill="#e8ecf0" stroke="#a0b0c0" stroke-width="1"/>
+  </g>
+  <text x="180" y="542" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">层积云</text>
+  <text x="180" y="556" text-anchor="middle" font-size="9" fill="#90a4ae">Stratocumulus (Sc)</text>
+
+  <!-- Stratus -->
+  <g transform="translate(295, 518)" filter="url(#cloudShadow)">
+    <ellipse cx="45" cy="10" rx="48" ry="5" fill="#d8dfe4" stroke="#a0b0c0" stroke-width="1"/>
+  </g>
+  <text x="340" y="542" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">层云</text>
+  <text x="340" y="556" text-anchor="middle" font-size="9" fill="#90a4ae">Stratus (St)</text>
+  <text x="340" y="568" text-anchor="middle" font-size="8" fill="#90a4ae">≡ 抬起的雾</text>
+
+  <!-- Cumulus -->
+  <g transform="translate(440, 502)" filter="url(#cloudShadow)">
+    <ellipse cx="30" cy="22" rx="28" ry="7" fill="white" stroke="#bcc8d4" stroke-width="1"/>
+    <ellipse cx="18" cy="12" rx="12" ry="14" fill="white" stroke="#bcc8d4" stroke-width="1"/>
+    <ellipse cx="42" cy="10" rx="12" ry="15" fill="white" stroke="#bcc8d4" stroke-width="1"/>
+  </g>
+  <text x="470" y="542" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">积云</text>
+  <text x="470" y="556" text-anchor="middle" font-size="9" fill="#90a4ae">Cumulus (Cu)</text>
+
+  <!-- Cumulonimbus -->
+  <g transform="translate(580, 488)" filter="url(#cloudShadow)">
+    <!-- base -->
+    <ellipse cx="40" cy="46" rx="42" ry="10" fill="#c8d0d8" stroke="#90a0b0" stroke-width="1"/>
+    <!-- rising body -->
+    <ellipse cx="32" cy="30" rx="16" ry="22" fill="#d8e0e8" stroke="#a0b0c0" stroke-width="1"/>
+    <ellipse cx="50" cy="28" rx="14" ry="24" fill="#d0d8e0" stroke="#a0b0c0" stroke-width="1"/>
+    <!-- anvil top -->
+    <ellipse cx="42" cy="10" rx="36" ry="6" fill="white" stroke="#bcc8d4" stroke-width="1"/>
+    <ellipse cx="42" cy="8" rx="40" ry="4" fill="white" opacity="0.6"/>
+    <!-- rain -->
+    <line x1="15" y1="54" x2="10" y2="70" stroke="#78909c" stroke-width="0.7" opacity="0.4"/>
+    <line x1="30" y1="56" x2="28" y2="72" stroke="#78909c" stroke-width="0.7" opacity="0.4"/>
+    <line x1="45" y1="56" x2="45" y2="74" stroke="#78909c" stroke-width="0.7" opacity="0.4"/>
+    <line x1="60" y1="54" x2="62" y2="70" stroke="#78909c" stroke-width="0.7" opacity="0.4"/>
+    <!-- lightning -->
+    <polyline points="55,40 52,48 56,48 50,58" fill="none" stroke="#f9a825" stroke-width="0.8" opacity="0.7"/>
+  </g>
+  <text x="625" y="542" text-anchor="middle" font-size="11" font-weight="600" fill="#455a64">积雨云</text>
+  <text x="625" y="556" text-anchor="middle" font-size="9" fill="#90a4ae">Cumulonimbus (Cb)</text>
+  <text x="625" y="568" text-anchor="middle" font-size="8" fill="#90a4ae">⚡ 雷暴 · 砧状顶</text>
+
+  <!-- ===== GROUND ===== -->
+  <rect x="100" y="575" width="770" height="92" fill="url(#groundGrad)" rx="8" stroke="#b0bcc8" stroke-width="1"/>
+  <text x="120" y="600" font-size="12" fill="#607d8b">🌍</text>
+  <text x="140" y="600" font-size="11" fill="#546e7a">地面</text>
+
+  <!-- Ground level indicators -->
+  <g transform="translate(140, 615)">
+    <rect x="0" y="0" width="710" height="10" rx="3" fill="#9aaab6" opacity="0.5"/>
+    <!-- Simple terrain silhouette -->
+    <path d="M0,10 Q50,2 100,8 Q150,4 200,9 Q280,1 350,7 Q420,3 500,8 Q580,2 650,6 Q700,5 710,10 Z" fill="#8a9aa8" opacity="0.3"/>
+  </g>
+
+  <!-- Ground labels -->
+  <text x="200" y="650" text-anchor="middle" font-size="9" fill="#607d8b">☁️ 云底 = 地面 → 雾 (Fog)</text>
+
+  <!-- Legend items in ground area -->
+  <g transform="translate(400, 640)">
+    <ellipse cx="8" cy="-2" rx="14" ry="5" fill="white" stroke="#bcc8d4" stroke-width="0.8"/>
+    <text x="30" y="1" font-size="8" fill="#607d8b">冰晶云（高云族）</text>
+    <ellipse cx="130" cy="-2" rx="14" ry="5" fill="#d0d8e0" stroke="#90a0b0" stroke-width="0.8"/>
+    <text x="152" y="1" font-size="8" fill="#607d8b">水滴云（低云族）</text>
+  </g>
+
+  <!-- ===== VERTICAL EXTENT INDICATORS (right side) ===== -->
+  <!-- Cumulonimbus vertical extent indicator -->
+  <rect x="880" y="92" width="10" height="470" rx="4" fill="none" stroke="#cfd8dc" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <rect x="883" y="250" width="4" height="310" rx="2" fill="#f9a825" opacity="0.3" stroke="#f9a825" stroke-width="0.5"/>
+  <text x="858" y="230" text-anchor="end" font-size="8" fill="#f9a825" font-style="italic">积雨云可贯穿全层</text>
+
+  <!-- Subtle note -->
+  <text x="450" y="698" text-anchor="middle" font-size="9" fill="#b0bec5">高度范围以温带为参考 · 10 属 (Genera) · 基于 WMO 国际云图集 (International Cloud Atlas)</text>
+
+  <!-- Thin border frame -->
+  <rect x="1" y="1" width="898" height="718" rx="6" fill="none" stroke="#d0d8e0" stroke-width="1"/>
+</svg>
