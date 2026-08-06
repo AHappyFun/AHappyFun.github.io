@@ -316,26 +316,6 @@ Burst：把一部分C#编译成高性能Native机]]>
     <category term="Unity" scheme="https://ahappyfun.github.io/categories/Unity/"/>
     <category term="Unity" scheme="https://ahappyfun.github.io/tags/Unity/"/>
     <content>
-      <![CDATA[<center><img src="image-01.png" width = "" height = ""></center><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p>SSR需要ColorTexture和DepthTexture。</p><p>视角空间的SSR的大概步骤：<br>1、屏幕空间坐标——&gt;ViewPos<br>2、ViewPos获取ViewDir和ViewNormal<br>3、ViewDir和ViewNormal算出视角的反射方向<br>4、从ViewPos开始RayMarch，方向是反射方向，逐步RayMarch判断深度差(小于Thickness为击中)，判定成功获取到那个地方的ViewPos，转换为屏幕空间坐标返回<br>5、屏幕空间坐标采样Color图，得到反射颜色</p><h3 id="代码思路"><a href="#代码思路" class="headerlink" title="代码思路"></a>代码思路</h3><h2 id="优化项"><a href="#优化项" class="headerlink" title="优化项"></a>优化项</h2><h3 id="HIZ加速"><a href="#HIZ加速" class="headerlink" title="HIZ加速"></a>HIZ加速</h3><p>通过生成梯度深度图，加速射线检测区间的判定。<br>每次从最小的mip开始，如果不合格直接跳过，节省资源。逐次增大mip，缩小射线击中的区间。<br>到最后得到一个击中点，如果判定是厚度小于阈值(算在表面上)，就继续二分查找精细化。反之，算为没命中。</p><h3 id="Jitter-Dither"><a href="#Jitter-Dither" class="headerlink" title="Jitter-Dither"></a>Jitter-Dither</h3><p>优化1. 根据粗糙度和随机，调整RayMarch的步长，减少实际步数。<br>优化2. 加一个Halftone的偏移，类似TAA。</p><h3 id="步进数量优化"><a href="#步进数量优化" class="headerlink" title="步进数量优化"></a>步进数量优化</h3><p>步进数量是Raymarch算法最需要优化的地方。<br>1.动态步长。近处密度高，步长小。远处密度低，步长大。<br>2.分层HIZ检测。mip越细，步长再往里缩小。<br>3.二分搜索。<br>4.粗糙度控制步进Scale。<br>5.重要性Mask。只在符合条件的像素进行RayMarch。</p><h3 id="二分精度优化"><a href="#二分精度优化" class="headerlink" title="二分精度优化"></a>二分精度优化</h3><p>在HIZ或者普通的Raymarch判定击中表面时，按步数前进的那个RayPos可能并没有那么精准。<br>所以在RayPos的基础上，从两侧进行二分逼近，得到更精确的RayPos。</p><h3 id="高斯模糊"><a href="#高斯模糊" class="headerlink" title="高斯模糊"></a>高斯模糊</h3><p>原始的SSR结果图看起来会有噪点，而且太瑞，不润。模糊一下整体会好很多。<br>可以根据粗糙度进行调整模糊范围，越粗糙模糊半径越大。</p><h3 id="基于粗糙度模拟"><a href="#基于粗糙度模拟" class="headerlink" title="基于粗糙度模拟"></a>基于粗糙度模拟</h3><p>基于物理直觉的原理：<br>在微表面理论（Microfacet Theory）里：</p><ul><li>表面由很多微小镜面组成；</li><li>每个微面反射方向略有偏差；</li><li>粗糙度越大，反射方向分布越宽；</li><li>因此，反射结果越模糊。<br>SSR里，通过模糊、抖动、多采样来表达这种效果。<br>1.采样模糊。模糊的时候，粗糙度越大，模糊半径越大。<br>2.反射抖动。随机扰动模拟微面模型，在射线方向引入随机偏移。多帧之后平均化就呈现模糊反射。<br>3.Mip模糊+Roughness混合。混合SSR时，不同粗糙度采样不同的Mip。</li></ul><h3 id="TAA抗闪烁"><a href="#TAA抗闪烁" class="headerlink" title="TAA抗闪烁"></a>TAA抗闪烁</h3><p>SSR算完之后可以设置一张HistoryTex，做一下TAA。<br>可以有效减少光爆点和闪烁的情况。</p><h3 id="DDA空间射线"><a href="#DDA空间射线" class="headerlink" title="DDA空间射线"></a>DDA空间射线</h3><p>视角空间采样会有下图的问题。</p><center><img src="image-02.png" width = "" height = ""></center><p>所以衍生出DDA屏幕空间RayMarch：<br>屏幕空间RayMarch，就需要用到画线算法，从一个点到另一个点，之间有一条格子路。<br>并且，步进的时候，有斜率的问题。比如X是平均1步，Y的步进每次就会不太一样。<br>DDA画线算法，从A步进到B。</p><center><img src="image-03.png" width = "" height = ""></center><p>屏幕空间步进的优势就是比较均匀，比如Q0到Q1,3d步进后面就会跳跃很大，投影到屏幕步进，就会比较均匀。</p><center><img src="image-04.png" width = "" height = ""></center>]]>
-    </content>
-    <id>https://ahappyfun.github.io/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/</id>
-    <link href="https://ahappyfun.github.io/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/"/>
-    <published>2026-02-09T16:00:00.000Z</published>
-    <summary>
-      <![CDATA[<center><img src="image-01.png" width = "" height = ""></center>
-
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id=]]>
-    </summary>
-    <title>Unity-URP延迟渲染SSR</title>
-    <updated>2026-07-29T06:21:43.544Z</updated>
-  </entry>
-  <entry>
-    <author>
-      <name>锅巴</name>
-    </author>
-    <category term="Unity" scheme="https://ahappyfun.github.io/categories/Unity/"/>
-    <category term="Unity" scheme="https://ahappyfun.github.io/tags/Unity/"/>
-    <content>
       <![CDATA[<p>SSAO的进化版。</p><p>不再是通过对比深度来判断是否遮挡，而是寻找每个方向上的地平线高度。</p><center><img src="image-01.png" width = "" height = ""></center><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p>GI是一个几何点从旁边所有角度的光照和。<br>HBAO就是从几何点往旁边和方向去计算遮蔽的过程，通过简化方向为8个或者16个，结果贴合GI的原理。</p><p>从一个几何点，往周围若干个方向打射线，找到每个方向的最大遮挡高度的角度。</p><p>下图中，S0、S1、S2、S3是4个方向的射线，分别会得到一个最大的水平角。<br>方向越容易被遮挡——&gt;水平角越大——&gt;AO越强</p><center><img src="image-02.png" width = "" height = ""></center><h3 id="如何计算水平角？"><a href="#如何计算水平角？" class="headerlink" title="如何计算水平角？"></a>如何计算水平角？</h3><p>1.计算坡度Slope</p><p>坡度 &#x3D; 高度变化 &#x2F; 水平变化<br>tanAngle &#x3D; 红色 &#x2F; 蓝色<br>红色 &#x3D; 当前射线深度Z - 原始深度Z<br>蓝色 &#x3D; 两个平面空间点的距离。length(当前射线点.xy - 原始点.xy)</p><center><img src="image-03.png" width = "" height = ""></center><p>所以角度就是arctan(红色蓝色)</p><h3 id="如何计算AO贡献？"><a href="#如何计算AO贡献？" class="headerlink" title="如何计算AO贡献？"></a>如何计算AO贡献？</h3><p>水平角越大，AO越大。<br>0到90度的范围，AO遮蔽贡献转换到0到1。<br>在考虑一下背面的三角形，和法线做一下Dot，调整一下AO值。</p><p>最后合计的时候平均一下，</p><p>这个几何点的AO &#x3D; 所有方向的AO加起来 &#x2F; 方向数量。</p><h2 id="优化项"><a href="#优化项" class="headerlink" title="优化项"></a>优化项</h2><h3 id="双边滤波模糊"><a href="#双边滤波模糊" class="headerlink" title="双边滤波模糊"></a>双边滤波模糊</h3><p>考虑深度的模糊，避免因为像素算法影响到旁边正常的几何。</p><h3 id="降分辨率计算"><a href="#降分辨率计算" class="headerlink" title="降分辨率计算"></a>降分辨率计算</h3><p>一个点需要几十上百次采样，非常耗费性能。<br>通常只渲染半分辨率的HBAO。</p><h3 id="HIZ优化步数采样"><a href="#HIZ优化步数采样" class="headerlink" title="HIZ优化步数采样"></a>HIZ优化步数采样</h3><p>HIZ</p>]]>
     </content>
     <id>https://ahappyfun.github.io/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/</id>
@@ -350,6 +330,26 @@ Burst：把一部分C#编译成高性能Native机]]>
     </summary>
     <title>Unity-URP延迟渲染HBAO</title>
     <updated>2026-07-29T06:21:43.536Z</updated>
+  </entry>
+  <entry>
+    <author>
+      <name>锅巴</name>
+    </author>
+    <category term="Unity" scheme="https://ahappyfun.github.io/categories/Unity/"/>
+    <category term="Unity" scheme="https://ahappyfun.github.io/tags/Unity/"/>
+    <content>
+      <![CDATA[<center><img src="image-01.png" width = "" height = ""></center><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p>SSR需要ColorTexture和DepthTexture。</p><p>视角空间的SSR的大概步骤：<br>1、屏幕空间坐标——&gt;ViewPos<br>2、ViewPos获取ViewDir和ViewNormal<br>3、ViewDir和ViewNormal算出视角的反射方向<br>4、从ViewPos开始RayMarch，方向是反射方向，逐步RayMarch判断深度差(小于Thickness为击中)，判定成功获取到那个地方的ViewPos，转换为屏幕空间坐标返回<br>5、屏幕空间坐标采样Color图，得到反射颜色</p><h3 id="代码思路"><a href="#代码思路" class="headerlink" title="代码思路"></a>代码思路</h3><h2 id="优化项"><a href="#优化项" class="headerlink" title="优化项"></a>优化项</h2><h3 id="HIZ加速"><a href="#HIZ加速" class="headerlink" title="HIZ加速"></a>HIZ加速</h3><p>通过生成梯度深度图，加速射线检测区间的判定。<br>每次从最小的mip开始，如果不合格直接跳过，节省资源。逐次增大mip，缩小射线击中的区间。<br>到最后得到一个击中点，如果判定是厚度小于阈值(算在表面上)，就继续二分查找精细化。反之，算为没命中。</p><h3 id="Jitter-Dither"><a href="#Jitter-Dither" class="headerlink" title="Jitter-Dither"></a>Jitter-Dither</h3><p>优化1. 根据粗糙度和随机，调整RayMarch的步长，减少实际步数。<br>优化2. 加一个Halftone的偏移，类似TAA。</p><h3 id="步进数量优化"><a href="#步进数量优化" class="headerlink" title="步进数量优化"></a>步进数量优化</h3><p>步进数量是Raymarch算法最需要优化的地方。<br>1.动态步长。近处密度高，步长小。远处密度低，步长大。<br>2.分层HIZ检测。mip越细，步长再往里缩小。<br>3.二分搜索。<br>4.粗糙度控制步进Scale。<br>5.重要性Mask。只在符合条件的像素进行RayMarch。</p><h3 id="二分精度优化"><a href="#二分精度优化" class="headerlink" title="二分精度优化"></a>二分精度优化</h3><p>在HIZ或者普通的Raymarch判定击中表面时，按步数前进的那个RayPos可能并没有那么精准。<br>所以在RayPos的基础上，从两侧进行二分逼近，得到更精确的RayPos。</p><h3 id="高斯模糊"><a href="#高斯模糊" class="headerlink" title="高斯模糊"></a>高斯模糊</h3><p>原始的SSR结果图看起来会有噪点，而且太瑞，不润。模糊一下整体会好很多。<br>可以根据粗糙度进行调整模糊范围，越粗糙模糊半径越大。</p><h3 id="基于粗糙度模拟"><a href="#基于粗糙度模拟" class="headerlink" title="基于粗糙度模拟"></a>基于粗糙度模拟</h3><p>基于物理直觉的原理：<br>在微表面理论（Microfacet Theory）里：</p><ul><li>表面由很多微小镜面组成；</li><li>每个微面反射方向略有偏差；</li><li>粗糙度越大，反射方向分布越宽；</li><li>因此，反射结果越模糊。<br>SSR里，通过模糊、抖动、多采样来表达这种效果。<br>1.采样模糊。模糊的时候，粗糙度越大，模糊半径越大。<br>2.反射抖动。随机扰动模拟微面模型，在射线方向引入随机偏移。多帧之后平均化就呈现模糊反射。<br>3.Mip模糊+Roughness混合。混合SSR时，不同粗糙度采样不同的Mip。</li></ul><h3 id="TAA抗闪烁"><a href="#TAA抗闪烁" class="headerlink" title="TAA抗闪烁"></a>TAA抗闪烁</h3><p>SSR算完之后可以设置一张HistoryTex，做一下TAA。<br>可以有效减少光爆点和闪烁的情况。</p><h3 id="DDA空间射线"><a href="#DDA空间射线" class="headerlink" title="DDA空间射线"></a>DDA空间射线</h3><p>视角空间采样会有下图的问题。</p><center><img src="image-02.png" width = "" height = ""></center><p>所以衍生出DDA屏幕空间RayMarch：<br>屏幕空间RayMarch，就需要用到画线算法，从一个点到另一个点，之间有一条格子路。<br>并且，步进的时候，有斜率的问题。比如X是平均1步，Y的步进每次就会不太一样。<br>DDA画线算法，从A步进到B。</p><center><img src="image-03.png" width = "" height = ""></center><p>屏幕空间步进的优势就是比较均匀，比如Q0到Q1,3d步进后面就会跳跃很大，投影到屏幕步进，就会比较均匀。</p><center><img src="image-04.png" width = "" height = ""></center>]]>
+    </content>
+    <id>https://ahappyfun.github.io/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/</id>
+    <link href="https://ahappyfun.github.io/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/"/>
+    <published>2026-02-09T16:00:00.000Z</published>
+    <summary>
+      <![CDATA[<center><img src="image-01.png" width = "" height = ""></center>
+
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><h3 id=]]>
+    </summary>
+    <title>Unity-URP延迟渲染SSR</title>
+    <updated>2026-07-29T06:21:43.544Z</updated>
   </entry>
   <entry>
     <author>
