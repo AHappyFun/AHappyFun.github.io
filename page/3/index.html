@@ -535,7 +535,15 @@
               <h3 class="post-card__title">
                 <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/">UE5-MultiPass添加</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">UE里默认不支持多Pass，项目里一般都会需要这个功能。
+记录一下一种实现思路。
+效果视频：
+
+
+
+StaticMesh多Pass实现主要是两个方面，一个是材质管理，另一个是把多Pass加入渲染流程中。
+材质管理首先需要在UStaticMe</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -561,7 +569,11 @@
               <h3 class="post-card__title">
                 <a href="/2024/06/05/UE4-DeferredDecal/">UE4-DeferredDecal</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">大佬们的文章链接参考：
+https://zhuanlan.zhihu.com/p/666213716
+https://zhuanlan.zhihu.com/p/100748588
+UE的DeferredDecalUE的延迟贴花有两种版本，一</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -587,7 +599,10 @@
               <h3 class="post-card__title">
                 <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/">Base-阴影ShadowMap相关</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">这篇记一下ShadowMap阴影的技术。
+1.ShadowMap相关ShadowMap的原理从Light的方向渲染场景的深度图，因为具有遮挡关系，所以能做阴影用。https://zhuanlan.zhihu.com/p/384446688
+</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -613,7 +628,19 @@
               <h3 class="post-card__title">
                 <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/">Base-矩阵和向量</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">这篇需要常复习。
+1.坐标系笛卡尔坐标系2D 坐标系
+
+3D 坐标系1.左手坐标系Unity的左手坐标系，y上z前x右
+
+
+UE的左手坐标系，z上y右x前，相当于untiy的坐标系翻了一下，但仍然是左手。
+
+
+
+2.右手坐标系y上z后x右
+</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -639,7 +666,13 @@
               <h3 class="post-card__title">
                 <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/">UE4-添加GlobalShader</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">已经在UE4.27 添加了
+有两种，
+一种是蓝图调用的GlobalShader Draw调用。
+另一种是渲染线程过程中加了一步，可以做个类似后处理的那种。
+记录第一种蓝图调用的这种，需要的所有东西：
+1.C++的Shader结构Shader</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -665,7 +698,12 @@
               <h3 class="post-card__title">
                 <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/">Base-各个坐标空间</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">常复习篇章。
+渲染 空间转换过程VertShaderObject模型空间开始
+——(UNITY_MATTIX_M)——&amp;gt;World空间
+——(UNITY_MATTIX_V)——&amp;gt;View视角空间
+——(UNITY_MATRIX_</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -691,7 +729,8 @@
               <h3 class="post-card__title">
                 <a href="/2024/05/11/UE4-PSOCache/">UE4-PSOCache</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">1.什么是PSO?PSO(Pipeline State Object)是现代图形API(DX12、Vulkan、Metal)提出的新概念，以前的API设置VS、Rasterizer、PS、BlendState这些状态时，需要一个一个调用设置</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -717,6 +756,7 @@
               <h3 class="post-card__title">
                 <a href="/2024/04/05/UE4-DistanceFieldShadow/">UE4-距离场阴影DistanceFieldShadow</a>
               </h3>
+
               <p class="post-card__excerpt">1.UE的DistanceField距离场的生成，有MeshDistanceField和GlobalDistanceField
 UE的主要应用是DFShadow、DFAO、材质DistanceFieldToNearest
 https://d</p>

@@ -518,7 +518,15 @@
             <h3 class="post-card__title">
               <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/">UE5-MultiPass添加</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">UE里默认不支持多Pass，项目里一般都会需要这个功能。
+记录一下一种实现思路。
+效果视频：
+
+
+
+StaticMesh多Pass实现主要是两个方面，一个是材质管理，另一个是把多Pass加入渲染流程中。
+材质管理首先需要在UStaticMe</p>
             <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -531,7 +539,11 @@
             <h3 class="post-card__title">
               <a href="/2024/06/05/UE4-DeferredDecal/">UE4-DeferredDecal</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">大佬们的文章链接参考：
+https://zhuanlan.zhihu.com/p/666213716
+https://zhuanlan.zhihu.com/p/100748588
+UE的DeferredDecalUE的延迟贴花有两种版本，一</p>
             <a href="/2024/06/05/UE4-DeferredDecal/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -544,7 +556,13 @@
             <h3 class="post-card__title">
               <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/">UE4-添加GlobalShader</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">已经在UE4.27 添加了
+有两种，
+一种是蓝图调用的GlobalShader Draw调用。
+另一种是渲染线程过程中加了一步，可以做个类似后处理的那种。
+记录第一种蓝图调用的这种，需要的所有东西：
+1.C++的Shader结构Shader</p>
             <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -557,7 +575,8 @@
             <h3 class="post-card__title">
               <a href="/2024/05/11/UE4-PSOCache/">UE4-PSOCache</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">1.什么是PSO?PSO(Pipeline State Object)是现代图形API(DX12、Vulkan、Metal)提出的新概念，以前的API设置VS、Rasterizer、PS、BlendState这些状态时，需要一个一个调用设置</p>
             <a href="/2024/05/11/UE4-PSOCache/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -570,6 +589,7 @@
             <h3 class="post-card__title">
               <a href="/2024/04/05/UE4-DistanceFieldShadow/">UE4-距离场阴影DistanceFieldShadow</a>
             </h3>
+
             <p class="post-card__excerpt">1.UE的DistanceField距离场的生成，有MeshDistanceField和GlobalDistanceField
 UE的主要应用是DFShadow、DFAO、材质DistanceFieldToNearest
 https://d</p>
@@ -585,7 +605,9 @@ https://d</p>
             <h3 class="post-card__title">
               <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/">UE4-GPU优化RazorForPS5</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">连接到PS5之后，可以通过Razor GPU For PS5，截帧分析每个DrawCall的具体消耗。
+1.打开RazorGPUForPS5，点击Capture——GPU Capture截帧这个工具截出来没有RenderDoc那样对Pass</p>
             <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -598,7 +620,10 @@ https://d</p>
             <h3 class="post-card__title">
               <a href="/2023/09/14/UE4-GPUScene/">UE4-GPUScene</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">UE4里GPUScene相关的梳理。
+1.引擎传输Primitive数据到GPU的方式什么是PrimitiveData?
+PrimitiveData是UPrimitiveComponent级别的几何数据，包括LocalToWorldMatr</p>
             <a href="/2023/09/14/UE4-GPUScene/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -611,6 +636,7 @@ https://d</p>
             <h3 class="post-card__title">
               <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/">UE5-创建简单的插件Plugin</a>
             </h3>
+
             <p class="post-card__excerpt">虚幻创建插件在此总结一下。
 基于UE5.1 Github版本
 在项目里创建插件
@@ -628,7 +654,12 @@ https://d</p>
             <h3 class="post-card__title">
               <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/">UE5-自定义MeshPass</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">虚幻自定义MeshPass在此总结一下。
+基于UE5.1 Github版本
+UE5 AddOutlinePass
+https://zhuanlan.zhihu.com/p/597864516
+UE4 AddOutlinePass 材质实例参</p>
             <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="post-card__more">阅读更多</a>
           </div>
         </article>

@@ -518,6 +518,7 @@
             <h3 class="post-card__title">
               <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/">AI-把高质量画面训练成低配Shader的探索</a>
             </h3>
+
             <p class="post-card__excerpt">很多人设想过一个很诱人的工作流：用离线渲染（路径追踪、多层 PBR、全局光照）渲出一批高质量的”标准答案”，喂给 AI 训练，最后得到一个能跑在低端手机上的 Shader——它的代码看起来像一堆无意义的数字，几乎没法阅读，但性能很好，效果又</p>
             <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/" class="post-card__more">阅读更多</a>
           </div>
@@ -531,7 +532,9 @@
             <h3 class="post-card__title">
               <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/">Base-GPU硬件架构基础</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">记录一下GPU硬件里ALU、SIMD、Warp&amp;#x2F;Wave和half精度这些概念的关系。
+平时看GPU参数会看到很多名词：多少个ALU、多少个Shader Core、SIMD宽度、Warp、Wave32、FP16双倍性能。这些东西属</p>
             <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -544,7 +547,10 @@
             <h3 class="post-card__title">
               <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/">Unity-TA面试复习大纲</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">这次岗位是客户端 TA 方向，重点不是单纯背 Shader 语法，而是看你能不能把 Unity URP&amp;#x2F;HDRP 管线、Shader 效果、性能分析、工具插件、美术工作流 串成一个能落地的技术支持体系。
+明天面试前的目标很明确：
+</p>
             <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -557,7 +563,9 @@
             <h3 class="post-card__title">
               <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/">Base-Shader分支与GPU线程发散</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">Shader里的if并不是一定慢，真正需要关注的是：同一个GPU执行组内，不同线程是否走了不同路径。
+如果整个执行组都进入同一个分支，动态分支反而可以跳过大量无用计算；如果组内线程分别进入不同分支，就会产生线程发散（Divergence）。</p>
             <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -570,7 +578,9 @@
             <h3 class="post-card__title">
               <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/">Shader-屏幕空间</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">搬运知乎之前写的文章链接：（知乎把GIF转换成了MP4，不知道怎么显示在这里，就先这样吧）
+https://zhuanlan.zhihu.com/p/143261544</p>
             <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -583,7 +593,8 @@
             <h3 class="post-card__title">
               <a href="/2020/01/01/Shader-RayMarch/">Shader-RayMarch</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">先Mark一下Shader这个分类。主要记录一些效果。&amp;#x2F;&amp;#x2F;todo</p>
             <a href="/2020/01/01/Shader-RayMarch/" class="post-card__more">阅读更多</a>
           </div>
         </article>

@@ -535,7 +535,9 @@
               <h3 class="post-card__title">
                 <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/">Base-GPU硬件架构基础</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">记录一下GPU硬件里ALU、SIMD、Warp&amp;#x2F;Wave和half精度这些概念的关系。
+平时看GPU参数会看到很多名词：多少个ALU、多少个Shader Core、SIMD宽度、Warp、Wave32、FP16双倍性能。这些东西属</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -565,7 +567,10 @@
               <h3 class="post-card__title">
                 <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/">Unity-TA面试复习大纲</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">这次岗位是客户端 TA 方向，重点不是单纯背 Shader 语法，而是看你能不能把 Unity URP&amp;#x2F;HDRP 管线、Shader 效果、性能分析、工具插件、美术工作流 串成一个能落地的技术支持体系。
+明天面试前的目标很明确：
+</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -595,7 +600,9 @@
               <h3 class="post-card__title">
                 <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/">Base-Shader分支与GPU线程发散</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">Shader里的if并不是一定慢，真正需要关注的是：同一个GPU执行组内，不同线程是否走了不同路径。
+如果整个执行组都进入同一个分支，动态分支反而可以跳过大量无用计算；如果组内线程分别进入不同分支，就会产生线程发散（Divergence）。</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -625,7 +632,10 @@
               <h3 class="post-card__title">
                 <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/">Unity-GPUDriven草地渲染</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">记录一下YCT里GPUDriven 草地渲染实现。
+1.静态数据烘焙使用地形均匀网格Mesh和美术画的草地Mask，生成草地的分布数据。
+方法是遍历Mesh的三角形，用三角形UV去采样Mask，如果三个顶点都在Mask上是处于草地分布的，就</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -651,7 +661,13 @@
               <h3 class="post-card__title">
                 <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/">Unity-SRP前向渲染管线</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">本文记录对SRP自定义管线的开发改造。
+基于RenderGraph的基础Pass
+
+PCSS软阴影
+
+TiledBaseForward+光照</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -677,7 +693,24 @@
               <h3 class="post-card__title">
                 <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/">Unity-URP延迟渲染Feature</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">本文记录对URP延迟管线的开发改造。
+GBufferShader
+
+
+HBAO
+
+HIZ-Build
+
+SSAO
+
+SSGI
+
+SSR
+
+TAA
+
+ContactShadow</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -703,7 +736,12 @@
               <h3 class="post-card__title">
                 <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/">Unity-URP延迟渲染HBAO</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">SSAO的进化版。
+不再是通过对比深度来判断是否遮挡，而是寻找每个方向上的地平线高度。
+
+
+原理基础GI是一个几何点从旁边所有角度的光照和。HBAO就是从几何点往旁边和方向去计算遮蔽的过程，通过简化方向为8个或者16个，结果贴合GI的原理。</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -729,7 +767,9 @@
               <h3 class="post-card__title">
                 <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/">Unity-URP延迟渲染SSR</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">原理基础SSR需要ColorTexture和DepthTexture。
+视角空间的SSR的大概步骤：1、屏幕空间坐标——&amp;gt;ViewPos2、ViewPos获取ViewDir和ViewNormal3、ViewDir和ViewNormal</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   

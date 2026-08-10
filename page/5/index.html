@@ -535,6 +535,7 @@
               <h3 class="post-card__title">
                 <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/">Unity-URP代码架构</a>
               </h3>
+
               <p class="post-card__excerpt">本文对URP使用的这段时间的一些理解和总结。从知乎转移：URP管线架构学习总结
 1.URP渲染管线的架构图理解一个系统设计比较重要的就是类图了。
 
@@ -564,7 +565,11 @@
               <h3 class="post-card__title">
                 <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/">Base-TBDR架构</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">问题背景为什么直接一条流水线会有性能瓶颈？在IMR里，GPU流水线是：
+提交三角形——&amp;gt;VS——&amp;gt;Raster——&amp;gt;FS——&amp;gt;输出合并
+没有全局信息、没有延迟、完全按照顺序执行。
+GPU在执行FS的时候，并不知道像素</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -592,6 +597,7 @@
               <h3 class="post-card__title">
                 <a href="/2023/01/14/Base-TAA/">Base-时域抗锯齿 TAA</a>
               </h3>
+
               <p class="post-card__excerpt">Temporal Anti-Aliasing（TAA，时域抗锯齿）是当前游戏中最主流的抗锯齿方案。它不直接增加采样数，而是把过去若干帧的样本沿时间轴累积，以极低的每帧开销实现接近超采样的抗锯齿效果。
 但它并非无代价——时域复用带来了 Gho</p>
               <div class="post-card__footer">
@@ -621,6 +627,7 @@
               <h3 class="post-card__title">
                 <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/">Base-前向渲染与延迟渲染</a>
               </h3>
+
               <p class="post-card__excerpt">渲染管线中，光照计算阶段的组织方式决定了渲染器的整体架构。前向渲染（Forward）和延迟渲染（Deferred）是两种最主流的方案，它们各自衍生出一系列变体。
 本文梳理它们的核心思路、演进分支、以及在不同场景下的取舍。</p>
               <div class="post-card__footer">
@@ -648,6 +655,7 @@
               <h3 class="post-card__title">
                 <a href="/2021/12/18/Unity-SRPBatcher/">Unity-SRP Batcher 原理与使用</a>
               </h3>
+
               <p class="post-card__excerpt">对 SRP Batcher 的个人理解整理。之前的笔记比较零散，现在系统梳理一下，顺便验证是否有理解偏差。</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
@@ -676,7 +684,9 @@
               <h3 class="post-card__title">
                 <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/">Shader-屏幕空间</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">搬运知乎之前写的文章链接：（知乎把GIF转换成了MP4，不知道怎么显示在这里，就先这样吧）
+https://zhuanlan.zhihu.com/p/143261544</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -702,7 +712,12 @@
               <h3 class="post-card__title">
                 <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/">Base-透明渲染</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">其实渲染里没有真正的透明物体，透明效果是通过颜色的Blend模仿到的。
+正常的透明渲染需要一个一个前后混合，所以半透明是通过前向渲染。
+
+透明的渲染混合指令Blend   原因子   目标因子
+Blend   原RGB因子   目标RGB因</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -728,7 +743,11 @@
               <h3 class="post-card__title">
                 <a href="/2020/04/17/Base-PBR/">Base-PBR</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">PBR（Physically Based Rendering，基于物理的渲染）不是某一个固定 Shader，而是一套尽量遵循真实光照规律的材质与渲染方法。
+它的目标不是绝对还原现实，而是让材质满足一些稳定的物理约束：
+
+同一份材质换到不同光</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   

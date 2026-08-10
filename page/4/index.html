@@ -535,7 +535,10 @@
               <h3 class="post-card__title">
                 <a href="/2023/09/14/UE4-GPUScene/">UE4-GPUScene</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">UE4里GPUScene相关的梳理。
+1.引擎传输Primitive数据到GPU的方式什么是PrimitiveData?
+PrimitiveData是UPrimitiveComponent级别的几何数据，包括LocalToWorldMatr</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -561,6 +564,7 @@
               <h3 class="post-card__title">
                 <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/">UE5-创建简单的插件Plugin</a>
               </h3>
+
               <p class="post-card__excerpt">虚幻创建插件在此总结一下。
 基于UE5.1 Github版本
 在项目里创建插件
@@ -591,7 +595,12 @@
               <h3 class="post-card__title">
                 <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/">UE5-自定义MeshPass</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">虚幻自定义MeshPass在此总结一下。
+基于UE5.1 Github版本
+UE5 AddOutlinePass
+https://zhuanlan.zhihu.com/p/597864516
+UE4 AddOutlinePass 材质实例参</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -617,6 +626,7 @@
               <h3 class="post-card__title">
                 <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/">UE5-自定义ShadingModel</a>
               </h3>
+
               <p class="post-card__excerpt">虚幻自定义ShadingModel在此总结一下。
 基于UE5.1 Github版本
 
@@ -647,6 +657,7 @@
               <h3 class="post-card__title">
                 <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/">UE5-自定义MeshComponent</a>
               </h3>
+
               <p class="post-card__excerpt">虚幻自定义MeshComponent在此总结一下。
 基于UE5.1 Github版本
 
@@ -679,7 +690,10 @@
               <h3 class="post-card__title">
                 <a href="/2023/09/05/UE4-DitherLODTransition/">UE4-关于植被HISM屏占比LOD的选择和切换</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">UE的Mesh关于LOD的切换是用的屏占比ScreenSize，一般是美术设置几个屏占比的参数，本地看着差不多就行了。
+下面研究下这个屏占比在引擎里是怎么运作的，方便理解和优化功能。
+Q:这个ScreenSize是怎么生效的？A：Scree</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -705,7 +719,10 @@
               <h3 class="post-card__title">
                 <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/">UE4-HISM剔除更新DFShadow</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">修改基于UE4.27，实际代码因为UE5重构了，还没写UE5版本。
+记录一下DFShadow随Cluster裁剪更新的修改过程。(上次UE直播好像说5.3重构了GPUScene相关)
+遇到的问题：植被Instance的DistanceFie</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   
@@ -731,7 +748,8 @@
               <h3 class="post-card__title">
                 <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/">Base-面试问题汇总</a>
               </h3>
-              <p class="post-card__excerpt"></p>
+
+              <p class="post-card__excerpt">1.PreZ带来的优势，同时会有哪些消耗？Pre-Z（Depth Prepass）先只绘制深度，后续 Base Pass &amp;#x2F; GBuffer Pass 再使用 ZTest Equal 或 ZTest LEqual。它的核心价值是提</p>
               <div class="post-card__footer">
                 <div class="post-card__tags">
                   

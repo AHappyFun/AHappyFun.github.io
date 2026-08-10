@@ -519,7 +519,9 @@
             <h3 class="post-card__title">
               <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/">Base-GPU硬件架构基础</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">记录一下GPU硬件里ALU、SIMD、Warp&amp;#x2F;Wave和half精度这些概念的关系。
+平时看GPU参数会看到很多名词：多少个ALU、多少个Shader Core、SIMD宽度、Warp、Wave32、FP16双倍性能。这些东西属</p>
             <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -533,7 +535,9 @@
             <h3 class="post-card__title">
               <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/">Base-Shader分支与GPU线程发散</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">Shader里的if并不是一定慢，真正需要关注的是：同一个GPU执行组内，不同线程是否走了不同路径。
+如果整个执行组都进入同一个分支，动态分支反而可以跳过大量无用计算；如果组内线程分别进入不同分支，就会产生线程发散（Divergence）。</p>
             <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -547,7 +551,10 @@
             <h3 class="post-card__title">
               <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/">Base-阴影ShadowMap相关</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">这篇记一下ShadowMap阴影的技术。
+1.ShadowMap相关ShadowMap的原理从Light的方向渲染场景的深度图，因为具有遮挡关系，所以能做阴影用。https://zhuanlan.zhihu.com/p/384446688
+</p>
             <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -561,7 +568,19 @@
             <h3 class="post-card__title">
               <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/">Base-矩阵和向量</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">这篇需要常复习。
+1.坐标系笛卡尔坐标系2D 坐标系
+
+3D 坐标系1.左手坐标系Unity的左手坐标系，y上z前x右
+
+
+UE的左手坐标系，z上y右x前，相当于untiy的坐标系翻了一下，但仍然是左手。
+
+
+
+2.右手坐标系y上z后x右
+</p>
             <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -575,7 +594,12 @@
             <h3 class="post-card__title">
               <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/">Base-各个坐标空间</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">常复习篇章。
+渲染 空间转换过程VertShaderObject模型空间开始
+——(UNITY_MATTIX_M)——&amp;gt;World空间
+——(UNITY_MATTIX_V)——&amp;gt;View视角空间
+——(UNITY_MATRIX_</p>
             <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -589,7 +613,8 @@
             <h3 class="post-card__title">
               <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/">Base-面试问题汇总</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">1.PreZ带来的优势，同时会有哪些消耗？Pre-Z（Depth Prepass）先只绘制深度，后续 Base Pass &amp;#x2F; GBuffer Pass 再使用 ZTest Equal 或 ZTest LEqual。它的核心价值是提</p>
             <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -603,7 +628,11 @@
             <h3 class="post-card__title">
               <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/">Base-TBDR架构</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">问题背景为什么直接一条流水线会有性能瓶颈？在IMR里，GPU流水线是：
+提交三角形——&amp;gt;VS——&amp;gt;Raster——&amp;gt;FS——&amp;gt;输出合并
+没有全局信息、没有延迟、完全按照顺序执行。
+GPU在执行FS的时候，并不知道像素</p>
             <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -617,6 +646,7 @@
             <h3 class="post-card__title">
               <a href="/2023/01/14/Base-TAA/">Base-时域抗锯齿 TAA</a>
             </h3>
+
             <p class="post-card__excerpt">Temporal Anti-Aliasing（TAA，时域抗锯齿）是当前游戏中最主流的抗锯齿方案。它不直接增加采样数，而是把过去若干帧的样本沿时间轴累积，以极低的每帧开销实现接近超采样的抗锯齿效果。
 但它并非无代价——时域复用带来了 Gho</p>
             <a href="/2023/01/14/Base-TAA/" class="post-card__more">阅读更多</a>
@@ -632,6 +662,7 @@
             <h3 class="post-card__title">
               <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/">Base-前向渲染与延迟渲染</a>
             </h3>
+
             <p class="post-card__excerpt">渲染管线中，光照计算阶段的组织方式决定了渲染器的整体架构。前向渲染（Forward）和延迟渲染（Deferred）是两种最主流的方案，它们各自衍生出一系列变体。
 本文梳理它们的核心思路、演进分支、以及在不同场景下的取舍。</p>
             <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="post-card__more">阅读更多</a>

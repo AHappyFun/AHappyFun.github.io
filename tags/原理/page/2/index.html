@@ -518,7 +518,12 @@
             <h3 class="post-card__title">
               <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/">Base-透明渲染</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">其实渲染里没有真正的透明物体，透明效果是通过颜色的Blend模仿到的。
+正常的透明渲染需要一个一个前后混合，所以半透明是通过前向渲染。
+
+透明的渲染混合指令Blend   原因子   目标因子
+Blend   原RGB因子   目标RGB因</p>
             <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -531,7 +536,11 @@
             <h3 class="post-card__title">
               <a href="/2020/04/17/Base-PBR/">Base-PBR</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">PBR（Physically Based Rendering，基于物理的渲染）不是某一个固定 Shader，而是一套尽量遵循真实光照规律的材质与渲染方法。
+它的目标不是绝对还原现实，而是让材质满足一些稳定的物理约束：
+
+同一份材质换到不同光</p>
             <a href="/2020/04/17/Base-PBR/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -544,7 +553,12 @@
             <h3 class="post-card__title">
               <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/">Base-渲染管线</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">渲染管线（Rendering Pipeline）描述的是：一组场景数据，如何一步步变成屏幕上的像素。
+传统实时渲染管线通常可以从概念上分成三个阶段：
+
+应用阶段（Application Stage）：CPU 决定“画什么、以什么顺序画”。
+</p>
             <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -557,7 +571,12 @@
             <h3 class="post-card__title">
               <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/">Base-引擎梳理</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">引擎梳理。感谢GPT。
+一、渲染管线架构（Engine Rendering Architecture）⭐⭐⭐（非常重要）
+这些是现代引擎渲染系统的骨架。
+Frame Graph &amp;#x2F; Render GraphRenderGraph
+</p>
             <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -570,7 +589,14 @@
             <h3 class="post-card__title">
               <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/">Base-卡通渲染</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">卡通渲染的各个要素。这个已经被研究的太多了，贴几个别人的链接吧。
+脸部SDF阴影：
+🔗脸部 SDF 阴影zhuanlan.zhihu.com
+
+
+博主2173关于卡通渲染的总结：
+🔗2173：卡通渲染总结zhuanlan.zhihu.c</p>
             <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="post-card__more">阅读更多</a>
           </div>
         </article>
@@ -583,7 +609,13 @@
             <h3 class="post-card__title">
               <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/">Base-法线贴图</a>
             </h3>
-            <p class="post-card__excerpt"></p>
+
+            <p class="post-card__excerpt">法线贴图（Normal Map）用纹理保存表面法线方向，在不增加模型顶点和三角形的情况下，让光照表现出凹凸、刻痕、褶皱等细节。
+它改变的是参与光照计算的法线，而不是真正修改几何体：
+
+能改变明暗、高光和反射的细节。
+不能改变模型轮廓。
+不能</p>
             <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="post-card__more">阅读更多</a>
           </div>
         </article>
