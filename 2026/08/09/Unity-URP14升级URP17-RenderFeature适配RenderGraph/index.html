@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Unity-URP14升级URP17-RenderFeature适配RenderGraph | 锅巴的Blogs</title>
+<link rel="canonical" href="https://ahappyfun.github.io/2026/08/09/Unity-URP14%E5%8D%87%E7%BA%A7URP17-RenderFeature%E9%80%82%E9%85%8DRenderGraph/">
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="Unity, URP, RenderGraph, 渲染管线">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-10T09:30:48.600Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="Unity">
+<meta property="article:tag" content="URP">
+<meta property="article:tag" content="RenderGraph">
+<meta property="article:tag" content="渲染管线">
+<meta name="twitter:card" content="summary">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__logo">锅巴的Blogs</a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav">
+      
+        <a href="/" class="header__link">首页</a>
+      
+        <a href="/tags/" class="header__link">标签</a>
+      
+        <a href="/categories/" class="header__link">分类</a>
+      
+        <a href="/search/" class="header__link">搜索</a>
+      
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 51 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+            
+              
+              <div class="sidebar__year">2026</div>
+            
+            <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-08-09T16:00:00.000Z">08-10</time>
+              <span class="sidebar__post-title">AI-把高质量画面训练成低配Shader的探索</span>
+            </a>
+          
+            
+            
+            <a href="/2026/08/09/Unity-URP14%E5%8D%87%E7%BA%A7URP17-RenderFeature%E9%80%82%E9%85%8DRenderGraph/" class="sidebar__item is-active">
+              <time class="sidebar__date" datetime="2026-08-08T16:00:00.000Z">08-09</time>
+              <span class="sidebar__post-title">Unity-URP14升级URP17-RenderFeature适配RenderGraph</span>
+            </a>
+          
+            
+            
+            <a href="/2026/08/03/Art-%E4%BA%91%E7%9A%84%E5%88%86%E7%B1%BB/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-08-02T16:00:00.000Z">08-03</time>
+              <span class="sidebar__post-title">Art-云的分类——从国际云图集到观云识天</span>
+            </a>
+          
+            
+            
+            <a href="/2026/07/29/Art-%E6%8E%92%E7%BA%BF%E6%8A%80%E6%B3%95%E5%8F%91%E5%B1%95%E5%8F%B2/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-07-28T16:00:00.000Z">07-29</time>
+              <span class="sidebar__post-title">Art-排线技法发展史</span>
+            </a>
+          
+            
+            
+            <a href="/2026/07/02/DevTool-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-07-01T16:00:00.000Z">07-02</time>
+              <span class="sidebar__post-title">DevTool-主流跨平台桌面应用技术栈</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/30/Loy-%E6%8A%8A%E7%9B%B4%E8%A7%89%E8%AE%AD%E7%BB%83%E6%88%90%E6%B8%85%E6%A5%9A%E8%A1%A8%E8%BE%BE/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Loy-把直觉训练成清楚表达</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            
+            <a href="/2023/01/14/Base-TAA/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2023-01-13T16:00:00.000Z">01-14</time>
+              <span class="sidebar__post-title">Base-时域抗锯齿 TAA</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2022</div>
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+            
+              
+              <div class="sidebar__year">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+</aside>
+
+    <main class="main">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-08-08T16:00:00.000Z">2026 年 8 月 9 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/Unity/">Unity</a>
+            
+          </span>
+        
+        
+          <span class="post__views" aria-label="文章阅读量">
+            阅读 <span id="busuanzi_page_pv" aria-live="polite">加载中…</span>
+          </span>
+        
+      </div>
+      <h1 class="post__title">Unity-URP14升级URP17-RenderFeature适配RenderGraph</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/Unity/" class="tag">#Unity</a>
+          
+            <a href="/tags/URP/" class="tag">#URP</a>
+          
+            <a href="/tags/RenderGraph/" class="tag">#RenderGraph</a>
+          
+            <a href="/tags/%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="tag">#渲染管线</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>把项目从 Unity 2022.3（URP 14）升级到 Unity 6（URP 17）之后，最直观的”爆炸点”就是项目里所有自定义 <code>ScriptableRendererFeature</code> 要么不显示、要么报资源错误。原因很直接：URP 14 里 <code>Execute()</code> 还是渲染 Pass 的主角，URP 17 里管线只认 <code>RecordRenderGraph()</code>。</p>
+<p>本文用一个最常见的”全屏后处理 Blit Feature”作为例子，从旧写法到新写法逐行对照，顺便把资源获取、Blit、临时 RT、RendererList、Compute 这些常用写法的差异一起说清楚。</p>
+<span id="more"></span>
+
+<h2 id="1-版本对应与升级背景"><a href="#1-版本对应与升级背景" class="headerlink" title="1. 版本对应与升级背景"></a>1. 版本对应与升级背景</h2><p>先记住版本对应关系：</p>
+<table>
+<thead>
+<tr>
+<th>URP 版本</th>
+<th>Unity 版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>URP 12</td>
+<td>Unity 2021.2</td>
+</tr>
+<tr>
+<td>URP 13</td>
+<td>Unity 2021.3</td>
+</tr>
+<tr>
+<td>URP 14</td>
+<td>Unity 2022.2 &#x2F; 2022.3 (LTS)</td>
+</tr>
+<tr>
+<td>URP 15</td>
+<td>Unity 2023.1</td>
+</tr>
+<tr>
+<td>URP 16</td>
+<td>Unity 2023.2 &#x2F; 2023.3</td>
+</tr>
+<tr>
+<td>URP 17</td>
+<td>Unity 6（6000.x）</td>
+</tr>
+</tbody></table>
+<p>URP 17 的关键变化是 <strong>RenderGraph 成为唯一的渲染路径</strong>。Unity 官方明确表示不再开发不基于 RenderGraph 的渲染路径。</p>
+<p>升级时的实际表现：</p>
+<ul>
+<li>新创建的 URP 项目默认开启 RenderGraph。</li>
+<li>旧项目用 Unity 6 打开后，会自动开启 <strong>Compatibility Mode（Render Graph Disabled）</strong>，让老代码先能跑起来。</li>
+<li>兼容模式只是过渡用的，不建议长期保留，因为新特性、优化、新 API 都只会在 RenderGraph 路径上开发。</li>
+<li>关闭位置：<code>Edit &gt; Project Settings &gt; Graphics &gt; Render Graph &gt; Compatibility Mode (Render Graph Disabled)</code> 取消勾选。</li>
+</ul>
+<blockquote>
+<p>注意：<code>RecordRenderGraph()</code> 不是 URP 17 才发明的。URP 14 里只要在 URP Asset 上打开 “Enable Render Graph”，自定义 Pass 同样要走 <code>RecordRenderGraph()</code>。所以对大多数”从没开过 RenderGraph 的 URP 14 项目”来说，这次升级本质上就是：<strong>把 <code>Execute()</code> 写法整体翻译成 <code>RecordRenderGraph()</code> 写法</strong>。</p>
+</blockquote>
+<h2 id="2-URP-14-时代的-RenderFeature-写法"><a href="#2-URP-14-时代的-RenderFeature-写法" class="headerlink" title="2. URP 14 时代的 RenderFeature 写法"></a>2. URP 14 时代的 RenderFeature 写法</h2><p>URP 14 默认路径下，自定义效果的标准结构是 <code>ScriptableRendererFeature</code> 管生命周期，<code>ScriptableRenderPass</code> 管具体绘制：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> UnityEngine;<br><span class="hljs-keyword">using</span> UnityEngine.Rendering;<br><span class="hljs-keyword">using</span> UnityEngine.Rendering.Universal;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">PostProcessFeature</span> : <span class="hljs-title">ScriptableRendererFeature</span><br>&#123;<br>    <span class="hljs-keyword">public</span> Material effectMaterial;          <span class="hljs-comment">// 效果材质（手写 shader，属性含 _Intensity）</span><br>    [<span class="hljs-meta">Range(0f, 2f)</span>] <span class="hljs-keyword">public</span> <span class="hljs-built_in">float</span> intensity = <span class="hljs-number">1f</span>;<br><br>    PostProcessPass m_Pass;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Create</span>()</span><br>    &#123;<br>        m_Pass = <span class="hljs-keyword">new</span> PostProcessPass(effectMaterial, intensity);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddRenderPasses</span>(<span class="hljs-params">ScriptableRenderer renderer, <span class="hljs-keyword">ref</span> RenderingData renderingData</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">if</span> (effectMaterial == <span class="hljs-literal">null</span>)<br>            <span class="hljs-keyword">return</span>;<br>        renderer.EnqueuePass(m_Pass);<br>    &#125;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">PostProcessPass</span> : <span class="hljs-title">ScriptableRenderPass</span><br>    &#123;<br>        <span class="hljs-keyword">readonly</span> Material m_Material;<br>        <span class="hljs-built_in">float</span> m_Intensity;<br><br>        RTHandle m_Source;      <span class="hljs-comment">// 相机颜色目标</span><br>        RTHandle m_TempRT;      <span class="hljs-comment">// 手动管理的临时 RT</span><br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PostProcessPass</span>(<span class="hljs-params">Material material, <span class="hljs-built_in">float</span> intensity</span>)</span><br>        &#123;<br>            m_Material = material;<br>            m_Intensity = intensity;<br>            renderPassEvent = RenderPassEvent.AfterRenderingTransparents;<br>        &#125;<br><br>        <span class="hljs-comment">// 渲染前调用，从 renderer 拿当前相机的颜色 RTHandle</span><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">OnCameraSetup</span>(<span class="hljs-params">CommandBuffer cmd, <span class="hljs-keyword">ref</span> RenderingData renderingData</span>)</span><br>        &#123;<br>            m_Source = renderingData.cameraData.renderer.cameraColorTargetHandle;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Execute</span>(<span class="hljs-params">ScriptableRenderContext context, <span class="hljs-keyword">ref</span> RenderingData renderingData</span>)</span><br>        &#123;<br>            CommandBuffer cmd = CommandBufferPool.Get();<br>            <span class="hljs-keyword">using</span> (<span class="hljs-keyword">new</span> ProfilingScope(cmd, <span class="hljs-keyword">new</span> ProfilingSampler(<span class="hljs-string">&quot;PostProcessFeature&quot;</span>)))<br>            &#123;<br>                <span class="hljs-comment">// 申请临时 RT：尺寸跟随相机目标描述符</span><br>                RenderingUtils.ReAllocateIfNeeded(<span class="hljs-keyword">ref</span> m_TempRT,<br>                    renderingData.cameraData.cameraTargetDescriptor, FilterMode.Bilinear);<br><br>                cmd.SetGlobalFloat(<span class="hljs-string">&quot;_Intensity&quot;</span>, m_Intensity);<br><br>                <span class="hljs-comment">// Pass0：相机颜色 -&gt; 临时RT；Pass1：临时RT -&gt; 相机颜色</span><br>                Blitter.BlitCameraTexture(cmd, m_Source, m_TempRT, m_Material, <span class="hljs-number">0</span>);<br>                Blitter.BlitCameraTexture(cmd, m_TempRT, m_Source, m_Material, <span class="hljs-number">1</span>);<br>            &#125;<br>            context.ExecuteCommandBuffer(cmd);<br>            cmd.Clear();<br>            CommandBufferPool.Release(cmd);<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Dispose</span>()</span> =&gt; m_TempRT?.Release();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这套写法的特征：</p>
+<ol>
+<li>用 <code>CommandBuffer</code> 逐条记录命令，最后 <code>context.ExecuteCommandBuffer(cmd)</code> 提交。</li>
+<li>相机目标通过 <code>renderingData.cameraData.renderer.cameraColorTargetHandle</code>（<code>RTHandle</code>）拿到。</li>
+<li>临时 RT 需要自己申请、自己释放（<code>RenderingUtils.ReAllocateIfNeeded</code> &#x2F; <code>m_TempRT.Release()</code>）。</li>
+<li><code>renderPassEvent</code> 决定这个 Pass 在哪个阶段插入。</li>
+</ol>
+<p>这套写法的最大问题：管线拿到的只是一串已经排好的命令，它不知道哪个 Pass 读了什么、写了什么，也就无法做资源生命周期复用、Pass 剔除和 Native Render Pass 合并。</p>
+<h2 id="3-URP-17-时代的-RenderFeature-写法"><a href="#3-URP-17-时代的-RenderFeature-写法" class="headerlink" title="3. URP 17 时代的 RenderFeature 写法"></a>3. URP 17 时代的 RenderFeature 写法</h2><p>URP 17 下，同一个效果翻译成 RenderGraph 写法。先看整体结构：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> UnityEngine;<br><span class="hljs-keyword">using</span> UnityEngine.Rendering;<br><span class="hljs-keyword">using</span> UnityEngine.Rendering.RenderGraphModule;<br><span class="hljs-keyword">using</span> UnityEngine.Rendering.RenderGraphModule.Util;<br><span class="hljs-keyword">using</span> UnityEngine.Rendering.Universal;<br><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title">PostProcessFeature</span> : <span class="hljs-title">ScriptableRendererFeature</span><br>&#123;<br>    <span class="hljs-keyword">public</span> Material effectMaterial;<br>    [<span class="hljs-meta">Range(0f, 2f)</span>] <span class="hljs-keyword">public</span> <span class="hljs-built_in">float</span> intensity = <span class="hljs-number">1f</span>;<br><br>    PostProcessPass m_Pass;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Create</span>()</span><br>    &#123;<br>        m_Pass = <span class="hljs-keyword">new</span> PostProcessPass(effectMaterial, intensity);<br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">AddRenderPasses</span>(<span class="hljs-params">ScriptableRenderer renderer, <span class="hljs-keyword">ref</span> RenderingData renderingData</span>)</span><br>    &#123;<br>        <span class="hljs-keyword">if</span> (effectMaterial == <span class="hljs-literal">null</span>)<br>            <span class="hljs-keyword">return</span>;<br>        renderer.EnqueuePass(m_Pass);<br>    &#125;<br><br>    <span class="hljs-keyword">class</span> <span class="hljs-title">PostProcessPass</span> : <span class="hljs-title">ScriptableRenderPass</span><br>    &#123;<br>        <span class="hljs-keyword">readonly</span> Material m_Material;<br>        <span class="hljs-built_in">float</span> m_Intensity;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">PostProcessPass</span>(<span class="hljs-params">Material material, <span class="hljs-built_in">float</span> intensity</span>)</span><br>        &#123;<br>            m_Material = material;<br>            m_Intensity = intensity;<br>            renderPassEvent = RenderPassEvent.AfterRenderingTransparents;<br>        &#125;<br><br>        <span class="hljs-comment">// PassData：执行阶段的数据桥，句柄 + 参数都放这里</span><br>        <span class="hljs-keyword">class</span> <span class="hljs-title">PassData</span><br>        &#123;<br>            <span class="hljs-keyword">public</span> Material material;<br>            <span class="hljs-keyword">public</span> <span class="hljs-built_in">float</span> intensity;<br>            <span class="hljs-keyword">public</span> TextureHandle source;<br>        &#125;<br><br>        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">RecordRenderGraph</span>(<span class="hljs-params">RenderGraph renderGraph, ContextContainer frameData</span>)</span><br>        &#123;<br>            <span class="hljs-comment">// 1. 从帧数据取当前相机的颜色目标（代替 cameraColorTargetHandle）</span><br>            UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;();<br>            TextureHandle source = resourceData.activeColorTexture;<br><br>            <span class="hljs-comment">// 2. 按源纹理描述创建临时 RT（代替 GetTemporaryRT / ReAllocateIfNeeded）</span><br>            TextureDesc desc = renderGraph.GetTextureDesc(source);<br>            desc.name = <span class="hljs-string">&quot;_PostProcessTemp&quot;</span>;<br>            TextureHandle temp = renderGraph.CreateTexture(desc);<br><br>            <span class="hljs-comment">// 3. Pass1：效果 Pass，声明&quot;读 source、写 temp&quot;</span><br>            <span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> builder = renderGraph.AddRasterRenderPass&lt;PassData&gt;(<span class="hljs-string">&quot;PostProcess&quot;</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> passData))<br>            &#123;<br>                passData.material = m_Material;<br>                passData.intensity = m_Intensity;<br>                passData.source = source;<br><br>                <span class="hljs-comment">// 声明资源读写</span><br>                builder.UseTexture(source, AccessFlags.Read);<br>                builder.SetRenderAttachment(temp, <span class="hljs-number">0</span>, AccessFlags.Write);<br><br>                <span class="hljs-comment">// 这里才是真正记录 GPU 命令的地方</span><br>                builder.SetRenderFunc(<span class="hljs-keyword">static</span> (PassData data, RasterGraphContext context) =&gt;<br>                &#123;<br>                    RasterCommandBuffer cmd = context.cmd;<br>                    cmd.SetGlobalFloat(<span class="hljs-string">&quot;_Intensity&quot;</span>, data.intensity);<br>                    Blitter.BlitTexture(cmd, data.source, <span class="hljs-keyword">new</span> Vector4(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>), data.material, <span class="hljs-number">0</span>);<br>                &#125;);<br>            &#125;<br><br>            <span class="hljs-comment">// 4. Pass2：把 temp 合成回相机颜色（普通拷贝即可，Blit 的 no-material 重载）</span><br>            <span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> builder = renderGraph.AddRasterRenderPass&lt;PassData&gt;(<span class="hljs-string">&quot;PostProcessComposite&quot;</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> compositeData))<br>            &#123;<br>                compositeData.source = temp;<br>                builder.UseTexture(temp, AccessFlags.Read);<br>                builder.SetRenderAttachment(source, <span class="hljs-number">0</span>, AccessFlags.Write);<br>                builder.SetRenderFunc(<span class="hljs-keyword">static</span> (PassData data, RasterGraphContext context) =&gt;<br>                &#123;<br>                    Blitter.BlitTexture(context.cmd, data.source, <span class="hljs-keyword">new</span> Vector4(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>), <span class="hljs-number">0</span>, <span class="hljs-literal">false</span>);<br>                &#125;);<br>            &#125;<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里体现了 RenderGraph 写法的分工：</p>
+<ol>
+<li><code>RecordRenderGraph()</code> 只负责”描述”这个 Pass，不直接记录 GPU 命令。</li>
+<li>资源读写关系在 builder 上声明（<code>UseTexture</code> &#x2F; <code>SetRenderAttachment</code>），而不是通过命令顺序隐含。</li>
+<li><code>PassData</code> 保存执行阶段需要的句柄和参数。</li>
+<li><code>SetRenderFunc()</code> 里的静态函数才是真正记录命令的地方，用的是 <code>RasterCommandBuffer</code> 而不是裸 <code>CommandBuffer</code>。</li>
+<li>临时纹理的生命周期完全交给图系统管理，不用手动释放。</li>
+</ol>
+<h2 id="4-一个节点-一套附件：切换-RenderTarget-就要拆-Pass"><a href="#4-一个节点-一套附件：切换-RenderTarget-就要拆-Pass" class="headerlink" title="4. 一个节点 &#x3D; 一套附件：切换 RenderTarget 就要拆 Pass"></a>4. 一个节点 &#x3D; 一套附件：切换 RenderTarget 就要拆 Pass</h2><p>刚接触 RenderGraph 时容易有个疑问：以前一个 SSAO 是一个 Pass，里面还带两次模糊，现在是不是要被拆成好几个 Pass？</p>
+<p>先给结论：<strong>是的，切换 RenderTarget 就必须新开一个图节点。</strong> 但”Pass 数量”其实没有变多，变多的只是代码结构。</p>
+<p>这里要先分清两层含义的”Pass”：</p>
+<ol>
+<li><strong>脚本 Pass</strong>（<code>ScriptableRenderPass</code>）：代码组织单元。URP 14 里一个 Pass 内部可以多次 <code>SetRenderTarget</code>。</li>
+<li><strong>GPU Render Pass</strong>：一次完整的 RT 切换 + Load&#x2F;Store + 绘制序列。</li>
+</ol>
+<p>旧写法里”一个 SSAO Pass 带两次模糊”，在 GPU 上本来就是多个 Render Pass——每次 <code>cmd.SetRenderTarget(另一张RT)</code> 都是一次新的 Render Pass，只是被包在一个 <code>Execute()</code> 里，藏在脚本层看不见：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">Execute():<br>  [RT: AO]          生成AO（读深度/法线）<br>  [RT: BlurA]       Blur AO -&gt; BlurA<br>  [RT: BlurB]       Blur BlurA -&gt; BlurB<br>  [RT: cameraColor] 合成 AO 回场景颜色<br></code></pre></td></tr></table></figure>
+
+<p>这本来在 GPU 上就是 4 个 Render Pass。RenderGraph 只是把这个事实<strong>显式化</strong>了：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">Node1 GenerateAO    读 depth/normal，写 AO<br>Node2 BlurX         读 AO，写 Temp<br>Node3 BlurY         读 Temp，写 AO<br>Node4 Composite      读 AO，写 cameraColor<br></code></pre></td></tr></table></figure>
+
+<p>GPU 上的 Render Pass 数量完全没变。所以不该理解为”从 1 个变 3 个”，而是”本来就该是 4 个，以前被脚本层掩盖了”。</p>
+<h3 id="4-1-一个节点能装多少事"><a href="#4-1-一个节点能装多少事" class="headerlink" title="4.1 一个节点能装多少事"></a>4.1 一个节点能装多少事</h3><p>图节点 &#x3D; <strong>一套附件</strong>，不等于一次 Draw：</p>
+<ul>
+<li>同一套附件上 clear + 画多次 → 一个节点。</li>
+<li>多附件输出（MRT）：<code>SetRenderAttachment(rt0, 0)</code> + <code>SetRenderAttachment(rt1, 1)</code>，SSAO 同时输出 AO + 法线也只是一个节点。</li>
+<li>换 RT 采样（blur 的 ping-pong）→ 必须新节点，因为要把上一趟 RT 当纹理读，这本身就是一次完整的 Load&#x2F;Store 周期，硬件上省不掉。</li>
+</ul>
+<h3 id="4-2-拆开了亏不亏"><a href="#4-2-拆开了亏不亏" class="headerlink" title="4.2 拆开了亏不亏"></a>4.2 拆开了亏不亏</h3><p>换来三个旧写法做不到的自动优化：</p>
+<ol>
+<li>临时纹理内存复用：BlurA &#x2F; BlurB 生命周期不重叠，可复用同一块底层内存。</li>
+<li>Pass 剔除：输出没人读的节点自动干掉。</li>
+<li>Native Render Pass 合并：相邻节点附件相同、中间不把 RT 当纹理采样时，移动 GPU 上会自动合并成一个 native pass，省 Load&#x2F;Store。blur 每趟都要采样上一趟结果，通常不满足合并条件，但这是硬件限制，旧写法一样省不了。</li>
+</ol>
+<h3 id="4-3-减少手写成本"><a href="#4-3-减少手写成本" class="headerlink" title="4.3 减少手写成本"></a>4.3 减少手写成本</h3><ul>
+<li>简单 Blit &#x2F; Copy 用 <code>AddBlitPass</code> &#x2F; <code>AddCopyPass</code> 一行一个节点，不用手写完整结构。</li>
+<li>能合并的附件尽量放同一个节点（MRT）。</li>
+<li>旧代码实在不想拆，先 <code>AddUnsafePass</code> 过渡，在 render func 里仍能 <code>SetRenderTarget</code>，但会放弃资源管理与合并优化，只建议迁移期用。</li>
+</ul>
+<p>一句话总结：换 RT 就得换节点是对的，但它不是”从 1 个 Pass 变 3 个”，而是”以前藏在脚本里的多次 GPU Pass，现在必须显式写成多个节点”。</p>
+<h2 id="5-核心-API-映射表"><a href="#5-核心-API-映射表" class="headerlink" title="5. 核心 API 映射表"></a>5. 核心 API 映射表</h2><table>
+<thead>
+<tr>
+<th>旧写法（URP 14 Execute &#x2F; 非 RG）</th>
+<th>新写法（URP 17 RenderGraph）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Execute(ScriptableRenderContext ctx, ref RenderingData rd)</code></td>
+<td><code>RecordRenderGraph(RenderGraph rg, ContextContainer frameData)</code></td>
+</tr>
+<tr>
+<td><code>renderingData.cameraData.renderer.cameraColorTargetHandle</code>（<code>RTHandle</code>）</td>
+<td><code>frameData.Get&lt;UniversalResourceData&gt;().activeColorTexture</code>（<code>TextureHandle</code>）</td>
+</tr>
+<tr>
+<td><code>renderingData.cameraData</code>（结构体）</td>
+<td><code>frameData.Get&lt;UniversalCameraData&gt;()</code></td>
+</tr>
+<tr>
+<td><code>renderingData.lightData</code></td>
+<td><code>frameData.Get&lt;UniversalLightData&gt;()</code></td>
+</tr>
+<tr>
+<td><code>cmd.GetTemporaryRT</code> &#x2F; <code>RenderingUtils.ReAllocateIfNeeded</code></td>
+<td><code>renderGraph.CreateTexture(desc)</code></td>
+</tr>
+<tr>
+<td><code>cmd.SetRenderTarget(dst)</code></td>
+<td><code>builder.SetRenderAttachment(dst, 0)</code></td>
+</tr>
+<tr>
+<td><code>cmd.Blit</code> &#x2F; <code>Blitter.BlitCameraTexture(cmd, src, dst, mat, pass)</code></td>
+<td><code>Blitter.BlitTexture(cmd, srcHandle, scaleBias, mat, pass)</code> 或 <code>AddBlitPass</code></td>
+</tr>
+<tr>
+<td><code>cmd.SetGlobalTexture</code></td>
+<td><code>builder.SetGlobalTextureAfterPass(handle, propertyId)</code></td>
+</tr>
+<tr>
+<td><code>cmd.DrawRendererList</code></td>
+<td><code>builder.UseRendererList(handle)</code> + <code>cmd.DrawRendererList(handle)</code></td>
+</tr>
+<tr>
+<td><code>CommandBufferPool.Get()</code> + <code>context.ExecuteCommandBuffer(cmd)</code></td>
+<td>直接在 <code>SetRenderFunc</code> 里用 <code>context.cmd</code>，无需手动提交</td>
+</tr>
+<tr>
+<td><code>ConfigureTarget()</code></td>
+<td>在 builder 上声明附件（<code>SetRenderAttachment</code> 等）</td>
+</tr>
+<tr>
+<td><code>cmd.GetTemporaryRT</code> 申请的中间图</td>
+<td><code>renderGraph.CreateTexture</code> 创建的 <code>TextureHandle</code>，图系统管理生命周期</td>
+</tr>
+<tr>
+<td>命名空间 <code>UnityEngine.Rendering.Universal</code></td>
+<td>额外需要 <code>UnityEngine.Rendering.RenderGraphModule</code> 和 <code>...RenderGraphModule.Util</code></td>
+</tr>
+</tbody></table>
+<p>Feature 类本身变化不大：<code>Create()</code> 和 <code>AddRenderPasses()</code> + <code>EnqueuePass()</code> 保留。但有一个新方法要注意——<strong><code>SetupRenderPasses()</code></strong>：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">SetupRenderPasses</span>(<span class="hljs-params">ScriptableRenderer renderer, <span class="hljs-keyword">in</span> RenderingData renderingData</span>)</span><br>&#123;<br>    <span class="hljs-comment">// 渲染目标分配完成、可以安全访问 renderer.cameraColorTargetHandle 的地方。</span><br>    <span class="hljs-comment">// 在 AddRenderPasses 里访问 RenderTarget 在 URP 17 会直接报错，要挪到这里。</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>原因：<code>AddRenderPasses</code> 在目标还没分配时就被调用，而 <code>SetupRenderPasses</code> 在目标分配完成后调用。RenderGraph 路径下资源访问尽量走 <code>frameData</code>，但确实需要 <code>RTHandle</code> 的场景（比如某些兼容逻辑）就要放这里。</p>
+<h2 id="6-相机数据-光照数据的获取"><a href="#6-相机数据-光照数据的获取" class="headerlink" title="6. 相机数据 &#x2F; 光照数据的获取"></a>6. 相机数据 &#x2F; 光照数据的获取</h2><p>旧写法里大量代码依赖 <code>RenderingData</code> 里带出来的结构体，这些在 RenderGraph 路径下改从 <code>ContextContainer</code> 取：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// 旧：RenderingData 结构体</span><br>CameraData cameraData = renderingData.cameraData;<br>Vector3 camPos = cameraData.camera.transform.position;<br><span class="hljs-built_in">int</span> w = cameraData.camera.pixelWidth;<br><span class="hljs-built_in">int</span> h = cameraData.camera.pixelHeight;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// 新：ContextContainer（帧数据容器）</span><br>UniversalCameraData cameraData = frameData.Get&lt;UniversalCameraData&gt;();<br>Vector3 camPos = cameraData.worldSpaceCameraPos;<br><span class="hljs-built_in">int</span> w = cameraData.pixelWidth;<br><span class="hljs-built_in">int</span> h = cameraData.pixelHeight;<br></code></pre></td></tr></table></figure>
+
+<p>其他常用数据：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs csharp">UniversalLightData lightData     = frameData.Get&lt;UniversalLightData&gt;();<br>UniversalRenderingData rendering = frameData.Get&lt;UniversalRenderingData&gt;();<br>UniversalShadowData shadowData   = frameData.Get&lt;UniversalShadowData&gt;();<br></code></pre></td></tr></table></figure>
+
+<p><code>frameData.Get&lt;T&gt;()</code> 拿到的对象在整个帧内有效，可以把需要的引用存进 <code>PassData</code> 传给执行函数。</p>
+<h2 id="7-更省事的-Blit：AddBlitPass"><a href="#7-更省事的-Blit：AddBlitPass" class="headerlink" title="7. 更省事的 Blit：AddBlitPass"></a>7. 更省事的 Blit：AddBlitPass</h2><p>如果只是做一个简单的”读一张纹理、用材质处理、写到另一张纹理”的 Pass，不需要手写 <code>AddRasterRenderPass</code>。URP 17 提供了 <code>RenderGraphUtils.AddBlitPass</code>：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">var</span> blitParams = <span class="hljs-keyword">new</span> RenderGraphUtils.BlitMaterialParameters(<br>    sourceTexture,   <span class="hljs-comment">// TextureHandle</span><br>    destinationTexture,<br>    effectMaterial,<br>    shaderPassIndex);<br><br>renderGraph.AddBlitPass(blitParams, <span class="hljs-string">&quot;My Blit Pass&quot;</span>);<br></code></pre></td></tr></table></figure>
+
+<p>它会自动生成一个 Blit Pass 并完成资源声明，适合快速搭建，也能避免手写时容易漏声明导致的报错。如果只是想拷贝，直接用 <code>renderGraph.AddCopyPass(source, destination)</code>。</p>
+<blockquote>
+<p>需要 <code>using UnityEngine.Rendering.RenderGraphModule.Util;</code> 才能访问 <code>RenderGraphUtils</code>。<br>用 Blitter &#x2F; AddBlitPass 的材质必须是<strong>手写 shader</strong>，Shader Graph 的材质与 Blitter 不兼容；材质里采样输入纹理的属性名默认是 <code>_BlitTexture</code>。</p>
+</blockquote>
+<h2 id="8-绘制物体-Compute-的写法差异"><a href="#8-绘制物体-Compute-的写法差异" class="headerlink" title="8. 绘制物体 &#x2F; Compute 的写法差异"></a>8. 绘制物体 &#x2F; Compute 的写法差异</h2><h3 id="8-1-DrawRendererList"><a href="#8-1-DrawRendererList" class="headerlink" title="8.1 DrawRendererList"></a>8.1 DrawRendererList</h3><p>旧的画物体写法里，<code>cmd.DrawRendererList(list)</code> 配合手工创建的 <code>RendererList</code>。RenderGraph 里要先创建 RendererList 句柄再声明：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs csharp">RendererListHandle listHandle = renderGraph.CreateRendererList(rendererListDesc);<br><br><span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> builder = renderGraph.AddRasterRenderPass&lt;DrawPassData&gt;(<span class="hljs-string">&quot;DrawGrass&quot;</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> passData))<br>&#123;<br>    passData.rendererList = listHandle;<br>    builder.UseRendererList(listHandle);   <span class="hljs-comment">// 声明使用</span><br>    builder.SetRenderFunc(<span class="hljs-keyword">static</span> (DrawPassData data, RasterGraphContext context) =&gt;<br>    &#123;<br>        context.cmd.DrawRendererList(data.rendererList);<br>    &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="8-2-Compute-Pass"><a href="#8-2-Compute-Pass" class="headerlink" title="8.2 Compute Pass"></a>8.2 Compute Pass</h3><p>屏幕空间效果（HBAO、SSR、Depth Pyramid 这类）常用 ComputeShader。旧写法是 <code>cmd.DispatchCompute</code>，新写法用 <code>AddComputePass</code>：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> builder = renderGraph.AddComputePass&lt;ComputePassData&gt;(<span class="hljs-string">&quot;HBAO&quot;</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> passData))<br>&#123;<br>    passData.aoTexture = aoTexture;<br>    builder.UseTexture(aoTexture, AccessFlags.ReadWrite);<br>    builder.SetRenderFunc(<span class="hljs-keyword">static</span> (ComputePassData data, ComputeGraphContext context) =&gt;<br>    &#123;<br>        ComputeCommandBuffer cmd = context.cmd;<br>        cmd.SetComputeTextureParam(data.computeShader, data.kernelIndex,<br>            Shader.PropertyToID(<span class="hljs-string">&quot;_Result&quot;</span>), data.aoTexture);<br>        cmd.DispatchCompute(data.computeShader, data.kernelIndex, w, h, <span class="hljs-number">1</span>);<br>    &#125;);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>对应关系：<code>AddRasterRenderPass</code> → <code>RasterGraphContext.cmd</code>（<code>RasterCommandBuffer</code>）；<code>AddComputePass</code> → <code>ComputeGraphContext.cmd</code>（<code>ComputeCommandBuffer</code>）。还有一种 <code>AddUnsafePass</code>，它的命令缓冲限制最少，迁移过程中可以用它先让旧代码跑起来，再逐步改成 Raster &#x2F; Compute Pass。</p>
+<h3 id="8-3-Hi-Z-SSR：显式引用如何让-RenderGraph-自动剔除"><a href="#8-3-Hi-Z-SSR：显式引用如何让-RenderGraph-自动剔除" class="headerlink" title="8.3 Hi-Z + SSR：显式引用如何让 RenderGraph 自动剔除"></a>8.3 Hi-Z + SSR：显式引用如何让 RenderGraph 自动剔除</h3><p>Hi-Z 和 SSR 正好能说明 RenderGraph 的核心价值。假设一帧内有三段工作：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs text">CameraDepth ──&gt; BuildHiZ ──&gt; HiZPyramid ─┐<br>CameraColor / Normal / Depth ────────────┼─&gt; TraceSSR ──&gt; SSRTexture<br>                                         └──────────────────────────&gt; CompositeSSR ──&gt; CameraColor&#x27;<br></code></pre></td></tr></table></figure>
+
+<p>旧写法只保证三段命令按顺序提交；RenderGraph 写法还要明确告诉图系统：<code>BuildHiZ</code> 写出的 <code>HiZPyramid</code>，会被 <code>TraceSSR</code> 读取；<code>TraceSSR</code> 写出的 <code>SSRTexture</code>，会被 <code>CompositeSSR</code> 读取。这个关系不是靠变量名、<code>PassData</code> 赋值或 C# 调用顺序推断，而是靠 builder 上的资源声明建立。</p>
+<p>下面省略 ComputeShader 的具体参数绑定和线程组计算，只保留决定依赖关系与剔除行为的代码：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-keyword">class</span> <span class="hljs-title">HiZPassData</span><br>&#123;<br>    <span class="hljs-keyword">public</span> TextureHandle depth;<br>    <span class="hljs-keyword">public</span> TextureHandle hiZ;<br>    <span class="hljs-keyword">public</span> ComputeShader compute;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> kernel;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title">SSRPassData</span><br>&#123;<br>    <span class="hljs-keyword">public</span> TextureHandle color;<br>    <span class="hljs-keyword">public</span> TextureHandle depth;<br>    <span class="hljs-keyword">public</span> TextureHandle normal;<br>    <span class="hljs-keyword">public</span> TextureHandle hiZ;<br>    <span class="hljs-keyword">public</span> TextureHandle result;<br>    <span class="hljs-keyword">public</span> ComputeShader compute;<br>    <span class="hljs-keyword">public</span> <span class="hljs-built_in">int</span> kernel;<br>&#125;<br><br><span class="hljs-function">TextureHandle <span class="hljs-title">RecordHiZ</span>(<span class="hljs-params"></span></span><br><span class="hljs-params"><span class="hljs-function">    RenderGraph renderGraph,</span></span><br><span class="hljs-params"><span class="hljs-function">    TextureHandle cameraDepth,</span></span><br><span class="hljs-params"><span class="hljs-function">    ComputeShader compute,</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-built_in">int</span> kernel</span>)</span><br>&#123;<br>    TextureDesc desc = renderGraph.GetTextureDesc(cameraDepth);<br>    desc.name = <span class="hljs-string">&quot;_HiZPyramid&quot;</span>;<br>    desc.msaaSamples = MSAASamples.None;<br>    desc.useMipMap = <span class="hljs-literal">true</span>;<br>    desc.autoGenerateMips = <span class="hljs-literal">false</span>;<br>    desc.enableRandomWrite = <span class="hljs-literal">true</span>;<br><br>    TextureHandle hiZ = renderGraph.CreateTexture(desc);<br><br>    <span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> builder = renderGraph.AddComputePass&lt;HiZPassData&gt;(<br>        <span class="hljs-string">&quot;Build Hi-Z&quot;</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> passData))<br>    &#123;<br>        passData.depth = cameraDepth;<br>        passData.hiZ = hiZ;<br>        passData.compute = compute;<br>        passData.kernel = kernel;<br><br>        <span class="hljs-comment">// BuildHiZ 读取相机深度，并写入 Hi-Z 的各级 mip。</span><br>        builder.UseTexture(cameraDepth, AccessFlags.Read);<br>        builder.UseTexture(hiZ, AccessFlags.ReadWrite);<br><br>        builder.SetRenderFunc(<span class="hljs-keyword">static</span> (HiZPassData data, ComputeGraphContext context) =&gt;<br>        &#123;<br>            <span class="hljs-comment">// mip0 由 depth 生成；后续 dispatch 读取上一层 mip、写下一层 mip。</span><br>            <span class="hljs-comment">// SetComputeTextureParam(...) / DispatchCompute(...)</span><br>        &#125;);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> hiZ;<br>&#125;<br><br><span class="hljs-function">TextureHandle <span class="hljs-title">RecordSSR</span>(<span class="hljs-params"></span></span><br><span class="hljs-params"><span class="hljs-function">    RenderGraph renderGraph,</span></span><br><span class="hljs-params"><span class="hljs-function">    TextureHandle color,</span></span><br><span class="hljs-params"><span class="hljs-function">    TextureHandle depth,</span></span><br><span class="hljs-params"><span class="hljs-function">    TextureHandle normal,</span></span><br><span class="hljs-params"><span class="hljs-function">    TextureHandle hiZ,</span></span><br><span class="hljs-params"><span class="hljs-function">    ComputeShader compute,</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-built_in">int</span> kernel</span>)</span><br>&#123;<br>    TextureDesc desc = renderGraph.GetTextureDesc(color);<br>    desc.name = <span class="hljs-string">&quot;_SSRTexture&quot;</span>;<br>    desc.msaaSamples = MSAASamples.None;<br>    desc.enableRandomWrite = <span class="hljs-literal">true</span>;<br>    TextureHandle result = renderGraph.CreateTexture(desc);<br><br>    <span class="hljs-keyword">using</span> (<span class="hljs-keyword">var</span> builder = renderGraph.AddComputePass&lt;SSRPassData&gt;(<br>        <span class="hljs-string">&quot;Trace SSR&quot;</span>, <span class="hljs-keyword">out</span> <span class="hljs-keyword">var</span> passData))<br>    &#123;<br>        passData.color = color;<br>        passData.depth = depth;<br>        passData.normal = normal;<br>        passData.hiZ = hiZ;<br>        passData.result = result;<br>        passData.compute = compute;<br>        passData.kernel = kernel;<br><br>        builder.UseTexture(color, AccessFlags.Read);<br>        builder.UseTexture(depth, AccessFlags.Read);<br>        builder.UseTexture(normal, AccessFlags.Read);<br><br>        <span class="hljs-comment">// 这一句才是 TraceSSR 对 BuildHiZ 的“显式引用”。</span><br>        builder.UseTexture(hiZ, AccessFlags.Read);<br>        builder.UseTexture(result, AccessFlags.Write);<br><br>        builder.SetRenderFunc(<span class="hljs-keyword">static</span> (SSRPassData data, ComputeGraphContext context) =&gt;<br>        &#123;<br>            <span class="hljs-comment">// 把 color / depth / normal / hiZ / result 绑定给 ComputeShader，</span><br>            <span class="hljs-comment">// 然后 DispatchCompute。</span><br>        &#125;);<br>    &#125;<br><br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>在 <code>RecordRenderGraph()</code> 中把链条接起来：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs csharp">UniversalResourceData resources = frameData.Get&lt;UniversalResourceData&gt;();<br><br>TextureHandle hiZ = RecordHiZ(<br>    renderGraph, resources.activeDepthTexture, hiZCompute, hiZKernel);<br><br>TextureHandle ssr = RecordSSR(<br>    renderGraph,<br>    resources.activeColorTexture,<br>    resources.activeDepthTexture,<br>    resources.cameraNormalsTexture,<br>    hiZ,<br>    ssrCompute,<br>    ssrKernel);<br><br><span class="hljs-comment">// Composite 同样要声明：读 activeColorTexture、读 ssr、写 compositedColor。</span><br>TextureHandle compositedColor = RecordSSRComposite(<br>    renderGraph, resources.activeColorTexture, ssr, compositeMaterial);<br><br><span class="hljs-comment">// 把结果接回 URP 的帧资源。后续管线读取 cameraColor，</span><br><span class="hljs-comment">// CompositeSSR 因此成为影响最终画面的根节点。</span><br>resources.cameraColor = compositedColor;<br></code></pre></td></tr></table></figure>
+
+<p>此时图编译器能从最终的 <code>cameraColor</code> 反向追踪：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">cameraColor 需要 CompositeSSR<br>CompositeSSR 需要 SSRTexture<br>SSRTexture 需要 TraceSSR<br>TraceSSR 需要 HiZPyramid<br>HiZPyramid 需要 BuildHiZ<br></code></pre></td></tr></table></figure>
+
+<p>如果 SSR 的结果没有合成回 <code>resources.cameraColor</code>，也没有被其他有效 Pass 读取，那么 <code>CompositeSSR</code> 不存在或它的输出悬空，<code>TraceSSR</code> 就没有有效消费者；继续反向传播后，只服务于 SSR 的 <code>BuildHiZ</code> 也会一起被剔除。也就是说，剔除不是看到 <code>enableSSR == false</code> 后猜出来的，而是从<strong>最终可观察输出</strong>反向检查资源依赖得到的。</p>
+<p>这里有四个容易混淆的点：</p>
+<ol>
+<li><code>passData.hiZ = hiZ</code> 只是把句柄传到执行函数，不会建立图依赖；必须再调用 <code>builder.UseTexture(hiZ, AccessFlags.Read)</code>。</li>
+<li>在 <code>SetRenderFunc()</code> 里偷偷绑定一个没有通过 builder 声明的纹理，RenderGraph 看不见这次读取，可能错误剔除、错误安排资源生命周期，或直接报资源未声明。</li>
+<li>如果 Hi-Z 还被 GPU Occlusion、SSGI 等节点读取，即使关闭 SSR，<code>BuildHiZ</code> 也不会被剔除，因为它仍有其他有效消费者。</li>
+<li>功能明确关闭时，最好直接不记录相关节点；自动剔除是图编译阶段的安全网和优化手段，不应代替清晰的功能分支。</li>
+</ol>
+<p>如果通过全局纹理传递 Hi-Z，则生产者使用 <code>SetGlobalTextureAfterPass()</code>，消费者使用 <code>UseGlobalTexture()</code> 显式声明读取。只在执行函数里调用旧式 <code>SetGlobalTexture()</code>，图系统仍然无法可靠建立依赖。Feature 内部能直接传 <code>TextureHandle</code> 时，优先使用上面的方式，关系最清楚，也最有利于剔除和资源生命周期分析。</p>
+<h2 id="9-常见坑"><a href="#9-常见坑" class="headerlink" title="9. 常见坑"></a>9. 常见坑</h2><h3 id="9-1-Pass-被当成空节点剔除"><a href="#9-1-Pass-被当成空节点剔除" class="headerlink" title="9.1 Pass 被当成空节点剔除"></a>9.1 Pass 被当成空节点剔除</h3><p>RenderGraph 会分析依赖。如果某个 Pass 的输出没人读，它会被直接剔除，表现为”效果不显示”。临时排查可以用 <code>builder.AllowPassCulling(false)</code>，但生产环境不要依赖它。正确做法是：</p>
+<ul>
+<li>正确声明下游读取；</li>
+<li>Feature 内部优先直接传递 <code>TextureHandle</code>；</li>
+<li>确实需要全局纹理时，由生产者调用 <code>builder.SetGlobalTextureAfterPass(texture, propertyId)</code>，并由 RenderGraph 消费者调用 <code>builder.UseGlobalTexture(propertyId, AccessFlags.Read)</code> 声明读取。</li>
+</ul>
+<p><code>SetGlobalTextureAfterPass()</code> 表达的是全局状态副作用，不等同于普通的“下游读取”。不要为了阻止剔除而随手把临时纹理设为全局纹理，否则会隐藏真正缺失的依赖，还可能限制 RenderGraph 的优化空间。</p>
+<h3 id="9-2-“Resource-X-is-not-set-in-pass-Y”"><a href="#9-2-“Resource-X-is-not-set-in-pass-Y”" class="headerlink" title="9.2 “Resource X is not set in pass Y”"></a>9.2 “Resource X is not set in pass Y”</h3><p>每个在命令里触碰到的纹理、Buffer 都要先在 builder 上注册（<code>UseTexture</code> &#x2F; <code>SetRenderAttachment</code> &#x2F; <code>UseBuffer</code> 等）。漏一个就报这个错。这也是为什么建议从 <code>AddBlitPass</code> 这类封装 API 开始。</p>
+<h3 id="9-3-相机目标拿不到-在错误时机访问"><a href="#9-3-相机目标拿不到-在错误时机访问" class="headerlink" title="9.3 相机目标拿不到 &#x2F; 在错误时机访问"></a>9.3 相机目标拿不到 &#x2F; 在错误时机访问</h3><ul>
+<li><code>cameraColorTarget</code> &#x2F; <code>cameraDepthTarget</code>（不带 Handle）在 URP 17 已废弃，访问会报错。</li>
+<li>在 <code>AddRenderPasses</code> 里访问 RenderTarget 会报错，要挪到 <code>SetupRenderPasses</code>。</li>
+<li>某些 <code>renderPassEvent</code> 注入点，<code>activeColorTexture</code> &#x2F; <code>activeDepthTexture</code> 可能还没生成。如果依赖深度、法线、运动向量，用 <code>ConfigureInput(ScriptableRenderPassInput.Depth)</code>（或 <code>Color</code> &#x2F; <code>Motion</code> &#x2F; <code>Normal</code>）显式请求 URP 先生成。</li>
+</ul>
+<h3 id="9-4-MSAA-下的黑屏-拷贝问题"><a href="#9-4-MSAA-下的黑屏-拷贝问题" class="headerlink" title="9.4 MSAA 下的黑屏 &#x2F; 拷贝问题"></a>9.4 MSAA 下的黑屏 &#x2F; 拷贝问题</h3><p>相机颜色目标可能带 MSAA，直接把它当输入纹理采样会得到错误结果。后处理里如果对 <code>cameraColor</code> 做 Blit，通常需要：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs csharp">requiresIntermediateTexture = <span class="hljs-literal">true</span>;   <span class="hljs-comment">// 在 Pass 构造函数里设置</span><br></code></pre></td></tr></table></figure>
+
+<p>拷贝类操作先用 <code>RenderGraphUtils.CanAddCopyPassMSAA()</code> 判断，再决定是否走 <code>AddCopyPass</code>。</p>
+<h3 id="9-5-不要把旧-Execute-整段塞进-SetRenderFunc"><a href="#9-5-不要把旧-Execute-整段塞进-SetRenderFunc" class="headerlink" title="9.5 不要把旧 Execute 整段塞进 SetRenderFunc"></a>9.5 不要把旧 Execute 整段塞进 SetRenderFunc</h3><p>最常见的”假迁移”：把 <code>Execute()</code> 里所有逻辑原样搬进 <code>SetRenderFunc()</code>。这样可能跑通，但里面那些 <code>GetTemporaryRT</code>、<code>SetRenderTarget</code>、隐式副作用会让 RenderGraph 的优化全部失效。正确划分是：</p>
+<ol>
+<li>创建临时纹理 → <code>renderGraph.CreateTexture()</code>；</li>
+<li>声明输入输出 → builder API；</li>
+<li>真正的绘制命令 → <code>SetRenderFunc</code>。</li>
+</ol>
+<p>资源关系在外面，命令记录在里面。</p>
+<h3 id="9-6-TextureHandle-只在当帧有效"><a href="#9-6-TextureHandle-只在当帧有效" class="headerlink" title="9.6 TextureHandle 只在当帧有效"></a>9.6 TextureHandle 只在当帧有效</h3><p><code>TextureHandle</code> 是图内的资源引用，跨帧保存没有意义。跨帧的历史数据（TAA history、SSR history、上一帧深度）要用 URP 的 history 机制（<code>UniversalCameraData.historyManager</code>）来管理，再在每帧接入图。</p>
+<h3 id="9-7-直接写回相机目标-后处理事件点"><a href="#9-7-直接写回相机目标-后处理事件点" class="headerlink" title="9.7 直接写回相机目标 &#x2F; 后处理事件点"></a>9.7 直接写回相机目标 &#x2F; 后处理事件点</h3><ul>
+<li>把效果直接写回 <code>activeColorTexture</code> 时要小心 MSAA 和 backbuffer 限制。</li>
+<li><code>AfterRenderingPostProcessing</code> 这个事件在相机没开后处理时不会执行；如果你习惯把所有自定义效果挂在这里，升级后检查相机是否开启后处理。</li>
+<li>更好的替代：效果写到新纹理后，通过 <code>UniversalResourceData resourceData = frameData.Get&lt;UniversalResourceData&gt;()</code> 取得帧资源，再设置 <code>resourceData.cameraColor = resultTexture</code>，让后续 Pass 从新纹理继续，省掉一次回写拷贝。</li>
+</ul>
+<h3 id="9-8-小版本-API-差异"><a href="#9-8-小版本-API-差异" class="headerlink" title="9.8 小版本 API 差异"></a>9.8 小版本 API 差异</h3><p><code>AccessFlags</code>、<code>GetDescriptor(renderGraph)</code>、<code>BlitMaterialParameters</code> 的参数顺序等 API 在不同 URP 小版本有调整。写代码时优先依赖稳定概念（声明 Pass、声明读写、保存数据、设置执行函数），具体的 API 签名以当前包的 <code>Changelog</code> 和官方 Manual 为准。</p>
+<h2 id="10-迁移步骤清单"><a href="#10-迁移步骤清单" class="headerlink" title="10. 迁移步骤清单"></a>10. 迁移步骤清单</h2><ol>
+<li>用 Unity 6 打开项目，确认自动进入 Compatibility Mode，先把旧效果跑通作为基准。</li>
+<li>逐个迁移自定义 Feature：<ul>
+<li>确认 <code>Create()</code> 初始化 Pass；</li>
+<li><code>AddRenderPasses</code> 里保留 <code>EnqueuePass</code>，把对 RenderTarget 的访问挪到 <code>SetupRenderPasses</code>；</li>
+<li>重写 <code>RecordRenderGraph</code>，先处理 Pass 的输入输出声明，再写执行函数；</li>
+<li>优先用 <code>AddBlitPass</code> &#x2F; <code>AddCopyPass</code> 这类封装，减少漏声明。</li>
+</ul>
+</li>
+<li>对复杂 Pass，可先用 <code>AddUnsafePass</code> 让旧代码过渡跑起来，再换成 Raster &#x2F; Compute Pass。</li>
+<li>关闭 Compatibility Mode，重点验证每个自定义 Pass 是否真的执行、效果是否和升级前一致。</li>
+<li>用 Frame Debugger 看 Pass 顺序，用 RenderGraph Viewer（<code>Window &gt; Analysis &gt; Render Graph Viewer</code>）看每个 Pass 是执行（绿色）还是被剔除（红色），以及资源生命周期。</li>
+<li>真机验证，尤其是移动端：关注 Render Target 的 Load&#x2F;Store、带宽和 Tile Pass 是否被打断。</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>URP 14 升级到 URP 17，对自定义 Feature 而言不是”换个 API 拼拼图”，而是<strong>把渲染代码从命令式翻译成声明式</strong>：</p>
+<ul>
+<li><code>Execute()</code> 变成 <code>RecordRenderGraph()</code>；</li>
+<li><code>RTHandle</code> 变成 <code>TextureHandle</code>；</li>
+<li><code>CommandBuffer</code> 变成 <code>RasterCommandBuffer</code> &#x2F; <code>ComputeCommandBuffer</code>；</li>
+<li>临时资源从”自己申请释放”变成”声明给图系统管理”；</li>
+<li>数据访问从 <code>RenderingData</code> 结构体变成 <code>frameData.Get&lt;T&gt;()</code>。</li>
+</ul>
+<p>写 Pass 时记住一个边界：<strong>先在外面把资源关系说清楚，再到 <code>SetRenderFunc</code> 里记命令</strong>。理解这条边界，迁移就不是一坨看不懂的新 API，而是一种更有结构、也更容易被管线优化的写法。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.5/Documentation/Manual/urp/upgrade-guide-unity-6.html">Unity Manual：Upgrade to URP 17 (Unity 6.0)</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.5/Documentation/Manual/urp/render-graph-write-render-pass.html">Unity Manual：Write a render pass using the render graph system in URP</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/urp/render-graph-blit.html">Unity Manual：Blit using the render graph system in URP</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6000.5/Documentation/Manual/urp/render-graph-frame-data-reference.html">Unity Manual：Frame data textures reference for URP</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/6/Documentation/Manual/urp/accessing-frame-data.html">Unity Manual：Get data from the current frame in URP</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@14.0/manual/customize/blit-to-rthandle.html">URP 14 示例：Blit Camera color texture to RTHandle</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.universal@17.1/api/UnityEngine.Rendering.Universal.UniversalCameraData.html">Class UniversalCameraData | URP 17.1.0</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.core@15.0/api/UnityEngine.Rendering.Blitter.BlitTexture.html">Core RP Library：Blitter.BlitTexture</a></p>
+<p>相关文章：<a href="Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90.md">Unity-RenderGraph机制分析</a></p>
+
+    </div>
+
+    <footer class="post__footer">
+      
+        
+<section class="comments" aria-labelledby="commentsTitle">
+  <div class="comments__header">
+    <p class="comments__eyebrow">DISCUSSION</p>
+    <h2 class="comments__title" id="commentsTitle">评论与交流</h2>
+    <p class="comments__description">使用 GitHub 账号参与讨论；首次评论时会自动创建对应话题。</p>
+  </div>
+  <div class="giscus"></div>
+  <script src="https://giscus.app/client.js"
+          data-repo="AHappyFun/AHappyFun.github.io"
+          data-repo-id="R_kgDOJAassQ"
+          data-category="Announcements"
+          data-category-id="DIC_kwDOJAassc4DCUGK"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="zh-CN"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+  </script>
+</section>
+
+      
+
+      <div class="post__nav">
+        
+          <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">AI-把高质量画面训练成低配Shader的探索</span>
+          </a>
+        
+        
+          <a href="/2026/08/03/Art-%E4%BA%91%E7%9A%84%E5%88%86%E7%B1%BB/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Art-云的分类——从国际云图集到观云识天</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js"></script>
+<script src="/js/search.js"></script>
+
+  <script src="https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>
+
+
+
+</body>
+</html>
