@@ -217,6 +217,7 @@
 
   /* --- Category filter tabs (sidebar + homepage grid) --- */
   (function initCategoryFilter() {
+    var storageKey = 'active-post-category';
     var bars = Array.prototype.slice.call(document.querySelectorAll('.category-filter'));
     if (!bars.length) return;
     var tabs = [];
@@ -232,8 +233,14 @@
       return cat === 'all' || itemCat === cat;
     }
 
-    function apply(cat) {
+    function apply(cat, persist) {
       var visible = 0;
+
+      tabs.forEach(function (tab) {
+        var active = tab.getAttribute('data-category') === cat;
+        tab.classList.toggle('is-active', active);
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
 
       cards.forEach(function (card) {
         var show = matches(cat, card.getAttribute('data-category'));
@@ -256,19 +263,24 @@
       });
 
       if (countEl) countEl.textContent = '共 ' + visible + ' 篇文章';
+      if (persist) sessionStorage.setItem(storageKey, cat);
     }
 
     tabs.forEach(function (tab) {
       tab.addEventListener('click', function () {
         var cat = tab.getAttribute('data-category');
-        tabs.forEach(function (t) {
-          var active = t.getAttribute('data-category') === cat;
-          t.classList.toggle('is-active', active);
-          t.setAttribute('aria-selected', active ? 'true' : 'false');
-        });
-        apply(cat);
+        apply(cat, true);
       });
     });
+
+    var currentArticle = document.querySelector('.sidebar__item.is-active[data-category]');
+    var articleCategory = currentArticle ? currentArticle.getAttribute('data-category') : '';
+    var savedCategory = sessionStorage.getItem(storageKey) || '';
+    var initialCategory = articleCategory || savedCategory || 'all';
+    var categoryExists = tabs.some(function (tab) {
+      return tab.getAttribute('data-category') === initialCategory;
+    });
+    apply(categoryExists ? initialCategory : 'all', false);
   })();
 
   /* --- Smooth scroll for anchor links --- */

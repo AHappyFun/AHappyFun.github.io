@@ -2422,6 +2422,19 @@ html:not([data-theme="dark"]) .theme-toggle .icon-sun,
   }
 }
 
+.editorial-hero--without-sphere {
+  grid-template-columns: 1fr;
+  min-height: 0;
+}
+
+.editorial-hero--without-sphere .editorial-hero__copy {
+  border-right: 0;
+}
+
+html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__copy {
+  border-right: 0;
+}
+
 /* ========================================
    Editorial Knowledge Atlas · 2026 refresh
    Direction generated with UI/UX Pro Max:
@@ -3293,8 +3306,25 @@ html[data-site-style="bento"] .editorial-hero {
   box-shadow: var(--shadow-md);
 }
 
+html[data-site-style="bento"] .editorial-hero--without-sphere {
+  grid-template-columns: 1fr;
+  min-height: 0;
+  margin-top: 24px;
+}
+
 html[data-site-style="bento"] .editorial-hero__copy {
   border-right: 2px solid var(--color-border);
+}
+
+html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__copy {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+  grid-template-rows: auto auto;
+  align-items: end;
+  column-gap: clamp(32px, 5vw, 72px);
+  row-gap: 8px;
+  padding: 24px 28px;
+  border-right: 0;
 }
 
 html[data-site-style="bento"] .editorial-hero__copy::before {
@@ -3314,6 +3344,30 @@ html[data-site-style="bento"] .editorial-hero__title {
   font-weight: 800;
   line-height: 1.06;
   letter-spacing: -0.06em;
+}
+
+html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__eyebrow,
+html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__title {
+  grid-column: 1;
+}
+
+html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__title {
+  max-width: 11em;
+  margin: 6px 0 0;
+  font-size: clamp(2.15rem, 3.2vw, 3.25rem);
+}
+
+html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__intro {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  align-self: end;
+  max-width: 34rem;
+  line-height: 1.65;
+}
+
+html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__facts,
+html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__cta {
+  display: none;
 }
 
 html[data-site-style="bento"] .editorial-hero__facts {
@@ -3355,6 +3409,9 @@ html[data-site-style="bento"] .hero-sphere__kicker { color: #ff826d; }
 html[data-site-style="bento"] .hero-sphere__title { font-family: var(--font-sans); font-weight: 800; }
 
 html[data-site-style="bento"] .section-header {
+  padding-top: 32px;
+  padding-bottom: 14px;
+  margin-bottom: 20px;
   border-bottom: 2px solid var(--color-border);
 }
 
@@ -3425,11 +3482,33 @@ html[data-site-style="bento"] .post__content blockquote { border: 2px solid var(
     border-right: 0;
     border-bottom: 2px solid var(--color-border);
   }
+
+  html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__copy {
+    border-bottom: 0;
+  }
 }
 
 @media (max-width: 900px) {
   .style-picker select { min-width: 82px; }
   .header__social { display: none; }
+
+  html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__copy {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    row-gap: 10px;
+    padding: 24px;
+  }
+
+  html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__eyebrow,
+  html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__title,
+  html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__intro {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__intro {
+    max-width: 42rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -3451,7 +3530,10 @@ html[data-site-style="bento"] .post__content blockquote { border: 2px solid var(
 @media (max-width: 480px) {
   .style-picker select { width: 72px; min-width: 72px; padding-right: 24px; }
   .style-picker::after { right: 9px; }
-  html[data-site-style="bento"] .editorial-hero__title { font-size: clamp(2.1rem, 11vw, 2.75rem); }
+  html[data-site-style="bento"] .editorial-hero__title { font-size: clamp(1.8rem, 9vw, 2.2rem); }
+  html[data-site-style="bento"] .editorial-hero--without-sphere { margin-top: 16px; }
+  html[data-site-style="bento"] .editorial-hero--without-sphere .editorial-hero__copy { padding: 20px; }
+  html[data-site-style="bento"] .section-header { padding-top: 24px; }
   html[data-site-style="bento"] .post__layout { border-left: 0; border-right: 0; box-shadow: none; }
 }
 
@@ -3913,7 +3995,9 @@ html[data-site-style="knowledge"] .editorial-hero__copy::before {
   content: none;
 }
 
-.knowledge-only {
+.knowledge-only,
+.editorial-hero__title .knowledge-only,
+.editorial-hero__intro .knowledge-only {
   display: none;
 }
 
