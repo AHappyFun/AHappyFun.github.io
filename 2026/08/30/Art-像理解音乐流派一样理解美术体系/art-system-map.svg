@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="820" viewBox="0 0 1400 820" role="img" aria-labelledby="title desc">
+  <title id="title">理解美术体系的六个维度</title>
+  <desc id="desc">作品处于中心，外围是媒介、题材、视觉语言、流派运动、地域传统、功能制度六个彼此交叉的维度。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8f5ef"/>
+      <stop offset="1" stop-color="#eee8dc"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#3b342a" flood-opacity="0.14"/>
+    </filter>
+    <style>
+      .title { font: 700 38px 'Microsoft YaHei','PingFang SC',sans-serif; fill:#28241e; }
+      .sub { font: 400 20px 'Microsoft YaHei','PingFang SC',sans-serif; fill:#665f54; }
+      .head { font: 700 25px 'Microsoft YaHei','PingFang SC',sans-serif; fill:#29251f; }
+      .body { font: 400 18px 'Microsoft YaHei','PingFang SC',sans-serif; fill:#544d43; }
+      .center { font: 700 32px 'Microsoft YaHei','PingFang SC',sans-serif; fill:#fff; }
+      .center2 { font: 400 18px 'Microsoft YaHei','PingFang SC',sans-serif; fill:#f5efe5; }
+      .line { stroke:#a69b8b; stroke-width:2.5; stroke-dasharray:7 7; }
+    </style>
+  </defs>
+  <rect width="1400" height="820" rx="32" fill="url(#bg)"/>
+  <text x="700" y="64" text-anchor="middle" class="title">美术体系不是一棵树，而是六个交叉维度</text>
+  <text x="700" y="98" text-anchor="middle" class="sub">同一件作品会同时落在六个维度中，分类取决于你正在问什么</text>
+
+  <line x1="700" y1="405" x2="355" y2="240" class="line"/>
+  <line x1="700" y1="405" x2="700" y2="215" class="line"/>
+  <line x1="700" y1="405" x2="1045" y2="240" class="line"/>
+  <line x1="700" y1="405" x2="355" y2="595" class="line"/>
+  <line x1="700" y1="405" x2="700" y2="620" class="line"/>
+  <line x1="700" y1="405" x2="1045" y2="595" class="line"/>
+
+  <g filter="url(#shadow)">
+    <circle cx="700" cy="405" r="125" fill="#6b4f3a"/>
+    <text x="700" y="393" text-anchor="middle" class="center">一件作品</text>
+    <text x="700" y="427" text-anchor="middle" class="center2">不是只能属于一个格子</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="150" y="148" width="410" height="150" rx="24" fill="#dce8e1"/>
+    <text x="355" y="193" text-anchor="middle" class="head">媒介 · 用什么做？</text>
+    <text x="355" y="231" text-anchor="middle" class="body">油画　水墨　版画　雕塑</text>
+    <text x="355" y="263" text-anchor="middle" class="body">摄影　装置　影像　数字媒介</text>
+
+    <rect x="495" y="125" width="410" height="150" rx="24" fill="#e5dfef"/>
+    <text x="700" y="170" text-anchor="middle" class="head">题材 · 表现什么？</text>
+    <text x="700" y="208" text-anchor="middle" class="body">肖像　山水 / 风景　静物</text>
+    <text x="700" y="240" text-anchor="middle" class="body">宗教　历史　日常　抽象形态</text>
+
+    <rect x="840" y="148" width="410" height="150" rx="24" fill="#f0dfd7"/>
+    <text x="1045" y="193" text-anchor="middle" class="head">视觉语言 · 看起来怎样？</text>
+    <text x="1045" y="231" text-anchor="middle" class="body">写实　平面化　装饰性　表现性</text>
+    <text x="1045" y="263" text-anchor="middle" class="body">几何抽象　极简　观念化</text>
+
+    <rect x="150" y="545" width="410" height="150" rx="24" fill="#eadfbf"/>
+    <text x="355" y="590" text-anchor="middle" class="head">流派运动 · 和谁一起改变？</text>
+    <text x="355" y="628" text-anchor="middle" class="body">印象派　立体主义　达达</text>
+    <text x="355" y="660" text-anchor="middle" class="body">超现实主义　波普艺术</text>
+
+    <rect x="495" y="570" width="410" height="150" rx="24" fill="#d9e5ef"/>
+    <text x="700" y="615" text-anchor="middle" class="head">地域传统 · 从哪里生长？</text>
+    <text x="700" y="653" text-anchor="middle" class="body">中国文人画　日本浮世绘</text>
+    <text x="700" y="685" text-anchor="middle" class="body">伊斯兰艺术　欧洲学院传统</text>
+
+    <rect x="840" y="545" width="410" height="150" rx="24" fill="#e2e5d2"/>
+    <text x="1045" y="590" text-anchor="middle" class="head">功能制度 · 为谁、在哪里？</text>
+    <text x="1045" y="628" text-anchor="middle" class="body">仪式　宗教　宫廷　市场</text>
+    <text x="1045" y="660" text-anchor="middle" class="body">宣传　公共空间　博物馆</text>
+  </g>
+
+  <text x="700" y="781" text-anchor="middle" class="sub">先判断名词属于哪一层，再讨论它与其他层怎样组合</text>
+</svg>

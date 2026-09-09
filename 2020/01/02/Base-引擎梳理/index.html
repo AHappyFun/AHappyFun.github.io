@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-site-style="bento">
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,19 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  (function () {
+    var available = ['bento', 'knowledge'];
+    var saved = localStorage.getItem('site-style');
+    if (available.indexOf(saved) !== -1) {
+      document.documentElement.setAttribute('data-site-style', saved);
+    } else if (saved) {
+      localStorage.setItem('site-style', 'bento');
+    }
+  })();
+</script>
 
 <!-- Style -->
 <link rel="stylesheet" href="/css/style.css">
@@ -28,16 +40,24 @@
 <meta property="og:description" content="个人技术博客">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-01-01T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-07-29T06:21:43.261Z">
+<meta property="article:modified_time" content="2026-08-31T07:45:09.029Z">
 <meta property="article:author" content="锅巴">
 <meta property="article:tag" content="原理">
 <meta name="twitter:card" content="summary">
 
+  
+    <style id="cat-game-disabled">.cat-container,.cat-win-label{display:none!important}</style>
+  
 <meta name="generator" content="Hexo 7.3.0"></head>
-<body>
+<body data-cat-game-enabled="false">
+  <a class="skip-link" href="#mainContent">跳到正文</a>
   <header class="header">
   <div class="container header__inner">
-    <a href="/" class="header__logo">锅巴的Blogs</a>
+    <a href="/" class="header__brand" aria-label="锅巴的Blogs首页">
+      <span class="header__logo">锅巴的Blogs</span>
+      <span class="header__edition">MAKE · WRITE · SHARE</span>
+      <span class="knowledge-status" aria-hidden="true"><i></i><i></i><i></i></span>
+    </a>
 
     <div class="header__social">
       
@@ -61,22 +81,33 @@
       
     </div>
 
-    <nav class="header__nav" id="headerNav">
+    <nav class="header__nav" id="headerNav" aria-label="主导航">
       
+        
         <a href="/" class="header__link">首页</a>
       
+        
         <a href="/tags/" class="header__link">标签</a>
       
-        <a href="/categories/" class="header__link">分类</a>
-      
+        
         <a href="/search/" class="header__link">搜索</a>
       
+        
         <a href="/about/" class="header__link">关于</a>
       
     </nav>
 
     <div class="header__actions">
-      <button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+      
+        <label class="style-picker" for="stylePicker">
+          <span class="sr-only">选择网站设计风格</span>
+          <select id="stylePicker" aria-label="网站设计风格">
+            <option value="bento">Bento</option>
+            <option value="knowledge">Knowledge OS</option>
+          </select>
+        </label>
+      
+      <button class="theme-toggle" id="themeToggle" aria-label="切换明暗模式">
         <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="5"></circle>
           <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -92,7 +123,7 @@
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
       </button>
-      <button class="menu-toggle" id="menuToggle" aria-label="菜单">
+      <button class="menu-toggle" id="menuToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="headerNav">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -108,389 +139,509 @@
     <aside class="sidebar" id="sidebar">
   <div class="sidebar__inner">
     <div class="sidebar__section">
+      <h3 class="sidebar__title">分类</h3>
+      <div class="category-filter category-filter--sidebar" role="tablist" aria-label="按分类筛选">
+        <button type="button" class="category-filter__tab is-active" role="tab" aria-selected="true" data-category="all">
+          全部 <span class="category-filter__count">75</span>
+        </button>
+        
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="技术">
+            技术 <span class="category-filter__count">51</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Loy">
+            Loy <span class="category-filter__count">19</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Art">
+            Art <span class="category-filter__count">4</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="游戏">
+            游戏 <span class="category-filter__count">1</span>
+          </button>
+        
+      </div>
+    </div>
+
+    <div class="sidebar__section">
       <h3 class="sidebar__title">文章列表</h3>
       
-        <div class="sidebar__count">共 51 篇文章</div>
+        <div class="sidebar__count">共 75 篇文章</div>
         <nav class="sidebar__list">
           
           
             
-            
               
-              <div class="sidebar__year">2026</div>
+              <div class="sidebar__year" data-year="2026">2026</div>
             
-            <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/" class="sidebar__item">
+            <a href="/2026/09/06/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E6%80%BB%E6%8A%A4%E7%9D%80%E8%87%AA%E5%B7%B1%E4%BA%BA%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E8%AE%A4%E5%90%8C%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-05T16:00:00.000Z">09-06</time>
+              <span class="sidebar__post-title">Loy-为什么我们总护着自己人——社会认同理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/05/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%AC%AC%E4%B8%80%E5%8D%B0%E8%B1%A1%E5%A6%82%E6%AD%A4%E9%A1%BD%E5%9B%BA%E2%80%94%E2%80%94%E5%85%89%E7%8E%AF%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">Loy-为什么第一印象如此顽固——光环效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/04/Loy-%E7%BB%9D%E6%9C%9B%E6%98%AF%E8%A2%AB%E8%AE%AD%E7%BB%83%E5%87%BA%E6%9D%A5%E7%9A%84%E2%80%94%E2%80%94%E4%B9%A0%E5%BE%97%E6%80%A7%E6%97%A0%E5%8A%A9/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">Loy-绝望是被训练出来的——习得性无助</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Loy-GT7%E8%BD%A6%E8%BE%86%E8%B0%83%E6%95%99%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="游戏" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Loy-GT7 车辆调教指南</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Loy-%E8%AE%B0%E5%BF%86%E5%8F%AA%E8%AE%B0%E5%BE%97%E9%AB%98%E6%BD%AE%E5%92%8C%E7%BB%93%E5%B0%BE%E2%80%94%E2%80%94%E5%B3%B0%E7%BB%88%E5%AE%9A%E5%BE%8B/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Loy-记忆只记得高潮和结尾——峰终定律</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Loy-%E6%BB%A1%E8%B4%9F%E8%8D%B7%EF%BC%8C%E6%98%AF%E7%B3%BB%E7%BB%9F%E6%9C%80%E5%8D%B1%E9%99%A9%E7%9A%84%E6%97%B6%E5%88%BB%E2%80%94%E2%80%94%E6%8E%92%E9%98%9F%E8%AE%BA/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Loy-满负荷，是系统最危险的时刻——排队论</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Loy-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%95%B0%E5%AD%97%E5%A6%82%E4%BD%95%E6%93%8D%E7%BA%B5%E4%BD%A0%E2%80%94%E2%80%94%E9%94%9A%E5%AE%9A%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Loy-第一个数字如何操纵你——锚定效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Base-%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88%E6%BC%94%E8%BF%9B%E6%80%BB%E8%A7%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Base-渲染方案演进总览</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/UE4-RTGI/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">UE4-RTGI</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Unity-APV%E4%BD%93%E7%A7%AF%E6%8E%A2%E9%92%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Unity-APV体积探针</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8F100%E6%AF%94%E8%B5%9A200%E6%9B%B4%E7%96%BC%E2%80%94%E2%80%94%E6%8D%9F%E5%A4%B1%E5%8E%8C%E6%81%B6/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Loy-为什么亏100比赚200更疼——损失厌恶</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Loy-%E9%97%B2%E7%9D%80%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AF%94%E5%BF%99%E4%B8%80%E5%A4%A9%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E5%BF%83%E6%B5%81/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Loy-闲着为什么比忙一天还累——心流</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-1990%E8%87%B32026%E6%82%AC%E7%96%91%E7%94%B5%E5%BD%B1%E6%A6%9C%E5%8D%95/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-1990—2026 悬疑电影榜单</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-2015%E8%87%B32026%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1Top250/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-2015—2026 豆瓣电影 Top 250</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E9%81%93%E9%94%99%E4%B9%9F%E8%A6%81%E8%B7%9F%E7%9D%80%E8%AF%B4%E2%80%94%E2%80%94%E4%BB%8E%E4%BC%97/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-为什么明知道错也要跟着说——从众</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-电子游戏美术风格体系——从视觉分类到概念原画研究</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E5%83%8F%E7%90%86%E8%A7%A3%E9%9F%B3%E4%B9%90%E6%B5%81%E6%B4%BE%E4%B8%80%E6%A0%B7%E7%90%86%E8%A7%A3%E7%BE%8E%E6%9C%AF%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-像理解音乐流派一样理解美术体系</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E4%B8%8D%E6%87%82%E8%B6%8A%E8%87%AA%E4%BF%A1%E2%80%94%E2%80%94%E8%BE%BE%E5%85%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Loy-为什么越不懂越自信——达克效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/29/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E8%B6%8A%E5%A4%9A%E8%B6%8A%E6%B2%A1%E4%BA%BA%E5%B8%AE%E5%BF%99%E2%80%94%E2%80%94%E6%97%81%E8%A7%82%E8%80%85%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-28T16:00:00.000Z">08-29</time>
+              <span class="sidebar__post-title">Loy-为什么人越多越没人帮忙——旁观者效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E4%BC%9A%E7%9B%B8%E4%BF%A1%E8%87%AA%E7%9B%B8%E7%9F%9B%E7%9B%BE%E7%9A%84%E4%BA%8B%E2%80%94%E2%80%94%E8%AE%A4%E7%9F%A5%E5%A4%B1%E8%B0%83/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Loy-为什么人会相信自相矛盾的事——认知失调</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E6%8A%95%E5%85%A5%E8%B6%8A%E9%9A%BE%E6%94%BE%E5%BC%83%E2%80%94%E2%80%94%E6%B2%89%E6%B2%A1%E6%88%90%E6%9C%AC%E8%B0%AC%E8%AF%AF/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Loy-为什么越投入越难放弃——沉没成本谬误</span>
+            </a>
+          
+            
+            <a href="/2026/08/26/Loy-%E4%BA%BA%E7%B1%BB%E7%A4%BE%E4%BC%9A%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%B1%BB%E5%9E%8B/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-25T16:00:00.000Z">08-26</time>
+              <span class="sidebar__post-title">Loy-人类社会中的工作类型</span>
+            </a>
+          
+            
+            <a href="/2026/08/21/Design-%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AARoguelike%E6%B8%B8%E6%88%8F/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-20T16:00:00.000Z">08-21</time>
+              <span class="sidebar__post-title">Design-如何开发一个Roguelike游戏</span>
+            </a>
+          
+            
+            <a href="/2026/08/20/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%B6%8A%E6%83%B3%E6%94%B9%E5%8F%98%E4%B8%80%E4%B8%AA%E4%BA%BA%E4%BB%96%E8%B6%8A%E4%B8%8D%E5%8F%98%E2%80%94%E2%80%94%E8%87%AA%E6%88%91%E5%86%B3%E5%AE%9A%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-19T16:00:00.000Z">08-20</time>
+              <span class="sidebar__post-title">Loy-为什么你越想改变一个人他越不变——自我决定理论</span>
+            </a>
+          
+            
+            <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-08-09T16:00:00.000Z">08-10</time>
               <span class="sidebar__post-title">AI-把高质量画面训练成低配Shader的探索</span>
             </a>
           
             
-            
-            <a href="/2026/08/09/Unity-URP14%E5%8D%87%E7%BA%A7URP17-RenderFeature%E9%80%82%E9%85%8DRenderGraph/" class="sidebar__item">
+            <a href="/2026/08/09/Unity-URP14%E5%8D%87%E7%BA%A7URP17-RenderFeature%E9%80%82%E9%85%8DRenderGraph/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-08-08T16:00:00.000Z">08-09</time>
               <span class="sidebar__post-title">Unity-URP14升级URP17-RenderFeature适配RenderGraph</span>
             </a>
           
             
-            
-            <a href="/2026/08/03/Art-%E4%BA%91%E7%9A%84%E5%88%86%E7%B1%BB/" class="sidebar__item">
+            <a href="/2026/08/03/Art-%E4%BA%91%E7%9A%84%E5%88%86%E7%B1%BB/" class="sidebar__item" data-category="Art" data-year="2026">
               <time class="sidebar__date" datetime="2026-08-02T16:00:00.000Z">08-03</time>
               <span class="sidebar__post-title">Art-云的分类——从国际云图集到观云识天</span>
             </a>
           
             
-            
-            <a href="/2026/07/29/Art-%E6%8E%92%E7%BA%BF%E6%8A%80%E6%B3%95%E5%8F%91%E5%B1%95%E5%8F%B2/" class="sidebar__item">
+            <a href="/2026/07/29/Art-%E6%8E%92%E7%BA%BF%E6%8A%80%E6%B3%95%E5%8F%91%E5%B1%95%E5%8F%B2/" class="sidebar__item" data-category="Art" data-year="2026">
               <time class="sidebar__date" datetime="2026-07-28T16:00:00.000Z">07-29</time>
               <span class="sidebar__post-title">Art-排线技法发展史</span>
             </a>
           
             
-            
-            <a href="/2026/07/02/DevTool-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/" class="sidebar__item">
+            <a href="/2026/07/02/DevTool-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-07-01T16:00:00.000Z">07-02</time>
               <span class="sidebar__post-title">DevTool-主流跨平台桌面应用技术栈</span>
             </a>
           
             
-            
-            <a href="/2026/06/30/Loy-%E6%8A%8A%E7%9B%B4%E8%A7%89%E8%AE%AD%E7%BB%83%E6%88%90%E6%B8%85%E6%A5%9A%E8%A1%A8%E8%BE%BE/" class="sidebar__item">
+            <a href="/2026/06/30/Loy-%E6%8A%8A%E7%9B%B4%E8%A7%89%E8%AE%AD%E7%BB%83%E6%88%90%E6%B8%85%E6%A5%9A%E8%A1%A8%E8%BE%BE/" class="sidebar__item" data-category="Loy" data-year="2026">
               <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
               <span class="sidebar__post-title">Loy-把直觉训练成清楚表达</span>
             </a>
           
             
-            
-            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item">
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
               <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
             </a>
           
             
-            
-            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item">
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
               <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
             </a>
           
             
-            
-            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item">
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
               <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
             </a>
           
             
-            
-            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item">
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
               <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
             </a>
           
             
-            
-            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item">
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
               <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
             </a>
           
             
-            
-            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item">
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
               <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
             </a>
           
             
-            
-            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item">
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
               <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
             </a>
           
             
-            
-            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
               <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
             </a>
           
             
-            
-            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
               <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
             </a>
           
             
-            
-            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item">
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
               <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
             </a>
           
             
-            
-            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item">
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
               <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
             </a>
           
             
-            
-            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item">
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
               <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
             </a>
           
             
-            
-            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item">
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item" data-category="技术" data-year="2026">
               <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
               <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
             </a>
           
             
-            
               
-              <div class="sidebar__year">2024</div>
+              <div class="sidebar__year" data-year="2024">2024</div>
             
-            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item">
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item" data-category="技术" data-year="2024">
               <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
               <span class="sidebar__post-title">UE5-MultiPass添加</span>
             </a>
           
             
-            
-            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item">
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item" data-category="技术" data-year="2024">
               <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
               <span class="sidebar__post-title">UE4-DeferredDecal</span>
             </a>
           
             
-            
-            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item">
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item" data-category="技术" data-year="2024">
               <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
               <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
             </a>
           
             
-            
-            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item">
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item" data-category="技术" data-year="2024">
               <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
               <span class="sidebar__post-title">Base-矩阵和向量</span>
             </a>
           
             
-            
-            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item">
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item" data-category="技术" data-year="2024">
               <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
               <span class="sidebar__post-title">UE4-添加GlobalShader</span>
             </a>
           
             
-            
-            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2024">
               <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
               <span class="sidebar__post-title">Base-各个坐标空间</span>
             </a>
           
             
-            
-            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item">
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item" data-category="技术" data-year="2024">
               <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
               <span class="sidebar__post-title">UE4-PSOCache</span>
             </a>
           
             
-            
-            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item">
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item" data-category="技术" data-year="2024">
               <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
               <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
             </a>
           
             
-            
               
-              <div class="sidebar__year">2023</div>
+              <div class="sidebar__year" data-year="2023">2023</div>
             
-            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item">
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
               <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
             </a>
           
             
-            
-            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item">
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
               <span class="sidebar__post-title">UE4-GPUScene</span>
             </a>
           
             
-            
-            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item">
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
               <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
             </a>
           
             
-            
-            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item">
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
               <span class="sidebar__post-title">UE5-自定义MeshPass</span>
             </a>
           
             
-            
-            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item">
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
               <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
             </a>
           
             
-            
-            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item">
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
               <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
             </a>
           
             
-            
-            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item">
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
               <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
             </a>
           
             
-            
-            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item">
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
               <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
             </a>
           
             
-            
-            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item">
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
               <span class="sidebar__post-title">Base-面试问题汇总</span>
             </a>
           
             
-            
-            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item">
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
               <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
             </a>
           
             
-            
-            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
               <span class="sidebar__post-title">Unity-URP代码架构</span>
             </a>
           
             
-            
-            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item">
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
               <span class="sidebar__post-title">Base-TBDR架构</span>
             </a>
           
             
-            
-            <a href="/2023/01/14/Base-TAA/" class="sidebar__item">
+            <a href="/2023/01/14/Base-TAA/" class="sidebar__item" data-category="技术" data-year="2023">
               <time class="sidebar__date" datetime="2023-01-13T16:00:00.000Z">01-14</time>
               <span class="sidebar__post-title">Base-时域抗锯齿 TAA</span>
             </a>
           
             
-            
               
-              <div class="sidebar__year">2022</div>
+              <div class="sidebar__year" data-year="2022">2022</div>
             
-            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2022">
               <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
               <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
             </a>
           
             
-            
               
-              <div class="sidebar__year">2021</div>
+              <div class="sidebar__year" data-year="2021">2021</div>
             
-            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item">
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item" data-category="技术" data-year="2021">
               <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
               <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
             </a>
           
             
-            
-            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item">
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2021">
               <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
               <span class="sidebar__post-title">Shader-屏幕空间</span>
             </a>
           
             
-            
               
-              <div class="sidebar__year">2020</div>
+              <div class="sidebar__year" data-year="2020">2020</div>
             
-            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
               <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
               <span class="sidebar__post-title">Base-透明渲染</span>
             </a>
           
             
-            
-            <a href="/2020/04/17/Base-PBR/" class="sidebar__item">
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item" data-category="技术" data-year="2020">
               <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
               <span class="sidebar__post-title">Base-PBR</span>
             </a>
           
             
-            
-            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item">
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2020">
               <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
               <span class="sidebar__post-title">Base-渲染管线</span>
             </a>
           
             
-            
-            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item is-active">
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item is-active" data-category="技术" data-year="2020">
               <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
               <span class="sidebar__post-title">Base-引擎梳理</span>
             </a>
           
             
-            
-            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item">
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
               <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
               <span class="sidebar__post-title">Base-卡通渲染</span>
             </a>
           
             
-            
-            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item">
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item" data-category="技术" data-year="2020">
               <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
               <span class="sidebar__post-title">Shader-RayMarch</span>
             </a>
           
             
-            
               
-              <div class="sidebar__year">2019</div>
+              <div class="sidebar__year" data-year="2019">2019</div>
             
-            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item">
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item" data-category="技术" data-year="2019">
               <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
               <span class="sidebar__post-title">Base-法线贴图</span>
             </a>
           
             
-            
               
-              <div class="sidebar__year">2018</div>
+              <div class="sidebar__year" data-year="2018">2018</div>
             
-            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item">
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item" data-category="Loy" data-year="2018">
               <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
               <span class="sidebar__post-title">Loy-Hexo使用备份</span>
             </a>
@@ -499,9 +650,10 @@
       
     </div>
   </div>
+  <div class="sidebar-resizer" id="globalSidebarResizer" role="separator" aria-label="调整全局目录宽度" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="480" aria-valuenow="320" tabindex="0"></div>
 </aside>
 
-    <main class="main">
+    <main class="main" id="mainContent" tabindex="-1">
       
 <article class="post">
   <div class="container post__layout">
@@ -511,7 +663,9 @@
         
           <span class="post__category">
             
-              <a href="/categories/%E5%8E%9F%E7%90%86/">原理</a>
+              <a href="/categories/%E6%8A%80%E6%9C%AF/">技术</a>, 
+            
+              <a href="/categories/%E6%8A%80%E6%9C%AF/%E5%8E%9F%E7%90%86/">原理</a>
             
           </span>
         
@@ -532,6 +686,7 @@
     </header>
 
     <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <div class="post-toc__resizer" id="postTocResizer" role="separator" aria-label="调整文章目录宽度" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="420" aria-valuenow="280" tabindex="0"></div>
       <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
         <span>文章目录</span>
         <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
@@ -542,137 +697,665 @@
     </aside>
 
     <div class="post__content">
-      <p>引擎梳理。感谢GPT。</p>
+      <p>本文在原有“引擎知识地图”的基础上补充概念说明与延伸资料。星级沿用原有标记，从基础知识（⭐）到前沿或引擎级内容（⭐⭐⭐⭐），用于表示建议的学习顺序，而非技术价值的高低。</p>
+<blockquote>
+<p><strong>通用参考（贯穿全文，各节不再重复）</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.realtimerendering.com/">Real-Time Rendering, 4th Ed.</a> — 图形学经典教材，几乎每个条目都能找到对应章节（本书有免费网络版，搜索 “RTR 4th edition free”）</li>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/gpugems">GPU Gems 1 &#x2F; 2 &#x2F; 3（免费在线）</a> — NVIDIA 历代 GPU 技巧合集</li>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/">SIGGRAPH “Advances in Real-Time Rendering” 课程</a> — 每年引擎厂商顶级技术分享（s2014 ~ s2023）</li>
+<li><a target="_blank" rel="noopener" href="https://jcgt.org/">Journal of Computer Graphics Techniques (JCGT)</a> — 开源期刊，论文基本都带源码</li>
+<li><a target="_blank" rel="noopener" href="https://www.gdcvault.com/">GDC Vault</a> — GDC 演讲录像&#x2F;幻灯片</li>
+<li><a target="_blank" rel="noopener" href="https://www.realtimerendering.com/raytracinggems/">Ray Tracing Gems I &#x2F; II（免费书）</a> — 光追综合参考</li>
+<li><a target="_blank" rel="noopener" href="https://pbrt.org/">PBRT（离线渲染圣经，免费 PDF）</a> — 理解光传输、加速结构、渲染方程</li>
+<li><a target="_blank" rel="noopener" href="https://www.scratchapixel.com/">Scratchapixel</a> — 图形学系统教程</li>
+<li><a target="_blank" rel="noopener" href="https://learnopengl.com/">LearnOpenGL</a> — 图形 API 实践入门</li>
+<li><a target="_blank" rel="noopener" href="https://vulkan-tutorial.com/">Vulkan Tutorial</a> — Vulkan 手把手</li>
+<li><a target="_blank" rel="noopener" href="https://raytracing.github.io/">Ray Tracing in One Weekend</a> — 光追入门三件套</li>
+<li><a target="_blank" rel="noopener" href="https://thebookofshaders.com/">The Book of Shaders</a> — GLSL&#x2F;着色器入门</li>
+<li><a target="_blank" rel="noopener" href="https://fgiesen.wordpress.com/2011/07/09/a-trip-through-the-graphics-pipeline-2011-index/">Fabian Giesen, A Trip Through the Graphics Pipeline</a> — 深入理解 GPU 硬件行为的必读系列</li>
+</ul>
+</blockquote>
 <h2 id="一、渲染管线架构（Engine-Rendering-Architecture）"><a href="#一、渲染管线架构（Engine-Rendering-Architecture）" class="headerlink" title="一、渲染管线架构（Engine Rendering Architecture）"></a>一、渲染管线架构（Engine Rendering Architecture）</h2><p>⭐⭐⭐（非常重要）</p>
+<blockquote>
+<p>现代引擎不再是一条”固定流水线”，而是把渲染组织成 <strong>“资源 + Pass + 依赖”</strong> 的图结构，让引擎自动管理内存、同步与调度。这一节是整个渲染系统的骨架，先看 ① 和 ③ 打底，再啃 ② 和 ④。</p>
+</blockquote>
 <p>这些是现代引擎渲染系统的骨架。</p>
-<h3 id="Frame-Graph-Render-Graph"><a href="#Frame-Graph-Render-Graph" class="headerlink" title="Frame Graph &#x2F; Render Graph"></a>Frame Graph &#x2F; Render Graph</h3><p>RenderGraph</p>
-<p>Pass dependency</p>
-<p>Resource lifetime</p>
-<p>Transient RT</p>
-<p>Barrier 自动插入</p>
-<h3 id="GPU-Driven-Rendering"><a href="#GPU-Driven-Rendering" class="headerlink" title="GPU Driven Rendering"></a>GPU Driven Rendering</h3><p>GPU Scene</p>
-<p>Indirect Draw</p>
-<p>Instance Culling</p>
-<p>Cluster &#x2F; Meshlet Culling</p>
-<h3 id="Command-Buffer-Render-Queue"><a href="#Command-Buffer-Render-Queue" class="headerlink" title="Command Buffer &#x2F; Render Queue"></a>Command Buffer &#x2F; Render Queue</h3><p>RenderPass scheduling</p>
-<p>Async compute</p>
-<p>Graphics queue &#x2F; compute queue</p>
-<h3 id="Resource-Management"><a href="#Resource-Management" class="headerlink" title="Resource Management"></a>Resource Management</h3><p>Render Target Pool</p>
-<p>Transient resource</p>
-<p>Texture streaming</p>
-<p>Virtual Texture</p>
+<h3 id="Frame-Graph-Render-Graph"><a href="#Frame-Graph-Render-Graph" class="headerlink" title="Frame Graph &#x2F; Render Graph"></a>Frame Graph &#x2F; Render Graph</h3><p>把一帧渲染建模成一张有向无环图（DAG）——节点是 Render Pass，边是 Pass 之间读写的资源。引擎据此<strong>自动计算资源生命周期</strong>、<strong>复用 Transient RT</strong>（同一内存块供不同 Pass 轮流使用）、<strong>自动插入 Barrier&#x2F;同步</strong>，甚至能在运行时重排 Pass。代表实现：Frostbite FrameGraph、The Forge、Unity 6 Render Graph、UE 的 RDG。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.gdcvault.com/play/1024612/FrameGraph-Extensible-Rendering-Architecture-in">FrameGraph: Extensible Rendering Architecture in Frostbite（GDC 2017，Yuriy O’Donnell）</a> — 这个概念的开山之作，必看</li>
+<li><a target="_blank" rel="noopener" href="https://www.frostbite.com/2017/03/framegraph-extensible-rendering-architecture-in-frostbite/">Frostbite 官方博客（同题）</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ConfettiFX/The-Forge">The Forge 渲染框架（开源，含 RenderGraph）</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.render-pipelines.core@latest/manual/Render-Graph.html">Unity Render Graph 文档</a></li>
+</ul>
+<h3 id="GPU-Driven-Rendering"><a href="#GPU-Driven-Rendering" class="headerlink" title="GPU Driven Rendering"></a>GPU Driven Rendering</h3><p>把整个场景（网格、材质、矩阵、包围盒）塞进 GPU Buffer，<strong>剔除、排序、间接绘制全在 GPU 上完成</strong>，CPU 只提交少量间接命令，消除 draw call 与 CPU-GPU 同步瓶颈。它是 Nanite、Mesh Shader、DOOM 这类”下一代表现”的共同底座。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.aaltonen.se/">Block-Based GPU-Driven Rendering（GDC 2018，Sebastian Aaltonen）</a> — 作者主页，找 “Block-Based GPU-Driven Rendering” 演讲</li>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2020">SIGGRAPH 2020 DOOM Eternal 渲染课程（GPU 驱动&#x2F;阴影&#x2F;体素化）</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nvpro-samples">nvpro-samples（NVIDIA 官方 Vulkan 示例集，含 GPU-Driven 示例）</a></li>
+</ul>
+<h3 id="Command-Buffer-Render-Queue"><a href="#Command-Buffer-Render-Queue" class="headerlink" title="Command Buffer &#x2F; Render Queue"></a>Command Buffer &#x2F; Render Queue</h3><p>CPU 把绘制工作录进 Command Buffer，提交给 GPU 的不同队列（Graphics &#x2F; Compute &#x2F; Copy）异步执行。多队列可并行（→ Async Compute），多线程录制 Command Buffer 是现代 API（D3D12&#x2F;Vulkan）下提升 CPU 性能的核心手段。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Command_buffers">Vulkan Tutorial — Command Buffers</a> — 把流程走一遍</li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/direct3d12/">D3D12 官方文档（Command Lists &amp; Queues）</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/microsoft/DirectX-Graphics-Samples/tree/master/LearningD3D12">Getting Started with Direct3D 12（示例代码）</a></li>
+</ul>
+<h3 id="Resource-Management"><a href="#Resource-Management" class="headerlink" title="Resource Management"></a>Resource Management</h3><p>GPU 内存管理四件套：<strong>Render Target Pool</strong> 复用中间渲染目标；<strong>Transient Resource</strong> 只在单帧内有效、与其他资源共享显存；<strong>Texture Streaming</strong> 按需加载 mip&#x2F;图块；<strong>Virtual Texture</strong> 把超大纹理切成 Page 按需上传 + 缓存淘汰，支持”无限大”纹理。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/direct3d12/">D3D12 内存管理 &#x2F; 同步文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator">Vulkan Memory Allocator（VMA，社区标准内存池实现）</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/virtual-texturing-in-unreal-engine">UE 虚拟纹理（Virtual Texture）文档</a></li>
+<li>配合第一节 FrameGraph 的 Transient 资源看效果最佳</li>
+</ul>
 <h2 id="二、几何与可见性（Geometry-Visibility）"><a href="#二、几何与可见性（Geometry-Visibility）" class="headerlink" title="二、几何与可见性（Geometry &amp; Visibility）"></a>二、几何与可见性（Geometry &amp; Visibility）</h2><p>⭐⭐ ～ ⭐⭐⭐</p>
-<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p>Frustum Culling ⭐</p>
-<p>Occlusion Culling ⭐⭐</p>
-<p>Hi-Z Buffer ⭐⭐</p>
-<h3 id="现代-GPU-可见性"><a href="#现代-GPU-可见性" class="headerlink" title="现代 GPU 可见性"></a>现代 GPU 可见性</h3><p>Cluster Culling ⭐⭐⭐</p>
-<p>Meshlet Rendering ⭐⭐⭐</p>
-<p>GPU Driven Pipeline ⭐⭐⭐</p>
-<h3 id="空间结构"><a href="#空间结构" class="headerlink" title="空间结构"></a>空间结构</h3><p>BVH ⭐⭐⭐</p>
-<p>Octree ⭐⭐</p>
-<p>KD Tree ⭐⭐</p>
-<h3 id="高级"><a href="#高级" class="headerlink" title="高级"></a>高级</h3><p>Nanite-like virtual geometry ⭐⭐⭐⭐</p>
+<blockquote>
+<p>可见性决定了”每帧往 GPU 喂多少三角形”。方向是：从 CPU 粗粒度剔除（Frustum）→ 细粒度遮挡剔除（HZB&#x2F;Occlusion）→ 完全交给 GPU（Cluster&#x2F;Meshlet&#x2F;GPU-Driven）。</p>
+</blockquote>
+<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><h4 id="Frustum-Culling-⭐"><a href="#Frustum-Culling-⭐" class="headerlink" title="Frustum Culling ⭐"></a>Frustum Culling ⭐</h4><p>视锥剔除。用视锥的 6 个平面与物体包围盒&#x2F;包围球做相交测试，直接扔掉完全在视锥外的物体。最古老、最省钱的粗粒度剔除，CPU 或 GPU Compute 都能做。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.realtimerendering.com/">Real-Time Rendering 4e — 第 19 章（几何检测）</a></li>
+<li>Gribb &amp; Hartmann, <em>Fast Extraction of Viewing Frustum Planes</em>（经典论文，搜索即得）</li>
+</ul>
+<h4 id="Occlusion-Culling-⭐⭐"><a href="#Occlusion-Culling-⭐⭐" class="headerlink" title="Occlusion Culling ⭐⭐"></a>Occlusion Culling ⭐⭐</h4><p>遮挡剔除。物体没被视锥剔除，但被墙挡死了——测试它是否被<strong>已渲染的东西遮住</strong>，从而跳过。常见手段：上一帧深度回读、Hierarchical-Z 查询、或 GPU 驱动的 compute 剔除。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.adriancourreges.com/blog/2016/09/09/doom-2016-graphics-study/">DOOM 2016 Graphics Study（Adrian Courrèges，含剔除思路）</a></li>
+<li>GDC 2019 <em>Optimizing the Graphics Pipeline with Compute</em>（UBI，含 HZB 遮挡剔除）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nvpro-samples">nvpro-samples（GPU-Driven 示例含遮挡剔除）</a></li>
+</ul>
+<h4 id="Hi-Z-Buffer-⭐⭐"><a href="#Hi-Z-Buffer-⭐⭐" class="headerlink" title="Hi-Z Buffer ⭐⭐"></a>Hi-Z Buffer ⭐⭐</h4><p>分层深度缓冲（Hierarchical-Z）。把深度图降采样成金字塔，用每层”最浅深度”做<strong>保守的快速遮挡测试</strong>（2x2&#x2F;4x4 块级），同时是屏幕空间圆锥追踪、SSR、剔除的共同基础设施。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://casual-effects.blogspot.com/2014/08/screen-space-ray-tracing.html">Screen Space Ray Tracing（McGuire &amp; Mara 博客，讲 Hi-Z 追踪原理）</a></li>
+<li>GDC 2019 <em>Optimizing the Graphics Pipeline with Compute</em>（HZB 剔除实作）</li>
+</ul>
+<h3 id="现代-GPU-可见性"><a href="#现代-GPU-可见性" class="headerlink" title="现代 GPU 可见性"></a>现代 GPU 可见性</h3><h4 id="Cluster-Culling-⭐⭐⭐"><a href="#Cluster-Culling-⭐⭐⭐" class="headerlink" title="Cluster Culling ⭐⭐⭐"></a>Cluster Culling ⭐⭐⭐</h4><p>把网格切成一堆小簇（Cluster，几十~几百个三角形），<strong>逐簇</strong>做剔除与 LOD，粒度比逐物体细得多，且天然适合 GPU 并行与 Mesh Shader。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.aaltonen.se/">Sebastian Aaltonen（Cluster-Based Rendering &#x2F; Block-Based GPU-Driven）</a></li>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2021">Nanite: A Deep Dive（SIGGRAPH 2021）</a></li>
+</ul>
+<h4 id="Meshlet-Rendering-⭐⭐⭐"><a href="#Meshlet-Rendering-⭐⭐⭐" class="headerlink" title="Meshlet Rendering ⭐⭐⭐"></a>Meshlet Rendering ⭐⭐⭐</h4><p>把网格切成 Meshlet（64~128 个三角形的小块），由 <strong>Task + Mesh Shader</strong> 逐 Meshlet 剔除并直接生成绘制命令，实现”每小块级”的 LOD 与剔除。DX12 Mesh Shader &#x2F; Vulkan <code>VK_EXT_mesh_shader</code>。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://microsoft.github.io/DirectX-Specs/d3d/MeshShader.html">DirectX-Specs — Mesh Shader 规范</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/blog/introduction-turing-mesh-shaders/">NVIDIA — Introduction to Turing Mesh Shaders（GDC 2019）</a></li>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2021">Nanite: A Deep Dive（SIGGRAPH 2021）</a></li>
+</ul>
+<h4 id="GPU-Driven-Pipeline-⭐⭐⭐"><a href="#GPU-Driven-Pipeline-⭐⭐⭐" class="headerlink" title="GPU Driven Pipeline ⭐⭐⭐"></a>GPU Driven Pipeline ⭐⭐⭐</h4><p>可见性判断也在 GPU 上完成——GPU 算完”哪些可见”后<strong>直接写出 Indirect Draw 命令</strong>，CPU 完全不参与剔除。见第一节 GPU Driven Rendering。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li>同第一节 GPU Driven Rendering 的所有链接</li>
+</ul>
+<h3 id="空间结构"><a href="#空间结构" class="headerlink" title="空间结构"></a>空间结构</h3><h4 id="BVH-⭐⭐⭐"><a href="#BVH-⭐⭐⭐" class="headerlink" title="BVH ⭐⭐⭐"></a>BVH ⭐⭐⭐</h4><p>包围体层次结构。用一棵”包围盒嵌套包围盒”的树做加速遍历，是**现代光追加速结构（RTX 底层）**和多数物理引擎的基石，可用 SAH 优化构建质量。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://pbrt.org/">PBRT — BVH 章节</a></li>
+<li><a target="_blank" rel="noopener" href="https://raytracing.github.io/">Ray Tracing in One Weekend（动手写一个 BVH）</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/direct3d12/acceleration-structures">D3D12 Raytracing — Acceleration Structures</a></li>
+</ul>
+<h4 id="Octree-⭐⭐"><a href="#Octree-⭐⭐" class="headerlink" title="Octree ⭐⭐"></a>Octree ⭐⭐</h4><p>八叉树。空间均匀八分，天然支持多分辨率（LOD），适合稀疏场景、体素、碰撞与空间划分。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.semanticscholar.org/paper/Octree-Based-Sparse-Voxelization-Using-the-GPU-Crassin-Green/a834e5197b3e2e23fe49e4508d74798bd37eeb0d">Octree-Based Sparse Voxelization（OpenGL Insights 第 22 章，Crassin &amp; Green）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.routledge.com/OpenGL-Insights/Cozzi-Riccio/p/book/9781439893760">OpenGL Insights 全书（免费 PDF，Apress）</a></li>
+</ul>
+<h4 id="KD-Tree-⭐⭐"><a href="#KD-Tree-⭐⭐" class="headerlink" title="KD Tree ⭐⭐"></a>KD Tree ⭐⭐</h4><p>KD 树。按维度交替切分空间，静态场景下光追效率常优于 BVH，但构建慢、难做动态，多见于离线渲染。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://pbrt.org/">PBRT — 加速结构章节</a></li>
+<li>Wald &amp; Havran, <em>On Building Fast kd-Trees for Ray Tracing</em>（经典论文）</li>
+</ul>
+<h3 id="高级"><a href="#高级" class="headerlink" title="高级"></a>高级</h3><h4 id="Nanite-like-virtual-geometry-⭐⭐⭐⭐"><a href="#Nanite-like-virtual-geometry-⭐⭐⭐⭐" class="headerlink" title="Nanite-like virtual geometry ⭐⭐⭐⭐"></a>Nanite-like virtual geometry ⭐⭐⭐⭐</h4><p>UE5 Nanite 的”虚拟几何”范式：任意精度的模型数据以簇&#x2F;DAG 形式驻留 GPU，运行时做<strong>逐像素&#x2F;逐簇 LOD + 剔除</strong>，用 Compute 直接输出微三角形，彻底绕开传统 LOD 美术管线。自己实现相当于”再造半个渲染器”。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2021">Nanite: A Deep Dive（SIGGRAPH 2021，Karis 等）</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/nanite-virtualized-geometry-in-unreal-engine">UE5 Nanite 官方文档</a></li>
+<li>GDC 2023 <em>A Deep Dive into Nanite Virtualized Geometry</em></li>
+</ul>
 <h2 id="三、光照系统（Lighting）"><a href="#三、光照系统（Lighting）" class="headerlink" title="三、光照系统（Lighting）"></a>三、光照系统（Lighting）</h2><p>⭐⭐ ～ ⭐⭐⭐</p>
-<h3 id="传统"><a href="#传统" class="headerlink" title="传统"></a>传统</h3><p>Forward Rendering ⭐</p>
-<p>Deferred Rendering ⭐</p>
-<p>Tiled Lighting ⭐⭐</p>
-<p>Clustered Lighting ⭐⭐</p>
-<h3 id="阴影"><a href="#阴影" class="headerlink" title="阴影"></a>阴影</h3><p>Shadow Map ⭐</p>
-<p>Cascaded Shadow Map ⭐⭐</p>
-<p>Variance Shadow Map ⭐⭐</p>
-<p>Moment Shadow Map ⭐⭐</p>
-<p>Distance Field Shadow ⭐⭐⭐</p>
-<p>Ray traced shadow ⭐⭐⭐</p>
+<blockquote>
+<p>光照分两条线：<strong>着色架构</strong>（光从哪来、怎么累积）与<strong>阴影</strong>（光被什么挡住）。</p>
+</blockquote>
+<h3 id="传统"><a href="#传统" class="headerlink" title="传统"></a>传统</h3><h4 id="Forward-Rendering-⭐"><a href="#Forward-Rendering-⭐" class="headerlink" title="Forward Rendering ⭐"></a>Forward Rendering ⭐</h4><p>前向渲染。每个物体对”影响它的所有光源”依次叠加着色，简单直观、支持 MSAA、透明物体好处理；但光源一多开销直线上升。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learnopengl.com/Lighting/Basic-Lighting">LearnOpenGL — 光照系列（前向渲染就是其默认方式）</a></li>
+<li><a target="_blank" rel="noopener" href="https://google.github.io/filament/">Filament 文档（Google，Forward 着色讲解）</a></li>
+</ul>
+<h4 id="Deferred-Rendering-⭐"><a href="#Deferred-Rendering-⭐" class="headerlink" title="Deferred Rendering ⭐"></a>Deferred Rendering ⭐</h4><p>延迟渲染。第一遍把几何信息（位置&#x2F;法线&#x2F;材质&#x2F;颜色）写进 G-Buffer，第二遍<strong>只对屏幕像素</strong>做光照，把光照复杂度与场景复杂度解耦，支持海量光源；代价是带宽大、MSAA 困难、透明物体要另走一遍。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learnopengl.com/Advanced-Lighting/Deferred-Shading">LearnOpenGL — Deferred Shading</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.realtimerendering.com/">Real-Time Rendering 4e — 第 20 章（光照与阴影）</a></li>
+</ul>
+<h4 id="Tiled-Lighting-⭐⭐"><a href="#Tiled-Lighting-⭐⭐" class="headerlink" title="Tiled Lighting ⭐⭐"></a>Tiled Lighting ⭐⭐</h4><p>把屏幕切成 2D 瓦片（Tile），每个 Tile 收集影响它的光源列表（Light List），着色时只遍历本 Tile 的光源，省掉全局光源循环。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.aaltonen.se/">Aaltonen — Practical Clustered Shading（GDC 2015，Tiled 的升级版）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.adriancourreges.com/blog/2016/09/09/doom-2016-graphics-study/">DOOM 2016 Graphics Study（实际用了 Clustered 光源索引）</a></li>
+</ul>
+<h4 id="Clustered-Lighting-⭐⭐"><a href="#Clustered-Lighting-⭐⭐" class="headerlink" title="Clustered Lighting ⭐⭐"></a>Clustered Lighting ⭐⭐</h4><p>聚类光照（Clustered &#x2F; Forward+）。把视锥体切成<strong>三维</strong>格簇，每簇记录光源索引，Forward 和 Deferred 都能用，彻底解决”动态光源数量上限”。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.aaltonen.se/">Aaltonen — Practical Clustered Shading（GDC 2015）</a></li>
+<li>Olsson et al., <em>Clustered Deferred and Forward Shading</em>（2012，搜索即得）</li>
+</ul>
+<h3 id="阴影"><a href="#阴影" class="headerlink" title="阴影"></a>阴影</h3><h4 id="Shadow-Map-⭐"><a href="#Shadow-Map-⭐" class="headerlink" title="Shadow Map ⭐"></a>Shadow Map ⭐</h4><p>阴影贴图。从光源渲染一遍深度，着色时比较”自己到光源的距离 vs 贴图里的深度”判断遮挡。所有阴影变体的地基。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping">LearnOpenGL — Shadow Mapping</a></li>
+</ul>
+<h4 id="Cascaded-Shadow-Map-⭐⭐"><a href="#Cascaded-Shadow-Map-⭐⭐" class="headerlink" title="Cascaded Shadow Map ⭐⭐"></a>Cascaded Shadow Map ⭐⭐</h4><p>级联阴影（CSM）。把视锥按距离切成几级，每级一张 Shadow Map——近处高精度、远处大覆盖，是方向光阴影的事实标准。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/cascaded-shadow-maps-in-unreal-engine">UE 级联阴影映射文档</a></li>
+<li><em>Parallel-Split Shadow Maps</em>（Zhang et al.，CSM 的理论基础，搜索即得）</li>
+</ul>
+<h4 id="Variance-Shadow-Map-⭐⭐"><a href="#Variance-Shadow-Map-⭐⭐" class="headerlink" title="Variance Shadow Map ⭐⭐"></a>Variance Shadow Map ⭐⭐</h4><p>方差阴影贴图（VSM）。存深度”均值 + 方差”，用概率估计遮挡，可配合滤波直接做软阴影；代价是 light bleeding（漏光）。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/gpugems/gpugems3">GPU Gems 3 — Chapter 8: Summed-Area Variance Shadow Maps</a></li>
+<li>Donnelly &amp; Lauritzen, <em>Variance Shadow Maps</em>（2006）</li>
+</ul>
+<h4 id="Moment-Shadow-Map-⭐⭐"><a href="#Moment-Shadow-Map-⭐⭐" class="headerlink" title="Moment Shadow Map ⭐⭐"></a>Moment Shadow Map ⭐⭐</h4><p>矩阴影贴图（MSM）。用深度的 4 阶矩重建遮挡分布，滤波软阴影的<strong>质量远高于 VSM</strong>、漏光大幅减少，用 64bit&#x2F;纹素即可。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dl.acm.org/doi/10.1145/2699276.2699277">Moment Shadow Mapping（i3D 2015，Peters &amp; Klein，ACM DL）</a></li>
+<li><a target="_blank" rel="noopener" href="https://momentsingraphics.de/">作者主页 momentsingraphics.de（含后续 MSM 系列）</a></li>
+</ul>
+<h4 id="Distance-Field-Shadow-⭐⭐⭐"><a href="#Distance-Field-Shadow-⭐⭐⭐" class="headerlink" title="Distance Field Shadow ⭐⭐⭐"></a>Distance Field Shadow ⭐⭐⭐</h4><p>SDF 阴影。用场景的有符号距离场做 <strong>Sphere Tracing</strong>，直接得到精确、柔和、带接触感的阴影。UE4&#x2F;5 的 Distance Field Shadow 就是它。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://iquilezles.org/">Iñigo Quilez — Soft Shadows in Ray-marched SDFs</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/distance-fields-in-unreal-engine">UE 距离场文档</a></li>
+<li>Keinert et al., <em>Enhanced Sphere Tracing</em>（2014）</li>
+</ul>
+<h4 id="Ray-traced-shadow-⭐⭐⭐"><a href="#Ray-traced-shadow-⭐⭐⭐" class="headerlink" title="Ray traced shadow ⭐⭐⭐"></a>Ray traced shadow ⭐⭐⭐</h4><p>光追阴影。沿光源方向打一条 Shadow Ray，得到<strong>精确的软硬阴影、接触阴影、透明物体色影</strong>，配合降噪实时运行（DXR &#x2F; Vulkan RT &#x2F; OptiX）。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.realtimerendering.com/raytracinggems/">Ray Tracing Gems（免费书，阴影章节）</a></li>
+<li><a target="_blank" rel="noopener" href="https://raytracing.github.io/">Ray Tracing in One Weekend</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/direct3d12/direct3d-12-raytracing">D3D12 Raytracing 文档</a></li>
+</ul>
 <h2 id="四、GI（Global-Illumination）"><a href="#四、GI（Global-Illumination）" class="headerlink" title="四、GI（Global Illumination）"></a>四、GI（Global Illumination）</h2><p>⭐⭐ ～ ⭐⭐⭐⭐</p>
-<h3 id="传统-1"><a href="#传统-1" class="headerlink" title="传统"></a>传统</h3><p>Lightmap ⭐</p>
-<p>SH Probe ⭐</p>
-<p>Light Probe Proxy Volume ⭐⭐</p>
-<h3 id="实时-GI"><a href="#实时-GI" class="headerlink" title="实时 GI"></a>实时 GI</h3><p>Screen Space GI ⭐⭐</p>
-<p>DDGI ⭐⭐⭐</p>
-<p>SDF GI ⭐⭐⭐</p>
-<p>Voxel GI ⭐⭐⭐</p>
-<p>ReSTIR GI ⭐⭐⭐⭐</p>
-<p>Lumen-like GI ⭐⭐⭐⭐</p>
+<blockquote>
+<p>GI &#x3D; 间接光。从”烘焙静态”到”全动态实时”，是画面上限与引擎技术含量的分水岭。</p>
+</blockquote>
+<h3 id="传统-1"><a href="#传统-1" class="headerlink" title="传统"></a>传统</h3><h4 id="Lightmap-⭐"><a href="#Lightmap-⭐" class="headerlink" title="Lightmap ⭐"></a>Lightmap ⭐</h4><p>光照贴图。把<strong>离线烘焙</strong>的间接光写进 UV 纹理，运行时采样。质量高、开销低，但静态、占内存、依赖 UV。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/Lightmapping.html">Unity Lightmap 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/lightmass-global-illumination-in-unreal-engine">UE 光照烘焙（Lightmass &#x2F; Lumen 混合）文档</a></li>
+</ul>
+<h4 id="SH-Probe-⭐"><a href="#SH-Probe-⭐" class="headerlink" title="SH Probe ⭐"></a>SH Probe ⭐</h4><p>球谐光照探针。在场景布点，记录入射辐照度的<strong>球谐系数</strong>，运行时插值给漫反射间接光——离线 GI 里动态物体接光的标准答案。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.ppsloan.org/publications/">Peter-Pike Sloan — Stupid SH Tricks（球谐权威）</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/LightProbes.html">Unity Light Probes 文档</a></li>
+</ul>
+<h4 id="Light-Probe-Proxy-Volume-⭐⭐"><a href="#Light-Probe-Proxy-Volume-⭐⭐" class="headerlink" title="Light Probe Proxy Volume ⭐⭐"></a>Light Probe Proxy Volume ⭐⭐</h4><p>LPPV。把探针体积细分，让<strong>动态物体</strong>在做探针插值时更精确，改善”动态角色在渐变光环境里接光不连续”的问题。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/class-LightProbeProxyVolume.html">Unity Light Probe Proxy Volume 文档</a></li>
+</ul>
+<h3 id="实时-GI"><a href="#实时-GI" class="headerlink" title="实时 GI"></a>实时 GI</h3><h4 id="Screen-Space-GI-⭐⭐"><a href="#Screen-Space-GI-⭐⭐" class="headerlink" title="Screen Space GI ⭐⭐"></a>Screen Space GI ⭐⭐</h4><p>屏幕空间 GI（SSGI）。用屏幕深度&#x2F;法线做光线步进，把间接光反射到邻近像素。好实现、效果好，但只认屏幕内信息，会漏光、有屏幕边缘伪影。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.jankautz.com/courses/RTGICourse/">Real-Time Global Illumination（SIGGRAPH 2009 课程，含 SS 技术族谱）</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2301.11376">Screen Space Indirect Lighting with Visibility Bitmask（arXiv 2301.11376，新一代 SSGI）</a></li>
+</ul>
+<h4 id="DDGI-⭐⭐⭐"><a href="#DDGI-⭐⭐⭐" class="headerlink" title="DDGI ⭐⭐⭐"></a>DDGI ⭐⭐⭐</h4><p>动态漫反射 GI。用光追把辐照度写进 3D 体积探针纹理，逐帧动态更新，<strong>支持动态场景</strong>的实时间接漫反射光，漏光用 Chebyshev 可见性权重压制。NVIDIA RTXGI 的 DDGI 就是它。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://jcgt.org/published/0008/02/01/">Dynamic Diffuse GI with Ray-Traced Irradiance Fields（JCGT 2019，Majercik 等）</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/NVIDIAGameWorks/RTXGI-DDGI">RTXGI-DDGI 开源实现（NVIDIA）</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/rtxgi">RTXGI 官方页</a></li>
+</ul>
+<h4 id="SDF-GI-⭐⭐⭐"><a href="#SDF-GI-⭐⭐⭐" class="headerlink" title="SDF GI ⭐⭐⭐"></a>SDF GI ⭐⭐⭐</h4><p>基于距离场的 GI。用全局距离场做 Ray March 估算间接光遮挡与反弹。UE 的 Distance Field GI（配合降噪）就是它，支持动态几何、粗糙的多次反弹。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/distance-fields-in-unreal-engine">UE 距离场 GI 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2020">SIGGRAPH 2020 DOOM Eternal 课程（含 SDF 相关实现）</a></li>
+</ul>
+<h4 id="Voxel-GI-⭐⭐⭐"><a href="#Voxel-GI-⭐⭐⭐" class="headerlink" title="Voxel GI ⭐⭐⭐"></a>Voxel GI ⭐⭐⭐</h4><p>体素 GI。把场景<strong>体素化</strong>（3D 纹理 &#x2F; SVO），在体素空间做锥追踪或光追。代表：Voxel Cone Tracing（Crassin）、CryEngine 的 SVOGI。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://maverick.inria.fr/Publications/2011/CNLE11/">Interactive Indirect Illumination Using Voxel Cone Tracing（Crassin 等，EUROGRAPHICS 2011）</a></li>
+<li><a target="_blank" rel="noopener" href="https://maverick.inria.fr/Publications/2009/CNLE09/">GigaVoxels（Crassin，稀疏体素渲染）</a></li>
+</ul>
+<h4 id="ReSTIR-GI-⭐⭐⭐⭐"><a href="#ReSTIR-GI-⭐⭐⭐⭐" class="headerlink" title="ReSTIR GI ⭐⭐⭐⭐"></a>ReSTIR GI ⭐⭐⭐⭐</h4><p>时空重采样 GI。用 Reservoir 采样 + 空间&#x2F;时间复用，把每像素的光路开销压到几条内，配合降噪逼近<strong>路径追踪级</strong>的实时间接光。当前实时 GI 最前沿。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://research.nvidia.com/index.php/publication/2020-07_spatiotemporal-reservoir-resampling-real-time-ray-tracing-dynamic-direct">Spatiotemporal Reservoir Resampling（SIGGRAPH 2020，Bitterli 等）</a></li>
+<li>ReSTIR GI（Wyman &amp; Panteleev，HPG 2021）— <a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2021">SIGGRAPH 2021 课程里有解读</a></li>
+</ul>
+<h4 id="Lumen-like-GI-⭐⭐⭐⭐"><a href="#Lumen-like-GI-⭐⭐⭐⭐" class="headerlink" title="Lumen-like GI ⭐⭐⭐⭐"></a>Lumen-like GI ⭐⭐⭐⭐</h4><p>UE5 Lumen 的”全动态 GI”范式：SDF 追踪 + 屏幕追踪 + Surface Cache + 降噪，<strong>不用烘焙</strong>，支持动态场景与多次反弹。要做出类似效果需要自己拼装整条管线。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/lumen-global-illumination-and-reflections-in-unreal-engine">UE5 Lumen 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2022">SIGGRAPH 2022 课程（含 Lumen 实现细节）</a></li>
+</ul>
 <h2 id="五、Screen-Space-技术"><a href="#五、Screen-Space-技术" class="headerlink" title="五、Screen Space 技术"></a>五、Screen Space 技术</h2><p>⭐⭐</p>
-<p>SSAO ⭐⭐</p>
-<p>HBAO ⭐⭐</p>
-<p>GTAO ⭐⭐⭐</p>
-<p>SSR ⭐⭐</p>
-<p>SSGI ⭐⭐</p>
-<p>Contact Shadow ⭐⭐</p>
+<blockquote>
+<p>屏幕空间（SS）技术只消费”当前画面已有的信息”（深度&#x2F;法线&#x2F;颜色），成本低、易集成，是性价比最高的画质加成；代价是<strong>看不到屏幕外</strong>。</p>
+</blockquote>
+<h4 id="SSAO-⭐⭐"><a href="#SSAO-⭐⭐" class="headerlink" title="SSAO ⭐⭐"></a>SSAO ⭐⭐</h4><p>屏幕空间环境光遮蔽。以深度&#x2F;法线在像素周围半球采样，估计”缝隙、墙角”这类接触细节造成的暗角。Crytek 2007 提出，从此 AO 进入屏幕空间时代。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learnopengl.com/Advanced-Lighting/SSAO">LearnOpenGL — SSAO</a></li>
+<li>Mittring, <em>Finding Next Gen: CryEngine 2</em>（SSAO 出处，2007）</li>
+</ul>
+<h4 id="HBAO-⭐⭐"><a href="#HBAO-⭐⭐" class="headerlink" title="HBAO ⭐⭐"></a>HBAO ⭐⭐</h4><p>水平线 AO。把半球采样改成”沿方向扫描找最高水平线（Horizon Angle）”+ 解析积分，比 SSAO 稳定、噪点更少。NVIDIA 在 2008 提出，HBAO+ 是其进化版。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dl.acm.org/doi/10.1145/1401032.1401061">Image-Space Horizon-Based Ambient Occlusion（SIGGRAPH 2008，ACM DL）</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ylyking/HBAOPlus">HBAO+ 开源实现</a></li>
+</ul>
+<h4 id="GTAO-⭐⭐⭐"><a href="#GTAO-⭐⭐⭐" class="headerlink" title="GTAO ⭐⭐⭐"></a>GTAO ⭐⭐⭐</h4><p>Ground Truth AO。在 HBAO 基础上做<strong>多方向采样 + 解析 cos 加权积分 + 时间滤波</strong>，得到接近物理真实的 AO，且支持间接光照估计。UE4&#x2F;5、大量引擎的默认 AO 就是它。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://research.activision.com/publications/archives/atvi-tr-16-01practical-realtime-strategies-for-accurate-indirect-occlusion">Practical Real-Time Strategies for Accurate Indirect Occlusion（Jimenez 等，Activision，SIGGRAPH 2016）</a></li>
+</ul>
+<h4 id="SSR-⭐⭐"><a href="#SSR-⭐⭐" class="headerlink" title="SSR ⭐⭐"></a>SSR ⭐⭐</h4><p>屏幕空间反射。沿反射方向在深度缓冲里 Ray March，找命中点得到屏幕内反射。便宜，但只反射”屏幕里能看到的东西”，边缘会漏。进阶用”随机 + 时域复用”降噪。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://casual-effects.blogspot.com/2014/08/screen-space-ray-tracing.html">Screen Space Ray Tracing（McGuire &amp; Mara 博客）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.slideshare.net/slideshow/stochastic-screenspace-reflections/51840375">Stochastic Screen-Space Reflections（Frostbite 版幻灯片）</a></li>
+</ul>
+<h4 id="SSGI-⭐⭐"><a href="#SSGI-⭐⭐" class="headerlink" title="SSGI ⭐⭐"></a>SSGI ⭐⭐</h4><p>屏幕空间 GI。见第四节 Screen Space GI。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li>同第四节 Screen Space GI 的链接</li>
+</ul>
+<h4 id="Contact-Shadow-⭐⭐"><a href="#Contact-Shadow-⭐⭐" class="headerlink" title="Contact Shadow ⭐⭐"></a>Contact Shadow ⭐⭐</h4><p>接触阴影。沿表面做<strong>短距离屏幕空间锥&#x2F;光线步进</strong>，补出 Shadow Map 精度够不到的”脚边、缝隙”阴影，画面立刻”接地气”。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/contact-shadows-in-unreal-engine">UE Contact Shadows 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2020">SIGGRAPH 2020 DOOM Eternal 课程（含接触阴影实现）</a></li>
+</ul>
 <h2 id="六、Temporal-技术"><a href="#六、Temporal-技术" class="headerlink" title="六、Temporal 技术"></a>六、Temporal 技术</h2><p>⭐⭐⭐</p>
-<p>TAA ⭐⭐⭐</p>
-<p>TAAU ⭐⭐⭐</p>
-<p>TSR ⭐⭐⭐</p>
-<p>DLSS integration ⭐⭐</p>
-<p>FSR integration ⭐⭐</p>
-<p>Motion Vector ⭐⭐⭐</p>
-<p>History rejection ⭐⭐⭐</p>
+<blockquote>
+<p>时间维复用（用上一帧的信息换本帧的质量）是近十年画质跃升的最大杠杆：TAA &#x2F; 超分 &#x2F; 降噪都靠它。</p>
+</blockquote>
+<h4 id="TAA-⭐⭐⭐"><a href="#TAA-⭐⭐⭐" class="headerlink" title="TAA ⭐⭐⭐"></a>TAA ⭐⭐⭐</h4><p>时域抗锯齿。每帧对采样点做 Jitter，把上一帧结果按 <strong>Motion Vector 重投影</strong>后与当前帧混合，大幅消灭锯齿与闪烁；代价是重影（Ghosting）和轻微柔化。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2014">High Quality Temporal Supersampling（Karis，SIGGRAPH 2014）</a></li>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2016">Temporal Reprojection Anti-Aliasing in INSIDE（Playdead，SIGGRAPH 2016 课程）</a></li>
+</ul>
+<h4 id="TAAU-⭐⭐⭐"><a href="#TAAU-⭐⭐⭐" class="headerlink" title="TAAU ⭐⭐⭐"></a>TAAU ⭐⭐⭐</h4><p>时域超采样（Temporal Anti-Aliasing Upsampling）。在 TAA 框架里用重建 + 锐化输出比渲染分辨率更高的画面，是 UE4&#x2F;5 TAAU、DLSS&#x2F;FSR 的<strong>概念祖先</strong>。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li>同上 Karis 2014（TAAU 的源头）</li>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/temporal-super-resolution-in-unreal-engine">UE TAAU 相关文档</a></li>
+</ul>
+<h4 id="TSR-⭐⭐⭐"><a href="#TSR-⭐⭐⭐" class="headerlink" title="TSR ⭐⭐⭐"></a>TSR ⭐⭐⭐</h4><p>UE5 的时域超分辨率（Temporal Super Resolution）。用 Motion Vector + 历史累积 + 空间重建把低分辨率画面超分到目标分辨率，<strong>不依赖特定硬件</strong>，质量接近 DLSS&#x2F;FSR。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/temporal-super-resolution-in-unreal-engine">UE5 TSR 官方文档</a></li>
+</ul>
+<h4 id="DLSS-integration-⭐⭐"><a href="#DLSS-integration-⭐⭐" class="headerlink" title="DLSS integration ⭐⭐"></a>DLSS integration ⭐⭐</h4><p>NVIDIA 深度学习超采样。用 Tensor Core 跑神经网络，从”低分辨率 + 运动矢量”重建高分辨率画面（DLSS 2&#x2F;3 还有帧生成）。需要 SDK + 特定硬件。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/dlss">NVIDIA DLSS 官方页</a></li>
+</ul>
+<h4 id="FSR-integration-⭐⭐"><a href="#FSR-integration-⭐⭐" class="headerlink" title="FSR integration ⭐⭐"></a>FSR integration ⭐⭐</h4><p>AMD FSR。开放源码的超分方案（FSR1 是空间算法，FSR2&#x2F;3 是时域 + 帧生成），<strong>不依赖特定硬件</strong>，易集成。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://gpuopen.com/fidelityfx-super-resolution/">AMD FidelityFX Super Resolution 官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/GPUOpen-Effects/FidelityFX-FSR2">FidelityFX-FSR2 源码（GitHub）</a></li>
+</ul>
+<h4 id="Motion-Vector-⭐⭐⭐"><a href="#Motion-Vector-⭐⭐⭐" class="headerlink" title="Motion Vector ⭐⭐⭐"></a>Motion Vector ⭐⭐⭐</h4><p>运动矢量。每像素记录”本帧→上一帧”的位移（相机运动 + 物体运动），是 TAA、超分、运动模糊、光追降噪<strong>共同依赖的输入</strong>。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/motion-blur-in-unreal-engine">UE Motion Blur 文档（运动矢量怎么用）</a></li>
+<li>与 TAA 同一批课程（Karis 2014）</li>
+</ul>
+<h4 id="History-rejection-⭐⭐⭐"><a href="#History-rejection-⭐⭐⭐" class="headerlink" title="History rejection ⭐⭐⭐"></a>History rejection ⭐⭐⭐</h4><p>历史拒绝。当历史数据不可信（被遮挡、光线突变、新物体出现）时，用邻域比较&#x2F;深度法线检查<strong>丢弃或减弱历史采样</strong>，避免 Ghosting 与画面滞后。TAA、超分、降噪里最关键也最容易翻车的一环。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2014">Karis 2014（TAA 的 Ghosting 处理）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.realtimerendering.com/raytracinggems/">Ray Tracing Gems（含光追降噪的历史复用章节）</a></li>
+</ul>
 <h2 id="七、体积渲染（Volumetric）"><a href="#七、体积渲染（Volumetric）" class="headerlink" title="七、体积渲染（Volumetric）"></a>七、体积渲染（Volumetric）</h2><p>⭐⭐ ～ ⭐⭐⭐</p>
-<p>Height Fog ⭐</p>
-<p>Volumetric Fog ⭐⭐</p>
-<p>Participating Media ⭐⭐⭐</p>
-<p>Volumetric Lighting ⭐⭐</p>
-<p>Light Scattering ⭐⭐</p>
-<p>God Ray ⭐⭐</p>
+<blockquote>
+<p>处理”介质”而非”表面”：雾、烟、光束、大气。核心概念是<strong>参与介质</strong>（散射&#x2F;吸收）与<strong>光线步进</strong>。</p>
+</blockquote>
+<h4 id="Height-Fog-⭐"><a href="#Height-Fog-⭐" class="headerlink" title="Height Fog ⭐"></a>Height Fog ⭐</h4><p>高度雾。按”世界高度 + 相机距离”做指数衰减叠雾色，能做出”山谷雾、山脚雾气”这种随高度变化的雾。UE 的 Exponential Height Fog 就是它。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/exponential-height-fog-in-unreal-engine">UE Exponential Height Fog 文档</a></li>
+</ul>
+<h4 id="Volumetric-Fog-⭐⭐"><a href="#Volumetric-Fog-⭐⭐" class="headerlink" title="Volumetric Fog ⭐⭐"></a>Volumetric Fog ⭐⭐</h4><p>体积雾。把雾体采样到 <strong>3D 体积纹理</strong>里逐帧更新，配合光照做 Ray March 合成，得到有层次的体积光与雾。UE4 的 Volumetric Fog、Remedy 的 Nubis 都是这套思路。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/volumetric-fog-in-unreal-engine">UE Volumetric Fog 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.adriancourreges.com/blog/2016/09/09/doom-2016-graphics-study/">DOOM 2016 Graphics Study（含体积雾实作）</a></li>
+<li>Remedy, <em>The Nubis System</em>（Control 的体积雾，搜索即得）</li>
+</ul>
+<h4 id="Participating-Media-⭐⭐⭐"><a href="#Participating-Media-⭐⭐⭐" class="headerlink" title="Participating Media ⭐⭐⭐"></a>Participating Media ⭐⭐⭐</h4><p>参与介质。物理地模拟光在介质中的<strong>吸收、散射、各向异性</strong>（Henyey-Greenstein 相位函数），是体积雾、烟雾、大气散射的统一理论框架。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.scratchapixel.com/">Scratchapixel — 体积渲染 &#x2F; 大气散射</a></li>
+</ul>
+<h4 id="Volumetric-Lighting-⭐⭐"><a href="#Volumetric-Lighting-⭐⭐" class="headerlink" title="Volumetric Lighting ⭐⭐"></a>Volumetric Lighting ⭐⭐</h4><p>体积光照。让光在雾中产生可见的<strong>体积光束</strong>（手电筒光柱、窗户漏光），本质是”雾 + 光源”在 3D 体纹理里做步进。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li>同 Volumetric Fog 与 God Ray 的链接</li>
+</ul>
+<h4 id="Light-Scattering-⭐⭐"><a href="#Light-Scattering-⭐⭐" class="headerlink" title="Light Scattering ⭐⭐"></a>Light Scattering ⭐⭐</h4><p>光散射。光与大气&#x2F;粒子作用（瑞利散射、米氏散射）产生天光、雾、光晕。广义上含完整的大气散射模型（渲染真实天空）。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2020">A Scalable and Production Ready Sky and Atmosphere Rendering Technique（Hillaire，SIGGRAPH 2020）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.scratchapixel.com/">Scratchapixel — 大气散射</a></li>
+</ul>
+<h4 id="God-Ray-⭐⭐"><a href="#God-Ray-⭐⭐" class="headerlink" title="God Ray ⭐⭐"></a>God Ray ⭐⭐</h4><p>上帝光 &#x2F; 体积光柱。光被介质散射形成的可见光柱，经典做法是后处理里”沿光源方向径向模糊”（Killzone 2 的方案），低成本又好看。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/gpugems/gpugems3/part-ii-light-and-shadows/chapter-13-volumetric-light-scattering-post-process">GPU Gems 3 — Chapter 13: Volumetric Light Scattering as a Post-Process</a></li>
+</ul>
 <h2 id="八、距离场-体素系统"><a href="#八、距离场-体素系统" class="headerlink" title="八、距离场 &#x2F; 体素系统"></a>八、距离场 &#x2F; 体素系统</h2><p>⭐⭐⭐</p>
+<blockquote>
+<p>你刚开始做 SDF，这块是引擎级技术。核心思路：把”连续三角形几何”转成”可随时查询的场”，换取光照&#x2F;阴影&#x2F;碰撞的稳定与柔和。</p>
+</blockquote>
 <p>你刚开始做 SDF，这块是引擎级技术。</p>
-<p>Mesh Distance Field</p>
-<p>Global Distance Field</p>
-<p>SDF AO</p>
-<p>SDF Shadow</p>
-<p>Voxelization</p>
-<p>Sparse Voxel Octree</p>
+<h4 id="Mesh-Distance-Field"><a href="#Mesh-Distance-Field" class="headerlink" title="Mesh Distance Field"></a>Mesh Distance Field</h4><p>网格距离场。把单个静态网格转换成有符号距离场（SDF），可查”任意点到表面的距离与方向”，用于阴影、AO、GI、碰撞近似、寻路。UE 的 Mesh Distance Field 即此。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/distance-fields-in-unreal-engine">UE 距离场文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://iquilezles.org/">Iñigo Quilez — SDF 入门与图元库</a></li>
+</ul>
+<h4 id="Global-Distance-Field"><a href="#Global-Distance-Field" class="headerlink" title="Global Distance Field"></a>Global Distance Field</h4><p>全局距离场。把整个场景的 SDF 合并成一个全局场（分层 Clipmap 结构），支持<strong>任意位置</strong>的全局 SDF 查询——GI、阴影、AO 的公共数据源。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/distance-fields-in-unreal-engine">UE Global Distance Field 文档</a></li>
+</ul>
+<h4 id="SDF-AO"><a href="#SDF-AO" class="headerlink" title="SDF AO"></a>SDF AO</h4><p>距离场环境光遮蔽。沿法线在 SDF 里步进，估算”几何多近”得到接触&#x2F;局部 AO——比屏幕空间 AO 稳定得多，不依赖屏幕内容。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://iquilezles.org/">Iñigo Quilez — Ambient Occlusion in Ray-marched SDFs</a></li>
+</ul>
+<h4 id="SDF-Shadow"><a href="#SDF-Shadow" class="headerlink" title="SDF Shadow"></a>SDF Shadow</h4><p>见第三节 Distance Field Shadow。SDF 步进天然得到精确柔和阴影。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li>同第三节 Distance Field Shadow 的链接</li>
+</ul>
+<h4 id="Voxelization"><a href="#Voxelization" class="headerlink" title="Voxelization"></a>Voxelization</h4><p>体素化。把三角形网格离散到体素栅格，用于 GI、碰撞、材质查询。主流方式：GPU 硬件光栅化（保守光栅化）、射线驱动、或纯 Compute。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.semanticscholar.org/paper/Octree-Based-Sparse-Voxelization-Using-the-GPU-Crassin-Green/a834e5197b3e2e23fe49e4508d74798bd37eeb0d">Octree-Based Sparse Voxelization Using the GPU Hardware Rasterizer（OpenGL Insights）</a></li>
+</ul>
+<h4 id="Sparse-Voxel-Octree"><a href="#Sparse-Voxel-Octree" class="headerlink" title="Sparse Voxel Octree"></a>Sparse Voxel Octree</h4><p>稀疏体素八叉树（SVO）。只存”非空”体素，能承载<strong>超高分辨率</strong>的体素场景，是 GigaVoxels、Voxel Cone Tracing 乃至 Nanite 思路的前身。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://maverick.inria.fr/Publications/2009/CNLE09/">GigaVoxels（Crassin 等，2009）</a></li>
+<li><a target="_blank" rel="noopener" href="https://maverick.inria.fr/Publications/2011/CNLE11/">Voxel Cone Tracing（Crassin 等，2011）</a></li>
+</ul>
 <h2 id="九、后处理系统"><a href="#九、后处理系统" class="headerlink" title="九、后处理系统"></a>九、后处理系统</h2><p>⭐</p>
+<blockquote>
+<p>3D 场景渲染完后的全屏滤镜阶段。成本低、观感提升巨大，是”画质”的最后一公里，也是屏幕空间技术的最大聚集地。</p>
+</blockquote>
 <p>基础但必须会。</p>
-<p>Bloom</p>
-<p>Tone Mapping</p>
-<p>Color Grading</p>
-<p>Depth of Field</p>
-<p>Motion Blur</p>
-<p>Lens Flare</p>
-<p>Chromatic Aberration</p>
+<h4 id="Bloom"><a href="#Bloom" class="headerlink" title="Bloom"></a>Bloom</h4><p>泛光&#x2F;辉光。提取高亮区域 → 多级降采样模糊 → 上采样叠加，模拟光晕。几乎所有画面”高级感”都靠它。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learnopengl.com/Advanced-Lighting/Bloom">LearnOpenGL — Bloom</a></li>
+</ul>
+<h4 id="Tone-Mapping"><a href="#Tone-Mapping" class="headerlink" title="Tone Mapping"></a>Tone Mapping</h4><p>色调映射。把 HDR 场景值压缩到 LDR 显示范围，决定画面亮度、对比度、高光衰减。主流：ACES、Filmic、Reinhard。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learnopengl.com/Advanced-Lighting/HDR">LearnOpenGL — HDR &#x2F; Tone Mapping</a></li>
+<li><a target="_blank" rel="noopener" href="https://google.github.io/filament/">Filament 文档 — Tone Mapping</a></li>
+</ul>
+<h4 id="Color-Grading"><a href="#Color-Grading" class="headerlink" title="Color Grading"></a>Color Grading</h4><p>颜色分级。对画面做全局色彩调节（曝光、白平衡、饱和度、LUT、曲线），统一风格。3D LUT 是主流手段。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/color-grading-in-unreal-engine">UE Color Grading 文档</a></li>
+</ul>
+<h4 id="Depth-of-Field"><a href="#Depth-of-Field" class="headerlink" title="Depth of Field"></a>Depth of Field</h4><p>景深。模拟镜头焦距外的模糊，分前景&#x2F;后景，圆形散景（Bokeh）是质量关键。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/depth-of-field-in-unreal-engine">UE Depth of Field 文档</a></li>
+</ul>
+<h4 id="Motion-Blur"><a href="#Motion-Blur" class="headerlink" title="Motion Blur"></a>Motion Blur</h4><p>运动模糊。沿 Motion Vector 方向模糊，增强速度感；物体级（Per-Object）比全屏模糊更自然。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/motion-blur-in-unreal-engine">UE Motion Blur 文档</a></li>
+</ul>
+<h4 id="Lens-Flare"><a href="#Lens-Flare" class="headerlink" title="Lens Flare"></a>Lens Flare</h4><p>镜头光晕。模拟镜头内部反射的亮斑&#x2F;鬼影，分”基于真实镜头数据”与”美术手K”两类。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/lens-flare-in-unreal-engine">UE Lens Flare 文档</a></li>
+</ul>
+<h4 id="Chromatic-Aberration"><a href="#Chromatic-Aberration" class="headerlink" title="Chromatic Aberration"></a>Chromatic Aberration</h4><p>色差。模拟镜头对不同波长光折射不同导致的 RGB 边缘色散，常用作沉浸感滤镜（对边缘加即可，别糊全屏）。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.shadertoy.com/">ShaderToy 搜索 “Chromatic Aberration”（大量实时实现）</a></li>
+</ul>
 <h2 id="十、抗锯齿技术"><a href="#十、抗锯齿技术" class="headerlink" title="十、抗锯齿技术"></a>十、抗锯齿技术</h2><p>⭐⭐</p>
-<p>MSAA</p>
-<p>FXAA</p>
-<p>SMAA</p>
-<p>TAA</p>
-<p>TSR</p>
-<p>DLSS &#x2F; FSR integration</p>
+<blockquote>
+<p>对付”锯齿”的手段分两类：几何级（MSAA，只对三角形边有效）与后处理级（图像空间，管全部高频细节）。</p>
+</blockquote>
+<h4 id="MSAA"><a href="#MSAA" class="headerlink" title="MSAA"></a>MSAA</h4><p>多重采样抗锯齿。光栅化时对每像素多个覆盖样本求平均，只平滑几何边；开销随样本数上升，Deferred 下不兼容（需要在 G-Buffer 阶段多采样）。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learnopengl.com/Advanced-OpenGL/Anti-Aliasing">LearnOpenGL — MSAA</a></li>
+</ul>
+<h4 id="FXAA"><a href="#FXAA" class="headerlink" title="FXAA"></a>FXAA</h4><p>快速近似抗锯齿。纯后处理：检测边缘 → 模糊。便宜但对亚像素&#x2F;纹理细节不友好，画面偏糊，现在一般作为兜底。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://developer.download.nvidia.com/assets/gamedev/files/sdk/11/FXAA_WhitePaper.pdf">FXAA White Paper（Timothy Lottes，NVIDIA 2009）</a></li>
+</ul>
+<h4 id="SMAA"><a href="#SMAA" class="headerlink" title="SMAA"></a>SMAA</h4><p>亚像素形态学抗锯齿。边缘形态检测 + 模式识别 + 时间滤波，质量高于 FXAA、低于 TAA，移动端常用。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.iryoku.com/smaa/">SMAA: Enhanced Subpixel Morphological Antialiasing（Jimenez 等，官方页）</a></li>
+</ul>
+<h4 id="TAA"><a href="#TAA" class="headerlink" title="TAA"></a>TAA</h4><p>见第六节 TAA（时域复用，当前主流默认）。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li>同第六节 TAA 的链接</li>
+</ul>
+<h4 id="TSR"><a href="#TSR" class="headerlink" title="TSR"></a>TSR</h4><p>见第六节 TSR（时域超分）。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li>同第六节 TSR 的链接</li>
+</ul>
+<h4 id="DLSS-FSR-integration"><a href="#DLSS-FSR-integration" class="headerlink" title="DLSS &#x2F; FSR integration"></a>DLSS &#x2F; FSR integration</h4><p>见第六节（硬件 vs 开放的超分集成）。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li>同第六节 DLSS &#x2F; FSR 的链接</li>
+</ul>
 <h2 id="十一、现代-GPU-技术"><a href="#十一、现代-GPU-技术" class="headerlink" title="十一、现代 GPU 技术"></a>十一、现代 GPU 技术</h2><p>⭐⭐⭐</p>
+<blockquote>
+<p>从”光栅化 + 固定管线”走向”通用并行计算”：GPU 不再是只画三角形，而是一台大规模并行机。越来越重要。</p>
+</blockquote>
 <p>越来越重要。</p>
-<p>Compute Shader Pipeline</p>
-<p>Async Compute</p>
-<p>Wave Intrinsics</p>
-<p>GPU Prefix Sum</p>
-<p>GPU Sorting</p>
-<p>Indirect Dispatch</p>
+<h4 id="Compute-Shader-Pipeline"><a href="#Compute-Shader-Pipeline" class="headerlink" title="Compute Shader Pipeline"></a>Compute Shader Pipeline</h4><p>计算着色器。不经过光栅化、以线程组（Threadgroup）为单位的通用并行程序，用来做剔除、降噪、后处理、模拟等一切”非三角形”工作。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://vulkan-tutorial.com/Compute_Shader">Vulkan Tutorial — Compute Shaders</a></li>
+<li><a target="_blank" rel="noopener" href="https://learnopengl.com/Guest-Articles/2022/Compute-Shaders/Introduction">LearnOpenGL — Compute Shaders</a></li>
+</ul>
+<h4 id="Async-Compute"><a href="#Async-Compute" class="headerlink" title="Async Compute"></a>Async Compute</h4><p>异步计算。用独立 Compute Queue 让”计算类工作”与图形并行，把 GPU 空闲的执行单元利用起来。DOOM 用它压榨出大量性能；注意同步与带宽争抢。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.adriancourreges.com/blog/2016/09/09/doom-2016-graphics-study/">DOOM 2016 Graphics Study（Async Compute 实战分析）</a></li>
+<li><a target="_blank" rel="noopener" href="https://advances.realtimerendering.com/s2020">SIGGRAPH 2020 DOOM Eternal 课程</a></li>
+</ul>
+<h4 id="Wave-Intrinsics"><a href="#Wave-Intrinsics" class="headerlink" title="Wave Intrinsics"></a>Wave Intrinsics</h4><p>波前&#x2F;子组（Wavefront&#x2F;Subgroup）内建函数。让同一 Wave 内线程直接交换数据、投票、做 Scan，替代共享内存实现更高效的归约与协作算法（HLSL WaveOps &#x2F; Vulkan <code>VK_KHR_shader_subgroup</code>）。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.khronos.org/blog/vulkan-subgroup-tutorial">Khronos — Vulkan Subgroup Tutorial</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/direct3dhlsl/hlsl-shader-model-6-0-features-for-direct3d-12">Microsoft — HLSL Wave Intrinsics 文档</a></li>
+</ul>
+<h4 id="GPU-Prefix-Sum"><a href="#GPU-Prefix-Sum" class="headerlink" title="GPU Prefix Sum"></a>GPU Prefix Sum</h4><p>并行前缀和（Scan）。Hillis-Steele &#x2F; Blelloch 等高效并行算法，是排序、流压缩（Stream Compaction）、GPU 驱动的间接绘制的基础。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/gpugems/gpugems3">GPU Gems 3 — Chapter 39: Parallel Prefix Sum (Scan) with CUDA</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/NVIDIA/cub">NVIDIA CUB（并行原语库）</a></li>
+</ul>
+<h4 id="GPU-Sorting"><a href="#GPU-Sorting" class="headerlink" title="GPU Sorting"></a>GPU Sorting</h4><p>GPU 排序。用 Bitonic &#x2F; 基数排序等并行算法做材质排序、透明排序、粒子排序、可见性排序。CUB &#x2F; Thrust 直接可用。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/NVIDIA/cub">NVIDIA CUB</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/NVIDIA/thrust">NVIDIA Thrust</a></li>
+</ul>
+<h4 id="Indirect-Dispatch"><a href="#Indirect-Dispatch" class="headerlink" title="Indirect Dispatch"></a>Indirect Dispatch</h4><p>间接分发&#x2F;绘制。命令参数由 GPU 自己写（Compute 输出 Draw 参数），CPU 不用回读，实现”GPU 驱动”的完整闭环。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/direct3d12/indirect-drawing">D3D12 — ExecuteIndirect &#x2F; 间接绘制</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nvpro-samples">nvpro-samples（GPU-Driven 示例）</a></li>
+</ul>
 <h2 id="十二、数据压缩-纹理系统"><a href="#十二、数据压缩-纹理系统" class="headerlink" title="十二、数据压缩 &#x2F; 纹理系统"></a>十二、数据压缩 &#x2F; 纹理系统</h2><p>⭐⭐</p>
-<p>Texture Compression</p>
-<p>ASTC &#x2F; BC</p>
-<p>Mipmap Streaming</p>
-<p>Virtual Texture</p>
-<p>Clipmap</p>
+<blockquote>
+<p>纹理&#x2F;几何数据的<strong>存储与传输</strong>决定内存与带宽——移动端与主机优化的主战场，直接关系帧率。</p>
+</blockquote>
+<h4 id="Texture-Compression"><a href="#Texture-Compression" class="headerlink" title="Texture Compression"></a>Texture Compression</h4><p>纹理压缩。块压缩（Block-based）：把像素块编码成固定比特率、GPU 可<strong>直接硬件采样</strong>的格式（无需解压）。质量、比特率、带宽是三角关系。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.reedbeta.com/blog/understanding-bcn-texture-compression-formats/">Understanding BCn Texture Compression Formats（reedbeta）</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/BinomialLLC/basis_universal">Basis Universal（通用纹理压缩库）</a></li>
+</ul>
+<h4 id="ASTC-BC"><a href="#ASTC-BC" class="headerlink" title="ASTC &#x2F; BC"></a>ASTC &#x2F; BC</h4><p>两大压缩族。BC（DXT&#x2F;BC1<del>BC7）是 DX 系；ASTC（ARM&#x2F;Khronos）是移动端主流，支持 4x4</del>12x12 灵活比特率与 RGBA 各种通道组合。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.khronos.org/blog/astc-texture-compression-for-game-assets">Khronos ASTC 官方页</a></li>
+<li><a target="_blank" rel="noopener" href="https://community.arm.com/arm-community-blogs/b/graphics-gpu-and-ai-blog/posts/astc-texture-compression-for-game-assets">ARM — ASTC Texture Compression 文档</a></li>
+</ul>
+<h4 id="Mipmap-Streaming"><a href="#Mipmap-Streaming" class="headerlink" title="Mipmap Streaming"></a>Mipmap Streaming</h4><p>mip 流送。按需加载 mip 层级（先低清后高清），是 Texture Streaming 的基础，显著减少加载时间与内存。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learnopengl.com/Getting-started/Textures">LearnOpenGL — Mipmaps</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/texture-streaming-in-unreal-engine">UE Texture Streaming 文档</a></li>
+</ul>
+<h4 id="Virtual-Texture"><a href="#Virtual-Texture" class="headerlink" title="Virtual Texture"></a>Virtual Texture</h4><p>虚拟纹理。把超大纹理&#x2F;地形拆成 Page，按需上传 GPU（配合 Feedback 查询），支持<strong>远超显存尺寸</strong>的纹理，配合 Clipmap 做无缝大地形。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/virtual-texturing-in-unreal-engine">UE 虚拟纹理文档</a></li>
+<li>SIGGRAPH 2015 <em>Advanced Virtual Texture Topics</em>（The Witness 等厂商分享）</li>
+</ul>
+<h4 id="Clipmap"><a href="#Clipmap" class="headerlink" title="Clipmap"></a>Clipmap</h4><p>Clipmap。以相机为中心的多级”网格&#x2F;纹理”叠层，每级更大范围、更粗分辨率，用于地形、海面、全局距离场等”无限大”场景。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/gpugems/gpugems2/part-i-geometric-complexity/chapter-2-terrain-rendering-using-gpu-based-geometry">GPU Gems 2 — Chapter 2: Terrain Rendering Using GPU-Based Geometry Clipmaps</a></li>
+<li><a target="_blank" rel="noopener" href="https://hhoppe.com/proj/geomclipmap/index.html">Geometry Clipmaps（Hoppe 原始论文页）</a></li>
+</ul>
 <h2 id="十三、粒子系统-GPU-特效"><a href="#十三、粒子系统-GPU-特效" class="headerlink" title="十三、粒子系统 &#x2F; GPU 特效"></a>十三、粒子系统 &#x2F; GPU 特效</h2><p>⭐⭐</p>
-<p>GPU Particle</p>
-<p>GPU Simulation</p>
-<p>Fluid Sim</p>
-<p>Niagara-like systems</p>
+<blockquote>
+<p>粒子从”CPU 模拟 + 精灵”走向”GPU 模拟 + 自定义渲染”，特效量级上限被大幅抬高。</p>
+</blockquote>
+<h4 id="GPU-Particle"><a href="#GPU-Particle" class="headerlink" title="GPU Particle"></a>GPU Particle</h4><p>GPU 粒子。粒子数据与模拟全在 GPU（Compute&#x2F;Vertex Shader），可承载百万级粒子，配合排序与后处理合成。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/niagara-effects-in-unreal-engine">UE Niagara 文档（下一代 GPU 粒子系统）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.adriancourreges.com/blog/2016/09/09/doom-2016-graphics-study/">DOOM 2016 Graphics Study（含粒子光照&#x2F;合批细节）</a></li>
+</ul>
+<h4 id="GPU-Simulation"><a href="#GPU-Simulation" class="headerlink" title="GPU Simulation"></a>GPU Simulation</h4><p>GPU 模拟。布料&#x2F;流体&#x2F;粒子的物理更新放到 GPU 并行，CPU 只发命令，是现代特效与物理的标配。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://matthiasmueller.info/">Position Based Dynamics（Matthias Müller 主页）</a></li>
+<li><a target="_blank" rel="noopener" href="https://matthiasmueller.info/">Position Based Fluids（同上）</a></li>
+</ul>
+<h4 id="Fluid-Sim"><a href="#Fluid-Sim" class="headerlink" title="Fluid Sim"></a>Fluid Sim</h4><p>流体模拟。网格法（Euler，3D 纹理 + 迭代求解）或粒子法（SPH&#x2F;PBF）模拟流体运动；GPU 上跑速度与分辨率是关键。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/gpugems/gpugems/part-vi-beyond-triangles/chapter-38-fast-fluid-dynamics-simulation-gpu">GPU Gems 1 — Chapter 38: Fast Fluid Dynamics Simulation on the GPU</a></li>
+<li>Jos Stam, <em>Real-Time Fluid Dynamics for Games</em>（经典，搜索即得）</li>
+</ul>
+<h4 id="Niagara-like-systems"><a href="#Niagara-like-systems" class="headerlink" title="Niagara-like systems"></a>Niagara-like systems</h4><p>UE5 Niagara 式的下一代粒子&#x2F;特效系统：节点化图 + GPU&#x2F;CPU 混合模拟 + 深度接入渲染管线（事件、调试、数据接口）。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/niagara-effects-in-unreal-engine">UE Niagara 官方文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Packages/com.unity.visualeffectgraph@latest">Unity Visual Effect Graph（对标方案）</a></li>
+</ul>
 <h2 id="十四、引擎级优化"><a href="#十四、引擎级优化" class="headerlink" title="十四、引擎级优化"></a>十四、引擎级优化</h2><p>⭐⭐⭐</p>
+<blockquote>
+<p>真正的工程能力：把”能跑”变成”稳定、流畅、不烫手地跑”。这一节是性能分析 + 数据结构 + 内存设计的综合。</p>
+</blockquote>
 <p>真正的工程能力。</p>
-<p>Frame Pacing</p>
-<p>GPU&#x2F;CPU sync</p>
-<p>Cache friendly layout</p>
-<p>Bandwidth optimization</p>
-<p>Memory pool</p>
-<p>GPU profiler</p>
+<h4 id="Frame-Pacing"><a href="#Frame-Pacing" class="headerlink" title="Frame Pacing"></a>Frame Pacing</h4><p>帧节奏。保证每帧耗时均匀（不忽快忽慢），手段：固定步长、垂直同步策略、GPU 绑定（Bounded）渲染、输入延迟控制。节奏乱比帧率低更难受。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://vulkan-tutorial.com/Drawing_a_triangle/Swap_chain">Vulkan Tutorial — Swapchain &#x2F; Frames in Flight（帧节奏的工程基础）</a></li>
+<li>John Carmack, <em>Latency Mitigation Strategies</em>（GDC 2015，输入延迟方向）</li>
+</ul>
+<h4 id="GPU-CPU-sync"><a href="#GPU-CPU-sync" class="headerlink" title="GPU&#x2F;CPU sync"></a>GPU&#x2F;CPU sync</h4><p>CPU&#x2F;GPU 同步。CPU 不能无限领先 GPU（命令队列有界），通过 Fence&#x2F;Semaphore 同步；代价是等待（Bubble），用多缓冲（Double&#x2F;Triple Buffering）化解。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://vulkan-tutorial.com/Drawing_a_triangle/Drawing/Frames_in_flight">Vulkan Tutorial — Synchronization</a></li>
+<li><a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows/win32/direct3d12/fence-based-resource-management">D3D12 — Fences</a></li>
+</ul>
+<h4 id="Cache-friendly-layout"><a href="#Cache-friendly-layout" class="headerlink" title="Cache friendly layout"></a>Cache friendly layout</h4><p>缓存友好布局。数据按访问模式排布（SoA&#x2F;AoS、内存池、多线程分区），减少 Cache Miss 与线程冲突。配合数据导向设计（DOD）&#x2F; ECS。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://gameprogrammingpatterns.com/data-locality.html">Game Programming Patterns — Data Locality</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.dataorienteddesign.com/dodbook/">Data-Oriented Design 书籍官网</a></li>
+<li>Mike Acton, <em>Data-Oriented Design and C++</em>（CPPCon 演讲，搜索即得）</li>
+</ul>
+<h4 id="Bandwidth-optimization"><a href="#Bandwidth-optimization" class="headerlink" title="Bandwidth optimization"></a>Bandwidth optimization</h4><p>带宽优化。显存带宽是移动&#x2F;主机的硬瓶颈，通过压缩、减少读写往返、复用 L2&#x2F;共享内存、合并访问来省带宽——常常比省运算更有效。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://fgiesen.wordpress.com/2011/07/09/a-trip-through-the-graphics-pipeline-2011-index/">A Trip Through the Graphics Pipeline（Fabian Giesen，讲 GPU 带宽&#x2F;延迟）</a></li>
+<li><a target="_blank" rel="noopener" href="https://community.arm.com/arm-community-blogs/b/graphics-gpu-and-ai-blog/posts/understanding-gpu-bandwidth">ARM — Understanding GPU Bandwidth</a></li>
+</ul>
+<h4 id="Memory-pool"><a href="#Memory-pool" class="headerlink" title="Memory pool"></a>Memory pool</h4><p>内存池。预分配大块内存按需切分，避免频繁 malloc&#x2F;free 与碎片化；GPU 侧用内存分配器（VMA、D3D12 Heap）减少驱动开销。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator">Vulkan Memory Allocator</a></li>
+<li><a target="_blank" rel="noopener" href="https://gameprogrammingpatterns.com/object-pool.html">Game Programming Patterns — Object Pool</a></li>
+</ul>
+<h4 id="GPU-profiler"><a href="#GPU-profiler" class="headerlink" title="GPU profiler"></a>GPU profiler</h4><p>GPU 性能分析器。定位 GPU 瓶颈（占用率、带宽、Pass 耗时）。常用：Nsight Graphics、PIX、RenderDoc、AMD RGP。<strong>会看分析器是工程能力的硬指标</strong>。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://renderdoc.org/">RenderDoc（开源的”抓帧神器”）</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.nvidia.com/nsight-graphics/">NVIDIA Nsight Graphics 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/pix/">PIX（微软 D3D 调试&#x2F;分析）</a></li>
+<li><a target="_blank" rel="noopener" href="https://gpuopen.com/rgp/">AMD Radeon GPU Profiler</a></li>
+</ul>
 <h2 id="十五、现代引擎的新趋势"><a href="#十五、现代引擎的新趋势" class="headerlink" title="十五、现代引擎的新趋势"></a>十五、现代引擎的新趋势</h2><p>⭐⭐⭐⭐</p>
+<blockquote>
+<p>未来几年会越来越重要：GPU 更自主（Work Graphs）、几何处理范式变革（Mesh Shader）、场景从”资产”走向”程序化生成”，以及 AI 进入渲染。</p>
+</blockquote>
 <p>未来几年会越来越重要。</p>
-<p>Work Graphs（DX12）</p>
-<p>Mesh Shader pipeline</p>
-<p>GPU Driven Rendering</p>
-<p>Procedural world streaming</p>
-<p>Neural rendering</p>
+<h4 id="Work-Graphs（DX12）"><a href="#Work-Graphs（DX12）" class="headerlink" title="Work Graphs（DX12）"></a>Work Graphs（DX12）</h4><p>DX12 工作图。GPU 端<strong>动态生成与调度工作</strong>（节点图），无需 CPU 介入即可递归产生后续工作，是”GPU 自治”的下一步，目标替代部分 Indirect&#x2F;Async 编排。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://microsoft.github.io/DirectX-Specs/d3d/WorkGraphs.html">DirectX-Specs — Work Graphs 规范</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/blog">NVIDIA — Work Graphs 技术博客</a></li>
+</ul>
+<h4 id="Mesh-Shader-pipeline"><a href="#Mesh-Shader-pipeline" class="headerlink" title="Mesh Shader pipeline"></a>Mesh Shader pipeline</h4><p>网格着色器管线。用 <strong>Task + Mesh Shader</strong> 取代传统 VS&#x2F;GS&#x2F;Primitive 阶段，几何由 GPU 灵活生成与剔除——GPU 驱动几何与 Nanite 类方案的基石。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://microsoft.github.io/DirectX-Specs/d3d/MeshShader.html">DirectX-Specs — Mesh Shader 规范</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/blog/introduction-turing-mesh-shaders/">NVIDIA — Introduction to Turing Mesh Shaders</a></li>
+<li><a target="_blank" rel="noopener" href="https://gpuopen.com/">AMD — RDNA Mesh Shaders（GPUOpen）</a></li>
+</ul>
+<h4 id="GPU-Driven-Rendering-1"><a href="#GPU-Driven-Rendering-1" class="headerlink" title="GPU Driven Rendering"></a>GPU Driven Rendering</h4><p>作为趋势再强调：整个场景管理与可见性在 GPU 闭环，CPU 只当”搬运工”。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li>同第一节 GPU Driven Rendering 的链接</li>
+</ul>
+<h4 id="Procedural-world-streaming"><a href="#Procedural-world-streaming" class="headerlink" title="Procedural world streaming"></a>Procedural world streaming</h4><p>程序化世界流送。地形&#x2F;植被&#x2F;建筑按需<strong>程序化生成 + 分块流送</strong>，让”无限大世界”可跑（UE World Partition、Houdini + 引擎管线）。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/world-partition-in-unreal-engine">UE World Partition 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.sidefx.com/">Houdini（程序化内容生成工具）</a></li>
+</ul>
+<h4 id="Neural-rendering"><a href="#Neural-rendering" class="headerlink" title="Neural rendering"></a>Neural rendering</h4><p>神经渲染。用神经网络替换&#x2F;增强渲染环节：超分（DLSS）、新视角合成（NeRF、3D Gaussian Splatting）、材质&#x2F;光照学习。渲染与 AI 的交汇前沿。</p>
+<p><strong>拓展资料</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2003.08934">NeRF: Representing Scenes as Neural Radiance Fields（arXiv 2003.08934）</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/2308.04079">3D Gaussian Splatting（arXiv 2308.04079）</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/NVlabs/instant-ngp">Instant-NGP（NVlabs 开源）</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.nvidia.com/dlss">NVIDIA DLSS（神经超分落地代表）</a></li>
+</ul>
 
     </div>
 
@@ -742,7 +1425,7 @@
   </div>
 </footer>
 
-  <script src="/js/main.js"></script>
+  <script src="/js/main.js?v=20260831-cat-off"></script>
 <script src="/js/search.js"></script>
 
   <script src="https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>

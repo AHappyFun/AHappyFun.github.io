@@ -48,6 +48,132 @@
     });
   }
 
+  /* --- Site Style Switcher --- */
+  (function initStylePicker() {
+    var picker = document.getElementById('stylePicker');
+    if (!picker) return;
+
+    var available = ['bento', 'knowledge'];
+    var current = document.documentElement.getAttribute('data-site-style');
+    if (available.indexOf(current) === -1) current = 'bento';
+    picker.value = current;
+
+    picker.addEventListener('change', function () {
+      var next = picker.value;
+      if (available.indexOf(next) === -1) return;
+      document.documentElement.setAttribute('data-site-style', next);
+      localStorage.setItem('site-style', next);
+    });
+  })();
+
+  /* --- Resizable desktop navigation panels --- */
+  (function initResizableNavigation() {
+    var root = document.documentElement;
+    var configurations = [
+      {
+        handle: document.getElementById('globalSidebarResizer'),
+        target: document.getElementById('sidebar'),
+        property: '--sidebar-width',
+        storageKey: 'global-sidebar-width',
+        defaultValue: 320,
+        min: 280,
+        max: 480,
+        direction: 1,
+        media: '(min-width: 1025px)'
+      },
+      {
+        handle: document.getElementById('postTocResizer'),
+        target: document.getElementById('postToc'),
+        property: '--post-toc-width',
+        storageKey: 'post-toc-width',
+        defaultValue: 280,
+        min: 220,
+        max: 420,
+        direction: -1,
+        media: '(min-width: 1401px)'
+      }
+    ];
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    configurations.forEach(function (config) {
+      if (!config.handle || !config.target) return;
+
+      var stored = parseInt(localStorage.getItem(config.storageKey), 10);
+      var current = Number.isFinite(stored) ? clamp(stored, config.min, config.max) : config.defaultValue;
+      var startX = 0;
+      var startWidth = current;
+      var pointerId = null;
+
+      function enabled() {
+        return window.matchMedia(config.media).matches;
+      }
+
+      function apply(value, persist) {
+        current = clamp(Math.round(value), config.min, config.max);
+        root.style.setProperty(config.property, current + 'px');
+        config.handle.setAttribute('aria-valuenow', String(current));
+        config.handle.setAttribute('aria-valuetext', current + ' 像素');
+        if (persist) localStorage.setItem(config.storageKey, String(current));
+      }
+
+      apply(current, false);
+
+      config.handle.addEventListener('pointerdown', function (event) {
+        if (!enabled() || event.button !== 0) return;
+        pointerId = event.pointerId;
+        startX = event.clientX;
+        startWidth = current;
+        config.handle.setPointerCapture(pointerId);
+        config.handle.classList.add('is-active');
+        document.body.classList.add('is-resizing-navigation');
+        event.preventDefault();
+      });
+
+      config.handle.addEventListener('pointermove', function (event) {
+        if (pointerId !== event.pointerId) return;
+        apply(startWidth + (event.clientX - startX) * config.direction, false);
+      });
+
+      function finishResize(event) {
+        if (pointerId === null || (event.pointerId !== undefined && event.pointerId !== pointerId)) return;
+        if (config.handle.hasPointerCapture(pointerId)) config.handle.releasePointerCapture(pointerId);
+        pointerId = null;
+        config.handle.classList.remove('is-active');
+        document.body.classList.remove('is-resizing-navigation');
+        apply(current, true);
+      }
+
+      config.handle.addEventListener('pointerup', finishResize);
+      config.handle.addEventListener('pointercancel', finishResize);
+      config.handle.addEventListener('lostpointercapture', function () {
+        if (pointerId === null) return;
+        pointerId = null;
+        config.handle.classList.remove('is-active');
+        document.body.classList.remove('is-resizing-navigation');
+        apply(current, true);
+      });
+
+      config.handle.addEventListener('keydown', function (event) {
+        if (!enabled()) return;
+        var next = current;
+        if (event.key === 'ArrowLeft') next -= 16 * config.direction;
+        else if (event.key === 'ArrowRight') next += 16 * config.direction;
+        else if (event.key === 'Home') next = config.min;
+        else if (event.key === 'End') next = config.max;
+        else return;
+        event.preventDefault();
+        apply(next, true);
+      });
+
+      config.handle.addEventListener('dblclick', function () {
+        if (enabled()) apply(config.defaultValue, true);
+      });
+    });
+  })();
+
   /* Keep the asynchronously loaded Giscus frame in sync with manual theme changes. */
   (function initGiscusTheme() {
     var comments = document.querySelector('.comments');
@@ -66,15 +192,84 @@
 
   if (menuToggle && headerNav) {
     menuToggle.addEventListener('click', function () {
-      headerNav.classList.toggle('is-open');
+      var isOpen = headerNav.classList.toggle('is-open');
+      menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      menuToggle.setAttribute('aria-label', isOpen ? '关闭菜单' : '打开菜单');
     });
 
     headerNav.querySelectorAll('a').forEach(function (link) {
       link.addEventListener('click', function () {
         headerNav.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', '打开菜单');
       });
     });
+
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && headerNav.classList.contains('is-open')) {
+        headerNav.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', '打开菜单');
+        menuToggle.focus();
+      }
+    });
   }
+
+  /* --- Category filter tabs (sidebar + homepage grid) --- */
+  (function initCategoryFilter() {
+    var bars = Array.prototype.slice.call(document.querySelectorAll('.category-filter'));
+    if (!bars.length) return;
+    var tabs = [];
+    bars.forEach(function (bar) {
+      tabs = tabs.concat(Array.prototype.slice.call(bar.querySelectorAll('.category-filter__tab')));
+    });
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.post-card[data-category]'));
+    var sideItems = Array.prototype.slice.call(document.querySelectorAll('.sidebar__item[data-category]'));
+    var yearEls = Array.prototype.slice.call(document.querySelectorAll('.sidebar__year[data-year]'));
+    var countEl = document.querySelector('.sidebar__count');
+
+    function matches(cat, itemCat) {
+      return cat === 'all' || itemCat === cat;
+    }
+
+    function apply(cat) {
+      var visible = 0;
+
+      cards.forEach(function (card) {
+        var show = matches(cat, card.getAttribute('data-category'));
+        card.style.display = show ? '' : 'none';
+      });
+
+      sideItems.forEach(function (item) {
+        var show = matches(cat, item.getAttribute('data-category'));
+        item.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+
+      // Hide empty year groups
+      yearEls.forEach(function (y) {
+        var year = y.getAttribute('data-year');
+        var hasVisible = sideItems.some(function (item) {
+          return item.getAttribute('data-year') === year && matches(cat, item.getAttribute('data-category'));
+        });
+        y.style.display = hasVisible ? '' : 'none';
+      });
+
+      if (countEl) countEl.textContent = '共 ' + visible + ' 篇文章';
+    }
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var cat = tab.getAttribute('data-category');
+        tabs.forEach(function (t) {
+          var active = t.getAttribute('data-category') === cat;
+          t.classList.toggle('is-active', active);
+          t.setAttribute('aria-selected', active ? 'true' : 'false');
+        });
+        apply(cat);
+      });
+    });
+  })();
 
   /* --- Smooth scroll for anchor links --- */
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
@@ -223,6 +418,8 @@
 
   /* --- 🐱 Cat vs Mouse --- */
   (function initGame() {
+    if (document.body.getAttribute('data-cat-game-enabled') !== 'true') return;
+
     var container = document.createElement('div');
     container.className = 'cat-container';
     container.innerHTML = [

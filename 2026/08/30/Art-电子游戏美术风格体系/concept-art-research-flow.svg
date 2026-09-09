@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="840" viewBox="0 0 1400 840" role="img" aria-labelledby="title desc">
+  <title id="title">从风格探索到可生产概念设计的工作链路</title>
+  <desc id="desc">概念原画从视觉简报、参考研究、剪影构图、颜色材质、关键帧、生产设计进入引擎验证，并通过反馈迭代。</desc>
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7f4ed"/>
+      <stop offset="1" stop-color="#e9e4d9"/>
+    </linearGradient>
+    <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#332d26" flood-opacity="0.14"/>
+    </filter>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10z" fill="#8e8578"/>
+    </marker>
+    <style>
+      .t { font:700 37px 'Microsoft YaHei','PingFang SC',sans-serif; fill:#29251f; }
+      .st { font:400 19px 'Microsoft YaHei','PingFang SC',sans-serif; fill:#665f55; }
+      .h { font:700 22px 'Microsoft YaHei','PingFang SC',sans-serif; fill:#2f2a24; }
+      .b { font:400 16px 'Microsoft YaHei','PingFang SC',sans-serif; fill:#5e574d; }
+      .n { font:700 25px 'Microsoft YaHei','PingFang SC',sans-serif; fill:#fff; }
+      .arrow { stroke:#8e8578; stroke-width:3; fill:none; marker-end:url(#a); }
+    </style>
+  </defs>
+  <rect width="1400" height="840" rx="32" fill="url(#bg2)"/>
+  <text x="700" y="60" text-anchor="middle" class="t">从“喜欢这种画风”到可生产的概念设计</text>
+  <text x="700" y="94" text-anchor="middle" class="st">每一步都减少一种不确定性，最终必须回到玩家镜头中验证</text>
+
+  <path d="M265 245 L342 245" class="arrow"/>
+  <path d="M522 245 L599 245" class="arrow"/>
+  <path d="M779 245 L856 245" class="arrow"/>
+  <path d="M1036 245 L1113 245" class="arrow"/>
+  <path d="M1205 340 C1205 430 1110 475 1035 475" class="arrow"/>
+  <path d="M855 570 L778 570" class="arrow"/>
+  <path d="M598 570 L521 570" class="arrow"/>
+  <path d="M430 665 C430 745 820 760 980 660" class="arrow"/>
+
+  <g filter="url(#s)">
+    <g><rect x="85" y="155" width="180" height="180" rx="24" fill="#ead7ca"/><circle cx="120" cy="190" r="24" fill="#9c684f"/><text x="120" y="199" text-anchor="middle" class="n">1</text><text x="175" y="232" text-anchor="middle" class="h">视觉 Brief</text><text x="175" y="270" text-anchor="middle" class="b">玩法 · 镜头 · 情绪</text><text x="175" y="299" text-anchor="middle" class="b">平台 · 产能 · 禁用项</text></g>
+    <g><rect x="342" y="155" width="180" height="180" rx="24" fill="#dce6d8"/><circle cx="377" cy="190" r="24" fill="#5e7d5e"/><text x="377" y="199" text-anchor="middle" class="n">2</text><text x="432" y="232" text-anchor="middle" class="h">参考研究</text><text x="432" y="270" text-anchor="middle" class="b">现实 · 历史 · 形式</text><text x="432" y="299" text-anchor="middle" class="b">材质 · 游戏实现</text></g>
+    <g><rect x="599" y="155" width="180" height="180" rx="24" fill="#d8e1ec"/><circle cx="634" cy="190" r="24" fill="#5c7393"/><text x="634" y="199" text-anchor="middle" class="n">3</text><text x="689" y="232" text-anchor="middle" class="h">剪影与小稿</text><text x="689" y="270" text-anchor="middle" class="b">大形 · 比例 · 负形</text><text x="689" y="299" text-anchor="middle" class="b">玩家视角下的明度</text></g>
+    <g><rect x="856" y="155" width="180" height="180" rx="24" fill="#eadfbd"/><circle cx="891" cy="190" r="24" fill="#9a7e45"/><text x="891" y="199" text-anchor="middle" class="n">4</text><text x="946" y="232" text-anchor="middle" class="h">颜色与材质</text><text x="946" y="270" text-anchor="middle" class="b">主辅强调色</text><text x="946" y="299" text-anchor="middle" class="b">粗糙度 · 细节频率</text></g>
+    <g><rect x="1113" y="155" width="202" height="180" rx="24" fill="#dfd7e8"/><circle cx="1148" cy="190" r="24" fill="#755f89"/><text x="1148" y="199" text-anchor="middle" class="n">5</text><text x="1214" y="232" text-anchor="middle" class="h">Keyframe</text><text x="1214" y="270" text-anchor="middle" class="b">镜头 · 尺度 · 情绪</text><text x="1214" y="299" text-anchor="middle" class="b">“为什么玩家想进入”</text></g>
+
+    <g><rect x="855" y="480" width="180" height="180" rx="24" fill="#d7e5e4"/><circle cx="890" cy="515" r="24" fill="#4f7b79"/><text x="890" y="524" text-anchor="middle" class="n">6</text><text x="945" y="557" text-anchor="middle" class="h">生产设计</text><text x="945" y="595" text-anchor="middle" class="b">结构 · 三视图 · 拆件</text><text x="945" y="624" text-anchor="middle" class="b">材质 · 动画 · 交互</text></g>
+    <g><rect x="598" y="480" width="180" height="180" rx="24" fill="#e5d9d2"/><circle cx="633" cy="515" r="24" fill="#8c6557"/><text x="633" y="524" text-anchor="middle" class="n">7</text><text x="688" y="557" text-anchor="middle" class="h">引擎验证</text><text x="688" y="595" text-anchor="middle" class="b">实际镜头 · 运动</text><text x="688" y="624" text-anchor="middle" class="b">Shader · 灯光 · VFX</text></g>
+    <g><rect x="341" y="480" width="180" height="180" rx="24" fill="#dfe2cf"/><circle cx="376" cy="515" r="24" fill="#718054"/><text x="376" y="524" text-anchor="middle" class="n">8</text><text x="431" y="557" text-anchor="middle" class="h">规范与迭代</text><text x="431" y="595" text-anchor="middle" class="b">保留有效规则</text><text x="431" y="624" text-anchor="middle" class="b">修正噪声与产能问题</text></g>
+  </g>
+
+  <rect x="760" y="712" width="440" height="64" rx="32" fill="#5b5146"/>
+  <text x="980" y="752" text-anchor="middle" style="font:600 19px 'Microsoft YaHei','PingFang SC',sans-serif;fill:#fff">反馈回到 Brief：风格探索是一条循环，不是瀑布流程</text>
+</svg>

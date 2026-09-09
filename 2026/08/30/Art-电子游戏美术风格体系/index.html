@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-site-style="bento">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Art-电子游戏美术风格体系——从视觉分类到概念原画研究 | 锅巴的Blogs</title>
+<link rel="canonical" href="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/">
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="游戏美术, 美术风格, 概念设计, Art Direction, 视觉开发">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  (function () {
+    var available = ['bento', 'knowledge'];
+    var saved = localStorage.getItem('site-style');
+    if (available.indexOf(saved) !== -1) {
+      document.documentElement.setAttribute('data-site-style', saved);
+    } else if (saved) {
+      localStorage.setItem('site-style', 'bento');
+    }
+  })();
+</script>
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://ahappyfun.github.io/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/game-art-style-layers.svg">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-01-cinematic-realism.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-02-stylized-realism.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-03-animation-3d.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-04-anime-cel.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-05-painterly-3d.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-06-graphic-comic.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-07-hand-drawn-2d.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-08-pixel-hd2d.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-09-low-poly.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-10-voxel.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-11-retro-3d.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-12-physical-miniature.png">
+<meta property="og:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/concept-art-research-flow.svg">
+<meta property="article:published_time" content="2026-08-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-08-31T07:45:09.010Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="游戏美术">
+<meta property="article:tag" content="美术风格">
+<meta property="article:tag" content="概念设计">
+<meta property="article:tag" content="Art Direction">
+<meta property="article:tag" content="视觉开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ahappyfun.github.io/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/game-art-style-layers.svg">
+
+  
+    <style id="cat-game-disabled">.cat-container,.cat-win-label{display:none!important}</style>
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body data-cat-game-enabled="false">
+  <a class="skip-link" href="#mainContent">跳到正文</a>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__brand" aria-label="锅巴的Blogs首页">
+      <span class="header__logo">锅巴的Blogs</span>
+      <span class="header__edition">MAKE · WRITE · SHARE</span>
+      <span class="knowledge-status" aria-hidden="true"><i></i><i></i><i></i></span>
+    </a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav" aria-label="主导航">
+      
+        
+        <a href="/" class="header__link">首页</a>
+      
+        
+        <a href="/tags/" class="header__link">标签</a>
+      
+        
+        <a href="/search/" class="header__link">搜索</a>
+      
+        
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      
+        <label class="style-picker" for="stylePicker">
+          <span class="sr-only">选择网站设计风格</span>
+          <select id="stylePicker" aria-label="网站设计风格">
+            <option value="bento">Bento</option>
+            <option value="knowledge">Knowledge OS</option>
+          </select>
+        </label>
+      
+      <button class="theme-toggle" id="themeToggle" aria-label="切换明暗模式">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="headerNav">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">分类</h3>
+      <div class="category-filter category-filter--sidebar" role="tablist" aria-label="按分类筛选">
+        <button type="button" class="category-filter__tab is-active" role="tab" aria-selected="true" data-category="all">
+          全部 <span class="category-filter__count">75</span>
+        </button>
+        
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="技术">
+            技术 <span class="category-filter__count">51</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Loy">
+            Loy <span class="category-filter__count">19</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Art">
+            Art <span class="category-filter__count">4</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="游戏">
+            游戏 <span class="category-filter__count">1</span>
+          </button>
+        
+      </div>
+    </div>
+
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 75 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+              
+              <div class="sidebar__year" data-year="2026">2026</div>
+            
+            <a href="/2026/09/06/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E6%80%BB%E6%8A%A4%E7%9D%80%E8%87%AA%E5%B7%B1%E4%BA%BA%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E8%AE%A4%E5%90%8C%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-05T16:00:00.000Z">09-06</time>
+              <span class="sidebar__post-title">Loy-为什么我们总护着自己人——社会认同理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/05/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%AC%AC%E4%B8%80%E5%8D%B0%E8%B1%A1%E5%A6%82%E6%AD%A4%E9%A1%BD%E5%9B%BA%E2%80%94%E2%80%94%E5%85%89%E7%8E%AF%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">Loy-为什么第一印象如此顽固——光环效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/04/Loy-%E7%BB%9D%E6%9C%9B%E6%98%AF%E8%A2%AB%E8%AE%AD%E7%BB%83%E5%87%BA%E6%9D%A5%E7%9A%84%E2%80%94%E2%80%94%E4%B9%A0%E5%BE%97%E6%80%A7%E6%97%A0%E5%8A%A9/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">Loy-绝望是被训练出来的——习得性无助</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Loy-GT7%E8%BD%A6%E8%BE%86%E8%B0%83%E6%95%99%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="游戏" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Loy-GT7 车辆调教指南</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Loy-%E8%AE%B0%E5%BF%86%E5%8F%AA%E8%AE%B0%E5%BE%97%E9%AB%98%E6%BD%AE%E5%92%8C%E7%BB%93%E5%B0%BE%E2%80%94%E2%80%94%E5%B3%B0%E7%BB%88%E5%AE%9A%E5%BE%8B/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Loy-记忆只记得高潮和结尾——峰终定律</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Loy-%E6%BB%A1%E8%B4%9F%E8%8D%B7%EF%BC%8C%E6%98%AF%E7%B3%BB%E7%BB%9F%E6%9C%80%E5%8D%B1%E9%99%A9%E7%9A%84%E6%97%B6%E5%88%BB%E2%80%94%E2%80%94%E6%8E%92%E9%98%9F%E8%AE%BA/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Loy-满负荷，是系统最危险的时刻——排队论</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Loy-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%95%B0%E5%AD%97%E5%A6%82%E4%BD%95%E6%93%8D%E7%BA%B5%E4%BD%A0%E2%80%94%E2%80%94%E9%94%9A%E5%AE%9A%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Loy-第一个数字如何操纵你——锚定效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Base-%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88%E6%BC%94%E8%BF%9B%E6%80%BB%E8%A7%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Base-渲染方案演进总览</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/UE4-RTGI/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">UE4-RTGI</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Unity-APV%E4%BD%93%E7%A7%AF%E6%8E%A2%E9%92%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Unity-APV体积探针</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8F100%E6%AF%94%E8%B5%9A200%E6%9B%B4%E7%96%BC%E2%80%94%E2%80%94%E6%8D%9F%E5%A4%B1%E5%8E%8C%E6%81%B6/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Loy-为什么亏100比赚200更疼——损失厌恶</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Loy-%E9%97%B2%E7%9D%80%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AF%94%E5%BF%99%E4%B8%80%E5%A4%A9%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E5%BF%83%E6%B5%81/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Loy-闲着为什么比忙一天还累——心流</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-1990%E8%87%B32026%E6%82%AC%E7%96%91%E7%94%B5%E5%BD%B1%E6%A6%9C%E5%8D%95/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-1990—2026 悬疑电影榜单</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-2015%E8%87%B32026%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1Top250/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-2015—2026 豆瓣电影 Top 250</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E9%81%93%E9%94%99%E4%B9%9F%E8%A6%81%E8%B7%9F%E7%9D%80%E8%AF%B4%E2%80%94%E2%80%94%E4%BB%8E%E4%BC%97/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-为什么明知道错也要跟着说——从众</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/" class="sidebar__item is-active" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-电子游戏美术风格体系——从视觉分类到概念原画研究</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E5%83%8F%E7%90%86%E8%A7%A3%E9%9F%B3%E4%B9%90%E6%B5%81%E6%B4%BE%E4%B8%80%E6%A0%B7%E7%90%86%E8%A7%A3%E7%BE%8E%E6%9C%AF%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-像理解音乐流派一样理解美术体系</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E4%B8%8D%E6%87%82%E8%B6%8A%E8%87%AA%E4%BF%A1%E2%80%94%E2%80%94%E8%BE%BE%E5%85%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Loy-为什么越不懂越自信——达克效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/29/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E8%B6%8A%E5%A4%9A%E8%B6%8A%E6%B2%A1%E4%BA%BA%E5%B8%AE%E5%BF%99%E2%80%94%E2%80%94%E6%97%81%E8%A7%82%E8%80%85%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-28T16:00:00.000Z">08-29</time>
+              <span class="sidebar__post-title">Loy-为什么人越多越没人帮忙——旁观者效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E4%BC%9A%E7%9B%B8%E4%BF%A1%E8%87%AA%E7%9B%B8%E7%9F%9B%E7%9B%BE%E7%9A%84%E4%BA%8B%E2%80%94%E2%80%94%E8%AE%A4%E7%9F%A5%E5%A4%B1%E8%B0%83/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Loy-为什么人会相信自相矛盾的事——认知失调</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E6%8A%95%E5%85%A5%E8%B6%8A%E9%9A%BE%E6%94%BE%E5%BC%83%E2%80%94%E2%80%94%E6%B2%89%E6%B2%A1%E6%88%90%E6%9C%AC%E8%B0%AC%E8%AF%AF/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Loy-为什么越投入越难放弃——沉没成本谬误</span>
+            </a>
+          
+            
+            <a href="/2026/08/26/Loy-%E4%BA%BA%E7%B1%BB%E7%A4%BE%E4%BC%9A%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%B1%BB%E5%9E%8B/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-25T16:00:00.000Z">08-26</time>
+              <span class="sidebar__post-title">Loy-人类社会中的工作类型</span>
+            </a>
+          
+            
+            <a href="/2026/08/21/Design-%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AARoguelike%E6%B8%B8%E6%88%8F/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-20T16:00:00.000Z">08-21</time>
+              <span class="sidebar__post-title">Design-如何开发一个Roguelike游戏</span>
+            </a>
+          
+            
+            <a href="/2026/08/20/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%B6%8A%E6%83%B3%E6%94%B9%E5%8F%98%E4%B8%80%E4%B8%AA%E4%BA%BA%E4%BB%96%E8%B6%8A%E4%B8%8D%E5%8F%98%E2%80%94%E2%80%94%E8%87%AA%E6%88%91%E5%86%B3%E5%AE%9A%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-19T16:00:00.000Z">08-20</time>
+              <span class="sidebar__post-title">Loy-为什么你越想改变一个人他越不变——自我决定理论</span>
+            </a>
+          
+            
+            <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-09T16:00:00.000Z">08-10</time>
+              <span class="sidebar__post-title">AI-把高质量画面训练成低配Shader的探索</span>
+            </a>
+          
+            
+            <a href="/2026/08/09/Unity-URP14%E5%8D%87%E7%BA%A7URP17-RenderFeature%E9%80%82%E9%85%8DRenderGraph/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-08T16:00:00.000Z">08-09</time>
+              <span class="sidebar__post-title">Unity-URP14升级URP17-RenderFeature适配RenderGraph</span>
+            </a>
+          
+            
+            <a href="/2026/08/03/Art-%E4%BA%91%E7%9A%84%E5%88%86%E7%B1%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-02T16:00:00.000Z">08-03</time>
+              <span class="sidebar__post-title">Art-云的分类——从国际云图集到观云识天</span>
+            </a>
+          
+            
+            <a href="/2026/07/29/Art-%E6%8E%92%E7%BA%BF%E6%8A%80%E6%B3%95%E5%8F%91%E5%B1%95%E5%8F%B2/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-28T16:00:00.000Z">07-29</time>
+              <span class="sidebar__post-title">Art-排线技法发展史</span>
+            </a>
+          
+            
+            <a href="/2026/07/02/DevTool-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-01T16:00:00.000Z">07-02</time>
+              <span class="sidebar__post-title">DevTool-主流跨平台桌面应用技术栈</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Loy-%E6%8A%8A%E7%9B%B4%E8%A7%89%E8%AE%AD%E7%BB%83%E6%88%90%E6%B8%85%E6%A5%9A%E8%A1%A8%E8%BE%BE/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Loy-把直觉训练成清楚表达</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2024">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2023">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            <a href="/2023/01/14/Base-TAA/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-01-13T16:00:00.000Z">01-14</time>
+              <span class="sidebar__post-title">Base-时域抗锯齿 TAA</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2022">2022</div>
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2022">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2021">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2020">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2019">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item" data-category="技术" data-year="2019">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2018">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item" data-category="Loy" data-year="2018">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+  <div class="sidebar-resizer" id="globalSidebarResizer" role="separator" aria-label="调整全局目录宽度" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="480" aria-valuenow="320" tabindex="0"></div>
+</aside>
+
+    <main class="main" id="mainContent" tabindex="-1">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-08-29T16:00:00.000Z">2026 年 8 月 30 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/Art/">Art</a>, 
+            
+              <a href="/categories/Art/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/">游戏开发</a>
+            
+          </span>
+        
+        
+          <span class="post__views" aria-label="文章阅读量">
+            阅读 <span id="busuanzi_page_pv" aria-live="polite">加载中…</span>
+          </span>
+        
+      </div>
+      <h1 class="post__title">Art-电子游戏美术风格体系——从视觉分类到概念原画研究</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF/" class="tag">#游戏美术</a>
+          
+            <a href="/tags/%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC/" class="tag">#美术风格</a>
+          
+            <a href="/tags/%E6%A6%82%E5%BF%B5%E8%AE%BE%E8%AE%A1/" class="tag">#概念设计</a>
+          
+            <a href="/tags/Art-Direction/" class="tag">#Art Direction</a>
+          
+            <a href="/tags/%E8%A7%86%E8%A7%89%E5%BC%80%E5%8F%91/" class="tag">#视觉开发</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <div class="post-toc__resizer" id="postTocResizer" role="separator" aria-label="调整文章目录宽度" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="420" aria-valuenow="280" tabindex="0"></div>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>上一篇文章梳理了古典主义、印象派、立体主义、抽象艺术等美术流派。来到电子游戏，分类会再次变得混乱：有人把“二次元”和“赛博朋克”并列，有人把“PBR”和“卡通风”当成对立面，也有人把低多边形、独立游戏、治愈系和手绘风混在同一张表里。</p>
+<p>这些词都能描述游戏，却不在同一个维度。</p>
+<p>《原神》可以同时是幻想题材、动漫造型、三维实时渲染、卡通光照和开放世界；《哈迪斯》可以同时是希腊神话题材、强轮廓插画语言、风格化三维角色与场景、等距视角和高对比战斗表现。只用一个“风格名”无法解释一款游戏的美术系统。</p>
+<p>在游戏开发中，仅仅了解“当前流行什么画风”并不足以指导生产。视觉方向还需要服务玩法，由概念原画建立明确规则，并允许团队按照这些规则持续生产资产。下文的分类将围绕这些问题展开。</p>
+<span id="more"></span>
+
+<h2 id="1-游戏美术风格不是一张截图，而是一套生产规则"><a href="#1-游戏美术风格不是一张截图，而是一套生产规则" class="headerlink" title="1. 游戏美术风格不是一张截图，而是一套生产规则"></a>1. 游戏美术风格不是一张截图，而是一套生产规则</h2><p>传统绘画可以由一张完成作品证明自身成立，游戏却是一个持续运行、不断响应玩家输入的视觉系统。角色转身、受击、进入阴影、换装备、走到不同场景，仍然要像同一个世界里的东西。</p>
+<p>所以游戏美术风格至少包含五层：</p>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>回答的问题</th>
+<th>常见例子</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>世界题材</td>
+<td>这是一个什么世界？</td>
+<td>暗黑幻想、赛博朋克、蒸汽朋克、末日、田园、太空歌剧</td>
+</tr>
+<tr>
+<td>视觉语言</td>
+<td>形、色、比例和细节怎样处理？</td>
+<td>写实、夸张、几何化、平面化、装饰性、粗粝、可爱化</td>
+</tr>
+<tr>
+<td>媒介形态</td>
+<td>图像以什么结构存在？</td>
+<td>2D 手绘、像素、Sprite、3D、体素、2.5D、实物扫描</td>
+</tr>
+<tr>
+<td>渲染与表面</td>
+<td>光和材质怎样呈现？</td>
+<td>PBR、卡通光照、手绘贴图、描边、笔触化、抖色、后处理</td>
+</tr>
+<tr>
+<td>游戏条件</td>
+<td>玩家实际怎样看和操作？</td>
+<td>第一人称、俯视角、横版、固定镜头、高速战斗、移动端</td>
+</tr>
+</tbody></table>
+<p>“赛博朋克”主要是世界题材；“低多边形”主要是形体语言和制作方式；“PBR”是材质与光照工作流；“二次元”通常混合了角色比例、线条、色彩和动画传统；“治愈系”更多描述情绪目标。它们可以任意组合，并不互斥。</p>
+<p>例如，一款游戏可以是：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">题材：东方幻想<br>视觉语言：风格化写实、修长比例、大形明确<br>媒介：全 3D<br>渲染：PBR 材质 + 卡通化光照 + 水墨后处理<br>游戏条件：第三人称动作、镜头较远、需要高速战斗可读性<br></code></pre></td></tr></table></figure>
+
+<p>这比“国风二次元”更能指导真正的制作。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/game-art-style-layers.svg" alt="电子游戏美术风格的五层结构"></p>
+<h2 id="2-先分清六组最容易混淆的概念"><a href="#2-先分清六组最容易混淆的概念" class="headerlink" title="2. 先分清六组最容易混淆的概念"></a>2. 先分清六组最容易混淆的概念</h2><h3 id="2-1-游戏类型不等于美术风格"><a href="#2-1-游戏类型不等于美术风格" class="headerlink" title="2.1 游戏类型不等于美术风格"></a>2.1 游戏类型不等于美术风格</h3><p>RPG、射击、卡牌、模拟经营描述玩法；暗黑、可爱、写实、像素描述视觉。玩法会限制美术，但不会自动决定美术。</p>
+<p>同样是第一人称射击，可以做成军事写实、复古像素、卡通夸张或超现实拼贴。同样是种田游戏，也可以使用像素、低模、手绘插画或写实三维。</p>
+<h3 id="2-2-题材不等于画风"><a href="#2-2-题材不等于画风" class="headerlink" title="2.2 题材不等于画风"></a>2.2 题材不等于画风</h3><p>“中世纪”“科幻”“东方幻想”“克苏鲁”告诉我们画什么，却没有说明怎样画。</p>
+<p>一个中世纪世界可以使用历史写实，也可以像儿童绘本、版画、低模玩具或哥特漫画。做概念研究时，题材参考负责回答服装、建筑、技术与文化；风格参考负责回答比例、形状、颜色、边缘和材质。把两者分开，参考库才不会变成一堆相似截图。</p>
+<h3 id="2-3-PBR-不等于写实"><a href="#2-3-PBR-不等于写实" class="headerlink" title="2.3 PBR 不等于写实"></a>2.3 PBR 不等于写实</h3><p>PBR（Physically Based Rendering）是一套让材质参数和光照反应保持相对一致的工作方法，不是一种固定画风。夸张角色、卡通建筑和手绘色块同样可以使用金属度、粗糙度和环境光照。</p>
+<p>《Agents of Mayhem》的 GDC 分享就专门讨论了如何在风格化开放世界中使用 PBR。决定作品是否写实的，不只是着色模型，还包括比例、轮廓、材质频率、颜色选择、光照和动画。</p>
+<h3 id="2-4-卡通渲染不等于动漫风格"><a href="#2-4-卡通渲染不等于动漫风格" class="headerlink" title="2.4 卡通渲染不等于动漫风格"></a>2.4 卡通渲染不等于动漫风格</h3><p>卡通渲染（Toon&#x2F;Cel Shading）是把连续光照压缩成色阶、描边或设计过的明暗形状。动漫风格还包含脸部比例、五官、头发分组、姿势、镜头、关键帧和二维动画的时间规则。</p>
+<p>一个写实比例的角色也可以使用卡通光照；一个动漫造型角色如果使用柔和 PBR 和写实材质，也不一定呈现传统赛璐璐动画效果。</p>
+<h3 id="2-5-手绘贴图不等于手绘游戏"><a href="#2-5-手绘贴图不等于手绘游戏" class="headerlink" title="2.5 手绘贴图不等于手绘游戏"></a>2.5 手绘贴图不等于手绘游戏</h3><p>“手绘贴图”通常指颜色、明暗或材质信息由美术直接画进纹理；“手绘游戏”可能指整套二维角色、场景和动画都由绘画构成。前者仍然可能是全 3D 游戏，后者则要面对 Sprite、分层、骨骼或逐帧动画的生产问题。</p>
+<h3 id="2-6-低保真不等于低质量"><a href="#2-6-低保真不等于低质量" class="headerlink" title="2.6 低保真不等于低质量"></a>2.6 低保真不等于低质量</h3><p>像素抖动、低分辨率贴图、顶点抖动、有限色板和低面数，过去可能是硬件限制，现在也可以是主动选择。复古 3D 的关键是稳定规则，而不是随便把高质量画面做糊。</p>
+<p>真正成立的低保真风格，会明确哪些东西省略、哪些东西必须夸张，以及现代光照、后处理和交互反馈保留到什么程度。</p>
+<h2 id="3-当前常见风格一：电影化写实"><a href="#3-当前常见风格一：电影化写实" class="headerlink" title="3. 当前常见风格一：电影化写实"></a>3. 当前常见风格一：电影化写实</h2><p>电影化写实追求可信的人体、材料、光照、天气、摄影机和表演，常见于大型叙事动作、射击、竞速和体育游戏。</p>
+<blockquote>
+<p>为了让差异更容易比较，下面十二张图统一使用“旅行者走向山顶观星遗迹”这一母题，仅改变造型、媒介、材质和渲染规则。它们是原创风格示意图，不是具体游戏截图，也不代表某种风格只有一种画法。</p>
+</blockquote>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-01-cinematic-realism.png" alt="电影化写实示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 01：电影化写实。观察可信尺度、物理材质、天气、镜头纵深与克制的电影调色。</em></p>
+<p>它不只是“模型面数很高”。完整系统通常包括：</p>
+<ul>
+<li>接近真实的人体比例、解剖、布料和运动；</li>
+<li>基于扫描或高精度雕刻的材质细节；</li>
+<li>物理一致的光照、曝光、镜头和色彩管理；</li>
+<li>表演捕捉、面部动画和细微的身体反馈；</li>
+<li>大量环境叙事，让磨损、污渍和物件摆放解释世界。</li>
+</ul>
+<p>电影化写实的优势是代入感强、材质语义直观，也容易借用电影摄影语言。它的代价是资产成本极高，任何一个环节不匹配都会暴露问题：写实脸配僵硬动画、真实材质配错误尺度、精细场景配缺乏逻辑的摆放，都会进入“越真实越容易穿帮”的区域。</p>
+<p>概念原画研究重点：摄影构图、真实材质、服装结构、建筑与工业设计、光色脚本、镜头叙事，以及“哪些细节真正能进入游戏资产”。</p>
+<h2 id="4-当前常见风格二：风格化写实"><a href="#4-当前常见风格二：风格化写实" class="headerlink" title="4. 当前常见风格二：风格化写实"></a>4. 当前常见风格二：风格化写实</h2><p>风格化写实（Stylized Realism）保留体积、材质和空间可信度，同时主动修改现实比例与细节频率。它是今天覆盖范围最广的一类，从轻度理想化的人物到高度夸张的英雄造型都可以落在这里。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-02-stylized-realism.png" alt="风格化写实示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 02：风格化写实。观察被放大的建筑轮廓、经过合并的细节，以及仍然可信的体积和材质。</em></p>
+<p>常见手法包括：</p>
+<ul>
+<li>人体和建筑仍可相信，但头、手、肩、武器或门窗比例被强化；</li>
+<li>大形准确，小细节被合并成清晰分组；</li>
+<li>材质遵守基本反光逻辑，但颜色、粗糙度和磨损经过设计；</li>
+<li>光照拥有真实体积，同时允许局部补光和非物理颜色；</li>
+<li>动画强调节奏、轮廓和姿势，不完全服从真实惯性。</li>
+</ul>
+<p>它比电影化写实更容易建立 IP 识别度，也更能抵抗技术老化。但“风格化”不等于随意变形：团队必须共享一套比例、曲率、边缘、材质和细节密度规则，否则每个资产都会像来自不同游戏。</p>
+<p>概念原画研究重点：从现实参考中提炼什么、夸张什么、删除什么；同一形状语言如何跨角色、建筑、载具和道具复用。</p>
+<h2 id="5-当前常见风格三：动画电影式三维卡通"><a href="#5-当前常见风格三：动画电影式三维卡通" class="headerlink" title="5. 当前常见风格三：动画电影式三维卡通"></a>5. 当前常见风格三：动画电影式三维卡通</h2><p>这类风格接近三维动画电影：大轮廓、强表情、清楚的角色比例、柔和但有设计感的材质，以及高度服务动作的变形。常见于平台跳跃、家庭向冒险、派对和轻动作游戏。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-03-animation-3d.png" alt="动画电影式三维卡通示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 03：动画电影式三维卡通。观察圆润体块、玩具般的材质、明快色彩与亲和的轮廓节奏。</em></p>
+<p>它与风格化写实的区别不在于“更可爱”，而在于整个世界更服从动画原则：轮廓可以随镜头调整，身体可以拉伸，表情和姿势优先于解剖，材质也更像经过艺术指导的电影布景。</p>
+<p>概念阶段不能只画正面角色。需要同时验证：</p>
+<ul>
+<li>角色在远距离是否只凭轮廓就能识别；</li>
+<li>四分之三视角和背面是否仍然成立；</li>
+<li>表情区间能否支持剧情与玩法；</li>
+<li>夸张武器和服装是否妨碍动作；</li>
+<li>环境形状能否与角色共享同一种“软、硬、圆、尖”语法。</li>
+</ul>
+<h2 id="6-当前常见风格四：动漫造型与-3D-赛璐璐"><a href="#6-当前常见风格四：动漫造型与-3D-赛璐璐" class="headerlink" title="6. 当前常见风格四：动漫造型与 3D 赛璐璐"></a>6. 当前常见风格四：动漫造型与 3D 赛璐璐</h2><p>这类游戏用三维资产重建二维动画观感。典型技术包括色阶阴影、脸部专用光照、描边、法线编辑、局部阴影控制，以及有意减少插值的动画。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-04-anime-cel.png" alt="动漫造型与三维赛璐璐示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 04：动漫造型与 3D 赛璐璐。观察硬边色阶、轮廓线、平面化云层与英雄式对角构图。</em></p>
+<p>《Guilty Gear Xrd》的制作分享揭示了一个重要事实：要让 3D 看起来像高质量 2D，并不是加一个卡通 Shader 就完成了。团队还需要处理模型透视、轮廓、阴影形状、镜头限定和逐帧姿势，有时甚至主动破坏三维模型在其他角度下的正确性，只为保证当前画面像一张优秀动画原画。</p>
+<p>这个方向可以继续分成几种倾向：</p>
+<ul>
+<li><strong>二维动画复现型</strong>：强调线条、色块和关键姿势；</li>
+<li><strong>动漫 PBR 混合型</strong>：角色造型偏动漫，场景与材质保留更多体积；</li>
+<li><strong>插画化角色型</strong>：使用渐变、图案、特殊高光和后处理接近宣传插画；</li>
+<li><strong>漫画表现型</strong>：加入速度线、网点、拟声字、分镜和夸张透视。</li>
+</ul>
+<p>概念原画研究重点：脸部与头发分组、色块与阴影形状、线条粗细、关键姿势、镜头角度，以及角色在明暗和特效中如何保持面部可读性。</p>
+<h2 id="7-当前常见风格五：绘画感三维与手绘材质"><a href="#7-当前常见风格五：绘画感三维与手绘材质" class="headerlink" title="7. 当前常见风格五：绘画感三维与手绘材质"></a>7. 当前常见风格五：绘画感三维与手绘材质</h2><p>绘画感三维（Painterly 3D）试图让实时画面保留画笔组织出来的色块、边缘和材质，而不是追求相机式均匀记录。《Diablo III》的美术方向就强调利用固定镜头建立风格化、绘画性的世界，同时服务战斗可读性。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-05-painterly-3d.png" alt="绘画感三维与手绘材质示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 05：绘画感三维与手绘材质。观察笔触化表面、概括的材质纹理、边缘控制与成组的冷暖色块。</em></p>
+<p>常见方法有：</p>
+<ul>
+<li>手绘或半手绘基础色，主动控制明暗和色彩变化；</li>
+<li>把石头、木材、皮革的纹理概括成方向明确的笔触；</li>
+<li>减少高频照片噪声，以大色块区分前中后景；</li>
+<li>用粗糙度、法线和边缘高光保留体积，而不让材质变得照片化；</li>
+<li>使用笔触化后处理、色阶或特殊阴影进一步统一画面。</li>
+</ul>
+<p>这个风格很适合幻想、俯视动作和叙事冒险，但难点是保持跨资产一致。概念画如果只有漂亮的气氛笔触，没有可拆解的材质规则，三维团队很难复现。</p>
+<p>概念原画研究重点：边缘控制、色块层级、笔触方向、材质概括，以及怎样把二维画法翻译成 Base Color、Roughness、Normal 与灯光。</p>
+<h2 id="8-当前常见风格六：平面图形、漫画与海报化设计"><a href="#8-当前常见风格六：平面图形、漫画与海报化设计" class="headerlink" title="8. 当前常见风格六：平面图形、漫画与海报化设计"></a>8. 当前常见风格六：平面图形、漫画与海报化设计</h2><p>这类风格把平面设计原则直接带入游戏：高对比色块、符号、字体、构成、网点、纸张纹理和大胆裁切。UI 不再是覆盖在世界上的操作层，而可能和角色、场景、转场、战斗反馈属于同一个视觉系统。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-06-graphic-comic.png" alt="平面图形漫画与海报化设计示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 06：平面图形、漫画与海报化设计。观察四色限制、粗黑形状、网点纹理和由负形主导的构成。</em></p>
+<p>它的优势是识别度极强，也适合节奏、卡牌、叙事和强调态度的作品。难点在于整套系统必须统一：如果游戏内画面很大胆，菜单却使用普通系统面板，风格会立刻断开。</p>
+<p>概念原画研究重点：版式、字体、负形、有限色板、符号系统、转场和动态平面设计。研究对象不应只有游戏截图，还应包括海报、漫画、杂志、唱片封面和动态图形设计。</p>
+<h2 id="9-当前常见风格七：高分辨率二维手绘"><a href="#9-当前常见风格七：高分辨率二维手绘" class="headerlink" title="9. 当前常见风格七：高分辨率二维手绘"></a>9. 当前常见风格七：高分辨率二维手绘</h2><p>二维手绘可以表现绘本、传统动画、漫画、版画、水彩、剪纸等大量语言。它看似绕开三维建模，实际成本往往转移到了分层、动画、贴图尺寸和修改管理上。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-07-hand-drawn-2d.png" alt="高分辨率二维手绘示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 07：高分辨率二维手绘。观察可见线稿、水彩铺色、纸面般的不均匀，以及适合视差拆分的前中后景。</em></p>
+<p>Unity 的《Minute of Islands》案例中，团队为保持真正的插画观感，先把关卡画成巨大的完整图像，再切分成 4K 资源。《Cookie Cutter》则要管理两千多张 Sprite Sheet 和大量二维灯光。二维不天然便宜，逐帧动画尤其是内容成本极高的选择。</p>
+<p>常见子类包括：</p>
+<ul>
+<li>传统逐帧动画；</li>
+<li>骨骼驱动的分层角色；</li>
+<li>绘本式静态画面加局部运动；</li>
+<li>高分辨率横版手绘；</li>
+<li>纸片、版画、拼贴和扫描素材。</li>
+</ul>
+<p>概念原画研究重点：线条是否能够动画化、角色如何拆件、背景怎样分层、镜头移动会暴露哪些空白，以及同一资产要支持多少动作和状态。</p>
+<h2 id="10-当前常见风格八：像素艺术与-HD-2D-混合"><a href="#10-当前常见风格八：像素艺术与-HD-2D-混合" class="headerlink" title="10. 当前常见风格八：像素艺术与 HD-2D 混合"></a>10. 当前常见风格八：像素艺术与 HD-2D 混合</h2><p>像素艺术不是“把图片缩小”，而是一套以像素网格为单位的形状、色板和动画语言。有限分辨率要求艺术家用最少信息建立轮廓、材质和动作节奏。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-08-pixel-hd2d.png" alt="像素艺术与HD-2D混合示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 08：像素艺术与 HD-2D 混合。观察统一像素网格、有限色板与现代景深、体积光和分层空间的结合。</em></p>
+<p>成熟像素风会明确：</p>
+<ul>
+<li>基础分辨率与每单位像素密度；</li>
+<li>色板数量及明暗分组；</li>
+<li>轮廓线是否存在、是否染色；</li>
+<li>子像素运动怎样处理；</li>
+<li>Sprite 的比例、帧数和特效像素是否统一；</li>
+<li>不同屏幕比例与缩放下怎样保持清晰。</li>
+</ul>
+<p>所谓 HD-2D 通常指像素角色与三维场景、景深、体积光、粒子和现代后处理的混合；它更接近一种商业化视觉方案，而不是统一技术标准。混合的难点是避免现代效果吞掉像素主体：景深过强、Bloom 过亮或材质频率不一致，都会使角色难以阅读。</p>
+<p>概念原画研究重点：先做原生分辨率下的轮廓和动作，不要只在放大后的像素画上研究细节；同时验证灯光、特效和背景对主体的干扰。</p>
+<h2 id="11-当前常见风格九：低多边形与几何极简"><a href="#11-当前常见风格九：低多边形与几何极简" class="headerlink" title="11. 当前常见风格九：低多边形与几何极简"></a>11. 当前常见风格九：低多边形与几何极简</h2><p>低多边形（Low Poly）曾经是性能限制，现在更多是一种主动的形状选择。它通过有限切面、明确体块、少量材质和色彩渐变，制造干净、宁静、抽象或玩具般的世界。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-09-low-poly.png" alt="低多边形与几何极简示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 09：低多边形与几何极简。观察切面直接参与明暗、极少的表面纹理，以及依靠比例和色块建立的空间。</em></p>
+<p>好的低模作品并不是“减少面数”，而是决定每条边放在哪里。面片方向会直接参与明暗，轮廓的每个折点也会变得重要。模型虽然简单，构图、色彩和光照反而更不能含糊。</p>
+<p>几何极简适合小团队、移动端、策略、解谜与氛围体验，但资产便宜不代表美术指导简单。缺少细节以后，比例错误、节奏重复和颜色混乱会更加明显。</p>
+<p>概念原画研究重点：体块、剪影、比例、负形、有限色板，以及同一物体应该保留哪三个最有辨识度的特征。</p>
+<h2 id="12-当前常见风格十：体素与方块世界"><a href="#12-当前常见风格十：体素与方块世界" class="headerlink" title="12. 当前常见风格十：体素与方块世界"></a>12. 当前常见风格十：体素与方块世界</h2><p>体素（Voxel）以三维网格中的体积单元构成形体。它可以呈现硬边方块，也可以结合平滑法线、柔和光照和后处理形成“软体素”观感。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-10-voxel.png" alt="体素与方块世界示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 10：体素与方块世界。观察统一方块尺度、阶梯状轮廓、模块化建筑，以及光照对密集体素的整理。</em></p>
+<p>体素的优势是模块化强、制作直观，天然适合建造、破坏和程序生成。但屏幕复杂度很容易失控：每个物体都有密集小方块时，远景会变成噪声。Rōnin Trail 的开发者就通过低模转换和柔和法线减轻体素边缘造成的繁忙感。</p>
+<p>概念原画研究重点：体素尺寸、层级、轮廓阶梯、颜色分组，以及可破坏或可搭建规则如何改变造型。</p>
+<h2 id="13-当前常见风格十一：复古三维与-PS1-式低保真"><a href="#13-当前常见风格十一：复古三维与-PS1-式低保真" class="headerlink" title="13. 当前常见风格十一：复古三维与 PS1 式低保真"></a>13. 当前常见风格十一：复古三维与 PS1 式低保真</h2><p>复古三维主动引用早期主机和 PC 的视觉限制：低面数、像素贴图、有限色板、抖色、雾、短视距、仿射纹理和顶点抖动。近年的作品常把它与现代动态光照、粒子、后处理和流畅控制结合，形成“记忆中的旧游戏”，而不是严格模拟某台硬件。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-11-retro-3d.png" alt="复古三维与PS1式低保真示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 11：复古三维与 PS1 式低保真。观察极低面数、低分辨率贴图、抖色、短视距和带黑边的 4:3 画面。</em></p>
+<p>《Kvark》的小团队使用低模、像素贴图配合现代灯光；《KILL KNIGHT》的团队则把目标描述成“未来人回到过去做出的游戏”，同时强调高速战斗中的轮廓、明度区间、VFX 与 UI 可读性。</p>
+<p>这类风格尤其适合恐怖、射击和小团队项目，因为低精度会留下想象空间，也能降低部分资产成本。但它很容易退化为滤镜：如果角色比例、贴图频率、动画和界面没有共同规则，只加像素化和抖动不会形成可信的时代感。</p>
+<p>概念原画研究重点：具体参考哪一代硬件、保留哪些限制、现代效果开放到什么程度，以及低分辨率下的价值分组。</p>
+<h2 id="14-当前常见风格十二：实物、定格、黏土与微缩景观"><a href="#14-当前常见风格十二：实物、定格、黏土与微缩景观" class="headerlink" title="14. 当前常见风格十二：实物、定格、黏土与微缩景观"></a>14. 当前常见风格十二：实物、定格、黏土与微缩景观</h2><p>有些游戏直接把物理材料带进数字世界：黏土、纸片、羊毛、木偶、版画、模型和微缩景观。它们可以由真实实物拍摄或扫描，也可以在三维中模拟手工材料的不完美。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/style-12-physical-miniature.png" alt="实物定格黏土与微缩景观示例：旅行者走向山顶观星遗迹"></p>
+<p><em>同题对照 12：实物、定格、黏土与微缩景观。观察黏土指痕、纸板与棉花材质、舞台灯光和微缩摄影景深。</em></p>
+<p>《Fantasian》制作了 150 多个真实微缩场景，再通过摄影测量、投影与三维角色组合。这个案例说明，独特视觉并不自动等于低成本：真实模型难以像普通三维场景那样随时修改，玩法和镜头反而要适应固定布景。</p>
+<p>概念原画研究重点：材料实验、制作痕迹、尺度感、景深、灯光，以及物理制作与数字修改之间的边界。对这种方向来说，做一个纸片、黏土或模型小样，往往比画十张精致概念图更有价值。</p>
+<h2 id="15-十二种风格放在一张地图里"><a href="#15-十二种风格放在一张地图里" class="headerlink" title="15. 十二种风格放在一张地图里"></a>15. 十二种风格放在一张地图里</h2><p>这些类型不是互斥选项，而是方便研究的“视觉家族”。真实项目经常处于它们之间：</p>
+<p>下面的作品只用于快速建立视觉坐标，不表示它们只能属于一个类别：</p>
+<table>
+<thead>
+<tr>
+<th>风格家族</th>
+<th>可用于定位的代表作品</th>
+<th>第一眼先观察什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>电影化写实</td>
+<td>《最后生还者 Part II》《死亡搁浅》《荒野大镖客：救赎 2》《Alan Wake 2》</td>
+<td>人体、材质、表演、摄影与环境叙事</td>
+</tr>
+<tr>
+<td>风格化写实</td>
+<td>《守望先锋》《堡垒之夜》《耻辱》《Dota 2》</td>
+<td>真实体积如何被比例、轮廓和颜色重新设计</td>
+</tr>
+<tr>
+<td>动画式三维</td>
+<td>《瑞奇与叮当：时空跳转》《超级马力欧 奥德赛》《双人成行》《麻布仔大冒险》</td>
+<td>表情、姿势、拉伸和动画友好的形体</td>
+</tr>
+<tr>
+<td>动漫 &#x2F; 赛璐璐</td>
+<td>《Guilty Gear Strive》《原神》《龙珠斗士 Z》《Hi-Fi Rush》</td>
+<td>脸部光照、描边、色影、关键姿势与漫画效果</td>
+</tr>
+<tr>
+<td>绘画感三维</td>
+<td>《Diablo III》《Sea of Thieves》《Darksiders》《Torchlight II》</td>
+<td>笔触化材质、大色块与细节频率</td>
+</tr>
+<tr>
+<td>平面 &#x2F; 漫画</td>
+<td>《Persona 5》《Sayonara Wild Hearts》《The World Ends with You》《Dicey Dungeons》</td>
+<td>版式、字体、符号、UI 与世界是否一体</td>
+</tr>
+<tr>
+<td>二维手绘</td>
+<td>《Cuphead》《Hollow Knight》《Ori》《GRIS》《Minute of Islands》</td>
+<td>线条、分层、逐帧或骨骼动画方式</td>
+</tr>
+<tr>
+<td>像素 &#x2F; HD-2D</td>
+<td>《Celeste》《Dead Cells》《Blasphemous》《Octopath Traveler》</td>
+<td>原生分辨率、色板、轮廓和现代灯光的边界</td>
+</tr>
+<tr>
+<td>低模 &#x2F; 极简</td>
+<td>《Journey》《A Short Hike》《Monument Valley》《Lonely Mountains: Downhill》</td>
+<td>每个折面、负形和有限色板承担的作用</td>
+</tr>
+<tr>
+<td>体素</td>
+<td>《Minecraft》《Teardown》《Bonfire Peaks》《Rōnin Trail》</td>
+<td>方块尺度、模块规则与画面噪声控制</td>
+</tr>
+<tr>
+<td>复古三维</td>
+<td>《DUSK》《Crow Country》《KILL KNIGHT》《Kvark》</td>
+<td>旧硬件限制和现代灯光反馈怎样混合</td>
+</tr>
+<tr>
+<td>实物 &#x2F; 微缩</td>
+<td>《Fantasian》《Harold Halibut》《The Neverhood》</td>
+<td>材料痕迹、景深、灯光和物理制作流程</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>风格家族</th>
+<th>主要优势</th>
+<th>主要成本</th>
+<th>适合优先研究的基础</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>电影化写实</td>
+<td>代入、表演、材质可信度</td>
+<td>扫描、资产、动画、灯光成本极高</td>
+<td>摄影、解剖、材质、镜头</td>
+</tr>
+<tr>
+<td>风格化写实</td>
+<td>IP 识别、耐看、适配面广</td>
+<td>需要严格风格规范</td>
+<td>形状语言、比例、材质概括</td>
+</tr>
+<tr>
+<td>动画式三维</td>
+<td>表情与动作感染力强</td>
+<td>角色、绑定与动画要求高</td>
+<td>动画原则、轮廓、表情</td>
+</tr>
+<tr>
+<td>动漫 &#x2F; 赛璐璐</td>
+<td>角色吸引力、插画一致性</td>
+<td>角度、阴影和动画需专项处理</td>
+<td>线条、色影、关键姿势</td>
+</tr>
+<tr>
+<td>绘画感三维</td>
+<td>氛围统一、幻想表现强</td>
+<td>跨资产笔触难统一</td>
+<td>色块、边缘、手绘材质</td>
+</tr>
+<tr>
+<td>平面 &#x2F; 漫画</td>
+<td>品牌识别度极高</td>
+<td>UI、转场、世界必须统一</td>
+<td>构成、字体、符号、动态图形</td>
+</tr>
+<tr>
+<td>二维手绘</td>
+<td>媒介表现自由</td>
+<td>分层、逐帧动画、内存</td>
+<td>线条、分镜、拆件、动画</td>
+</tr>
+<tr>
+<td>像素 &#x2F; HD-2D</td>
+<td>清晰、复古、适合小画幅</td>
+<td>像素规范与动画劳动密集</td>
+<td>网格、色板、帧动画</td>
+</tr>
+<tr>
+<td>低模 &#x2F; 极简</td>
+<td>资产相对轻、轮廓鲜明</td>
+<td>对构图和颜色要求更高</td>
+<td>体块、负形、有限色板</td>
+</tr>
+<tr>
+<td>体素</td>
+<td>模块化、建造与破坏自然</td>
+<td>容易产生画面噪声</td>
+<td>网格层级、色块、程序规则</td>
+</tr>
+<tr>
+<td>复古三维</td>
+<td>氛围强、小团队可控</td>
+<td>很容易只剩滤镜</td>
+<td>低分辨率构成、时代限制</td>
+</tr>
+<tr>
+<td>实物 &#x2F; 微缩</td>
+<td>材料质感独一无二</td>
+<td>物理制作和修改成本</td>
+<td>材料实验、摄影、灯光</td>
+</tr>
+</tbody></table>
+<h2 id="16-“暗黑、治愈、赛博朋克”应该放在哪里"><a href="#16-“暗黑、治愈、赛博朋克”应该放在哪里" class="headerlink" title="16. “暗黑、治愈、赛博朋克”应该放在哪里"></a>16. “暗黑、治愈、赛博朋克”应该放在哪里</h2><p>这些高频词更适合作为<strong>主题与情绪层</strong>，再与前面的风格家族组合。</p>
+<table>
+<thead>
+<tr>
+<th>主题或情绪</th>
+<th>可以组合的风格示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>暗黑幻想</td>
+<td>电影化写实、绘画感三维、像素、哥特漫画、复古三维</td>
+</tr>
+<tr>
+<td>赛博朋克</td>
+<td>写实 PBR、动漫赛璐璐、像素霓虹、低模极简、平面图形</td>
+</tr>
+<tr>
+<td>治愈 &#x2F; Cozy</td>
+<td>动画式三维、绘本手绘、低模、像素、黏土微缩</td>
+</tr>
+<tr>
+<td>东方幻想</td>
+<td>风格化写实、动漫混合、水墨后处理、剪纸、像素</td>
+</tr>
+<tr>
+<td>恐怖</td>
+<td>写实、复古三维、黑白漫画、实物定格、超现实拼贴</td>
+</tr>
+<tr>
+<td>太空科幻</td>
+<td>工业写实、复古未来主义、几何极简、动漫、体素</td>
+</tr>
+</tbody></table>
+<p>所以概念立项不要只写“暗黑风”或“治愈风”。至少要写成：</p>
+<blockquote>
+<p>治愈题材 × 低多边形三维 × 柔和 PBR × 等距固定镜头 × 低对比环境与高对比交互物。</p>
+</blockquote>
+<p>这句话已经开始具备生产意义。</p>
+<h2 id="17-游戏美术最终要服务三件事：识别、操作和情绪"><a href="#17-游戏美术最终要服务三件事：识别、操作和情绪" class="headerlink" title="17. 游戏美术最终要服务三件事：识别、操作和情绪"></a>17. 游戏美术最终要服务三件事：识别、操作和情绪</h2><p>一张概念图可以让人停下来细看，游戏画面通常只有零点几秒传递信息。无论选择哪种风格，都必须同时解决三类目标。</p>
+<h3 id="17-1-识别：我看到了什么"><a href="#17-1-识别：我看到了什么" class="headerlink" title="17.1 识别：我看到了什么"></a>17.1 识别：我看到了什么</h3><p>角色职业、敌我关系、材质、距离、道路、危险和可互动物必须被快速识别。轮廓、大中小形、明度分组和颜色编码比装饰细节更早生效。</p>
+<h3 id="17-2-操作：我下一步能做什么"><a href="#17-2-操作：我下一步能做什么" class="headerlink" title="17.2 操作：我下一步能做什么"></a>17.2 操作：我下一步能做什么</h3><p>攀爬边缘、掩体、攻击范围、落点、拾取物、伤害区和 UI 反馈都属于美术系统。游戏中的“漂亮”不能持续掩盖“可操作”。高速动作游戏尤其需要限制背景对比、区分 VFX 语言，并为角色留出视觉空间。</p>
+<h3 id="17-3-情绪：这个世界让我怎样感受"><a href="#17-3-情绪：这个世界让我怎样感受" class="headerlink" title="17.3 情绪：这个世界让我怎样感受"></a>17.3 情绪：这个世界让我怎样感受</h3><p>比例、光色、天气、材质、运动和声音共同制造压迫、轻松、神秘、速度或孤独。情绪不是最后套一张 LUT，而应该进入建筑高度、路径宽度、角色姿态和动画节奏。</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">风格成立 = 视觉识别 + 玩法可读 + 情绪一致 + 可持续生产<br></code></pre></td></tr></table></figure>
+
+<p>缺少最后一项时，它可能是一张好看的概念画，却不是可用的游戏美术方向。</p>
+<h2 id="18-概念原画在游戏开发中究竟交付什么"><a href="#18-概念原画在游戏开发中究竟交付什么" class="headerlink" title="18. 概念原画在游戏开发中究竟交付什么"></a>18. 概念原画在游戏开发中究竟交付什么</h2><p>概念原画不是项目早期的宣传画部门。它的核心职责是<strong>在昂贵生产开始前解决视觉问题</strong>。</p>
+<h3 id="18-1-风格探索图"><a href="#18-1-风格探索图" class="headerlink" title="18.1 风格探索图"></a>18.1 风格探索图</h3><p>快速测试不同形状、比例、色板、材质和渲染倾向。重点是比较方案，不是把第一张画磨到完成。</p>
+<h3 id="18-2-Keyframe-与气氛图"><a href="#18-2-Keyframe-与气氛图" class="headerlink" title="18.2 Keyframe 与气氛图"></a>18.2 Keyframe 与气氛图</h3><p>用关键场面定义镜头、尺度、光色、叙事情绪和玩家体验。它回答“玩到这里应该是什么感觉”，但不能替代资产设计。</p>
+<h3 id="18-3-角色设计"><a href="#18-3-角色设计" class="headerlink" title="18.3 角色设计"></a>18.3 角色设计</h3><p>包括剪影、比例、服装逻辑、道具、材质、色彩、表情、动作、三视图与细节拆解。角色概念要同时考虑动画、碰撞、镜头距离和换装系统。</p>
+<h3 id="18-4-环境与世界设计"><a href="#18-4-环境与世界设计" class="headerlink" title="18.4 环境与世界设计"></a>18.4 环境与世界设计</h3><p>不仅画一张宏大场景，还要定义建筑语法、道路、尺度、模块、地标、材质、植被、气候和生活痕迹。环境概念最终要能被拆成关卡模块和资产清单。</p>
+<h3 id="18-5-道具、载具与交互物"><a href="#18-5-道具、载具与交互物" class="headerlink" title="18.5 道具、载具与交互物"></a>18.5 道具、载具与交互物</h3><p>说明功能、结构、开启方式、磨损、尺寸和使用姿势。真正有用的道具概念能让三维、动画、特效和程序理解它如何工作。</p>
+<h3 id="18-6-色彩脚本与光照脚本"><a href="#18-6-色彩脚本与光照脚本" class="headerlink" title="18.6 色彩脚本与光照脚本"></a>18.6 色彩脚本与光照脚本</h3><p>把关卡流程、剧情节点或昼夜变化排列成一组小图，控制情绪如何随时间变化，也帮助避免所有场景都使用同一种“漂亮氛围”。</p>
+<h3 id="18-7-UI-与-VFX-视觉语言"><a href="#18-7-UI-与-VFX-视觉语言" class="headerlink" title="18.7 UI 与 VFX 视觉语言"></a>18.7 UI 与 VFX 视觉语言</h3><p>交互界面、图标、技能形状、元素属性、攻击预警和命中特效应与世界使用同一套形状和颜色逻辑。它们不是项目最后才补的装饰层。</p>
+<p><img src="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/concept-art-research-flow.svg" alt="从风格探索到可生产概念设计的工作链路"></p>
+<h2 id="19-研究概念原画时，用十个维度拆图"><a href="#19-研究概念原画时，用十个维度拆图" class="headerlink" title="19. 研究概念原画时，用十个维度拆图"></a>19. 研究概念原画时，用十个维度拆图</h2><p>以后看到一张喜欢的游戏概念图，不要只保存并写下“氛围很好”。至少从十个维度分析：</p>
+<ol>
+<li><strong>轮廓</strong>：缩成纯黑以后还能识别什么？</li>
+<li><strong>形状语言</strong>：圆、方、三角、长短、软硬怎样分配？</li>
+<li><strong>比例</strong>：哪些部分被放大、压缩或拉长？</li>
+<li><strong>明度结构</strong>：主体、背景、交互区域如何分组？</li>
+<li><strong>色彩系统</strong>：主色、辅助色、强调色分别承担什么功能？</li>
+<li><strong>边缘与线条</strong>：硬边、软边、描边和笔触怎样引导视线？</li>
+<li><strong>材质频率</strong>：细节集中在哪里，哪里主动留白？</li>
+<li><strong>构图与镜头</strong>：这是宣传视角，还是玩家实际视角？</li>
+<li><strong>世界逻辑</strong>：形状是否来自文化、技术、气候和使用方式？</li>
+<li><strong>生产翻译</strong>：它要怎样变成模型、贴图、Shader、动画、灯光和特效？</li>
+</ol>
+<p>最后一问最能区分插画欣赏与游戏概念研究。</p>
+<h2 id="20-建立参考库：不要只收“像最终答案的图”"><a href="#20-建立参考库：不要只收“像最终答案的图”" class="headerlink" title="20. 建立参考库：不要只收“像最终答案的图”"></a>20. 建立参考库：不要只收“像最终答案的图”</h2><p>一个有效参考库应按问题分栏，而不是把同类游戏截图堆在一起。</p>
+<h3 id="20-1-现实资料"><a href="#20-1-现实资料" class="headerlink" title="20.1 现实资料"></a>20.1 现实资料</h3><p>服装结构、建筑、机械、植物、动物、地质、天气、材料老化和生活用品。现实资料负责提供可信逻辑。</p>
+<h3 id="20-2-历史与文化资料"><a href="#20-2-历史与文化资料" class="headerlink" title="20.2 历史与文化资料"></a>20.2 历史与文化资料</h3><p>纹样、礼仪、阶层、生产方式、信仰、交通和城市结构。它决定世界为什么长成这样，而不是只提供表面装饰。</p>
+<h3 id="20-3-形式参考"><a href="#20-3-形式参考" class="headerlink" title="20.3 形式参考"></a>20.3 形式参考</h3><p>绘画、雕塑、动画、漫画、摄影、电影、平面设计和舞台。它们负责形状、色彩、构图、材质和运动语言。</p>
+<h3 id="20-4-游戏实现参考"><a href="#20-4-游戏实现参考" class="headerlink" title="20.4 游戏实现参考"></a>20.4 游戏实现参考</h3><p>只在这一栏研究其他游戏：相机距离、角色占屏、材质频率、交互高亮、地面信息、VFX 和 UI 怎样实际运行。</p>
+<h3 id="20-5-反向参考"><a href="#20-5-反向参考" class="headerlink" title="20.5 反向参考"></a>20.5 反向参考</h3><p>明确记录“不想要什么”。例如：不要照片噪声、不要所有边缘发光、不要过度细碎的盔甲、不要写实皮肤。反向规则能显著减少团队理解分歧。</p>
+<p>一套参考板最好能用一句话总结差异：</p>
+<blockquote>
+<p>建筑结构取自粗野主义，表面材质参考铸铁与火山岩，色彩借鉴限色版画，轮廓使用上窄下宽的三角结构；不使用赛博朋克霓虹和密集小零件。</p>
+</blockquote>
+<p>这已经是风格规范的雏形。</p>
+<h2 id="21-从零研究一种概念风格的练习流程"><a href="#21-从零研究一种概念风格的练习流程" class="headerlink" title="21. 从零研究一种概念风格的练习流程"></a>21. 从零研究一种概念风格的练习流程</h2><p>下面是一套适合个人研究或小团队预研的最小流程。</p>
+<h3 id="第一步：写五行视觉-Brief"><a href="#第一步：写五行视觉-Brief" class="headerlink" title="第一步：写五行视觉 Brief"></a>第一步：写五行视觉 Brief</h3><p>只写：</p>
+<ol>
+<li>玩家是谁、核心玩法是什么；</li>
+<li>镜头与平台；</li>
+<li>世界主题与核心情绪；</li>
+<li>选择哪个风格家族、为什么；</li>
+<li>最重要的可读性和产能限制。</li>
+</ol>
+<h3 id="第二步：建立六栏参考板"><a href="#第二步：建立六栏参考板" class="headerlink" title="第二步：建立六栏参考板"></a>第二步：建立六栏参考板</h3><p>现实结构、历史文化、形状、色彩、材质、游戏实现各一栏，每栏只保留真正说明问题的图。不要一开始收几百张。</p>
+<h3 id="第三步：做-30-个黑白剪影"><a href="#第三步：做-30-个黑白剪影" class="headerlink" title="第三步：做 30 个黑白剪影"></a>第三步：做 30 个黑白剪影</h3><p>不画细节，只测试角色、建筑或道具的大形。快速删除普通方案，找到三到五个方向。</p>
+<h3 id="第四步：做-9-张明度与构图小稿"><a href="#第四步：做-9-张明度与构图小稿" class="headerlink" title="第四步：做 9 张明度与构图小稿"></a>第四步：做 9 张明度与构图小稿</h3><p>用很小的尺寸测试玩家视角下的主体、道路、敌人、交互物和背景层级。概念原画必须在缩略图阶段就有可读性。</p>
+<h3 id="第五步：做-3-套颜色与材质方案"><a href="#第五步：做-3-套颜色与材质方案" class="headerlink" title="第五步：做 3 套颜色与材质方案"></a>第五步：做 3 套颜色与材质方案</h3><p>保持构图不变，只改变色板、粗糙度倾向和材质分配。这样才能知道吸引力来自设计还是来自某次偶然光效。</p>
+<h3 id="第六步：完成-1-张-Keyframe-和-1-张生产设计图"><a href="#第六步：完成-1-张-Keyframe-和-1-张生产设计图" class="headerlink" title="第六步：完成 1 张 Keyframe 和 1 张生产设计图"></a>第六步：完成 1 张 Keyframe 和 1 张生产设计图</h3><p>Keyframe 负责体验与气氛；生产设计图负责比例、结构、材质、拆件和实现说明。两张图分别回答“为什么想玩”和“团队怎样做”。</p>
+<h3 id="第七步：尽早进引擎"><a href="#第七步：尽早进引擎" class="headerlink" title="第七步：尽早进引擎"></a>第七步：尽早进引擎</h3><p>用灰模、简单贴图和临时 Shader 重建玩家实际镜头。静态概念中的抖色、细线、逆光和浅景深，进入运动后可能产生噪声或遮挡。KILL KNIGHT 团队的复盘也指出，有些在二维概念中很好的抖色效果，进入三维高速玩法后反而破坏可读性。</p>
+<h2 id="22-根据团队规模选择风格，不要只按喜好"><a href="#22-根据团队规模选择风格，不要只按喜好" class="headerlink" title="22. 根据团队规模选择风格，不要只按喜好"></a>22. 根据团队规模选择风格，不要只按喜好</h2><table>
+<thead>
+<tr>
+<th>团队情况</th>
+<th>相对可控的方向</th>
+<th>最容易低估的成本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单人 &#x2F; 2–5 人</td>
+<td>低模、像素、复古三维、平面图形、模块化风格化</td>
+<td>动画、UI、特效与一致性仍需独立投入</td>
+</tr>
+<tr>
+<td>小型 5–20 人</td>
+<td>风格化写实、手绘 2D、动漫混合、绘画感三维</td>
+<td>内容量、角色动画、跨资产规范</td>
+</tr>
+<tr>
+<td>中大型团队</td>
+<td>高规格风格化、复杂二维、开放世界写实</td>
+<td>管线、外包、审查和版本维护</td>
+</tr>
+<tr>
+<td>AAA</td>
+<td>电影化写实、大规模开放世界、扫描与表演捕捉</td>
+<td>人力并不会消除复杂度，只把复杂度推向管理</td>
+</tr>
+</tbody></table>
+<p>逐帧手绘看起来“只是二维”，却可能比模块化三维更昂贵；低模看起来简单，却可能要求更高水平的造型与色彩；写实资产可以大量使用扫描，但角色表演和世界密度会吞噬巨大成本。</p>
+<p>最稳妥的选择不是“看起来最省事”，而是<strong>团队已经具备核心能力、能够重复生产、并与镜头和玩法相匹配的方向</strong>。</p>
+<h2 id="23-概念原画研究最常见的八个误区"><a href="#23-概念原画研究最常见的八个误区" class="headerlink" title="23. 概念原画研究最常见的八个误区"></a>23. 概念原画研究最常见的八个误区</h2><ol>
+<li><strong>把题材当风格</strong>：只写“东方幻想”或“赛博朋克”，没有形状和渲染规则。</li>
+<li><strong>只收最终截图</strong>：缺少现实、历史、材质和形式来源，最后只能模仿别的游戏。</li>
+<li><strong>先画细节，后找大形</strong>：盔甲纹样很多，角色缩小后却没有辨识度。</li>
+<li><strong>只画宣传视角</strong>：概念图很好看，玩家镜头中角色只剩一个灰点。</li>
+<li><strong>只做气氛图</strong>：没有三视图、模块、材质和交互说明，生产团队无法落地。</li>
+<li><strong>把 Shader 当风格</strong>：描边、像素化、色阶只是工具，无法替代造型系统。</li>
+<li><strong>忽略动画和特效</strong>：静态角色成立，运动时轮廓、颜色和攻击范围全部混在一起。</li>
+<li><strong>过度贴近单一作品或艺术家</strong>：参考来源过窄，不仅缺乏原创性，也容易带来版权和品牌风险。</li>
+</ol>
+<p>如果使用生成式图像做早期探索，还要额外警惕：单张图很容易制造“已经找到方向”的错觉，但多视角一致性、结构逻辑、可拆分性和批量生产规则仍然没有被解决。它可以扩展参考和快速试错，不能代替风格规范与设计判断。</p>
+<h2 id="24-一套面向后续研究的四周计划"><a href="#24-一套面向后续研究的四周计划" class="headerlink" title="24. 一套面向后续研究的四周计划"></a>24. 一套面向后续研究的四周计划</h2><h3 id="第一周：建立分类感"><a href="#第一周：建立分类感" class="headerlink" title="第一周：建立分类感"></a>第一周：建立分类感</h3><p>每天选择两款视觉差异明显的游戏，按五层结构记录：题材、视觉语言、媒介、渲染、游戏条件。目标不是评价好坏，而是停止混用术语。</p>
+<h3 id="第二周：练形状与可读性"><a href="#第二周：练形状与可读性" class="headerlink" title="第二周：练形状与可读性"></a>第二周：练形状与可读性</h3><p>选择一个角色和一个环境主题，每天做剪影、三值明度和有限色板练习。所有图都缩到实际游戏占屏大小检查。</p>
+<h3 id="第三周：选择一个风格家族深入"><a href="#第三周：选择一个风格家族深入" class="headerlink" title="第三周：选择一个风格家族深入"></a>第三周：选择一个风格家族深入</h3><p>从十二类中选一个，例如“风格化写实”或“复古三维”。建立现实、历史、形式和实现四套参考，写出一页 Style Guide：比例、形状、色彩、材质、灯光、禁用项。</p>
+<h3 id="第四周：完成一个最小概念包"><a href="#第四周：完成一个最小概念包" class="headerlink" title="第四周：完成一个最小概念包"></a>第四周：完成一个最小概念包</h3><p>交付：</p>
+<ul>
+<li>1 张视觉目标图；</li>
+<li>1 组角色或建筑剪影；</li>
+<li>1 张玩家视角 Keyframe；</li>
+<li>1 张结构与材质拆解图；</li>
+<li>1 个引擎灰模或 LookDev 小场景；</li>
+<li>1 页复盘：哪些二维选择无法进入实时画面。</li>
+</ul>
+<p>做完这一轮，你研究的就不再只是“喜欢的画风”，而是一套可以继续扩展的游戏视觉方向。</p>
+<h2 id="25-总结"><a href="#25-总结" class="headerlink" title="25. 总结"></a>25. 总结</h2><p>电子游戏美术没有一棵标准风格树。更可靠的理解方式，是把每个项目拆成五层：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs text">世界题材：画什么世界<br>视觉语言：怎样概括和变形<br>媒介形态：图像以什么结构存在<br>渲染表面：光与材质怎样呈现<br>游戏条件：玩家从哪里看、以多快速度操作<br></code></pre></td></tr></table></figure>
+
+<p>以上十二类方向可以混合使用，没有必要为每款游戏确定唯一标签。研究概念原画时，除了判断画面是否美观，还应关注它解决了什么问题、建立了哪些规则、在玩家镜头中是否清晰，以及团队能否稳定复现。</p>
+<p>一张宣传图惊艳不算难，难的是角色、环境、道具、动画、特效、UI 和灯光做上几年以后仍像同一个世界，同时不妨碍玩家判断位置和行动。这大概才是游戏美术风格真正落地的状态。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.gdcvault.com/play/1022031/Guilty-Gear-Xrd-s-Art">GDC Vault: Guilty Gear Xrd’s Art Style — The X Factor Between 2D and 3D</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.gdcvault.com/play/1024690/-Agents-of-Mayhem-Physically">GDC Vault: Agents of Mayhem — Physically-Based Materials in a Stylized Open World</a></li>
+<li><a target="_blank" rel="noopener" href="https://gdcvault.com/play/1015306/The-Art-of-Diablo">GDC Vault: The Art of Diablo III</a></li>
+<li><a target="_blank" rel="noopener" href="https://gdcvault.com/play/1025897/Art-Direction-Bootcamp-Building-Worlds">GDC Vault: Art Direction Bootcamp — Building Worlds Through Shape Language</a></li>
+<li><a target="_blank" rel="noopener" href="https://media.gdcvault.com/gdc2017/Presentations/Lindsey_Bryanna_ArtDirectingVFXforStylizedGames.pdf">GDC: Art Directing Visual Effects for Stylized Games</a></li>
+<li><a target="_blank" rel="noopener" href="https://create.unity.com/minute-of-islands-case-study">Unity: Making 2D Magic with Minute of Islands</a></li>
+<li><a target="_blank" rel="noopener" href="https://unity.com/resources/skul-the-hero-slayer-case-study">Unity: How Skul — The Hero Slayer Slays 2D Pixel Art</a></li>
+<li><a target="_blank" rel="noopener" href="https://unity.com/resources/subcult-joint-cookie-cutter">Unity: Managing Hand-Drawn Art and 2D Lights in Cookie Cutter</a></li>
+<li><a target="_blank" rel="noopener" href="https://unity.com/resources/card-shark-case-study">Unity: Making Card Shark with the 2D Toolkit</a></li>
+<li><a target="_blank" rel="noopener" href="https://unity.com/resources/case-study-fantasian">Unity: Scaling Fantasian’s Handcrafted Dioramas</a></li>
+<li><a target="_blank" rel="noopener" href="https://unity.com/blog/how-playside-studios-built-kill-knight-visual-identity">Unity: How PlaySide Studios Built KILL KNIGHT’s Visual Identity</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.unrealengine.com/developer-interviews/two-high-school-friends-used-unreal-engine-5-1-to-create-atmospheric-retro-shooter-kvark">Unreal Engine: Kvark’s Modern Retro-Shooter Art Style</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.unrealengine.com/developer-interviews/ronin-trail-is-a-voxel-based-open-world-game">Unreal Engine: Rōnin Trail’s Voxel-Based Open World</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.unrealengine.com/developer-interviews/solo-dev-gwen-frey-explains-how-she-developed-puzzle-game-kine-using-only-blueprints">Unreal Engine: Kine’s Sketchy Hand-Drawn Comic Art Style</a></li>
+</ul>
+
+    </div>
+
+    <footer class="post__footer">
+      
+        
+<section class="comments" aria-labelledby="commentsTitle">
+  <div class="comments__header">
+    <p class="comments__eyebrow">DISCUSSION</p>
+    <h2 class="comments__title" id="commentsTitle">评论与交流</h2>
+    <p class="comments__description">使用 GitHub 账号参与讨论；首次评论时会自动创建对应话题。</p>
+  </div>
+  <div class="giscus"></div>
+  <script src="https://giscus.app/client.js"
+          data-repo="AHappyFun/AHappyFun.github.io"
+          data-repo-id="R_kgDOJAassQ"
+          data-category="Announcements"
+          data-category-id="DIC_kwDOJAassc4DCUGK"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="zh-CN"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+  </script>
+</section>
+
+      
+
+      <div class="post__nav">
+        
+          <a href="/2026/08/31/Loy-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E9%81%93%E9%94%99%E4%B9%9F%E8%A6%81%E8%B7%9F%E7%9D%80%E8%AF%B4%E2%80%94%E2%80%94%E4%BB%8E%E4%BC%97/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Loy-为什么明知道错也要跟着说——从众</span>
+          </a>
+        
+        
+          <a href="/2026/08/30/Art-%E5%83%8F%E7%90%86%E8%A7%A3%E9%9F%B3%E4%B9%90%E6%B5%81%E6%B4%BE%E4%B8%80%E6%A0%B7%E7%90%86%E8%A7%A3%E7%BE%8E%E6%9C%AF%E4%BD%93%E7%B3%BB/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Art-像理解音乐流派一样理解美术体系</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js?v=20260831-cat-off"></script>
+<script src="/js/search.js"></script>
+
+  <script src="https://cdn.busuanzi.cc/busuanzi/3.6.9/busuanzi.min.js" defer></script>
+
+
+
+</body>
+</html>
