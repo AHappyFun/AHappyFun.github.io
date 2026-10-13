@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://loy.net.cn/2022/10/04/Loy-%E6%88%91%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94%E5%A4%AA%E9%98%B3%E7%B3%BB%E6%A8%A1%E6%8B%9F/</loc>
+    <loc>https://loy.net.cn/2022/10/04/Unity-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E5%A4%AA%E9%98%B3%E7%B3%BB%E6%A8%A1%E6%8B%9F/</loc>
     
     <lastmod>2026-10-13</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/2020/05/29/Loy-%E6%88%91%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94%E9%9F%B3%E9%A2%91%E5%8F%AF%E8%A7%86%E5%8C%96/</loc>
+    <loc>https://loy.net.cn/2020/05/29/Unity-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E9%9F%B3%E9%A2%91%E5%8F%AF%E8%A7%86%E5%8C%96/</loc>
     
     <lastmod>2026-10-13</lastmod>
     
@@ -20,7 +20,7 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/2020/06/04/Loy-%E6%88%91%E7%9A%84%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE%E2%80%94%E2%80%94A%E6%98%9F%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96/</loc>
+    <loc>https://loy.net.cn/2020/06/04/Unity-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-A%E6%98%9F%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96/</loc>
     
     <lastmod>2026-10-13</lastmod>
     
@@ -578,7 +578,7 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/</loc>
+    <loc>https://loy.net.cn/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/</loc>
     
     <lastmod>2026-08-31</lastmod>
     
@@ -587,7 +587,7 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/</loc>
+    <loc>https://loy.net.cn/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/</loc>
     
     <lastmod>2026-08-31</lastmod>
     
@@ -632,7 +632,7 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/</loc>
+    <loc>https://loy.net.cn/2023/09/14/UE4-GPUScene/</loc>
     
     <lastmod>2026-08-31</lastmod>
     
@@ -641,7 +641,7 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/2023/09/14/UE4-GPUScene/</loc>
+    <loc>https://loy.net.cn/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/</loc>
     
     <lastmod>2026-08-31</lastmod>
     
@@ -659,7 +659,7 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/2024/04/05/UE4-DistanceFieldShadow/</loc>
+    <loc>https://loy.net.cn/2024/06/05/UE4-DeferredDecal/</loc>
     
     <lastmod>2026-08-31</lastmod>
     
@@ -668,7 +668,7 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/2024/06/05/UE4-DeferredDecal/</loc>
+    <loc>https://loy.net.cn/2024/04/05/UE4-DistanceFieldShadow/</loc>
     
     <lastmod>2026-08-31</lastmod>
     
@@ -830,7 +830,7 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/tags/index.html</loc>
+    <loc>https://loy.net.cn/search/index.html</loc>
     
     <lastmod>2026-07-29</lastmod>
     
@@ -839,7 +839,7 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/search/index.html</loc>
+    <loc>https://loy.net.cn/tags/index.html</loc>
     
     <lastmod>2026-07-29</lastmod>
     
@@ -931,7 +931,21 @@
   </url>
   
   <url>
+    <loc>https://loy.net.cn/tags/%E7%94%9F%E6%B4%BB/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://loy.net.cn/tags/%E7%94%B5%E5%BD%B1/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://loy.net.cn/tags/%E6%B8%B8%E6%88%8F/</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -967,20 +981,6 @@
   
   <url>
     <loc>https://loy.net.cn/tags/%E9%9B%B6%E5%AE%B9%E5%BF%8D%E8%AD%A6%E5%8A%A1/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://loy.net.cn/tags/%E7%94%9F%E6%B4%BB/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://loy.net.cn/tags/%E6%B8%B8%E6%88%8F/</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1099,6 +1099,41 @@
   </url>
   
   <url>
+    <loc>https://loy.net.cn/tags/%E8%AE%B0%E5%BF%86%E9%87%8D%E6%9E%84/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://loy.net.cn/tags/%E6%B4%9B%E5%A4%AB%E7%89%B9%E6%96%AF/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://loy.net.cn/tags/%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BF%86/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://loy.net.cn/tags/%E7%9B%AE%E5%87%BB%E8%80%85%E8%AF%81%E8%AF%8D/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://loy.net.cn/tags/%E8%AE%A4%E7%9F%A5%E5%BF%83%E7%90%86%E5%AD%A6/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://loy.net.cn/tags/%E6%83%85%E7%BB%AA%E5%8A%B3%E5%8A%A8/</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -1163,41 +1198,6 @@
   
   <url>
     <loc>https://loy.net.cn/tags/%E7%B2%BE%E7%A5%9E%E7%86%B5/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://loy.net.cn/tags/%E8%AE%B0%E5%BF%86%E9%87%8D%E6%9E%84/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://loy.net.cn/tags/%E6%B4%9B%E5%A4%AB%E7%89%B9%E6%96%AF/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://loy.net.cn/tags/%E9%94%99%E8%AF%AF%E8%AE%B0%E5%BF%86/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://loy.net.cn/tags/%E7%9B%AE%E5%87%BB%E8%80%85%E8%AF%81%E8%AF%8D/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://loy.net.cn/tags/%E8%AE%A4%E7%9F%A5%E5%BF%83%E7%90%86%E5%AD%A6/</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1388,13 +1388,6 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/categories/Art/%E8%87%AA%E7%84%B6/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://loy.net.cn/categories/Art/%E7%BB%98%E7%94%BB/</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
@@ -1403,6 +1396,13 @@
   
   <url>
     <loc>https://loy.net.cn/categories/Art/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/</loc>
+    <lastmod>2026-10-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://loy.net.cn/categories/Art/%E8%87%AA%E7%84%B6/</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1437,14 +1437,14 @@
   </url>
   
   <url>
-    <loc>https://loy.net.cn/categories/Loy/%E7%94%9F%E6%B4%BB/</loc>
+    <loc>https://loy.net.cn/categories/%E6%8A%80%E6%9C%AF/Shader/</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://loy.net.cn/categories/%E6%8A%80%E6%9C%AF/Shader/</loc>
+    <loc>https://loy.net.cn/categories/Loy/%E7%94%9F%E6%B4%BB/</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1459,13 +1459,6 @@
   
   <url>
     <loc>https://loy.net.cn/categories/%E6%8A%80%E6%9C%AF/Unity/</loc>
-    <lastmod>2026-10-13</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://loy.net.cn/categories/Loy/%E6%8A%80%E6%9C%AF/</loc>
     <lastmod>2026-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
