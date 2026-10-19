@@ -743,4 +743,31 @@
     });
   })();
 
+  /* --- View counter: overlay busuanzi historical base onto Vercount live count --- */
+  (function initViewCounter() {
+    var el = document.getElementById('vercount_value_page_pv');
+    if (!el) return;
+    var base = parseInt(el.getAttribute('data-base'), 10);
+    if (!base || base <= 0) return; // 无历史基数，Vercount 原样显示
+
+    var applied = false;
+    var overlay = function () {
+      if (applied) return;
+      var cur = parseInt(el.textContent, 10);
+      if (isNaN(cur)) return; // 还在"加载中…"或 Vercount 未返回，等下一轮
+      el.textContent = String(cur + base);
+      applied = true;
+    };
+    // Vercount 脚本填入数字的时机不固定，轮询到拿到数字为止
+    var timer = setInterval(function () {
+      if (applied || !document.getElementById('vercount_value_page_pv')) {
+        clearInterval(timer);
+        return;
+      }
+      overlay();
+      if (applied) clearInterval(timer);
+    }, 300);
+    setTimeout(function () { clearInterval(timer); }, 15000);
+  })();
+
 })();
