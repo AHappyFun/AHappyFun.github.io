@@ -1467,6 +1467,124 @@ html:not([data-theme="dark"]) .theme-toggle .icon-sun,
   letter-spacing: -0.02em;
 }
 
+/* --- About: introduction and company portfolios --- */
+.about__container {
+  max-width: 960px;
+}
+
+.about__intro {
+  max-width: 740px;
+  margin-bottom: 52px;
+}
+
+.about__eyebrow {
+  margin-bottom: 12px;
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.about__bio {
+  margin-top: 20px;
+  color: var(--color-text-secondary);
+  font-size: 1.0625rem;
+  line-height: 1.95;
+  overflow-wrap: anywhere;
+}
+
+.about__section-header {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.about__section-header h2 {
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+
+.about__company {
+  margin-top: 32px;
+}
+
+.about__company + .about__company {
+  margin-top: 40px;
+}
+
+.about__company-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.about__company-header h3 {
+  font-size: 1.125rem;
+  line-height: 1.5;
+}
+
+.about__company-marker {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.about__projects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.about__project {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-card);
+}
+
+.about__image-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  background: var(--color-bg-secondary);
+}
+
+.about__image-link img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.about__image-link:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: -3px;
+}
+
+.about__project figcaption {
+  padding: 16px 18px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+@media (max-width: 600px) {
+  .about__projects {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .about__intro {
+    margin-bottom: 36px;
+  }
+}
+
 /* --- Archive --- */
 .archive {
   padding: 48px 0 64px;
