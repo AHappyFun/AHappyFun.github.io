@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-site-style="bento">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Art-三分法与构图动线：从 1797 年的比例建议到九宫格口诀 | 锅巴的Blogs</title>
+<link rel="canonical" href="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/">
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="美术">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  (function () {
+    var available = ['bento', 'knowledge'];
+    var saved = localStorage.getItem('site-style');
+    if (available.indexOf(saved) !== -1) {
+      document.documentElement.setAttribute('data-site-style', saved);
+    } else if (saved) {
+      localStorage.setItem('site-style', 'bento');
+    }
+  })();
+</script>
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://loy.net.cn/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/rot1797-src.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/smith-etching-src.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/rot-demo.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/hobbema-src.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c1-hobbema-road.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c2-hobbema-village.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/greatwave-src.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c3-greatwave-crest.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c4-greatwave-fuji.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/redfuji-src.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c12-redfuji-crest.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/delft-src.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c5-delft-spire.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/steerage-src.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c9-steerage-gangway.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c13-steerage-railing.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/haywain-src.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c6-haywain-wagon.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/rugen-src.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c7-rugen-figures.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c8-rugen-frame.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/kameido-src.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/vangogh_kameido-src.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c10-kameido-branch.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c11-vangogh-branch.jpg">
+<meta property="article:published_time" content="2026-10-25T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-26T12:20:26.677Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="美术">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://loy.net.cn/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/rot1797-src.jpg">
+
+  
+    <style id="cat-game-disabled">.cat-container,.cat-win-label{display:none!important}</style>
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body data-cat-game-enabled="false">
+  <a class="skip-link" href="#mainContent">跳到正文</a>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__brand" aria-label="锅巴的Blogs首页">
+      <span class="header__logo">锅巴的Blogs</span>
+      <span class="header__edition">MAKE · WRITE · SHARE</span>
+      <span class="knowledge-status" aria-hidden="true"><i></i><i></i><i></i></span>
+    </a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav" aria-label="主导航">
+      
+        
+        <a href="/" class="header__link">首页</a>
+      
+        
+        <a href="/tags/" class="header__link">标签</a>
+      
+        
+        <a href="/search/" class="header__link">搜索</a>
+      
+        
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      
+        <label class="style-picker" for="stylePicker">
+          <span class="sr-only">选择网站设计风格</span>
+          <select id="stylePicker" aria-label="网站设计风格">
+            <option value="bento">Bento</option>
+            <option value="knowledge">Knowledge OS</option>
+          </select>
+        </label>
+      
+      <button class="theme-toggle" id="themeToggle" aria-label="切换明暗模式">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="headerNav">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">分类</h3>
+      <div class="category-filter category-filter--sidebar" role="tablist" aria-label="按分类筛选">
+        <button type="button" class="category-filter__tab is-active" role="tab" aria-selected="true" data-category="all">
+          全部 <span class="category-filter__count">99</span>
+        </button>
+        
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="技术">
+            技术 <span class="category-filter__count">54</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="认知">
+            认知 <span class="category-filter__count">27</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Art">
+            Art <span class="category-filter__count">10</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Loy">
+            Loy <span class="category-filter__count">3</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="开发工具">
+            开发工具 <span class="category-filter__count">2</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="游戏">
+            游戏 <span class="category-filter__count">2</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="AI">
+            AI <span class="category-filter__count">1</span>
+          </button>
+        
+      </div>
+    </div>
+
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 99 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+              
+              <div class="sidebar__year" data-year="2026">2026</div>
+            
+            <a href="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/" class="sidebar__item is-active" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-25T16:00:00.000Z">10-26</time>
+              <span class="sidebar__post-title">Art-三分法与构图动线：从 1797 年的比例建议到九宫格口诀</span>
+            </a>
+          
+            
+            <a href="/2026/10/25/Art-%E8%A1%A5%E8%89%B2%E4%B8%8E%E8%A7%86%E8%A7%89%E6%AE%8B%E5%83%8F/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-24T16:00:00.000Z">10-25</time>
+              <span class="sidebar__post-title">Art-补色与视觉残像：眼睛补出来的对立色</span>
+            </a>
+          
+            
+            <a href="/2026/10/24/Art-%E8%89%B2%E5%BD%A9%E9%80%8F%E8%A7%86%E4%B8%8E%E7%A9%BA%E6%B0%94%E9%80%8F%E8%A7%86/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-23T16:00:00.000Z">10-24</time>
+              <span class="sidebar__post-title">Art-色彩透视与空气透视：远不是画小一点，是被空气吃掉</span>
+            </a>
+          
+            
+            <a href="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-22T16:00:00.000Z">10-23</time>
+              <span class="sidebar__post-title">Art-同时对比：颜色是被邻居逼出来的</span>
+            </a>
+          
+            
+            <a href="/2026/10/22/AI-ComfyUI%E7%94%9F%E6%88%90%E6%B8%B8%E6%88%8F%E8%B5%84%E4%BA%A7%E7%9A%84%E5%AE%9E%E8%B7%B5/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-21T16:00:00.000Z">10-22</time>
+              <span class="sidebar__post-title">AI-ComfyUI生成游戏资产的实践</span>
+            </a>
+          
+            
+            <a href="/2026/10/22/Art-%E6%98%8E%E6%9A%97%E5%AF%B9%E7%85%A7%E6%B3%95/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-21T16:00:00.000Z">10-22</time>
+              <span class="sidebar__post-title">Art-明暗对照法：用光与影组织画面</span>
+            </a>
+          
+            
+            <a href="/2026/10/21/Art-%E7%BE%8E%E6%BC%AB%E7%94%BB%E9%A3%8E%E6%8A%80%E6%B3%95/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-20T16:00:00.000Z">10-21</time>
+              <span class="sidebar__post-title">Art-美漫画风技法入门：从墨线到小圆点</span>
+            </a>
+          
+            
+            <a href="/2026/10/13/Dev-%E5%BC%80%E6%BA%90%E5%B0%8F%E8%BD%AF%E4%BB%B6%E6%B8%85%E5%8D%95/" class="sidebar__item" data-category="开发工具" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-12T16:00:00.000Z">10-13</time>
+              <span class="sidebar__post-title">Dev-我收集的开源小软件清单</span>
+            </a>
+          
+            
+            <a href="/2026/09/21/Base-WebGL%E6%8A%80%E6%9C%AF%E6%A6%82%E8%BF%B0/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-20T16:00:00.000Z">09-21</time>
+              <span class="sidebar__post-title">Base-WebGL技术概述</span>
+            </a>
+          
+            
+            <a href="/2026/09/17/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E7%BC%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E8%A2%AB%E4%BB%80%E4%B9%88%E5%9B%B0%E4%BD%8F%E2%80%94%E2%80%94%E7%A8%80%E7%BC%BA%E5%BF%83%E6%80%81/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-16T16:00:00.000Z">09-17</time>
+              <span class="sidebar__post-title">Mind-为什么越缺什么越被什么困住——稀缺心态</span>
+            </a>
+          
+            
+            <a href="/2026/09/16/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%AE%B0%E5%BE%97%E7%9A%84%E4%BA%8B%E5%8F%AF%E8%83%BD%E6%98%AF%E5%81%87%E7%9A%84%E2%80%94%E2%80%94%E8%AE%B0%E5%BF%86%E9%87%8D%E6%9E%84/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-15T16:00:00.000Z">09-16</time>
+              <span class="sidebar__post-title">Mind-为什么你记得的事可能是假的——记忆重构</span>
+            </a>
+          
+            
+            <a href="/2026/09/15/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E8%A6%81%E6%88%AA%E6%AD%A2%E8%BF%98%E6%98%AF%E5%88%B7%E6%89%8B%E6%9C%BA%E2%80%94%E2%80%94%E6%8B%96%E5%BB%B6%E4%B8%8E%E6%97%B6%E9%97%B4%E6%8A%98%E6%89%A3/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-14T16:00:00.000Z">09-15</time>
+              <span class="sidebar__post-title">Mind-为什么明知要截止还是刷手机——拖延与时间折扣</span>
+            </a>
+          
+            
+            <a href="/2026/09/14/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%A8%E7%A5%9E%E8%B4%AF%E6%B3%A8%E5%8F%8D%E8%80%8C%E4%B8%8D%E7%B4%AF%E2%80%94%E2%80%94%E5%BF%83%E6%B5%81/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">Mind-为什么全神贯注反而不累——心流</span>
+            </a>
+          
+            
+            <a href="/2026/09/13/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%81%87%E7%AC%91%E6%AF%94%E7%9C%9F%E7%B4%AF%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E6%83%85%E7%BB%AA%E5%8A%B3%E5%8A%A8/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-12T16:00:00.000Z">09-13</time>
+              <span class="sidebar__post-title">Mind-为什么假笑比真累还累——情绪劳动</span>
+            </a>
+          
+            
+            <a href="/2026/09/12/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E6%80%BB%E5%9C%A8%E5%92%8C%E5%88%AB%E4%BA%BA%E6%AF%94%E8%BE%83%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E6%AF%94%E8%BE%83%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-11T16:00:00.000Z">09-12</time>
+              <span class="sidebar__post-title">Mind-为什么你总在和别人比较——社会比较理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/11/Game-%E6%B1%BD%E8%BD%A6%E5%8F%98%E9%80%9F%E7%AE%B1%E9%BD%BF%E6%AF%94%E4%B8%8E%E6%9C%80%E7%BB%88%E4%BC%A0%E5%8A%A8%E6%AF%94/" class="sidebar__item" data-category="游戏" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">Game-从 GT7 理解汽车变速箱齿比与最终传动比</span>
+            </a>
+          
+            
+            <a href="/2026/09/11/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4%E5%87%BA%E5%8F%A3%E7%9A%84%E8%AF%9D%E4%BC%9A%E7%BB%91%E6%9E%B6%E4%BD%A0%E2%80%94%E2%80%94%E6%89%BF%E8%AF%BA%E4%B8%80%E8%87%B4%E6%80%A7/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">Mind-为什么说出口的话会绑架你——承诺一致性</span>
+            </a>
+          
+            
+            <a href="/2026/09/10/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF%E4%B8%80%E5%88%B0%E6%89%8B%E5%B0%B1%E5%8F%98%E5%80%BC%E9%92%B1%E2%80%94%E2%80%94%E7%A6%80%E8%B5%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">Mind-为什么东西一到手就变值钱——禀赋效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/09/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8D%A1%E6%9D%A5%E7%9A%84%E9%92%B1%E8%8A%B1%E5%BE%97%E6%9C%80%E5%BF%AB%E2%80%94%E2%80%94%E5%BF%83%E7%90%86%E8%B4%A6%E6%88%B7/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-08T16:00:00.000Z">09-09</time>
+              <span class="sidebar__post-title">Mind-为什么捡来的钱花得最快——心理账户</span>
+            </a>
+          
+            
+            <a href="/2026/09/08/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E7%BE%A4%E4%BA%BA%E8%81%8A%E7%9D%80%E8%81%8A%E7%9D%80%E5%B0%B1%E5%8F%98%E6%9E%81%E7%AB%AF%E2%80%94%E2%80%94%E7%BE%A4%E4%BD%93%E6%9E%81%E5%8C%96/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">Mind-为什么一群人聊着聊着就变极端——群体极化</span>
+            </a>
+          
+            
+            <a href="/2026/09/07/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E6%89%87%E7%A0%B4%E7%AA%97%E4%BC%9A%E6%AF%81%E6%8E%89%E6%95%B4%E6%9D%A1%E8%A1%97%E2%80%94%E2%80%94%E7%A0%B4%E7%AA%97%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-06T16:00:00.000Z">09-07</time>
+              <span class="sidebar__post-title">Mind-为什么一扇破窗会毁掉整条街——破窗效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/06/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E6%80%BB%E6%8A%A4%E7%9D%80%E8%87%AA%E5%B7%B1%E4%BA%BA%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E8%AE%A4%E5%90%8C%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-05T16:00:00.000Z">09-06</time>
+              <span class="sidebar__post-title">Mind-为什么我们总护着自己人——社会认同理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/05/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%AC%AC%E4%B8%80%E5%8D%B0%E8%B1%A1%E5%A6%82%E6%AD%A4%E9%A1%BD%E5%9B%BA%E2%80%94%E2%80%94%E5%85%89%E7%8E%AF%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">Mind-为什么第一印象如此顽固——光环效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/04/Mind-%E7%BB%9D%E6%9C%9B%E6%98%AF%E8%A2%AB%E8%AE%AD%E7%BB%83%E5%87%BA%E6%9D%A5%E7%9A%84%E2%80%94%E2%80%94%E4%B9%A0%E5%BE%97%E6%80%A7%E6%97%A0%E5%8A%A9/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">Mind-绝望是被训练出来的——习得性无助</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Game-GT7%E8%BD%A6%E8%BE%86%E8%B0%83%E6%95%99%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="游戏" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Game-GT7 车辆调教指南</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Mind-%E8%AE%B0%E5%BF%86%E5%8F%AA%E8%AE%B0%E5%BE%97%E9%AB%98%E6%BD%AE%E5%92%8C%E7%BB%93%E5%B0%BE%E2%80%94%E2%80%94%E5%B3%B0%E7%BB%88%E5%AE%9A%E5%BE%8B/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Mind-记忆只记得高潮和结尾——峰终定律</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Mind-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%95%B0%E5%AD%97%E5%A6%82%E4%BD%95%E6%93%8D%E7%BA%B5%E4%BD%A0%E2%80%94%E2%80%94%E9%94%9A%E5%AE%9A%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Mind-第一个数字如何操纵你——锚定效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Mind-%E6%BB%A1%E8%B4%9F%E8%8D%B7%EF%BC%8C%E6%98%AF%E7%B3%BB%E7%BB%9F%E6%9C%80%E5%8D%B1%E9%99%A9%E7%9A%84%E6%97%B6%E5%88%BB%E2%80%94%E2%80%94%E6%8E%92%E9%98%9F%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Mind-满负荷，是系统最危险的时刻——排队论</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Base-%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88%E6%BC%94%E8%BF%9B%E6%80%BB%E8%A7%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Base-渲染方案演进总览</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8F100%E6%AF%94%E8%B5%9A200%E6%9B%B4%E7%96%BC%E2%80%94%E2%80%94%E6%8D%9F%E5%A4%B1%E5%8E%8C%E6%81%B6/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Mind-为什么亏100比赚200更疼——损失厌恶</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Mind-%E9%97%B2%E7%9D%80%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AF%94%E5%BF%99%E4%B8%80%E5%A4%A9%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E6%97%A0%E8%81%8A/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Mind-闲着为什么比忙一天还累——无聊</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Unity-APV%E4%BD%93%E7%A7%AF%E6%8E%A2%E9%92%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Unity-APV体积探针</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/UE4-RTGI/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">UE4-RTGI</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-1990%E8%87%B32026%E6%82%AC%E7%96%91%E7%94%B5%E5%BD%B1%E6%A6%9C%E5%8D%95/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-1990—2026 悬疑电影榜单</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-2015%E8%87%B32026%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1Top250/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-2015—2026 豆瓣电影 Top 250</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E9%81%93%E9%94%99%E4%B9%9F%E8%A6%81%E8%B7%9F%E7%9D%80%E8%AF%B4%E2%80%94%E2%80%94%E4%BB%8E%E4%BC%97/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Mind-为什么明知道错也要跟着说——从众</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E5%83%8F%E7%90%86%E8%A7%A3%E9%9F%B3%E4%B9%90%E6%B5%81%E6%B4%BE%E4%B8%80%E6%A0%B7%E7%90%86%E8%A7%A3%E7%BE%8E%E6%9C%AF%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-像理解音乐流派一样理解美术体系</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-电子游戏美术风格体系——从视觉分类到概念原画研究</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E4%B8%8D%E6%87%82%E8%B6%8A%E8%87%AA%E4%BF%A1%E2%80%94%E2%80%94%E8%BE%BE%E5%85%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Mind-为什么越不懂越自信——达克效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/29/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E8%B6%8A%E5%A4%9A%E8%B6%8A%E6%B2%A1%E4%BA%BA%E5%B8%AE%E5%BF%99%E2%80%94%E2%80%94%E6%97%81%E8%A7%82%E8%80%85%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-28T16:00:00.000Z">08-29</time>
+              <span class="sidebar__post-title">Mind-为什么人越多越没人帮忙——旁观者效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E4%BC%9A%E7%9B%B8%E4%BF%A1%E8%87%AA%E7%9B%B8%E7%9F%9B%E7%9B%BE%E7%9A%84%E4%BA%8B%E2%80%94%E2%80%94%E8%AE%A4%E7%9F%A5%E5%A4%B1%E8%B0%83/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Mind-为什么人会相信自相矛盾的事——认知失调</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E6%8A%95%E5%85%A5%E8%B6%8A%E9%9A%BE%E6%94%BE%E5%BC%83%E2%80%94%E2%80%94%E6%B2%89%E6%B2%A1%E6%88%90%E6%9C%AC%E8%B0%AC%E8%AF%AF/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Mind-为什么越投入越难放弃——沉没成本谬误</span>
+            </a>
+          
+            
+            <a href="/2026/08/26/Mind-%E4%BA%BA%E7%B1%BB%E7%A4%BE%E4%BC%9A%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%B1%BB%E5%9E%8B/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-25T16:00:00.000Z">08-26</time>
+              <span class="sidebar__post-title">Mind-人类社会的工作类型</span>
+            </a>
+          
+            
+            <a href="/2026/08/21/Design-%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AARoguelike%E6%B8%B8%E6%88%8F/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-20T16:00:00.000Z">08-21</time>
+              <span class="sidebar__post-title">Design-如何开发一个Roguelike游戏</span>
+            </a>
+          
+            
+            <a href="/2026/08/20/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%B6%8A%E6%83%B3%E6%94%B9%E5%8F%98%E4%B8%80%E4%B8%AA%E4%BA%BA%E4%BB%96%E8%B6%8A%E4%B8%8D%E5%8F%98%E2%80%94%E2%80%94%E8%87%AA%E6%88%91%E5%86%B3%E5%AE%9A%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-19T16:00:00.000Z">08-20</time>
+              <span class="sidebar__post-title">Mind-为什么你越想改变一个人他越不变——自我决定理论</span>
+            </a>
+          
+            
+            <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-09T16:00:00.000Z">08-10</time>
+              <span class="sidebar__post-title">AI-把高质量画面训练成低配Shader的探索</span>
+            </a>
+          
+            
+            <a href="/2026/08/09/Unity-URP14%E5%8D%87%E7%BA%A7URP17-RenderFeature%E9%80%82%E9%85%8DRenderGraph/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-08T16:00:00.000Z">08-09</time>
+              <span class="sidebar__post-title">Unity-URP14升级URP17-RenderFeature适配RenderGraph</span>
+            </a>
+          
+            
+            <a href="/2026/08/03/Art-%E4%BA%91%E7%9A%84%E5%88%86%E7%B1%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-02T16:00:00.000Z">08-03</time>
+              <span class="sidebar__post-title">Art-云的分类——从国际云图集到观云识天</span>
+            </a>
+          
+            
+            <a href="/2026/07/29/Art-%E6%8E%92%E7%BA%BF%E6%8A%80%E6%B3%95%E5%8F%91%E5%B1%95%E5%8F%B2/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-28T16:00:00.000Z">07-29</time>
+              <span class="sidebar__post-title">Art-排线技法发展史</span>
+            </a>
+          
+            
+            <a href="/2026/07/02/Dev-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/" class="sidebar__item" data-category="开发工具" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-01T16:00:00.000Z">07-02</time>
+              <span class="sidebar__post-title">Dev-主流跨平台桌面应用技术栈</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Mind-%E6%8A%8A%E7%9B%B4%E8%A7%89%E8%AE%AD%E7%BB%83%E6%88%90%E6%B8%85%E6%A5%9A%E8%A1%A8%E8%BE%BE/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Mind-把直觉训练成清楚表达</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2024">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2023">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            <a href="/2023/01/14/Base-TAA/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-01-13T16:00:00.000Z">01-14</time>
+              <span class="sidebar__post-title">Base-时域抗锯齿 TAA</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2022">2022</div>
+            
+            <a href="/2022/10/04/Unity-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E5%A4%AA%E9%98%B3%E7%B3%BB%E6%A8%A1%E6%8B%9F/" class="sidebar__item" data-category="技术" data-year="2022">
+              <time class="sidebar__date" datetime="2022-10-03T16:00:00.000Z">10-04</time>
+              <span class="sidebar__post-title">Unity-开源项目-太阳系模拟</span>
+            </a>
+          
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2022">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2021">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2020">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            <a href="/2020/06/04/Unity-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-A%E6%98%9F%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-06-03T16:00:00.000Z">06-04</time>
+              <span class="sidebar__post-title">Unity-开源项目-A*算法可视化</span>
+            </a>
+          
+            
+            <a href="/2020/05/29/Unity-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E9%9F%B3%E9%A2%91%E5%8F%AF%E8%A7%86%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Unity-开源项目-音频可视化</span>
+            </a>
+          
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2019">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item" data-category="技术" data-year="2019">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2018">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item" data-category="Loy" data-year="2018">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+  <div class="sidebar-resizer" id="globalSidebarResizer" role="separator" aria-label="调整全局目录宽度" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="480" aria-valuenow="320" tabindex="0"></div>
+</aside>
+
+    <main class="main" id="mainContent" tabindex="-1">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-10-25T16:00:00.000Z">2026 年 10 月 26 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/Art/">Art</a>, 
+            
+              <a href="/categories/Art/%E7%BB%98%E7%94%BB/">绘画</a>
+            
+          </span>
+        
+        
+          
+          <span class="post__views" aria-label="文章阅读量">
+            阅读 <span id="vercount_value_page_pv" data-base="0" aria-live="polite">加载中…</span>
+          </span>
+        
+      </div>
+      <h1 class="post__title">Art-三分法与构图动线：从 1797 年的比例建议到九宫格口诀</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E7%BE%8E%E6%9C%AF/" class="tag">#美术</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <div class="post-toc__resizer" id="postTocResizer" role="separator" aria-label="调整文章目录宽度" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="420" aria-valuenow="280" tabindex="0"></div>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p><strong>今天街上教的三分法——“把主体放在九宫格交点上”——是二十世纪摄影教学加上去的；它 1797 年被写下来的原意完全是另一件事：不要把画面切成对半，要用 2:1 这种不等的比例来分配天空与地面、明与暗。而我把 9 幅公认的名作逐个量了一遍，落在三分交点上的显著像素占 3.34%，纯随机是 3.14%——等于没有。</strong></p>
+<p>（本文共讨论 9 幅画作、嵌入 25 张图。统计用 9 幅，示例讲解用 9 幅——其中有重叠，另含《干草车》《吕根岛白垩崖》《凯风快晴》的完整讲解。）</p>
+<p>一句话记忆：<strong>“三分法讲的是’别对半分’，不是’交点摆人’。这两句话被后人接成了一句话，而它们其实不是一件事。”</strong></p>
+<p>本文还有一个更硬的结论，先摆在这里：<strong>让一幅画”有动线”的，是画面里的结构——路、岸、浪脊、栏杆——把视线从边缘带到某个位置；三分线并不负责这件事。</strong> 这两个概念被合并成”三分法+引导线”一整套话术，但它们一个是版画家的比例建议，一个是人眼的真实机制，可信度差得很远。</p>
+<blockquote>
+<p><strong>与相邻话题的分工</strong>：<a href="/2026/10/22/Art-%E6%98%8E%E6%9A%97%E5%AF%B9%E7%85%A7%E6%B3%95/" title="Art-明暗对照法：用光与影组织画面">《明暗对照法》</a>讲光怎么组织画面，<a href="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/" title="Art-同时对比：颜色是被邻居逼出来的">《同时对比》</a>与<a href="/2026/10/25/Art-%E8%A1%A5%E8%89%B2%E4%B8%8E%E8%A7%86%E8%A7%89%E6%AE%8B%E5%83%8F/" title="Art-补色与视觉残像：眼睛补出来的对立色">《补色与视觉残像》</a>讲颜色怎么互相作用，<a href="/2026/10/24/Art-%E8%89%B2%E5%BD%A9%E9%80%8F%E8%A7%86%E4%B8%8E%E7%A9%BA%E6%B0%94%E9%80%8F%E8%A7%86/" title="Art-色彩透视与空气透视：远不是画小一点，是被空气吃掉">《色彩透视与空气透视》</a>讲纵深怎么衰减。本文讲<strong>位置</strong>——元素放在画面哪里。这是构图里最容易被口诀化、也最容易被讲错的一块。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="1-起源：一个版画家，在谈论村舍画册时顺手起的名"><a href="#1-起源：一个版画家，在谈论村舍画册时顺手起的名" class="headerlink" title="1. 起源：一个版画家，在谈论村舍画册时顺手起的名"></a>1. 起源：一个版画家，在谈论村舍画册时顺手起的名</h2><h3 id="1-1-1797-年的原话，说的是”别对半”"><a href="#1-1-1797-年的原话，说的是”别对半”" class="headerlink" title="1.1 1797 年的原话，说的是”别对半”"></a>1.1 1797 年的原话，说的是”别对半”</h3><p>三分法（rule of thirds）这个说法，目前可考的最早出处是 <strong>约翰·托马斯·史密斯（John Thomas Smith，1766–1833）</strong> 1797 年出版的《论乡村风景，附二十幅写生村舍铜版画》（<em>Remarks on Rural Scenery</em>）。他是伦敦的版画家、古物研究者，这本书是他自己画、自己刻的村舍写生集。</p>
+<p>注意：这本书叫”村舍写生集”，不是理论著作。三分法是被夹在讨论”明暗”的章节里说出来的，而且作者自己用的是商量的口吻。</p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/rot1797-src.jpg" alt="Smith 1797 原书页面：三分法那一段的完整扫描"></p>
+<p><em>Smith《论乡村风景》1797 年版第 15–17 页（Public domain，Wikimedia Commons）。<strong>看什么</strong>：这不是一张”三分法示意图”——它是一页*<em>纯文字</em></em>。页面上没有任何网格线、没有任何三分标注。这一点很关键：<strong>发明这个说法的人，从来没画过九宫格。</strong> 后人配的那张网格图，是另外加上去的。*</p>
+<p>原文（据 archive.org 扫描件全文核对）：</p>
+<blockquote>
+<p>“Analogous to this ‘Rule of thirds’, (if I may be allowed so to call it) I have presumed to think that, in connecting or in breaking the various lines of a picture, it would likewise be a good rule to do it, in general, by a similar scheme of proportion; for example, in a design of landscape, to determine the <em>sky</em> at about two-thirds; or else at about one-third, so that the material objects might occupy the other two…”</p>
+<p>——Smith, <em>Remarks on Rural Scenery</em>, 1797, pp. 15–17</p>
+</blockquote>
+<p>翻译过来：<strong>“类比于这条’the rule of thirds’（如果允许我这样称呼它），我冒昧地认为，在连接或打断画面中各种线条时，一般也可以按类似的比例来做；比如画风景时，把天空定在约三分之二处，或者约三分之一处，让实景占据其余的部分。”</strong></p>
+<p>三个要点，全都和今天的教法不一样：</p>
+<ol>
+<li><strong>它管的是”比例”，不是”坐标”。</strong> 天空占 2&#x2F;3 还是 1&#x2F;3，这说的是<strong>面积分配</strong>；九宫格交点说的是<strong>点的位置</strong>。两者不是同一件事。</li>
+<li><strong>它的目的是”打破对半”。</strong> 同一段里他明确说，2:1 远好过”precise formal half”（精确的对半分），也好过”four-fifths”（四分之五）——<strong>这是一种”避免均分”的构图经验，不是”把主体钉在四个点之一”。</strong></li>
+<li><strong>他自己都说这个名号是”if I may be allowed so to call it”（如果允许我这样叫）。</strong> 一个刚被临时起名的经验之谈，两百多年后变成了铁律。</li>
+</ol>
+<h3 id="1-2-这个说法的上一手：Reynolds-说的其实是冷暖色"><a href="#1-2-这个说法的上一手：Reynolds-说的其实是冷暖色" class="headerlink" title="1.2 这个说法的上一手：Reynolds 说的其实是冷暖色"></a>1.2 这个说法的上一手：Reynolds 说的其实是冷暖色</h3><p>更有意思的是，Smith 这段不是凭空来的。他明说了是”类比”（Analogous to），类比的对象在书里写得很清楚——他引了 Joshua Reynolds 1783 年对 Du Fresnoy《论绘画艺术》的注释。</p>
+<p>而 1845 年，George Field 在《Chromatics》第 47 页里把这个来源讲得最直白：</p>
+<blockquote>
+<p>“Sir Joshua has given it as a rule, that the proportion of warm to cold colour in a picture should be as two to one… and Smith, in his ‘Remarks on Rural Scenery,’ would extend a like rule to all the proportions of painting, begging for it the term of the ‘rule of thirds’…”</p>
+<p>——Field, <em>Chromatics</em>, 1845, §93, p. 47</p>
+</blockquote>
+<p>也就是说：<strong>Reynolds 原本讲的是”画面里暖色与冷色的比例约为 2:1”，Smith 把这套 2:1 从”颜色”推广到了”一切比例”</strong>（天空与地面、明与暗、水与陆、墙面的分割）。Field 1845 年记录并确认了这条传承。</p>
+<p>于是三分法的真实身份是：<strong>一个由冷暖色配比推广而来的”不均衡比例”经验法则</strong>。它诞生时和”主体位置”没有半点关系。</p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/smith-etching-src.jpg" alt="Smith 亲手绘制的村舍铜版画：三分法就出自这样一本写生册"></p>
+<p><em>Smith《论乡村风景》中的村舍蚀刻版画（Public domain）。<strong>看什么</strong>：画面下方手写体是 “Drawn &amp; etched by J. T. Smith, Engraver…”，作者自署。这是一张*<em>纯粹的风景写生</em></em>——树丛、坡地、天空，没有辅助线、没有标注。理解三分法的出身很重要：<strong>它来自一个天天画村舍、关心”天空该占多少”的版画家，而不是来自一个研究视觉生理的科学家。</strong> 这也预告了它后两个世纪的命运：作为经验口诀流传，而不是作为可验证的规律。*</p>
+<p><em>（顺带说一句：上面这张页面图和这张铜版画，都<strong>不是</strong>我画的示意网格。全书两百年历史里，Smith 一张网格图都没画过。）</em></p>
+<h2 id="2-发展：从”比例经验”变成”九宫格口诀”，中间发生了两次偷换"><a href="#2-发展：从”比例经验”变成”九宫格口诀”，中间发生了两次偷换" class="headerlink" title="2. 发展：从”比例经验”变成”九宫格口诀”，中间发生了两次偷换"></a>2. 发展：从”比例经验”变成”九宫格口诀”，中间发生了两次偷换</h2><h3 id="2-1-第一次偷换：摄影教材把”面积”读成了”位置”"><a href="#2-1-第一次偷换：摄影教材把”面积”读成了”位置”" class="headerlink" title="2.1 第一次偷换：摄影教材把”面积”读成了”位置”"></a>2.1 第一次偷换：摄影教材把”面积”读成了”位置”</h3><p>Smith 讲的是”天空占几分之几”。到了二十世纪的摄影教程里，这句话被改写成一句完全不同的话：<strong>“把重要的东西放在画面三等分线的交点上。”</strong></p>
+<p>这是一个实质性的改变，不是措辞问题：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Smith 1797 的原意</th>
+<th>二十世纪摄影教程的版本</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>管的对象</td>
+<td><strong>面积比例</strong>（天空 2&#x2F;3 还是 1&#x2F;3）</td>
+<td><strong>点的坐标</strong>（主体放在 4 个交点之一）</td>
+</tr>
+<tr>
+<td>要避免的错</td>
+<td>对半分（1:1）</td>
+<td>居中（放在正中）</td>
+</tr>
+<tr>
+<td>凭什么成立</td>
+<td>版画家的经验，自认”if I may be allowed so to call it”</td>
+<td>被表述为视觉规律</td>
+</tr>
+<tr>
+<td>有没有图示</td>
+<td>无</td>
+<td>必然配一张九宫格</td>
+</tr>
+</tbody></table>
+<p>第二列那套东西非常流行，但<strong>它并不是 Smith 写的</strong>。这一点在维基百科”Rule of thirds”词条的历史章节里也有明确交代：Smith 的做法是对 Reynolds 那条”明暗&#x2F;冷暖比例”的扩展。词条本身引用的就是这个 1797 年的段落。</p>
+<h3 id="2-2-第二次偷换：把”构图动线”也打包进去"><a href="#2-2-第二次偷换：把”构图动线”也打包进去" class="headerlink" title="2.2 第二次偷换：把”构图动线”也打包进去"></a>2.2 第二次偷换：把”构图动线”也打包进去</h3><p>后来的教程进一步把”引导线”（leading lines）也归到三分法名下，形成一套完整话术：<strong>“用路&#x2F;河流&#x2F;栏杆把视线引向三分交点上的主体。”</strong></p>
+<p>这两个东西的可信度完全不同，必须拆开看：</p>
+<ul>
+<li><strong>三分交点的位置</strong>：<strong>几乎无实证支持</strong>（下面第三节给出我自己量的数据，以及与已发表研究的对照）。</li>
+<li><strong>引导线引导视线</strong>：<strong>有实证支持</strong>。2024 年 Chuang、Tseng、Chiang 在 <em>Journal of Eye Movement Research</em> 上用 34 名被试做过眼动实验，结论是：引导线显著影响观者对关键元素的注意，尤其当画面里有突出的主体元素时，会带来更长的观看时间和更高的美感评价。</li>
+</ul>
+<p>也就是说，这条话术里**”动线是真的”，”三分点是附会的”**。合在一起讲，会让那条真的也一起变得可疑。</p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/rot-demo.jpg" alt="Commons 上现成的三分法示范图（由他人制作，非本文自制）"></p>
+<p><em>树木与水面的示范照片，叠加了九宫格辅助线（作者 Wikimedia 用户 Moondigger，CC BY-SA 2.5）。<strong>看什么</strong>：这张图常被当作”三分法生效”的证据。但我把它测了一遍：图中深色主体（树与水中倒影）的加权重心落在 <strong>(0.531, 0.699)</strong>——距<strong>右下交点 (0.667, 0.667) 有 13.9%</strong> 的画面尺度，距<strong>画面中心 20.2%</strong>。它既没落在交点上，也不是居中，它落在*<em>右三分线与下三分线之间的空白里</em></em>。这张”标准示范图”本身，就不符合它要示范的那条规则。*</p>
+<h3 id="2-3-顺便说一个常见的误解：三分法不是”黄金分割”"><a href="#2-3-顺便说一个常见的误解：三分法不是”黄金分割”" class="headerlink" title="2.3 顺便说一个常见的误解：三分法不是”黄金分割”"></a>2.3 顺便说一个常见的误解：三分法不是”黄金分割”</h3><p>这两条经常被混为一谈，但数值上差得很远：</p>
+<table>
+<thead>
+<tr>
+<th>分法</th>
+<th>分割位置（占边长的比例）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>三分法</td>
+<td>1&#x2F;3 ≈ <strong>0.333</strong>、2&#x2F;3 ≈ <strong>0.667</strong></td>
+</tr>
+<tr>
+<td>黄金分割</td>
+<td>1&#x2F;φ ≈ <strong>0.382</strong>、1&#x2F;φ² ≈ <strong>0.618</strong></td>
+</tr>
+</tbody></table>
+<p>0.333 与 0.382 差了 5 个百分点，在画面上是肉眼可辨的距离。<strong>它们是两套不同的方案，只是碰巧都主张”别对半分”。</strong></p>
+<p>而黄金比例本身在艺术中的实际使用，也长期被夸大。Markowsky 1992 年在 <em>The College Mathematics Journal</em> 上专门写过《Misconceptions about the Golden Ratio》，逐一核查了那些”某某杰作严格按黄金比构图”的流行说法，多数经不起测量。</p>
+<h2 id="3-现状：把”三分法有效”这句话拿到数据面前"><a href="#3-现状：把”三分法有效”这句话拿到数据面前" class="headerlink" title="3. 现状：把”三分法有效”这句话拿到数据面前"></a>3. 现状：把”三分法有效”这句话拿到数据面前</h2><p>这是本文最想留给你的部分。我没有停在”引用两篇论文”，而是<strong>自己把 9 幅公认的构图名作量了一遍</strong>，用的是一个非常宽松的判据。</p>
+<h3 id="3-1-先说方法，因为它决定了结论能有多硬"><a href="#3-1-先说方法，因为它决定了结论能有多硬" class="headerlink" title="3.1 先说方法，因为它决定了结论能有多硬"></a>3.1 先说方法，因为它决定了结论能有多硬</h3><p>对每幅图：</p>
+<ol>
+<li>缩到 320px 宽，计算每个像素的<strong>局部对比度</strong>（该像素亮度 − 3×3 邻域均值，取绝对值）与<strong>彩度</strong>，加权合成一张显著图。</li>
+<li>取显著度最高的<strong>前 1% 像素</strong>，看它们落在”四个三分交点为圆心、半径为画面宽度的 5%”的圆盘内的比例。</li>
+<li>这个圆盘总面积占整幅画面的 <strong>4π(0.05)² ≈ 3.14%</strong>。所以”随机撒点”的期望命中率就是 <strong>3.14%</strong>。<strong>实测值只有明显高于 3.14%，才能说三分法在起作用。</strong></li>
+</ol>
+<p>这个判据对三分法是<strong>极其宽容</strong>的：它只要”接近交点”就算命，不要求严格重合；而且四个交点全都算。</p>
+<h3 id="3-2-结果：等于随机"><a href="#3-2-结果：等于随机" class="headerlink" title="3.2 结果：等于随机"></a>3.2 结果：等于随机</h3><p><strong>表 1｜9 幅名作的显著像素落在三分交点圆盘内的比例（r &#x3D; 画面 5%）</strong></p>
+<table>
+<thead>
+<tr>
+<th>作品</th>
+<th>作者 &#x2F; 年代</th>
+<th>命中率</th>
+<th>与随机基线 3.14% 相比</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>《米德尔哈尔尼斯林荫道》</td>
+<td>霍贝玛，1689</td>
+<td><strong>11.61%</strong></td>
+<td>3.7×，唯一明显偏高</td>
+</tr>
+<tr>
+<td>《干草车》</td>
+<td>康斯特布尔，1821</td>
+<td>4.69%</td>
+<td>1.5×</td>
+</tr>
+<tr>
+<td>《吕根岛白垩崖》</td>
+<td>弗里德里希，约 1818</td>
+<td>3.63%</td>
+<td>1.2×</td>
+</tr>
+<tr>
+<td>《代尔夫特风景》</td>
+<td>维米尔，约 1660</td>
+<td>2.71%</td>
+<td>0.9×</td>
+</tr>
+<tr>
+<td>《神奈川冲浪里》</td>
+<td>北斋，约 1831</td>
+<td>2.33%</td>
+<td>0.7×</td>
+</tr>
+<tr>
+<td>《凯风快晴》</td>
+<td>北斋，约 1831</td>
+<td>1.74%</td>
+<td>0.6×</td>
+</tr>
+<tr>
+<td>《三等舱》</td>
+<td>斯蒂格里茨，1907</td>
+<td>1.56%</td>
+<td>0.5×</td>
+</tr>
+<tr>
+<td>《龟户梅屋铺》</td>
+<td>广重，1857</td>
+<td>1.48%</td>
+<td>0.5×</td>
+</tr>
+<tr>
+<td>《龟户梅屋铺（临）》</td>
+<td>梵高，1887</td>
+<td><strong>0.34%</strong></td>
+<td>0.1×</td>
+</tr>
+<tr>
+<td><strong>平均</strong></td>
+<td>—</td>
+<td><strong>3.34%</strong></td>
+<td><strong>1.06×</strong></td>
+</tr>
+</tbody></table>
+<p><strong>9 幅里有 5 幅低于随机基线。平均 3.34% 对随机 3.14%，比值 1.06。</strong> 换句话说，如果你把 9 幅画的显著部分随便乱撒，得到的命中率跟”三分法名作”几乎一样。</p>
+<h3 id="3-3-更强的证据：换一套网格，成绩一样”符合”"><a href="#3-3-更强的证据：换一套网格，成绩一样”符合”" class="headerlink" title="3.3 更强的证据：换一套网格，成绩一样”符合”"></a>3.3 更强的证据：换一套网格，成绩一样”符合”</h3><p>一个判据如果不能被”证伪”，它就没有信息量。我做了一个直接的检验：<strong>同一批画，换成别的网格，看命中率会不会掉下来。</strong></p>
+<p><strong>表 2｜同一批作品，换不同网格的命中率</strong></p>
+<table>
+<thead>
+<tr>
+<th>网格</th>
+<th>交点位置</th>
+<th>平均命中率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>三分网格</strong></td>
+<td>1&#x2F;3、2&#x2F;3</td>
+<td><strong>2.81%</strong></td>
+</tr>
+<tr>
+<td>黄金网格</td>
+<td>0.382、0.618</td>
+<td>3.80%</td>
+</tr>
+<tr>
+<td>偏移网格 A</td>
+<td>0.28、0.62</td>
+<td>3.34%</td>
+</tr>
+<tr>
+<td>偏移网格 B</td>
+<td>0.40、0.72</td>
+<td>1.57%</td>
+</tr>
+<tr>
+<td>随机基线</td>
+<td>—</td>
+<td>3.14%</td>
+</tr>
+</tbody></table>
+<p><strong>三分网格（2.81%）的成绩，还不如”黄金网格”（3.80%）和任意偏移的网格 A（3.34%）。</strong> 四个交点铺在画面上，落中哪个都算”符合三分法”——这项检验根本区分不出三分法和随便一套线。</p>
+<p>这就是三分法在实证上的核心困境：<strong>判据的距离容差一放大（从”精确交点”放宽到”接近交点”），任何作品都能被判为”符合”；一收紧，就没有作品符合。</strong> 而教程里从来不说”接近”到底有多接近。</p>
+<h3 id="3-4-那画家的构图到底靠什么？中心偏好"><a href="#3-4-那画家的构图到底靠什么？中心偏好" class="headerlink" title="3.4 那画家的构图到底靠什么？中心偏好"></a>3.4 那画家的构图到底靠什么？中心偏好</h3><p>把眼睛最容易被什么吸引放一边，先问一个更基础的问题：<strong>画面里”信息最密集的地方”通常在哪？</strong></p>
+<p>我算了显著像素团的加权重心（不是某个物体，而是显著度分布的质心），9 幅平均<strong>偏离画面中心只有 16.1%</strong>。而且有意思的是，偏离方向几乎都在<strong>下半部</strong>——9 幅的重心 y 坐标中位数是 0.697，即<strong>下三分之一区</strong>。</p>
+<p>这个结果和已发表的心理学研究方向一致，但<strong>结论要小心区分</strong>，因为两者说的不是同一件事：</p>
+<ul>
+<li><strong>Palmer、Wickens、Gardner（2008，<em>Spatial Vision</em>）</strong> 用偏好选择和自由拍摄做的实验发现：对于单个有朝向的物体（人、车、茶杯），<strong>偏好最高是主体在画面正中</strong>，并且随着离开中心而<strong>单调、对称地下降</strong>（他们把这条叫”center bias &#x2F; 中心偏好”）；另外还有一个”inward bias”——物体应该<strong>朝向画面内部</strong>，而不是朝外。</li>
+<li><strong>Sammartino 与 Palmer（2012，<em>J Exp Psychol: HPP</em>）</strong> 进一步发现，竖直方向的位置偏好取决于物体的功能属性：通常位于视线下方的物体（碗、游泳的鳐鱼）放在画面中心偏下更好；通常在上方的（吊灯、飞鹰）放在中心偏上更好。他们用”affordance space（可供性空间）居中”来解释。</li>
+</ul>
+<p><strong>注意这两条说的是”居中被偏好”，与三分法主张的”居中是错的”直接矛盾。</strong> 我自己的数据（显著重心距中心 16.1%）也谈不上支持”三分”，因为 16.1% 在这类图上属于<strong>接近中心但不在正中心</strong>。</p>
+<p>但这里必须自我约束一次：<strong>重心是几百上千个显著点的均值，它天然会被拉向画面中部</strong>，所以它偏离中心只有 16% 这件事，本身不能直接当作”画家偏爱居中”的铁证——这是这类指标的方法学陷阱。因此我把这条当作**”与中心偏好研究方向一致”的观察**，而不是独立证据。真正的独立证据是上面那些已发表的心理学实验。</p>
+<h3 id="3-5-三分法在实证上最站得住的那一版：肖像的眼睛"><a href="#3-5-三分法在实证上最站得住的那一版：肖像的眼睛" class="headerlink" title="3.5 三分法在实证上最站得住的那一版：肖像的眼睛"></a>3.5 三分法在实证上最站得住的那一版：肖像的眼睛</h3><p>如果把三分法从”四个交点”这个版本退让到”<strong>三分线的位置附近有东西</strong>“，那它有一处是真的能站住的——<strong>肖像画里的眼睛高度</strong>。</p>
+<p><strong>Tyler（1997，<em>Perception</em>；1998，<em>Nature</em> 简报）</strong> 测量了 170 幅跨五个世纪的单人肖像（从凡·艾克到毕加索），结论明确：</p>
+<ul>
+<li><strong>水平方向：一只眼睛通常被居中</strong>，分布标准差只有画面宽度的 ±5%；</li>
+<li><strong>竖直方向：眼睛高度不在正中</strong>，而是集中在接近 <strong>0.618（黄金分割）</strong> 的位置，”几乎没有眼睛落在竖直正中以下”。</li>
+</ul>
+<p>注意这个结果对三分法<strong>既是支持也是打击</strong>：</p>
+<ul>
+<li>支持的部分：<strong>眼睛确实不在正中，它偏上</strong>——这和”别把主体放正中”方向一致。</li>
+<li>打击的部分：<strong>它的位置是 0.618，不是 0.667。</strong> 前者是黄金比，后者是三分比。Tyler 自己的结论写的是 golden section。用一个更细的名词，三分法在这里被替身了。</li>
+</ul>
+<p>顺便说，这也解释了为什么”三分法”在摄影教程里显得那么灵：<strong>人像是最常见的拍摄题材，而人像的真实规律（眼睛偏上、不居中）在观感上和三分线非常接近，于是被误认为三分线在起作用。</strong></p>
+<h3 id="3-6-三个当代落点"><a href="#3-6-三个当代落点" class="headerlink" title="3.6 三个当代落点"></a>3.6 三个当代落点</h3><p><strong>(1) 引擎里它只是一条”辅助线”</strong></p>
+<p>Blender 相机属性里的 Composition Guides 现在有 7 种：Thirds、Center-Center、Center-Diagonal、Golden-Ratio、Golden-Triangle A&#x2F;B、Harmony-Triangle A&#x2F;B。<strong>三分只是其中一种，并且和黄金比、黄金三角平级列在一起</strong>——软件厂商的做法其实很诚实：它不裁决哪种对，只提供几种常见的构图参考线让你自己选。</p>
+<p><strong>(2) 摄影机的自动构图，靠的是”屏幕位置”而不是”交点”</strong></p>
+<p>Unity Cinemachine 的 Position Composer 里，真正决定主体落点的是 <strong>Screen Position</strong> 参数：0 是画面中心，−0.5 和 +0.5 是画面边缘。它用 Dead Zone（死区）和 Hard Limits（硬限制）来定义”主体在这个范围内相机就不动”。<strong>这是一套连续的位置控制，不是”吸附到四个点”。</strong></p>
+<p>这个设计细节其实很说明问题：<strong>工程上真正好用的是”把主体放在屏幕某个归一化位置上”，而不是”吸附到三分交点”。</strong> 因为前者可以连续调，后者一吸附构图就死了。</p>
+<p><strong>(3) 视频&#x2F;影视：动线优先于网格</strong></p>
+<p>实拍和虚拟拍摄里更常用的是”动线”思路：先把场景里的结构线（门框、走廊、道路、光线）摆好，让演员的走位和镜头运动沿这些线走。这对应的是 3.4 里提到的那篇眼动研究——<strong>有实证支持的那一半</strong>。三分网格在这个流程里通常只作为监视器上的参考叠加，用来快速判断”地平线有没有压在正中间把画面劈成两半”——注意，这恰好回到了 Smith 1797 年的原意：<strong>避免对半。</strong></p>
+<h2 id="4-示例：九幅作品的动线是从哪来的"><a href="#4-示例：九幅作品的动线是从哪来的" class="headerlink" title="4. 示例：九幅作品的动线是从哪来的"></a>4. 示例：九幅作品的动线是从哪来的</h2><p>这一节换一个问法。不问”主体在不在交点上”，而问：<strong>视线是被什么带进画面、带到哪里的？</strong></p>
+<h3 id="4-1-霍贝玛《米德尔哈尔尼斯林荫道》：动线是路，落点不在任何三分点"><a href="#4-1-霍贝玛《米德尔哈尔尼斯林荫道》：动线是路，落点不在任何三分点" class="headerlink" title="4.1 霍贝玛《米德尔哈尔尼斯林荫道》：动线是路，落点不在任何三分点"></a>4.1 霍贝玛《米德尔哈尔尼斯林荫道》：动线是路，落点不在任何三分点</h3><p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/hobbema-src.jpg" alt="霍贝玛《米德尔哈尔尼斯林荫道》1689"></p>
+<p><em>霍贝玛（Meindert Hobbema）《米德尔哈尔尼斯林荫道》，1689，伦敦国家美术馆（Public domain）。<strong>看什么</strong>：这是西方绘画里最常被拿来讲”一点透视”的作品之一。道路两侧的高树向远处收缩，形成强烈的纵深。注意它最反常的地方：<strong>两侧树列并不对称，左侧树密、右侧树疏，村庄也在左侧</strong>——按”对称构图”看它是斜的，按”三分法”看它也不规矩。</em></p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c1-hobbema-road.jpg" alt="道路与两侧树列：向消失点收缩的动线"></p>
+<p><em>局部（画面中下部）。<strong>看什么</strong>：把注意力放在<strong>路面的两条边</strong>上。它们从画面底边（宽）一路向远处收拢，这是整幅画唯一真正在”牵引”视线的结构。所谓”引导线”在这个例子里就是两条实打实的路面边缘，不需要任何网格来帮忙。</em></p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c2-hobbema-village.jpg" alt="画面左侧的村庄与教堂塔楼"></p>
+<p><em>局部（画面左中部）。<strong>看什么</strong>：教堂塔楼（中偏右那座带尖顶的高塔）与远处一排红屋顶房屋。这些是画面里*<em>最亮的建筑块</em></em>，也是视线的第二个停留点。注意它并不在三分交点上——它在<strong>左侧三分线与中线之间</strong>。*</p>
+<p>我实测了这条路两侧边界的会聚位置。自动检测在这张图上很容易失败：<strong>树叶的碎斑、行人和狗都会打断边缘</strong>，从上往下扫会一路跳到树干上。所以我只用了画面最下面一段（y &#x3D; 0.915–0.995）——这一段路面干净、没有遮挡——来拟合左右边界：</p>
+<p><strong>表 3｜霍贝玛林荫道的路面边界拟合（仅用 y &#x3D; 0.915–0.995 段）</strong></p>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>拟合结果</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>左边界斜率</td>
+<td><strong>−0.900</strong>（每下降 1 个画面高度，左移 0.900 个画面宽度）</td>
+</tr>
+<tr>
+<td>右边界斜率</td>
+<td><strong>+0.844</strong></td>
+</tr>
+<tr>
+<td>两线交点</td>
+<td><strong>(0.476, 0.796)</strong></td>
+</tr>
+<tr>
+<td>距画面中心</td>
+<td><strong>29.7%</strong></td>
+</tr>
+<tr>
+<td>距最近的三分交点（左下 0.333, 0.667）</td>
+<td><strong>19.3%</strong></td>
+</tr>
+</tbody></table>
+<p><strong>两条边界斜率一负一正、量级接近（0.900 对 0.844），说明这是一组对称收拢的边界</strong>，拟合可信。而交点落在 <strong>(0.476, 0.796)</strong>——横向几乎正中，纵向在<strong>下四分之一处</strong>，离四个三分交点<strong>至少 19.3%</strong>。</p>
+<p><strong>这就是结论：这幅被用来讲构图的名作，它的”动线落点”不在任何一个三分交点上。</strong> 动线是真实的（路面边界清晰收拢），但它通向的位置是<strong>画面中下部的地平线附近</strong>，不是网格交点。</p>
+<blockquote>
+<p>方法说明（后文继续适用）：把检测范围扩展到 y &#x3D; 0.815–0.905 段时，拟合出的交点会跳到 (0.396, 0.491)，两侧斜率变成 +0.089 &#x2F; +0.402——这明显是抓到了树冠和人物，不是路面。<strong>判断拟合是否可信，要看左右斜率是否一负一正、量级相近</strong>；不对称就说明没抓到同一条结构。</p>
+</blockquote>
+<h3 id="4-2-北斋《神奈川冲浪里》：动线是浪脊，落点是浪尖"><a href="#4-2-北斋《神奈川冲浪里》：动线是浪脊，落点是浪尖" class="headerlink" title="4.2 北斋《神奈川冲浪里》：动线是浪脊，落点是浪尖"></a>4.2 北斋《神奈川冲浪里》：动线是浪脊，落点是浪尖</h3><p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/greatwave-src.jpg" alt="北斋《神奈川冲浪里》约1831"></p>
+<p><em>葛饰北斋《神奈川冲浪里》，出自《富岳三十六景》，约 1831，大都会艺术博物馆（Public domain）。<strong>看什么</strong>：巨浪的轮廓从<strong>左下</strong>卷起，向上<strong>左上</strong>方攀高，浪尖在左侧张开爪状的白沫。整幅画的动势是一条巨大的弧线。注意构图上最狠的一手：<strong>浪尖在左、富士山在右，两者被压在同一个水平带上</strong>——不是”主体放交点”，而是”两个元素互相称量”。</em></p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c3-greatwave-crest.jpg" alt="巨浪与浪尖的爪状白沫"></p>
+<p><em>局部（左上）。<strong>看什么</strong>：浪脊的线条方向，以及浪尖处白色泡沫的分叉。这是画面*<em>唯一的高速运动区</em></em>，也是视线最先被抓住的地方。它的位置在画面左上部，横向约在 0.15–0.45 之间。*</p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c4-greatwave-fuji.jpg" alt="富士山与浪的关系"></p>
+<p><em>局部（右侧）。<strong>看什么</strong>：富士山（三角形，约在横向 0.65–0.75、纵向 0.45–0.60）被前景的浪压得很低、很小。这种”把象征物画小”的处理，是浮世绘常见的对比法——<strong>不是靠摆放位置，而是靠尺度对比</strong>。</em></p>
+<p><strong>表 4｜主显著峰的位置，以及它与三分交点的距离</strong></p>
+<table>
+<thead>
+<tr>
+<th>作品</th>
+<th>主显著峰（连续峰值）</th>
+<th>距最近三分交点</th>
+<th>距画面中心</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>霍贝玛《林荫道》</td>
+<td>(0.326, 0.822)</td>
+<td>15.6%</td>
+<td>36.6%</td>
+</tr>
+<tr>
+<td>维米尔《代尔夫特风景》</td>
+<td>(0.078, 0.902)</td>
+<td>34.7%</td>
+<td>58.2%</td>
+</tr>
+<tr>
+<td>康斯特布尔《干草车》</td>
+<td>(0.517, 0.571)</td>
+<td>17.8%</td>
+<td><strong>7.3%</strong></td>
+</tr>
+<tr>
+<td>北斋《神奈川冲浪里》</td>
+<td><strong>(0.342, 0.332)</strong></td>
+<td><strong>0.9%</strong></td>
+<td>23.1%</td>
+</tr>
+<tr>
+<td>北斋《凯风快晴》</td>
+<td>(0.166, 0.079)</td>
+<td>30.4%</td>
+<td>53.7%</td>
+</tr>
+<tr>
+<td>广重《龟户梅屋铺》</td>
+<td>(0.846, 0.203)</td>
+<td>22.2%</td>
+<td>45.7%</td>
+</tr>
+<tr>
+<td>梵高《龟户梅屋铺（临）》</td>
+<td>(0.169, 0.727)</td>
+<td>17.5%</td>
+<td>40.1%</td>
+</tr>
+<tr>
+<td>弗里德里希《吕根岛白垩崖》</td>
+<td>(0.110, 0.849)</td>
+<td>28.8%</td>
+<td>52.3%</td>
+</tr>
+<tr>
+<td>斯蒂格里茨《三等舱》</td>
+<td>(0.310, 0.740)</td>
+<td>7.7%</td>
+<td>30.6%</td>
+</tr>
+<tr>
+<td><strong>平均</strong></td>
+<td>—</td>
+<td><strong>19.5%</strong></td>
+<td>—</td>
+</tr>
+</tbody></table>
+<p>只有北斋的浪尖真正压在了左上交点附近（0.9%），其余 8 幅都在 7.7%–34.7%。</p>
+<p>更关键的是<strong>随机基线</strong>：我把这 9 张显著图循环平移（相当于打乱位置但保留纹理），重复 108 次重新取峰。随机情况下，峰到最近三分交点的平均距离是 <strong>19.5%</strong>。而实测是 <strong>19.5%</strong>——<strong>比值 1.00，完全无差别。</strong></p>
+<blockquote>
+<p>方法注记（很重要，是一条踩过的坑）：上一版我用 8×8 分块找”最强块”，得到”北斋浪尖距交点 2.9%、三等舱 2.9%”这种看着很像回事的结果。但 8×8 分块的中心恰好落在 0.3125 &#x2F; 0.6875，<strong>本身距 1&#x2F;3、2&#x2F;3 只有 2.08%</strong>——那是量化步长造出来的假精度，不是构图。<strong>任何”最近命中”类指标，都要先检查它的搜索网格有没有和判据本身共振。</strong></p>
+</blockquote>
+<h3 id="4-3-北斋《凯风快晴》：构图靠的是”减法”，不是定点"><a href="#4-3-北斋《凯风快晴》：构图靠的是”减法”，不是定点" class="headerlink" title="4.3 北斋《凯风快晴》：构图靠的是”减法”，不是定点"></a>4.3 北斋《凯风快晴》：构图靠的是”减法”，不是定点</h3><p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/redfuji-src.jpg" alt="北斋《凯风快晴》约1831"></p>
+<p><em>葛饰北斋《凯风快晴》，出自《富岳三十六景》，约 1831（Public domain）。<strong>看什么</strong>：这是全篇最干净的一张。画面里几乎只有三样东西——赤红的山体、白绿相间的雪痕、以及一片蓝。没有任何前景、没有人物、没有船、没有第二座山。</em></p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c12-redfuji-crest.jpg" alt="山体与云层：红与蓝的上下分块"></p>
+<p><em>局部（山体中上部）。<strong>看什么</strong>：山体两侧的斜边向峰顶收拢，形成全画唯一的三角；雪痕沿山脊向两侧铺开，是<strong>横向</strong>的笔触，与山体<strong>竖向</strong>的轮廓交叉。这两组方向互相垂直，让一座静止的山看起来有体积。</em></p>
+<p>我测了这片红色山体（红相强、明度中等以上）：它占了画面的 <strong>22.1%</strong>，横向范围 <strong>0.302–0.995</strong>，纵向范围 <strong>0.200–0.874</strong>，加权质心在 <strong>(0.720, 0.610)</strong>。</p>
+<p><strong>这里我必须先纠正一个自己差点写错的结论。</strong> 按质心算，它距离右下交点 (0.667, 0.667) 只有 <strong>7.8%</strong>——如果我想论证”三分法不成立”，这个数字看起来正好可以用。但那是<strong>误用</strong>：一个横跨画面 69% 宽、纵跨 67% 高的整块面积，它的”质心”跟”主体被摆在哪里”根本不是一回事。<strong>这种面积型元素就不该用点位置指标去描述。</strong> 这和 3.4 节说的是同一个陷阱：均值型指标天然向中部回归，拿它去比单点位置，结论必然是假的。</p>
+<p>所以这张画真正值得说的是另外两件事：</p>
+<ol>
+<li><strong>山体本身占据画面的绝大部分</strong>，左边留出的空天大约只占宽度的三成。它不是”把主体放在某个点上”，而是”主体就是面积本身”。</li>
+<li><strong>峰顶的红色像素最高出现在 y &#x3D; 0.200</strong>，也就是画面上方五分之一处；<strong>山脚一直延伸到 y &#x3D; 0.874</strong>。上下都接近画面边缘——<strong>它是在”撑满”，不是在”摆位”</strong>。</li>
+</ol>
+<p><strong>它的构图手法是”减法”：删掉一切与富士无关的东西，把剩下的唯一元素放大到近乎撑满，用左侧那一块留白和上方那片蓝来衬托。</strong> 这种手法不需要网格，需要的是”敢删”——恰恰是任何构图口诀都教不了的部分。</p>
+<p>顺带说一句我在测量中遇到的情况：用”行均值亮度剖面找最大突变”来定位这张画的地平线，四个平滑尺度给出的结果从 0.20 一路跳到 0.68，<strong>跨度 0.48</strong>。原因很直接——<strong>这张画根本没有地平线</strong>，蓝底和山体之间没有一条水平的交界。工具在这里失效，不是工具不够好，是<strong>问题本身不成立</strong>。这件事值得记住：很多构图分析失败，不是测得不准，而是硬要在一个没有该结构的画面上测该结构。</p>
+<h3 id="4-4-维米尔《代尔夫特风景》：动线是光，不是线"><a href="#4-4-维米尔《代尔夫特风景》：动线是光，不是线" class="headerlink" title="4.4 维米尔《代尔夫特风景》：动线是光，不是线"></a>4.4 维米尔《代尔夫特风景》：动线是光，不是线</h3><p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/delft-src.jpg" alt="维米尔《代尔夫特风景》约1660"></p>
+<p><em>维米尔《代尔夫特风景》，约 1660–1661，莫瑞泰斯皇家美术馆（Public domain）。<strong>看什么</strong>：这幅画几乎没有”线”。它靠的是*<em>光的分布</em></em>——云层间隙漏下的光打在城墙上，前景水面反射天光。雷德格雷夫（Redgrave）当年为它辩护时说这幅画”以光这件事本身取胜”，指的正是这个。*</p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c5-delft-spire.jpg" alt="城墙、塔楼与前景船只"></p>
+<p><em>局部（中景）。<strong>看什么</strong>：这座带尖顶的砖石建筑（新教堂）是画面最明确的人工结构，但它*<em>并没有被摆在黄金位置</em></em>——它接近横向中线。整幅画的张力来自”建筑在中、光在右上”。*</p>
+<p>我在地平线这件事上做了一次稳定性检验，结果值得单独说，因为它比我原本想得到的结论更有用。</p>
+<p><strong>做法</strong>：对每幅图，用”行均值亮度剖面的最大突变”定位地平线，然后<strong>换四个不同的平滑尺度各测一次</strong>。如果一条真的存在于画面里的水平交界，它在不同尺度下应该收敛到同一个位置；如果它在尺度之间大幅跳动，说明这个”交界”不是画面结构，是噪声或者别的什么东西。</p>
+<p><strong>表 4b｜地平线检测的跨尺度一致性（四个平滑尺度）</strong></p>
+<table>
+<thead>
+<tr>
+<th>作品</th>
+<th>中位 y</th>
+<th>范围</th>
+<th>跨度</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>维米尔《代尔夫特风景》</td>
+<td><strong>0.605</strong></td>
+<td>0.599–0.608</td>
+<td><strong>0.009</strong></td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>弗里德里希《吕根岛白垩崖》</td>
+<td>0.287</td>
+<td>0.284–0.292</td>
+<td>0.008</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>北斋《神奈川冲浪里》</td>
+<td>0.823</td>
+<td>0.816–0.827</td>
+<td>0.012</td>
+<td>稳定</td>
+</tr>
+<tr>
+<td>霍贝玛《米德尔哈尔尼斯林荫道》</td>
+<td>0.732</td>
+<td>0.728–0.804</td>
+<td>0.076</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>广重《龟户梅屋铺》</td>
+<td>0.469</td>
+<td>0.462–0.492</td>
+<td>0.030</td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>康斯特布尔《干草车》</td>
+<td>0.606</td>
+<td>0.579–0.674</td>
+<td><strong>0.095</strong></td>
+<td>不稳定</td>
+</tr>
+<tr>
+<td>北斋《凯风快晴》</td>
+<td>—</td>
+<td>0.200–0.684</td>
+<td><strong>0.484</strong></td>
+<td>无地平线</td>
+</tr>
+<tr>
+<td>斯蒂格里茨《三等舱》</td>
+<td>—</td>
+<td>0.440–0.839</td>
+<td><strong>0.398</strong></td>
+<td>无地平线（是照片，结构复杂）</td>
+</tr>
+</tbody></table>
+<p><strong>在本来应该有一条地平线的风景画里，只有维米尔那一幅是可靠的：0.605，四个尺度之间只差 0.009</strong>，距三分线 0.667 差 <strong>6.2%</strong>。（《神奈川冲浪里》的 0.823 和梵高临本的 0.879 也很稳定，但那两张的”稳定值”是画面下缘的水面&#x2F;地面交界，不是地平线。）</p>
+<p>而《干草车》——最常被引用来讲”地平线应该压在三分线上”的那幅——<strong>跨度 0.095，我测不准它的地平线</strong>。原因很清楚：康斯特布尔的画面里，水面、草地、树影、车辙层层交叠，<strong>没有一条干净的水平分界线</strong>。所谓”《干草车》的地平线压在三分线”，是一件我说得出来但量不出来的事。</p>
+<blockquote>
+<p><strong>这是一条应该记住的方法纪律：一个数字在参数之间不稳定时，不要挑一个”看着对”的报出来。</strong> 我在别的构图指标上也犯过同样的错（见 4.2 节的分块量化陷阱）。<strong>跨参数稳定性，比数字本身更值得报告。</strong></p>
+</blockquote>
+<p>顺带说，《吕根岛白垩崖》测出的 0.287 也不是”地平线”——那是<strong>海天之间的交界被画面上部的树冠和崖顶遮住了</strong>，检测器抓到的是崖壁与海面的分界。这同样说明：<strong>工具只能测画面里存在的东西，测不到”应该存在的东西”。</strong></p>
+<h3 id="4-5-斯蒂格里茨《三等舱》：动线是人造结构，最依赖构图的一张"><a href="#4-5-斯蒂格里茨《三等舱》：动线是人造结构，最依赖构图的一张" class="headerlink" title="4.5 斯蒂格里茨《三等舱》：动线是人造结构，最依赖构图的一张"></a>4.5 斯蒂格里茨《三等舱》：动线是人造结构，最依赖构图的一张</h3><p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/steerage-src.jpg" alt="斯蒂格里茨《三等舱》1907"></p>
+<p><em>阿尔弗雷德·斯蒂格里茨《三等舱》（<em>The Steerage</em>），1907（Public domain）。摄影史上最常被引用来说明”构图自觉”的照片之一。<strong>看什么</strong>：画面被一条<strong>从左下斜向右上的跳板</strong>劈成上下两层，上层是头等舱甲板、下层是统舱人流，中间由一排竖直立柱和下垂的绳索串起来。斯蒂格里茨自己回顾说，他是被”上下两层的形状关系”吸引才按下快门的。</em></p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c9-steerage-gangway.jpg" alt="跳板、立柱与绳索：视觉的承接结构"></p>
+<p>*局部（中部）。<strong>看什么</strong>：这是全篇最该看的一张局部。<strong>斜向跳板</strong>提供方向，<strong>竖直立柱</strong>提供节奏，<strong>下垂的绳索</strong>提供弧线，三种线条在同一个区域里合作。要学的不是”主体在哪”，而是”这三类线怎么分工”——斜线给势，竖线给节拍，弧线给柔化。*</p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c13-steerage-railing.jpg" alt="左侧立柱与绳索的重复排列"></p>
+<p><em>局部（左中部）。<strong>看什么</strong>：立柱由近到远、由大到小规律递减，这是*<em>透视的节奏感</em></em>。视线被这些间距越来越密的竖线”送”向纵深。*</p>
+<p>我测出这幅的显著团块重心在 <strong>(0.497, 0.419)</strong>——<strong>横向几乎正好在中线</strong>。它的主显著峰在 (0.310, 0.740)，距左下交点 7.7%。<strong>这就是三分法在这种图上”看起来灵”的典型情形：画面的某个局部（比如某个暗块、某处高对比边缘）碰巧接近交点，而整体重心其实在正中。</strong> 换一张图，这个碰巧就会落在别处。</p>
+<h3 id="4-6-康斯特布尔《干草车》：一幅”讲构图”最常被引用、却最难量的画"><a href="#4-6-康斯特布尔《干草车》：一幅”讲构图”最常被引用、却最难量的画" class="headerlink" title="4.6 康斯特布尔《干草车》：一幅”讲构图”最常被引用、却最难量的画"></a>4.6 康斯特布尔《干草车》：一幅”讲构图”最常被引用、却最难量的画</h3><p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/haywain-src.jpg" alt="康斯特布尔《干草车》1821"></p>
+<p><em>约翰·康斯特布尔《干草车》，1821，伦敦国家美术馆（CC0）。<strong>看什么</strong>：左边是树林与池塘，中间是那辆涉水的干草车，右侧是开阔的草地与远处的田野。它被认为是英国风景画里”把乡村日常画成正剧”的代表作。</em></p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c6-haywain-wagon.jpg" alt="干草车与涉水的马匹"></p>
+<p><em>局部（中下部）。<strong>看什么</strong>：车的*<em>水平底板</em></em>、马匹的<strong>竖向腿</strong>、水面的<strong>横向反光</strong>，三组方向在这里交汇。车正好落在整个画面的中心偏下——<strong>它不是被摆在三分点上，它是被摆在”池水和草地交界”这个物理位置上</strong>。*</p>
+<p><strong>看什么</strong>：这幅画的构图逻辑是<strong>层层后退的横向色带</strong>：前景水面（暗）、中景草地（亮）、远景树线（暗）、天空（亮）。<strong>它靠的是明暗交替制造纵深，而不是任何一条线或一个点。</strong> 这也是为什么我在上面测不出它的地平线——它没有”一条”地平线，它有四五条交错的水平色带。</p>
+<p><strong>这恰恰是三分法话术最容易出错的地方</strong>：一幅靠”色带节奏”组织的画，被说成”地平线压在三分线上”。<strong>说的是一个不存在的结构。</strong></p>
+<h3 id="4-7-弗里德里希《吕根岛白垩崖》：构图是”框”"><a href="#4-7-弗里德里希《吕根岛白垩崖》：构图是”框”" class="headerlink" title="4.7 弗里德里希《吕根岛白垩崖》：构图是”框”"></a>4.7 弗里德里希《吕根岛白垩崖》：构图是”框”</h3><p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/rugen-src.jpg" alt="弗里德里希《吕根岛白垩崖》约1818"></p>
+<p><em>卡斯帕·大卫·弗里德里希《吕根岛白垩崖》，约 1818（Public domain）。<strong>看什么</strong>：三个人物站在崖边，各自以不同姿势望向远处。注意一个不显眼但决定性的东西——<strong>画面上部和右侧被树枝框住了</strong>。</em></p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c7-rugen-figures.jpg" alt="三个人物：各自望向不同的方向"></p>
+<p><em>局部（下部）。<strong>看什么</strong>：红衣女子坐在地上、旁边有人俯身、右侧树旁还有一人站着。三个人*<em>没有一个人看向同一个方向</em></em>，也没有人看向画外。这个细节让”远望”这件事从”一个人在看”变成”一群人在各自看”——情绪是靠<strong>分散</strong>而不是聚焦建立的。*</p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c8-rugen-frame.jpg" alt="树冠与枝条：把天空切碎"></p>
+<p><em>局部（上部）。<strong>看什么</strong>：这是弗里德里希最典型的手法——<strong>用树枝在画面边缘做框</strong>。枝条从边缘伸进来，把大片天空切碎，只在中部留出可以望出去的”口子”。</em></p>
+<p>我统计了每一行里”确实是天空”的像素占比（偏蓝或高亮低彩，同时排除白垩崖的暖白）：<strong>y &#x3D; 0.45 时天空占 58%，y &#x3D; 0.50 时达到峰值 65%，y &#x3D; 0.60 降到 39%，y &#x3D; 0.40 只有 36%，而 y &#x3D; 0.30、0.20、0.10 分别只有 11%、4%、4%，y &#x3D; 0.80 以下几乎为零。</strong></p>
+<p>翻译成画面观感：<strong>整幅画只在纵向 0.40–0.60 这一条窄带里能看见天空</strong>，往上被树冠吃掉，往下被崖顶、海面和人物占满。这条带子里天空占比最高的那一行正好在 <strong>y &#x3D; 0.50</strong>——<strong>画面纵向正中，不是任何三分线。</strong></p>
+<p><strong>这是本文最干净的一个反例</strong>：弗里德里希不是把”开口”放在三分线上，而是放在<strong>正中</strong>。三分法在这里给出的判断（”开口该在上三分线”）与画家实际做的（”放在正中间”）<strong>直接相反</strong>，而这张画被公认为构图杰作。</p>
+<p><strong>所以弗里德里希的组织方式和三分法是不同的两件事：他不分配”位置”，他分配”能不能看出去”。</strong> 用三分法去描述这张画，会得到”人物在下三分之一、崖顶在上三分之一”这样看着正确、实际什么都没说的句子。</p>
+<h3 id="4-8-广重与梵高：同一构图，临摹者把落点挪了"><a href="#4-8-广重与梵高：同一构图，临摹者把落点挪了" class="headerlink" title="4.8 广重与梵高：同一构图，临摹者把落点挪了"></a>4.8 广重与梵高：同一构图，临摹者把落点挪了</h3><p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/kameido-src.jpg" alt="广重《龟户梅屋铺》1857"></p>
+<p><em>歌川广重《龟户梅屋铺》，出自《名所江户百景》，1857（Public domain）。<strong>看什么</strong>：这是浮世绘里最大胆的一类构图——<strong>前景的梅树被裁掉一半</strong>，只留粗壮的树干与横伸的枝条，从边缘”侵入”画面，中间留出大片浅色空气，远处才是梅园与人。它打破了西方古典绘画”前景—中景—远景完整呈现”的习惯。</em></p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/vangogh_kameido-src.jpg" alt="梵高临摹版：落点与广重不同"></p>
+<p><em>梵高《龟户梅屋铺（临摹）》，1887（Public domain）。<strong>看什么</strong>：把这张和上一张对着看。梵高把*<em>边框加了进来</em></em>（画面里能看到画框），把背景改成红色，把文字栏留在左侧。这些是显眼的改动；<strong>不显眼的改动是构图本身——树的位置和画面被切割的比例都变了</strong>。*</p>
+<p><strong>表 5｜广重原作与梵高临摹的构图差异（实测）</strong></p>
+<table>
+<thead>
+<tr>
+<th>项</th>
+<th>广重原作</th>
+<th>梵高临摹</th>
+<th>差</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>显著团块重心</td>
+<td>(0.521, 0.403)</td>
+<td>(0.450, 0.639)</td>
+<td>纵向偏移 <strong>23.6%</strong></td>
+</tr>
+<tr>
+<td>距画面中心</td>
+<td>9.9%</td>
+<td>14.7%</td>
+<td>—</td>
+</tr>
+<tr>
+<td>三分交点命中率</td>
+<td>1.48%</td>
+<td><strong>0.34%</strong></td>
+<td>降到近 1&#x2F;4</td>
+</tr>
+<tr>
+<td>主显著峰</td>
+<td>(0.846, 0.203)</td>
+<td>(0.169, 0.727)</td>
+<td>从右上翻到左下</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>口径说明：两版的画框比例并不相同（广重 0.688，梵高 0.870，因为梵高把画框也画了进去）。所以上表比较的是<strong>各自由画框归一化后的相对位置</strong>，不是画面上的绝对像素位置。这也正是”临摹会把结构关系改掉”的直接证据之一——<strong>连框形都变了，位置分布自然跟着变。</strong></p>
+</blockquote>
+<p><strong>梵高的版本三分交点命中率只有 0.34%，是全篇最低的。</strong> 他显然不是在”对齐网格”，他是在按自己的画面感受重新安排疏密。这也顺带说明一件事：<strong>临摹时真正会被改动的，往往是位置关系而不是题材。</strong></p>
+<p>补一张两版枝条的对照局部：</p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c10-kameido-branch.jpg" alt="广重原作枝条局部：近乎水平的主枝与淡雅配色"></p>
+<p><em>广重局部。<strong>看什么</strong>：主枝从左侧中部向右延伸，接近水平，再分出多条细枝。背景是粉橙色的地面与蓝绿的远树，<strong>颜色克制、层次很薄</strong>。画面里没有任何文字栏，也没有画框。</em></p>
+<p><img src="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/c11-vangogh-branch.jpg" alt="梵高临摹局部：枝条被扳动、颜色被提纯"></p>
+<p><em>梵高局部。<strong>看什么</strong>：同样是梅枝，但*<em>枝条的角度变了</em></em>——主干近水平的部分更短，分叉更陡。配色也完全不同：背景是红紫与橙红，树干是深蓝黑，花上带浅黄与绿。左侧多出了一条橙色竖排文字栏，外侧还有实体画框。*</p>
+<p><strong>两版对照能看出临摹的实质：梵高保留了”前景大枝侵入画面”这个骨架，但改了枝干的走向、加宽了色域、并把画框本身变成构图元素。</strong> 他改的是<strong>结构关系</strong>，不是题材。这和我上面测到的”显著峰从右上翻到左下”是同一件事的两种说法。</p>
+<h2 id="5-原理内核：为什么”三分法”听起来那么有道理"><a href="#5-原理内核：为什么”三分法”听起来那么有道理" class="headerlink" title="5. 原理内核：为什么”三分法”听起来那么有道理"></a>5. 原理内核：为什么”三分法”听起来那么有道理</h2><p>它之所以能流传，是因为它把三件<strong>各自成立</strong>的事捆在了一起，然后借了其中最可信那一件的光：</p>
+<h3 id="5-1-“别对半分”——成立，且有古老依据"><a href="#5-1-“别对半分”——成立，且有古老依据" class="headerlink" title="5.1 “别对半分”——成立，且有古老依据"></a>5.1 “别对半分”——成立，且有古老依据</h3><p>把画面精确对半切，会制造一种<strong>僵局</strong>：上下（或左右）两块势均力敌，眼睛不知道该先看哪边。Smith 1797 年对这一点说得比今天很多教材都清楚：</p>
+<blockquote>
+<p>“Unequal parts and gradations lead the attention easily from part to part, while parts of equal appearance hold it awkwardly suspended, as if unable to determine which of those parts is to be considered as the subordinate.”</p>
+<p>——Smith, 1797</p>
+</blockquote>
+<p><strong>“不等的部分和渐变能让注意力顺畅地从一处移到另一处；而看起来相等的东西会让注意力尴尬地悬停，好像判断不出哪一部分是次要的。”</strong></p>
+<p>这句话是对的，而且它解释的是**”均分为什么不好”**，不是”交点为什么好”。今天的教材几乎都丢了这句话。</p>
+<h3 id="5-2-视觉重心确实不在正中——但位置不是固定的-0-667"><a href="#5-2-视觉重心确实不在正中——但位置不是固定的-0-667" class="headerlink" title="5.2 视觉重心确实不在正中——但位置不是固定的 0.667"></a>5.2 视觉重心确实不在正中——但位置不是固定的 0.667</h3><p>我的测量显示 9 幅名作的显著重心平均在纵向 <strong>0.697</strong>（下三分之一区），横向多在 0.41–0.53。Tyler 测的 170 幅肖像眼睛高度在 <strong>0.618</strong>。这两个数字<strong>都偏离 0.5，而且互不相等</strong>。</p>
+<p><strong>这说明”偏离中心”是普遍现象，但”偏离到哪个固定点”并不普遍。</strong> 三分法把”偏离”这个正确的观察，硬编成了”偏离到 1&#x2F;3 或 2&#x2F;3”这个错误的常数。</p>
+<h3 id="5-3-引导线真的管用——有眼动数据"><a href="#5-3-引导线真的管用——有眼动数据" class="headerlink" title="5.3 引导线真的管用——有眼动数据"></a>5.3 引导线真的管用——有眼动数据</h3><p>这是三件事里唯一有实验支撑的。Chuang 等 2024 年的研究里，引导线在”有突出主体”时效果尤其明显（更长的注视时间、更高的美感与方向感评分）。</p>
+<p><strong>机制上也好理解</strong>：边缘检测是人类视觉早期处理的基础功能（Hubel 与 Wiesel 在猫视觉皮层上发现的朝向选择性神经元），长而连续的斜线是最强的边缘信号之一。<strong>人被长线牵着走，是低层视觉的事，不需要构图法则来帮忙。</strong></p>
+<h3 id="5-4-那”三分法”到底剩下了什么"><a href="#5-4-那”三分法”到底剩下了什么" class="headerlink" title="5.4 那”三分法”到底剩下了什么"></a>5.4 那”三分法”到底剩下了什么</h3><p>把三件事拆开之后，剩下的是一条很朴素的建议：</p>
+<blockquote>
+<p><strong>别把画面切成势均力敌的两半；让某些结构（边线、光、色块）把视线从边缘带到你想让人看的地方。</strong></p>
+</blockquote>
+<p>这句话的信息量接近 Smith 1797 年的原意，而且它不承诺”四个点”。</p>
+<h2 id="6-落地清单（面向技术美术）"><a href="#6-落地清单（面向技术美术）" class="headerlink" title="6. 落地清单（面向技术美术）"></a>6. 落地清单（面向技术美术）</h2><p>这一节的建议都建立在”动线可信、交点不可信”这个判断上。</p>
+<h3 id="6-1-别做”交点吸附”，做”屏幕位置区间”"><a href="#6-1-别做”交点吸附”，做”屏幕位置区间”" class="headerlink" title="6.1 别做”交点吸附”，做”屏幕位置区间”"></a>6.1 别做”交点吸附”，做”屏幕位置区间”</h3><p>Unity Cinemachine 的 Position Composer 给的启示是：真正可控的是 <strong>Screen Position（−0.5 到 +0.5 的归一化位置）+ Dead Zone + Hard Limits</strong> 这一套连续区间。如果你在做相机系统：</p>
+<ul>
+<li>提供一个”主体在画面中的归一化位置”参数，<strong>别只给”三分交点”四个预设</strong>；</li>
+<li>再给一个死区，让主体小幅移动时相机不动（不然镜头会一直微抖）；</li>
+<li>如果一定要给预设，把三分、黄金比、中心都列上，<strong>平级，不预设哪种对</strong>（Blender 就是这么做的）。</li>
+</ul>
+<h3 id="6-2-如果要判定”构图好不好”，别用交点距离"><a href="#6-2-如果要判定”构图好不好”，别用交点距离" class="headerlink" title="6.2 如果要判定”构图好不好”，别用交点距离"></a>6.2 如果要判定”构图好不好”，别用交点距离</h3><p>我上面那套”命中率”指标，实测下来对随机数据给出 3.34%（基线 3.14%），<strong>几乎零判别力</strong>。如果你在做自动构图评分 &#x2F; 截图选优：</p>
+<ul>
+<li><strong>不要</strong>用”主体到三分交点的距离”作为打分项，它的区分度接近噪声；</li>
+<li>可以用的方向：<strong>结构线的存在与连续性</strong>（Hough 变换求长直线，看是否有一条从边缘指向主体）、<strong>主体的显著度与孤立度</strong>（主体与背景的对比）、<strong>地平线是否压在正中</strong>（这条回到 Smith 原意，是有效的”避免”判据）；</li>
+<li><strong>Amirshahi 等（2014，<em>Art &amp; Perception</em>）</strong> 的结论也值得记住：他们用 30 名被试做了行为实验，发现计算出的 ROT 指标与主观 ROT 分数只有中等相关，而<strong>美感评分与计算出的 ROT 值完全不相关</strong>；在大批高质量照片和画作上，ROT 值和不遵守三分法的照片一样低。</li>
+</ul>
+<h3 id="6-3-布景-场景设计：先摆线，再摆人"><a href="#6-3-布景-场景设计：先摆线，再摆人" class="headerlink" title="6.3 布景&#x2F;场景设计：先摆线，再摆人"></a>6.3 布景&#x2F;场景设计：先摆线，再摆人</h3><p>按”动线优先”的顺序工作：</p>
+<ol>
+<li>先确定画面里有哪些<strong>天然的长结构</strong>：道路、河岸、屋檐线、走廊、光带；</li>
+<li>检查它们的<strong>会聚方向</strong>指向哪（用我 4.1 的办法：找两条边分别拟合，看是否一负一正、量级相近）；</li>
+<li>把主体放在这些线<strong>指向的位置</strong>，通常不在网格交点上；</li>
+<li>最后才用网格叠加检查一件小事：<strong>地平线有没有压在正中间。</strong></li>
+</ol>
+<h3 id="6-4-一个可直接用的自检脚本思路"><a href="#6-4-一个可直接用的自检脚本思路" class="headerlink" title="6.4 一个可直接用的自检脚本思路"></a>6.4 一个可直接用的自检脚本思路</h3><p>判断”这条路&#x2F;这条走廊有没有真的收拢”，可以按下面的判据，比”看交点”可靠得多：</p>
+<ul>
+<li>取干净的一段（无遮挡）做边界检测；</li>
+<li>左右边界各拟合一条直线：<code>x = a·y + b</code>；</li>
+<li><strong>可信条件：两条边界的斜率一负一正，且绝对值差在 30% 以内</strong>（霍贝玛那组是 0.900 与 0.844，差 6.6%）；</li>
+<li>交点即消失点；再看它落在画面哪个区域。</li>
+</ul>
+<p><strong>如果不满足”一负一正”，说明抓到的不是同一条结构</strong>——我在这张图上就踩过：扩展到树冠区时斜率变成 +0.089 &#x2F; +0.402，交点整个跑到别处去了。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><h3 id="文献与一手材料"><a href="#文献与一手材料" class="headerlink" title="文献与一手材料"></a>文献与一手材料</h3><ol>
+<li>Smith, John Thomas. <em>Remarks on Rural Scenery; with Twenty Etchings of Cottages, from Nature; and Some Observations and Precepts Relative to the Pictoresque.</em> London, 1797, pp. 15–17.（”rule of thirds” 可考最早出处；原文经 archive.org 扫描件 <code>remarksonruralsc00smit</code> 全文核对）</li>
+<li>Reynolds, Joshua. <em>Annotations on The Art of Painting of Charles Alphonse Du Fresnoy.</em> 1783, p. 103.（Smith 类比的上游：明暗与冷暖的比例）</li>
+<li>Field, George. <em>Chromatics; or, The Analogy, Harmony, and Philosophy of Colours.</em> 1845, §93, p. 47.（记录 Smith 把 Reynolds 的 2:1 比例推广为 “rule of thirds”；经 archive.org 全文核对）</li>
+<li>Tyler, C. W. “Painters centre one eye in portraits.” <em>Nature</em> 392 (1998). DOI: 10.1038&#x2F;31833</li>
+<li>Tyler, C. W. “One Eye is Usually Centred Horizontally (and near the Golden Section Vertically) in Portraits over the Past 500 Years.” <em>Perception</em> 26 (1997). DOI: 10.1068&#x2F;v970376（170 幅肖像；眼睛竖直位置集中在 0.618，水平居中，σ ≈ ±5% 画面宽度）</li>
+<li>Palmer, S. E., Wickens, T. D., Gardner, J. S. “Aesthetic issues in spatial composition: effects of position and direction on framing single objects.” <em>Spatial Vision</em> 21 (2008). DOI: 10.1163&#x2F;156856808784532662（center bias + inward bias）</li>
+<li>Sammartino, J., Palmer, S. E. “Aesthetic issues in spatial composition: Effects of vertical position and perspective on framing single objects.” <em>J. Exp. Psychol.: Human Perception and Performance</em> (2012). DOI: 10.1037&#x2F;a0027736</li>
+<li>Amirshahi, S. A., Hayn-Leichsenring, G. U., Denzler, J., Redies, C. “Evaluating the Rule of Thirds in Photographs and Paintings.” <em>Art &amp; Perception</em> 2 (2014). DOI: 10.1163&#x2F;22134913-00002024</li>
+<li>Bruno, N., Gabriele, V., Tasso, T., Bertamini, M. “‘Selfies’ Reveal Systematic Deviations from Known Principles of Photographic Composition.” <em>Art &amp; Perception</em> 2 (2014). DOI: 10.1163&#x2F;22134913-00002027（自拍数据对三分法、黄金比、眼部居中三条原则均不支持）</li>
+<li>Chuang, H.-C., Tseng, H.-Y., Chiang, C.-Y. “Impact of Leading Line Composition on Visual Cognition: An Eye-Tracking Study.” <em>Journal of Eye Movement Research</em> 17(5) (2024). DOI: 10.16910&#x2F;jemr.17.5.2（34 名被试）</li>
+<li>Markowsky, G. “Misconceptions about the Golden Ratio.” <em>The College Mathematics Journal</em> 23(1) (1992). DOI: 10.1080&#x2F;07468342.1992.11973428</li>
+<li>Blender Manual, <em>Cameras → Composition Guides</em>（Thirds &#x2F; Golden-Ratio &#x2F; Golden-Triangle &#x2F; Harmony-Triangle 并列，非单一推荐）</li>
+<li>Unity Cinemachine 文档，<em>Position Composer</em>：Screen Position（0 为中心，±0.5 为边缘）、Dead Zone、Hard Limits（版本 3.1 与 2.10 均核对）</li>
+</ol>
+<h3 id="图片来源与授权"><a href="#图片来源与授权" class="headerlink" title="图片来源与授权"></a>图片来源与授权</h3><p>全部来自 Wikimedia Commons；<strong>本文未使用任何自制示意图、AI 生成图或字符画</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>作品</th>
+<th>作者 &#x2F; 年代</th>
+<th>授权</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rot1797-src.jpg</code></td>
+<td>《论乡村风景》三分法页面（pp.15–17）</td>
+<td>John Thomas Smith，1797</td>
+<td>Public domain</td>
+</tr>
+<tr>
+<td><code>smith-etching-src.jpg</code></td>
+<td>同书村舍蚀刻版画</td>
+<td>John Thomas Smith，1797</td>
+<td>Public domain</td>
+</tr>
+<tr>
+<td><code>rot-demo.jpg</code></td>
+<td>树木与水面示范照（叠加九宫格）</td>
+<td>Wikimedia 用户 Moondigger</td>
+<td><strong>CC BY-SA 2.5</strong></td>
+</tr>
+<tr>
+<td><code>hobbema-src.jpg</code> &#x2F; <code>c1</code> &#x2F; <code>c2</code></td>
+<td>《米德尔哈尔尼斯林荫道》</td>
+<td>Meindert Hobbema，1689</td>
+<td>Public domain</td>
+</tr>
+<tr>
+<td><code>delft-src.jpg</code> &#x2F; <code>c5</code></td>
+<td>《代尔夫特风景》</td>
+<td>Johannes Vermeer，约 1660</td>
+<td>Public domain</td>
+</tr>
+<tr>
+<td><code>haywain-src.jpg</code> &#x2F; <code>c6</code></td>
+<td>《干草车》</td>
+<td>John Constable，1821</td>
+<td>CC0</td>
+</tr>
+<tr>
+<td><code>greatwave-src.jpg</code> &#x2F; <code>c3</code> &#x2F; <code>c4</code></td>
+<td>《神奈川冲浪里》</td>
+<td>Katsushika Hokusai，约 1831</td>
+<td>Public domain</td>
+</tr>
+<tr>
+<td><code>redfuji-src.jpg</code> &#x2F; <code>c12</code></td>
+<td>《凯风快晴》</td>
+<td>Katsushika Hokusai，约 1831</td>
+<td>Public domain</td>
+</tr>
+<tr>
+<td><code>rugen-src.jpg</code> &#x2F; <code>c7</code> &#x2F; <code>c8</code></td>
+<td>《吕根岛白垩崖》</td>
+<td>Caspar David Friedrich，约 1818</td>
+<td>Public domain</td>
+</tr>
+<tr>
+<td><code>steerage-src.jpg</code> &#x2F; <code>c9</code> &#x2F; <code>c13</code></td>
+<td>《三等舱》</td>
+<td>Alfred Stieglitz，1907</td>
+<td>Public domain</td>
+</tr>
+<tr>
+<td><code>kameido-src.jpg</code> &#x2F; <code>c10</code></td>
+<td>《龟户梅屋铺》</td>
+<td>Utagawa Hiroshige，1857</td>
+<td>Public domain</td>
+</tr>
+<tr>
+<td><code>vangogh_kameido-src.jpg</code> &#x2F; <code>c11</code></td>
+<td>《龟户梅屋铺（临）》</td>
+<td>Vincent van Gogh，1887</td>
+<td>Public domain</td>
+</tr>
+</tbody></table>
+<p>正文共嵌入 <strong>25 张图</strong>：12 张来源图（Smith 1797 书页与蚀刻版画各 1、社群示范照 1、九幅画作整幅各 1）+ 13 张局部裁剪。CC BY-SA 2.5 的示范图已按要求署名并保留许可条款。<strong>本文未使用任何自制示意图、AI 生成图或字符画。</strong></p>
+<p>13 张局部裁剪均取自对应原图，授权继承原图：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>来源原作</th>
+<th>裁切意图</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>c1-hobbema-road.jpg</code></td>
+<td>《米德尔哈尔尼斯林荫道》</td>
+<td>路面左右边界：向消失点收拢的动线</td>
+</tr>
+<tr>
+<td><code>c2-hobbema-village.jpg</code></td>
+<td>《米德尔哈尔尼斯林荫道》</td>
+<td>左侧村庄与教堂塔楼（次停留点）</td>
+</tr>
+<tr>
+<td><code>c3-greatwave-crest.jpg</code></td>
+<td>《神奈川冲浪里》</td>
+<td>浪脊方向与爪状白沫</td>
+</tr>
+<tr>
+<td><code>c4-greatwave-fuji.jpg</code></td>
+<td>《神奈川冲浪里》</td>
+<td>富士山被前景浪压小（尺度对比）</td>
+</tr>
+<tr>
+<td><code>c5-delft-spire.jpg</code></td>
+<td>《代尔夫特风景》</td>
+<td>新教堂尖顶：接近横向中线</td>
+</tr>
+<tr>
+<td><code>c6-haywain-wagon.jpg</code></td>
+<td>《干草车》</td>
+<td>干草车、马匹与水面反光</td>
+</tr>
+<tr>
+<td><code>c7-rugen-figures.jpg</code></td>
+<td>《吕根岛白垩崖》</td>
+<td>三个人物各自望向不同方向</td>
+</tr>
+<tr>
+<td><code>c8-rugen-frame.jpg</code></td>
+<td>《吕根岛白垩崖》</td>
+<td>枝条在边缘做框、把天空切碎</td>
+</tr>
+<tr>
+<td><code>c9-steerage-gangway.jpg</code></td>
+<td>《三等舱》</td>
+<td>斜跳板 + 竖立柱 + 垂绳索</td>
+</tr>
+<tr>
+<td><code>c10-kameido-branch.jpg</code></td>
+<td>广重《龟户梅屋铺》</td>
+<td>主枝近水平、配色克制</td>
+</tr>
+<tr>
+<td><code>c11-vangogh-branch.jpg</code></td>
+<td>梵高《龟户梅屋铺（临）》</td>
+<td>枝条角度与配色均被改动</td>
+</tr>
+<tr>
+<td><code>c12-redfuji-crest.jpg</code></td>
+<td>《凯风快晴》</td>
+<td>山体斜边与雪痕的垂直交叉</td>
+</tr>
+<tr>
+<td><code>c13-steerage-railing.jpg</code></td>
+<td>《三等舱》</td>
+<td>立柱由大到小的透视节奏</td>
+</tr>
+</tbody></table>
+<h3 id="本文的实测方法（可复现）"><a href="#本文的实测方法（可复现）" class="headerlink" title="本文的实测方法（可复现）"></a>本文的实测方法（可复现）</h3><p>全部测量只用 Pillow 加标准库，分四步：</p>
+<ul>
+<li><strong>显著图与命中率</strong> —— 由边缘与对比度生成显著图，统计落在四个三分交点邻域内的显著像素占比，并与”随机放置”的期望值对照（表 1、表 5）。</li>
+<li><strong>连续主峰与随机基线</strong> —— 对显著图做高斯平滑后取连续主峰，再随机平移 108 次得到基线分布，比较主峰到交点的距离（表 4；比值 1.00）。</li>
+<li><strong>地平线与换网格稳健性</strong> —— 用地平线处行均值亮度剖面的最大突变定位地平线，并把网格换成黄金比网格重算命中率（表 2、表 4b）。</li>
+<li><strong>结构拟合</strong> —— 对霍贝玛《林荫道》的路面左右边界做直线拟合，靠左右斜率是否一负一正、量级相近来验伪（表 3）。</li>
+</ul>
+<blockquote>
+<p>过程中废弃过两个做法：一是用 8×8 分块定位最强块，块中心距三分点只有 2.08%，产生了与判据共振的假精度；二是用”显著重心到中心的分位”做检验，但重心作为均值天然向中部回归，比较基准不成立。两种结论都不采用。</p>
+</blockquote>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>三分法（交点版）</th>
+<th>三分法（比例版，Smith 原意）</th>
+<th>引导线</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>最早出处</td>
+<td>二十世纪摄影教程，无一手文献</td>
+<td>Smith 1797, pp.15–17</td>
+<td>无单一出处（经验）</td>
+</tr>
+<tr>
+<td>主张</td>
+<td>主体放 4 个交点之一</td>
+<td>别对半分，用 2:1 分配面积</td>
+<td>用长线把视线带到主体</td>
+</tr>
+<tr>
+<td>实证支持</td>
+<td><strong>接近零</strong>（实测 3.34% vs 随机 3.14%）</td>
+<td><strong>部分成立</strong>（避开对半是合理的）</td>
+<td><strong>有</strong>（2024 眼动实验，34 人）</td>
+</tr>
+<tr>
+<td>换网格后还成立吗</td>
+<td><strong>不成立</strong>（换成黄金网格反而更高：3.80%）</td>
+<td>不适用</td>
+<td>不适用</td>
+</tr>
+<tr>
+<td>在名作里的实际情况</td>
+<td>交点命中率 1.06×；主峰到交点距离与随机<strong>完全相等</strong>（1.00×）</td>
+<td>唯一稳定的地平线是维米尔的 0.605（距 0.667 差 6.2%）；弗里德里希的”开口”正压在纵向正中 0.50</td>
+<td>霍贝玛的路、斯蒂格里茨的跳板都是真的</td>
+</tr>
+<tr>
+<td>该怎么用</td>
+<td>当作监视器上的参考线，别当判据</td>
+<td>当作”避免均分”的提醒</td>
+<td>优先使用，可信</td>
+</tr>
+</tbody></table>
+<p><strong>一句话收尾</strong>：三分法最有价值的那半句——“别把画面切成对半”——已经被今天的”交点口诀”盖住了。把这两件事分开，你会得到一条更少但更靠得住的规则：<strong>画面里要有线，线要通向你想让人看的地方；同时，别让地平线正好压在中间。</strong></p>
+
+    </div>
+
+    <footer class="post__footer">
+      
+        
+<section class="comments" aria-labelledby="commentsTitle">
+  <div class="comments__header">
+    <p class="comments__eyebrow">DISCUSSION</p>
+    <h2 class="comments__title" id="commentsTitle">评论与交流</h2>
+    <p class="comments__description">使用 GitHub 账号参与讨论；首次评论时会自动创建对应话题。</p>
+  </div>
+  <div class="giscus"></div>
+  <script src="https://giscus.app/client.js"
+          data-repo="AHappyFun/AHappyFun.github.io"
+          data-repo-id="R_kgDOJAassQ"
+          data-category="Announcements"
+          data-category-id="DIC_kwDOJAassc4DCUGK"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="zh-CN"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+  </script>
+</section>
+
+      
+
+      <div class="post__nav">
+        
+        
+          <a href="/2026/10/25/Art-%E8%A1%A5%E8%89%B2%E4%B8%8E%E8%A7%86%E8%A7%89%E6%AE%8B%E5%83%8F/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Art-补色与视觉残像：眼睛补出来的对立色</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+      
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js?v=20260909-category-state"></script>
+<script src="/js/search.js"></script>
+
+  <script src="https://cn.vercount.one/js" defer></script>
+
+
+
+</body>
+</html>

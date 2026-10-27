@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-site-style="bento">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Art-同时对比：颜色是被邻居逼出来的 | 锅巴的Blogs</title>
+<link rel="canonical" href="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/">
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="美术">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  (function () {
+    var available = ['bento', 'knowledge'];
+    var saved = localStorage.getItem('site-style');
+    if (available.indexOf(saved) !== -1) {
+      document.documentElement.setAttribute('data-site-style', saved);
+    } else if (saved) {
+      localStorage.setItem('site-style', 'bento');
+    }
+  })();
+</script>
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://loy.net.cn/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c8-chevreul-wheel.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c9-chevreul-bands.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/09-simultaneous-contrast.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/11-kontrasteffekt2.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/02-delacroix-algiers.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c2-delacroix-blue.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c10-delacroix-red.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/03-seurat-grande-jatte.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c3-seurat-umbrella.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c11-seurat-dots.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/04-signac-women-well.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c4-signac-purple.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c12-signac-sea.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/05-vangogh-night-cafe.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c5-vangogh-redgreen.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c13-vangogh-yellow.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/07-checker-shadow.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/06-whites-illusion.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/08-bezold-circles.jpg">
+<meta property="article:published_time" content="2026-10-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-26T12:18:49.203Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="美术">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://loy.net.cn/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c8-chevreul-wheel.jpg">
+
+  
+    <style id="cat-game-disabled">.cat-container,.cat-win-label{display:none!important}</style>
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body data-cat-game-enabled="false">
+  <a class="skip-link" href="#mainContent">跳到正文</a>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__brand" aria-label="锅巴的Blogs首页">
+      <span class="header__logo">锅巴的Blogs</span>
+      <span class="header__edition">MAKE · WRITE · SHARE</span>
+      <span class="knowledge-status" aria-hidden="true"><i></i><i></i><i></i></span>
+    </a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav" aria-label="主导航">
+      
+        
+        <a href="/" class="header__link">首页</a>
+      
+        
+        <a href="/tags/" class="header__link">标签</a>
+      
+        
+        <a href="/search/" class="header__link">搜索</a>
+      
+        
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      
+        <label class="style-picker" for="stylePicker">
+          <span class="sr-only">选择网站设计风格</span>
+          <select id="stylePicker" aria-label="网站设计风格">
+            <option value="bento">Bento</option>
+            <option value="knowledge">Knowledge OS</option>
+          </select>
+        </label>
+      
+      <button class="theme-toggle" id="themeToggle" aria-label="切换明暗模式">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="headerNav">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">分类</h3>
+      <div class="category-filter category-filter--sidebar" role="tablist" aria-label="按分类筛选">
+        <button type="button" class="category-filter__tab is-active" role="tab" aria-selected="true" data-category="all">
+          全部 <span class="category-filter__count">99</span>
+        </button>
+        
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="技术">
+            技术 <span class="category-filter__count">54</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="认知">
+            认知 <span class="category-filter__count">27</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Art">
+            Art <span class="category-filter__count">10</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Loy">
+            Loy <span class="category-filter__count">3</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="开发工具">
+            开发工具 <span class="category-filter__count">2</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="游戏">
+            游戏 <span class="category-filter__count">2</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="AI">
+            AI <span class="category-filter__count">1</span>
+          </button>
+        
+      </div>
+    </div>
+
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 99 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+              
+              <div class="sidebar__year" data-year="2026">2026</div>
+            
+            <a href="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-25T16:00:00.000Z">10-26</time>
+              <span class="sidebar__post-title">Art-三分法与构图动线：从 1797 年的比例建议到九宫格口诀</span>
+            </a>
+          
+            
+            <a href="/2026/10/25/Art-%E8%A1%A5%E8%89%B2%E4%B8%8E%E8%A7%86%E8%A7%89%E6%AE%8B%E5%83%8F/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-24T16:00:00.000Z">10-25</time>
+              <span class="sidebar__post-title">Art-补色与视觉残像：眼睛补出来的对立色</span>
+            </a>
+          
+            
+            <a href="/2026/10/24/Art-%E8%89%B2%E5%BD%A9%E9%80%8F%E8%A7%86%E4%B8%8E%E7%A9%BA%E6%B0%94%E9%80%8F%E8%A7%86/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-23T16:00:00.000Z">10-24</time>
+              <span class="sidebar__post-title">Art-色彩透视与空气透视：远不是画小一点，是被空气吃掉</span>
+            </a>
+          
+            
+            <a href="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/" class="sidebar__item is-active" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-22T16:00:00.000Z">10-23</time>
+              <span class="sidebar__post-title">Art-同时对比：颜色是被邻居逼出来的</span>
+            </a>
+          
+            
+            <a href="/2026/10/22/AI-ComfyUI%E7%94%9F%E6%88%90%E6%B8%B8%E6%88%8F%E8%B5%84%E4%BA%A7%E7%9A%84%E5%AE%9E%E8%B7%B5/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-21T16:00:00.000Z">10-22</time>
+              <span class="sidebar__post-title">AI-ComfyUI生成游戏资产的实践</span>
+            </a>
+          
+            
+            <a href="/2026/10/22/Art-%E6%98%8E%E6%9A%97%E5%AF%B9%E7%85%A7%E6%B3%95/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-21T16:00:00.000Z">10-22</time>
+              <span class="sidebar__post-title">Art-明暗对照法：用光与影组织画面</span>
+            </a>
+          
+            
+            <a href="/2026/10/21/Art-%E7%BE%8E%E6%BC%AB%E7%94%BB%E9%A3%8E%E6%8A%80%E6%B3%95/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-20T16:00:00.000Z">10-21</time>
+              <span class="sidebar__post-title">Art-美漫画风技法入门：从墨线到小圆点</span>
+            </a>
+          
+            
+            <a href="/2026/10/13/Dev-%E5%BC%80%E6%BA%90%E5%B0%8F%E8%BD%AF%E4%BB%B6%E6%B8%85%E5%8D%95/" class="sidebar__item" data-category="开发工具" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-12T16:00:00.000Z">10-13</time>
+              <span class="sidebar__post-title">Dev-我收集的开源小软件清单</span>
+            </a>
+          
+            
+            <a href="/2026/09/21/Base-WebGL%E6%8A%80%E6%9C%AF%E6%A6%82%E8%BF%B0/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-20T16:00:00.000Z">09-21</time>
+              <span class="sidebar__post-title">Base-WebGL技术概述</span>
+            </a>
+          
+            
+            <a href="/2026/09/17/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E7%BC%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E8%A2%AB%E4%BB%80%E4%B9%88%E5%9B%B0%E4%BD%8F%E2%80%94%E2%80%94%E7%A8%80%E7%BC%BA%E5%BF%83%E6%80%81/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-16T16:00:00.000Z">09-17</time>
+              <span class="sidebar__post-title">Mind-为什么越缺什么越被什么困住——稀缺心态</span>
+            </a>
+          
+            
+            <a href="/2026/09/16/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%AE%B0%E5%BE%97%E7%9A%84%E4%BA%8B%E5%8F%AF%E8%83%BD%E6%98%AF%E5%81%87%E7%9A%84%E2%80%94%E2%80%94%E8%AE%B0%E5%BF%86%E9%87%8D%E6%9E%84/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-15T16:00:00.000Z">09-16</time>
+              <span class="sidebar__post-title">Mind-为什么你记得的事可能是假的——记忆重构</span>
+            </a>
+          
+            
+            <a href="/2026/09/15/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E8%A6%81%E6%88%AA%E6%AD%A2%E8%BF%98%E6%98%AF%E5%88%B7%E6%89%8B%E6%9C%BA%E2%80%94%E2%80%94%E6%8B%96%E5%BB%B6%E4%B8%8E%E6%97%B6%E9%97%B4%E6%8A%98%E6%89%A3/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-14T16:00:00.000Z">09-15</time>
+              <span class="sidebar__post-title">Mind-为什么明知要截止还是刷手机——拖延与时间折扣</span>
+            </a>
+          
+            
+            <a href="/2026/09/14/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%A8%E7%A5%9E%E8%B4%AF%E6%B3%A8%E5%8F%8D%E8%80%8C%E4%B8%8D%E7%B4%AF%E2%80%94%E2%80%94%E5%BF%83%E6%B5%81/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">Mind-为什么全神贯注反而不累——心流</span>
+            </a>
+          
+            
+            <a href="/2026/09/13/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%81%87%E7%AC%91%E6%AF%94%E7%9C%9F%E7%B4%AF%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E6%83%85%E7%BB%AA%E5%8A%B3%E5%8A%A8/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-12T16:00:00.000Z">09-13</time>
+              <span class="sidebar__post-title">Mind-为什么假笑比真累还累——情绪劳动</span>
+            </a>
+          
+            
+            <a href="/2026/09/12/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E6%80%BB%E5%9C%A8%E5%92%8C%E5%88%AB%E4%BA%BA%E6%AF%94%E8%BE%83%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E6%AF%94%E8%BE%83%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-11T16:00:00.000Z">09-12</time>
+              <span class="sidebar__post-title">Mind-为什么你总在和别人比较——社会比较理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/11/Game-%E6%B1%BD%E8%BD%A6%E5%8F%98%E9%80%9F%E7%AE%B1%E9%BD%BF%E6%AF%94%E4%B8%8E%E6%9C%80%E7%BB%88%E4%BC%A0%E5%8A%A8%E6%AF%94/" class="sidebar__item" data-category="游戏" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">Game-从 GT7 理解汽车变速箱齿比与最终传动比</span>
+            </a>
+          
+            
+            <a href="/2026/09/11/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4%E5%87%BA%E5%8F%A3%E7%9A%84%E8%AF%9D%E4%BC%9A%E7%BB%91%E6%9E%B6%E4%BD%A0%E2%80%94%E2%80%94%E6%89%BF%E8%AF%BA%E4%B8%80%E8%87%B4%E6%80%A7/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">Mind-为什么说出口的话会绑架你——承诺一致性</span>
+            </a>
+          
+            
+            <a href="/2026/09/10/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF%E4%B8%80%E5%88%B0%E6%89%8B%E5%B0%B1%E5%8F%98%E5%80%BC%E9%92%B1%E2%80%94%E2%80%94%E7%A6%80%E8%B5%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">Mind-为什么东西一到手就变值钱——禀赋效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/09/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8D%A1%E6%9D%A5%E7%9A%84%E9%92%B1%E8%8A%B1%E5%BE%97%E6%9C%80%E5%BF%AB%E2%80%94%E2%80%94%E5%BF%83%E7%90%86%E8%B4%A6%E6%88%B7/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-08T16:00:00.000Z">09-09</time>
+              <span class="sidebar__post-title">Mind-为什么捡来的钱花得最快——心理账户</span>
+            </a>
+          
+            
+            <a href="/2026/09/08/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E7%BE%A4%E4%BA%BA%E8%81%8A%E7%9D%80%E8%81%8A%E7%9D%80%E5%B0%B1%E5%8F%98%E6%9E%81%E7%AB%AF%E2%80%94%E2%80%94%E7%BE%A4%E4%BD%93%E6%9E%81%E5%8C%96/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">Mind-为什么一群人聊着聊着就变极端——群体极化</span>
+            </a>
+          
+            
+            <a href="/2026/09/07/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E6%89%87%E7%A0%B4%E7%AA%97%E4%BC%9A%E6%AF%81%E6%8E%89%E6%95%B4%E6%9D%A1%E8%A1%97%E2%80%94%E2%80%94%E7%A0%B4%E7%AA%97%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-06T16:00:00.000Z">09-07</time>
+              <span class="sidebar__post-title">Mind-为什么一扇破窗会毁掉整条街——破窗效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/06/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E6%80%BB%E6%8A%A4%E7%9D%80%E8%87%AA%E5%B7%B1%E4%BA%BA%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E8%AE%A4%E5%90%8C%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-05T16:00:00.000Z">09-06</time>
+              <span class="sidebar__post-title">Mind-为什么我们总护着自己人——社会认同理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/05/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%AC%AC%E4%B8%80%E5%8D%B0%E8%B1%A1%E5%A6%82%E6%AD%A4%E9%A1%BD%E5%9B%BA%E2%80%94%E2%80%94%E5%85%89%E7%8E%AF%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">Mind-为什么第一印象如此顽固——光环效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/04/Mind-%E7%BB%9D%E6%9C%9B%E6%98%AF%E8%A2%AB%E8%AE%AD%E7%BB%83%E5%87%BA%E6%9D%A5%E7%9A%84%E2%80%94%E2%80%94%E4%B9%A0%E5%BE%97%E6%80%A7%E6%97%A0%E5%8A%A9/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">Mind-绝望是被训练出来的——习得性无助</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Game-GT7%E8%BD%A6%E8%BE%86%E8%B0%83%E6%95%99%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="游戏" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Game-GT7 车辆调教指南</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Mind-%E8%AE%B0%E5%BF%86%E5%8F%AA%E8%AE%B0%E5%BE%97%E9%AB%98%E6%BD%AE%E5%92%8C%E7%BB%93%E5%B0%BE%E2%80%94%E2%80%94%E5%B3%B0%E7%BB%88%E5%AE%9A%E5%BE%8B/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Mind-记忆只记得高潮和结尾——峰终定律</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Mind-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%95%B0%E5%AD%97%E5%A6%82%E4%BD%95%E6%93%8D%E7%BA%B5%E4%BD%A0%E2%80%94%E2%80%94%E9%94%9A%E5%AE%9A%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Mind-第一个数字如何操纵你——锚定效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Mind-%E6%BB%A1%E8%B4%9F%E8%8D%B7%EF%BC%8C%E6%98%AF%E7%B3%BB%E7%BB%9F%E6%9C%80%E5%8D%B1%E9%99%A9%E7%9A%84%E6%97%B6%E5%88%BB%E2%80%94%E2%80%94%E6%8E%92%E9%98%9F%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Mind-满负荷，是系统最危险的时刻——排队论</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Base-%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88%E6%BC%94%E8%BF%9B%E6%80%BB%E8%A7%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Base-渲染方案演进总览</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8F100%E6%AF%94%E8%B5%9A200%E6%9B%B4%E7%96%BC%E2%80%94%E2%80%94%E6%8D%9F%E5%A4%B1%E5%8E%8C%E6%81%B6/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Mind-为什么亏100比赚200更疼——损失厌恶</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Mind-%E9%97%B2%E7%9D%80%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AF%94%E5%BF%99%E4%B8%80%E5%A4%A9%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E6%97%A0%E8%81%8A/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Mind-闲着为什么比忙一天还累——无聊</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Unity-APV%E4%BD%93%E7%A7%AF%E6%8E%A2%E9%92%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Unity-APV体积探针</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/UE4-RTGI/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">UE4-RTGI</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-1990%E8%87%B32026%E6%82%AC%E7%96%91%E7%94%B5%E5%BD%B1%E6%A6%9C%E5%8D%95/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-1990—2026 悬疑电影榜单</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-2015%E8%87%B32026%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1Top250/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-2015—2026 豆瓣电影 Top 250</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E9%81%93%E9%94%99%E4%B9%9F%E8%A6%81%E8%B7%9F%E7%9D%80%E8%AF%B4%E2%80%94%E2%80%94%E4%BB%8E%E4%BC%97/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Mind-为什么明知道错也要跟着说——从众</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E5%83%8F%E7%90%86%E8%A7%A3%E9%9F%B3%E4%B9%90%E6%B5%81%E6%B4%BE%E4%B8%80%E6%A0%B7%E7%90%86%E8%A7%A3%E7%BE%8E%E6%9C%AF%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-像理解音乐流派一样理解美术体系</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-电子游戏美术风格体系——从视觉分类到概念原画研究</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E4%B8%8D%E6%87%82%E8%B6%8A%E8%87%AA%E4%BF%A1%E2%80%94%E2%80%94%E8%BE%BE%E5%85%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Mind-为什么越不懂越自信——达克效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/29/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E8%B6%8A%E5%A4%9A%E8%B6%8A%E6%B2%A1%E4%BA%BA%E5%B8%AE%E5%BF%99%E2%80%94%E2%80%94%E6%97%81%E8%A7%82%E8%80%85%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-28T16:00:00.000Z">08-29</time>
+              <span class="sidebar__post-title">Mind-为什么人越多越没人帮忙——旁观者效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E4%BC%9A%E7%9B%B8%E4%BF%A1%E8%87%AA%E7%9B%B8%E7%9F%9B%E7%9B%BE%E7%9A%84%E4%BA%8B%E2%80%94%E2%80%94%E8%AE%A4%E7%9F%A5%E5%A4%B1%E8%B0%83/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Mind-为什么人会相信自相矛盾的事——认知失调</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E6%8A%95%E5%85%A5%E8%B6%8A%E9%9A%BE%E6%94%BE%E5%BC%83%E2%80%94%E2%80%94%E6%B2%89%E6%B2%A1%E6%88%90%E6%9C%AC%E8%B0%AC%E8%AF%AF/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Mind-为什么越投入越难放弃——沉没成本谬误</span>
+            </a>
+          
+            
+            <a href="/2026/08/26/Mind-%E4%BA%BA%E7%B1%BB%E7%A4%BE%E4%BC%9A%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%B1%BB%E5%9E%8B/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-25T16:00:00.000Z">08-26</time>
+              <span class="sidebar__post-title">Mind-人类社会的工作类型</span>
+            </a>
+          
+            
+            <a href="/2026/08/21/Design-%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AARoguelike%E6%B8%B8%E6%88%8F/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-20T16:00:00.000Z">08-21</time>
+              <span class="sidebar__post-title">Design-如何开发一个Roguelike游戏</span>
+            </a>
+          
+            
+            <a href="/2026/08/20/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%B6%8A%E6%83%B3%E6%94%B9%E5%8F%98%E4%B8%80%E4%B8%AA%E4%BA%BA%E4%BB%96%E8%B6%8A%E4%B8%8D%E5%8F%98%E2%80%94%E2%80%94%E8%87%AA%E6%88%91%E5%86%B3%E5%AE%9A%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-19T16:00:00.000Z">08-20</time>
+              <span class="sidebar__post-title">Mind-为什么你越想改变一个人他越不变——自我决定理论</span>
+            </a>
+          
+            
+            <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-09T16:00:00.000Z">08-10</time>
+              <span class="sidebar__post-title">AI-把高质量画面训练成低配Shader的探索</span>
+            </a>
+          
+            
+            <a href="/2026/08/09/Unity-URP14%E5%8D%87%E7%BA%A7URP17-RenderFeature%E9%80%82%E9%85%8DRenderGraph/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-08T16:00:00.000Z">08-09</time>
+              <span class="sidebar__post-title">Unity-URP14升级URP17-RenderFeature适配RenderGraph</span>
+            </a>
+          
+            
+            <a href="/2026/08/03/Art-%E4%BA%91%E7%9A%84%E5%88%86%E7%B1%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-02T16:00:00.000Z">08-03</time>
+              <span class="sidebar__post-title">Art-云的分类——从国际云图集到观云识天</span>
+            </a>
+          
+            
+            <a href="/2026/07/29/Art-%E6%8E%92%E7%BA%BF%E6%8A%80%E6%B3%95%E5%8F%91%E5%B1%95%E5%8F%B2/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-28T16:00:00.000Z">07-29</time>
+              <span class="sidebar__post-title">Art-排线技法发展史</span>
+            </a>
+          
+            
+            <a href="/2026/07/02/Dev-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/" class="sidebar__item" data-category="开发工具" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-01T16:00:00.000Z">07-02</time>
+              <span class="sidebar__post-title">Dev-主流跨平台桌面应用技术栈</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Mind-%E6%8A%8A%E7%9B%B4%E8%A7%89%E8%AE%AD%E7%BB%83%E6%88%90%E6%B8%85%E6%A5%9A%E8%A1%A8%E8%BE%BE/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Mind-把直觉训练成清楚表达</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2024">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2023">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            <a href="/2023/01/14/Base-TAA/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-01-13T16:00:00.000Z">01-14</time>
+              <span class="sidebar__post-title">Base-时域抗锯齿 TAA</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2022">2022</div>
+            
+            <a href="/2022/10/04/Unity-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E5%A4%AA%E9%98%B3%E7%B3%BB%E6%A8%A1%E6%8B%9F/" class="sidebar__item" data-category="技术" data-year="2022">
+              <time class="sidebar__date" datetime="2022-10-03T16:00:00.000Z">10-04</time>
+              <span class="sidebar__post-title">Unity-开源项目-太阳系模拟</span>
+            </a>
+          
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2022">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2021">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2020">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            <a href="/2020/06/04/Unity-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-A%E6%98%9F%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-06-03T16:00:00.000Z">06-04</time>
+              <span class="sidebar__post-title">Unity-开源项目-A*算法可视化</span>
+            </a>
+          
+            
+            <a href="/2020/05/29/Unity-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E9%9F%B3%E9%A2%91%E5%8F%AF%E8%A7%86%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Unity-开源项目-音频可视化</span>
+            </a>
+          
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2019">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item" data-category="技术" data-year="2019">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2018">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item" data-category="Loy" data-year="2018">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+  <div class="sidebar-resizer" id="globalSidebarResizer" role="separator" aria-label="调整全局目录宽度" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="480" aria-valuenow="320" tabindex="0"></div>
+</aside>
+
+    <main class="main" id="mainContent" tabindex="-1">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-10-22T16:00:00.000Z">2026 年 10 月 23 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/Art/">Art</a>, 
+            
+              <a href="/categories/Art/%E7%BB%98%E7%94%BB/">绘画</a>
+            
+          </span>
+        
+        
+          
+          <span class="post__views" aria-label="文章阅读量">
+            阅读 <span id="vercount_value_page_pv" data-base="0" aria-live="polite">加载中…</span>
+          </span>
+        
+      </div>
+      <h1 class="post__title">Art-同时对比：颜色是被邻居逼出来的</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E7%BE%8E%E6%9C%AF/" class="tag">#美术</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <div class="post-toc__resizer" id="postTocResizer" role="separator" aria-label="调整文章目录宽度" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="420" aria-valuenow="280" tabindex="0"></div>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p><strong>同时对比（Simultaneous Contrast）指的是：一个颜色的”样子”不是它自己的属性，而是它和周围颜色比较出来的结果——同一块灰放在深底上会发亮，放在浅底上会发暗；同一块蓝挨着橙会显出更强的冷，挨着绿则会往青紫偏。</strong></p>
+<p>一句话记忆：<strong>“你永远看不到一个颜色本身，只能看到它和邻居的差。”</strong></p>
+<p>这句话听起来像玄学，但它是可以量化的：像素值完全不变的同一块色，在两种背景下会被人眼判读成两个颜色。后面第二节那张灰色矩形图就是证据。</p>
+<span id="more"></span>
+
+<h2 id="1-起源：从一个工厂投诉开始"><a href="#1-起源：从一个工厂投诉开始" class="headerlink" title="1. 起源：从一个工厂投诉开始"></a>1. 起源：从一个工厂投诉开始</h2><h3 id="1-1-前史：画家早就”知道”，但没人”讲清”"><a href="#1-1-前史：画家早就”知道”，但没人”讲清”" class="headerlink" title="1.1 前史：画家早就”知道”，但没人”讲清”"></a>1.1 前史：画家早就”知道”，但没人”讲清”</h3><p>相邻色会互相加强，这件事画画的人很早就凭手感在用。更早的成文观察通常追溯到歌德的《色彩论》（<em>Zur Farbenlehre</em>，1810）——他记录了同一块灰在不同底色上观感不同，并从”眼睛需要补色”的角度解释。但那还是<strong>观察</strong>，不是<strong>可执行的规则</strong>。</p>
+<p>真正把它变成一条工业标准并写进教科书的，是一个化学家。</p>
+<h3 id="1-2-分水岭：谢弗勒尔在戈布兰挂毯厂"><a href="#1-2-分水岭：谢弗勒尔在戈布兰挂毯厂" class="headerlink" title="1.2 分水岭：谢弗勒尔在戈布兰挂毯厂"></a>1.2 分水岭：谢弗勒尔在戈布兰挂毯厂</h3><p>米歇尔·欧仁·谢弗勒尔（Michel Eugène Chevreul，1786–1889）是化学家，不是画家。1824 年 9 月 9 日，他出任巴黎戈布兰（Gobelins）挂毯织造厂的染色总监。</p>
+<p>厂里的问题很具体：<strong>用于蓝、紫帷幔阴影的黑色毛线，被抱怨”不够黑、不够有力”。</strong></p>
+<p>谢弗勒尔没有直接归咎于染料的配方。他先检验了黑色本身，确认染料质量没问题——<strong>是相邻的颜色在作怪</strong>。同一根黑线，紧挨深蓝和紧挨亮黄，看起来是两个深度。这个结论在他 1839 年出版的《色彩的对比法则》自序里写得很清楚。</p>
+<p>时间线要写准：</p>
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>事件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1824-09-09</td>
+<td>出任戈布兰染色总监</td>
+</tr>
+<tr>
+<td>1828-04-07</td>
+<td>向法国科学院宣读关于同时对比的研究</td>
+</tr>
+<tr>
+<td>1839</td>
+<td>《De la loi du contraste simultané des couleurs》巴黎出版，成书</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>所以”1839 年提出”这个常见说法不准确：<strong>1828 年他就公开宣读过，1839 年是成书</strong>。</p>
+</blockquote>
+<h3 id="1-3-谢弗勒尔的色轮：把颜色排成一个可查的表"><a href="#1-3-谢弗勒尔的色轮：把颜色排成一个可查的表" class="headerlink" title="1.3 谢弗勒尔的色轮：把颜色排成一个可查的表"></a>1.3 谢弗勒尔的色轮：把颜色排成一个可查的表</h3><p>谢弗勒尔做的另一件事影响更久：他把色彩按色相环排布，每个色相配一个明确的互补位，让”哪个色挨着哪个色会怎样”变成一张可以查的表。</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c8-chevreul-wheel.jpg" alt="谢弗勒尔的第一色轮：72 个纯色相，外圈标注色名与编号"></p>
+<p><em>谢弗勒尔《第一色轮》（1er cercle chromatique de M. Chevreul，本图版为 1864 年版，Science History Institute &#x2F; DPLA，Public domain）。中央文字盘写着 “CERCLE CHROMATIQUE DE M. CHEVREUL &#x2F; RENFERMANT LES COULEURS FRANCHES”（含纯色的色轮）。<strong>看什么</strong>：这不是装饰，是一张查找表——圆周上任意取一段，相隔约半圈的两个扇区就是互补对。今天任何一本色彩教材上的色相环，血缘都在这里。</em></p>
+<p>外圈的色带是按色相细分的窄扇区，相邻扇区之间只差一点点：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c9-chevreul-bands.jpg" alt="色轮外圈局部：黄绿—黄—橙黄相邻扇区"></p>
+<p><em>局部（色轮右上至右侧）。<strong>看什么</strong>：注意相邻扇区之间那条浅色分隔线。谢弗勒尔把色相切得这么细，是为了让”相邻即对比”这件事可以被逐格检验，而不是靠整体印象。</em></p>
+<h2 id="2-原理：为什么”同一块灰”会变成两块灰"><a href="#2-原理：为什么”同一块灰”会变成两块灰" class="headerlink" title="2. 原理：为什么”同一块灰”会变成两块灰"></a>2. 原理：为什么”同一块灰”会变成两块灰</h2><p>先看直接的证据。下面这张图里，两个中央矩形的像素值完全一样（都是 #B2B2B2），但上面的看起来更亮、下面的看起来更暗：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/09-simultaneous-contrast.jpg" alt="同时明度对比：两个中央矩形实际是同一个灰"></p>
+<p>*同时对比的最小演示（Wikimedia Commons，作者 Qef，Public domain）。上方的灰块被深灰（约 #4D4D4D）包围，看起来更亮；下方的灰块被浅灰（约 #DDDDDD）包围，看起来更暗。<strong>两个灰块的像素值完全相同（#B2B2B2）</strong>——你可以用取色器验证，但眼睛不会同意。这是本文最该亲手验一次的一张图。*</p>
+<p>色相上也是一样。下面这张把三条色带的中段做成同一个颜色的横条，左右两半落在不同背景上：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/11-kontrasteffekt2.jpg" alt="色彩同时对比：三条色带，中央横条跨过不同背景"></p>
+<p><em>色彩版同时对比（Wikimedia Commons，作者 Monarey，CC0）。<strong>看什么</strong>：每一条色带里，中间那条横穿的矩形在同一行内是*<em>同一个颜色</em></em>，但它跨越了左右两种背景。</p>
+<ul>
+<li>第一条：中间是青绿（约 #008083），左半挨纯蓝，右半挨黄绿 → 左半显绿，右半显蓝。</li>
+<li>第二条：中间是浅黄（约 #FFFECB），左半挨明黄，右半挨浅蓝 → 左半近乎发白，右半显黄显暖。</li>
+<li>第三条：中间是粉（约 #FF99CB），左半挨粉红，右半挨深绿 → 左半发淡，右半鲜亮。*</li>
+</ul>
+<h3 id="2-1-主流解释：中心-周边拮抗"><a href="#2-1-主流解释：中心-周边拮抗" class="headerlink" title="2.1 主流解释：中心-周边拮抗"></a>2.1 主流解释：中心-周边拮抗</h3><p>视觉系统在很早的层级（视网膜神经节细胞、LGN）就已经不是”逐点记录亮度”，而是<strong>记录某个点和它周边的差</strong>。这就是经典的**中心-周边拮抗（center-surround antagonism）**结构：中心受光兴奋、周边抑制，反之亦然。结果是：一个像素被编码成”我比周围亮多少”，而不是”我有多少亮度”。</p>
+<p>推论很直接——<strong>改变邻居，等于改变读数</strong>。这也解释了为什么显示器校色必须放在中性灰环境里做，为什么”我看着差不多”是最不可靠的判断依据。</p>
+<h3 id="2-2-一个必须分清的概念：光学混合-≠-同时对比"><a href="#2-2-一个必须分清的概念：光学混合-≠-同时对比" class="headerlink" title="2.2 一个必须分清的概念：光学混合 ≠ 同时对比"></a>2.2 一个必须分清的概念：光学混合 ≠ 同时对比</h3><p>新印象派（修拉、西涅克）把谢弗勒尔的名字挂在嘴边，但他们的<strong>点彩</strong>其实同时用了两套完全不同的机制，很容易混为一谈：</p>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>发生了什么</th>
+<th>观感</th>
+<th>生效条件</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>同时对比</strong></td>
+<td>相邻色互推，各自<strong>更</strong>偏向互补方向</td>
+<td>颜色更”响”、更分离</td>
+<td>色块够大、视线能分辨边界</td>
+</tr>
+<tr>
+<td><strong>光学混合（空间混合）</strong></td>
+<td>远看时细色点被视觉系统平均掉</td>
+<td>得到一个<strong>中间色</strong>，更亮更透气</td>
+<td>色点够细、观看距离够远</td>
+</tr>
+</tbody></table>
+<p>这两件事方向相反：对比是<strong>拉大差异</strong>，混合是<strong>抹平差异</strong>。同一位画家在同一张画上两个都用，所以在近距离看色点、退后看整体，会得到两种不同的画。这个”双档”体验是点彩派真正的技术核心。</p>
+<h2 id="3-发展：从工厂标准到绘画方法"><a href="#3-发展：从工厂标准到绘画方法" class="headerlink" title="3. 发展：从工厂标准到绘画方法"></a>3. 发展：从工厂标准到绘画方法</h2><h3 id="3-1-德拉克洛瓦：一个有流传但证据很弱的归因"><a href="#3-1-德拉克洛瓦：一个有流传但证据很弱的归因" class="headerlink" title="3.1 德拉克洛瓦：一个有流传但证据很弱的归因"></a>3.1 德拉克洛瓦：一个有流传但证据很弱的归因</h3><p>常见说法是”德拉克洛瓦读了谢弗勒尔的书，据此改造了自己的用色”。这条线要谨慎。</p>
+<p>能查到的最硬的文献，是西涅克 1899 年在书里转述谢弗勒尔的回忆：约 1850 年，德拉克洛瓦曾写信向谢弗勒尔求教色彩理论并约见，后因喉疾未能赴约，<strong>两人终身未曾见面</strong>。而 1893 年 Plon 版《德拉克洛瓦日记》全文检索没有出现 “Chevreul” 字样（该版有删节，只算弱反证）。</p>
+<p>所以准确的说法是：<strong>两人有过间接接触的记载，但没有直接证据表明德拉克洛瓦系统读过或受其指导</strong>。他的用色与同时对比的规律高度吻合，这更可能是并行发现 + 后世归因。</p>
+<p>这一点值得单独强调，因为它是美术史里”证据与传说混在一起”的典型样本。看画时正确的态度是：<strong>德拉克洛瓦画里确实有强烈的互补并置，这是眼见的；他是不是照谢弗勒尔的表画的，这是没证的。</strong></p>
+<p>看具体画面。先看整幅：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/02-delacroix-algiers.jpg" alt="德拉克洛瓦《阿尔及尔的女人》：室内暖褐基调里塞进冷蓝"></p>
+<p><em>德拉克洛瓦《阿尔及尔的女人》（Femmes d’Alger dans leur appartement，1834，卢浮宫，Public domain）。<strong>看什么</strong>：整幅画的基调是金、褐、暗红——一大片暖。但画面右侧站立的女子身上有一块极纯的蓝。这块蓝之所以”跳”，不是因为它自己最亮，而是因为周围全是暖色。</em></p>
+<p>把右侧那个人物单独放大：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c2-delacroix-blue.jpg" alt="局部：右侧女子的蓝背心与暖褐环境"></p>
+<p><em>局部。<strong>看什么</strong>：蓝背心的饱和感来自”它是画面里唯一的冷”。同一块蓝如果放进一片蓝灰环境里，会立刻塌掉。这就是同时对比在构图层面的用法——<strong>冷色的力量，取决于暖色的面积</strong>。</em></p>
+<p>再看左侧躺卧的人物：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c10-delacroix-red.jpg" alt="局部：左侧躺卧女子，粉金织物与暗红、深蓝"></p>
+<p><em>局部。<strong>看什么</strong>：这里的问题不是互补，而是*<em>明度对比</em></em>。浅粉、金黄的织物紧挨深蓝黑与暗红，浅的部分因此显得更亮、更”出光”。德拉克洛瓦靠这一类并置让室内有空气感，而不用真的画光源。*</p>
+<h3 id="3-2-新印象派：把色彩对比当成一套方法"><a href="#3-2-新印象派：把色彩对比当成一套方法" class="headerlink" title="3.2 新印象派：把色彩对比当成一套方法"></a>3.2 新印象派：把色彩对比当成一套方法</h3><p>修拉与西涅克把这件事推进到”方法论”层面。西涅克 1899 年出版《D’Eugène Delacroix au néo-impressionnisme》（1898 年先连载于 <em>La Revue blanche</em>），核心就是把<strong>德拉克洛瓦 → 印象派 → 新印象派</strong>串成一条谱系，并称新印象派是”由谢弗勒尔的工作指引”的。</p>
+<p>要打个折：这是一本<strong>论战性的辩护书</strong>，目的是给新印象派争正统。西涅克本人也强调科学只是艺术家的工具，不是艺术的原因。别把它读成”科学决定论”。</p>
+<p>先看修拉：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/03-seurat-grande-jatte.jpg" alt="修拉《大碗岛的星期天下午》：全画由细密色点构成"></p>
+<p><em>修拉《大碗岛的星期天下午》（Un dimanche après-midi à l’île de la Grande Jatte，1884–1886，芝加哥艺术学院，Public domain）。<strong>看什么</strong>：先退远看整体——草地是明亮的黄绿，树荫是蓝紫。再走近看，会发现这些”颜色”根本不存在，全是一片片绿、黄、橙、蓝、紫的小点。</em></p>
+<p>中央那个撑橙红伞的女人是典型：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c3-seurat-umbrella.jpg" alt="局部：中央撑伞女子，橙红伞压在蓝绿树荫上"></p>
+<p><em>局部。<strong>看什么</strong>：橙红伞和蓝绿树荫正是一对互补。伞显得那么”烫”，一半是自己饱和，一半是被身后的蓝绿推出来的。这正是同时对比的直接效果。</em></p>
+<p>再看前景草地的笔触：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c11-seurat-dots.jpg" alt="局部：前景草地与黑狗，色点由绿、黄、蓝、紫混合堆出"></p>
+<p><em>局部。<strong>看什么</strong>：这里能同时看到两套机制。<strong>近距离</strong>：每个色点都清楚，绿点挨着紫点，各自向互补方向增强（对比）。<strong>后退几步</strong>：色点被平均成一片柔和的黄绿（光学混合）。同一块画面，两种读法。注意黑狗也不是纯黑，是黑、深蓝紫加一点绿构成的——修拉连”最暗处”都不肯用单色。</em></p>
+<p>西涅克的做法更”硬”，色点更大更方，对比也更直白：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/04-signac-women-well.jpg" alt="西涅克《井边女子》：蓝海与橙黄坡地的强互补"></p>
+<p><em>西涅克《井边的女子》（Femmes au puits，1892，奥赛博物馆，Public domain）。<strong>看什么</strong>：整幅画被一条对角线切成两块——左下是海与天的蓝，右上是坡地的橙黄。这是一次极端规模的互补并置，等于把”同时对比”放大到整幅画的构图层面。</em></p>
+<p>紫色的裙子压在金黄地面上，是教科书级的例子：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c4-signac-purple.jpg" alt="局部：紫裙紧邻金黄地面"></p>
+<p><em>局部。<strong>看什么</strong>：紫色和黄色互为补色。紫色边缘与金黄地面直接相接，紫显得更冷更偏洋红，黄显得更亮更偏金橙。<strong>这一小块就能讲清同时对比，因为它只靠两色相接，没有别的干扰。</strong></em></p>
+<p>蓝海与橙坡的交界：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c12-signac-sea.jpg" alt="局部：蓝海与橙黄坡地的交界"></p>
+<p><em>局部。<strong>看什么</strong>：注意交界处不是一条平滑的色块边界，而是密集的短笔触，中间还夹着紫、红、青绿的过渡点。西涅克在交界处*<em>加重了对比的密度</em></em>，让”边”本身成为最活跃的区域。这是点彩派处理轮廓的常规手段。*</p>
+<h3 id="3-3-梵高：把对比用来表达情绪"><a href="#3-3-梵高：把对比用来表达情绪" class="headerlink" title="3.3 梵高：把对比用来表达情绪"></a>3.3 梵高：把对比用来表达情绪</h3><p>梵高不是严格的点彩派，但他对互补并置的依赖更极端——因为他不追求光学混合的柔和，他要的是<strong>冲突</strong>。</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/05-vangogh-night-cafe.jpg" alt="梵高《夜间咖啡馆》：红墙与绿台球桌"></p>
+<p><em>梵高《夜间咖啡馆》（Le Café de nuit，1888，耶鲁大学美术馆，Public domain）。<strong>看什么</strong>：画面基本只有三个色相在打架——墙面的血红、台球桌与柜台的绿、灯与地板的黄。红绿是正互补，黄又同时与紫（画面里藏在阴影里）互补。这不是自然的夜景，是*<em>用色彩硬造出来的压迫感</em></em>。*</p>
+<p>梵高自己在 1888 年 9 月 8 日致提奥的信里写得很直白：</p>
+<blockquote>
+<p>“J’ai cherché à exprimer avec le rouge et le vert les terribles passions humaines.”<br>（”我试图用红色和绿色来表达人类可怕的激情。”）<br>—— 1888-09-08 致提奥，2009 年版书信集编号 <strong>letter 676</strong>（旧编号 533）</p>
+</blockquote>
+<p>次日（9 月 9 日，letter 677）他还在同一主题上补了一句，大意是这种配色”可以使人发疯或犯罪”。两封信要分清编号，常见引用把 677 当成了那一句的出处。</p>
+<p>局部看红绿的相接处：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c5-vangogh-redgreen.jpg" alt="局部：暗红墙面与灰绿柜台直接相邻"></p>
+<p><em>局部。<strong>看什么</strong>：这里其实打了折——梵高用的不是纯红配纯绿，而是<strong>暗砖红配灰绿（近乎鼠尾草绿）</strong>。饱和的互补对如果面积都很大，会互相”烧穿”；降一点饱和度、压一点明度，两块才能同时站住。这个”打折”是所有实操里最该学的一手。</em></p>
+<p>上方黄灯与周围的关系：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/c13-vangogh-yellow.jpg" alt="局部：两盏黄灯压在赭红墙面上，下方绿色进入画面"></p>
+<p><em>局部。<strong>看什么</strong>：黄灯的光晕不是画出来的光，是*<em>用赭红墙反衬出来的</em></em>。黄在红旁边会显得更亮更偏橙，而红会显得更沉。同一盏灯，如果画在白墙上，就不会有这种”烧起来”的感觉。*</p>
+<h2 id="4-现状：它在今天的五个落点"><a href="#4-现状：它在今天的五个落点" class="headerlink" title="4. 现状：它在今天的五个落点"></a>4. 现状：它在今天的五个落点</h2><h3 id="4-1-约瑟夫·亚伯斯：把同时对比变成一门课"><a href="#4-1-约瑟夫·亚伯斯：把同时对比变成一门课" class="headerlink" title="4.1 约瑟夫·亚伯斯：把同时对比变成一门课"></a>4.1 约瑟夫·亚伯斯：把同时对比变成一门课</h3><p>亚伯斯（Josef Albers，1888–1976）在包豪斯（1920 入学、1922 任教、1925 升教授至 1933 年闭校）、黑山学院（1933 年 11 月起，主持绘画至 1949 年）、耶鲁（至 1958 年退休）教了一辈子色彩。1963 年，耶鲁大学出版社出版《Interaction of Color》。</p>
+<p>他的方法不是讲理论，而是<strong>做实验</strong>：给学生两块颜色纸，让他们反复试，直到同一种纸在不同底色上看起来像两种颜色。这本书的意义在于——它把”颜色是关系”从一条规律变成了一套可以训练的<strong>知觉技能</strong>。</p>
+<h3 id="4-2-色彩恒常性：同时对比的极端版本"><a href="#4-2-色彩恒常性：同时对比的极端版本" class="headerlink" title="4.2 色彩恒常性：同时对比的极端版本"></a>4.2 色彩恒常性：同时对比的极端版本</h3><p>下面的棋盘图是同时对比在认知层面的最强演示，作者是 Edward H. Adelson：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/07-checker-shadow.jpg" alt="棋盘阴影错觉：A 与 B 两个方块的实际灰度相同"></p>
+<p><em>Adelson 棋盘阴影错觉（矢量版由 Pbroks13 重绘，CC BY-SA 4.0；原始构想 Edward H. Adelson）。<strong>看什么</strong>：标着 A 的方块（暗格、不在阴影里）看起来是深灰；标着 B 的方块（亮格、但在圆柱的阴影里）看起来是浅灰。<strong>两者的像素值完全相同</strong>。把手指或一张纸横跨在两块之间挡住周围，你会发现它们立刻变成同一个灰。这说明：你看到的不是亮度，是大脑对”这个表面本来是什么颜色”的推断。</em></p>
+<p>这条对技术美术的直接意义：<strong>玩家看到的是”材质”，不是”像素”</strong>。所以材质球不能只在灰底上校，必须在实际环境里校；UI 的图标颜色也不能只在设计稿里定，必须在最终背景上验。</p>
+<h3 id="4-3-反向的效应：同化（assimilation）"><a href="#4-3-反向的效应：同化（assimilation）" class="headerlink" title="4.3 反向的效应：同化（assimilation）"></a>4.3 反向的效应：同化（assimilation）</h3><p>同时对比不是唯一的结果。当图案足够细密时，方向会<strong>反过来</strong>——不是拉大差异，而是向邻色靠拢。这个现象叫<strong>同化</strong>。</p>
+<p>怀特错觉（White’s illusion，Michael White，1979，<em>Perception</em> 8:413–416）是最典型的反例：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/06-whites-illusion.jpg" alt="怀特错觉：左右两组灰块像素相同，左侧看起来更暗"></p>
+<p><em>怀特错觉（Wikimedia Commons，作者 Zhengyi4411，CC BY-SA 3.0）。<strong>看什么</strong>：左右两组灰色矩形（标 A 的在左，标 B 的）<strong>像素值完全相同</strong>。但 A 看起来明显更暗，B 更亮。关键在灰块的*<em>长边贴着谁</em></em>：A 的长边贴着黑条，于是向黑同化、显得更暗；B 的长边贴着白条，于是向白同化、显得更亮。*</p>
+<p>注意这和第二节那张灰块图<strong>方向相反</strong>：经典同时对比预测”被白包围的显得更暗”，而这里被白条贴长边的灰块反而显得更亮。所以”同时对比”不能当成一条万能公式套用。</p>
+<p>贝措尔德效应（Bezold effect，Wilhelm von Bezold，1874）是同一类：</p>
+<p><img src="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/08-bezold-circles.jpg" alt="贝措尔德效应：同样的绿环在白色与棕色地子上显得不同"></p>
+<p><em>贝措尔德效应（Wikimedia Commons，作者 Mabit1，CC BY-SA 4.0）。<strong>看什么</strong>：左右两半的绿色圆环实际是同一个绿，但左半（白色地子）看起来更亮更淡，右半（棕色地子）看起来更暗更沉。绿是被地子的明度<strong>带跑</strong>了——这是同化，不是对比。</em></p>
+<p><strong>什么时候哪个占优？</strong> 主流判据是空间频率／元素尺度：<strong>细密、高频的图案倾向同化；粗大、低频的色块倾向对比</strong>。这不是铁律（怀特错觉在低频下依然成立，深度线索也能翻转方向），但作为工程经验足够好用。</p>
+<h3 id="4-4-游戏与实时渲染"><a href="#4-4-游戏与实时渲染" class="headerlink" title="4.4 游戏与实时渲染"></a>4.4 游戏与实时渲染</h3><table>
+<thead>
+<tr>
+<th>场景</th>
+<th>同时对比在做什么</th>
+<th>常见翻车</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>UI &#x2F; HUD 配色</td>
+<td>同一颜色在不同底板上观感不同</td>
+<td>图标在浅色 UI 上好看，压到暗场景上”消失”</td>
+</tr>
+<tr>
+<td>角色可读性</td>
+<td>我方与环境靠互补色分离</td>
+<td>只提亮角色，不提饱和度／色相分离，结果角色”发白”而不是”突出”</td>
+</tr>
+<tr>
+<td>材质校对</td>
+<td>材质球在灰底上校、进场景就变</td>
+<td>只在中性背景下看 albedo，不做环境内验证</td>
+</tr>
+<tr>
+<td>后期调色</td>
+<td>局部补色靠邻近色带动</td>
+<td>全画面统一加暖，导致冷暖关系被抹平</td>
+</tr>
+<tr>
+<td>特效可读性</td>
+<td>技能色靠互补背景才够”炸”</td>
+<td>特效与背景同色相，只能靠亮度硬撑</td>
+</tr>
+</tbody></table>
+<h3 id="4-5-影视与摄影"><a href="#4-5-影视与摄影" class="headerlink" title="4.5 影视与摄影"></a>4.5 影视与摄影</h3><p>调色师常用的一招叫”色彩分离”：把人物肤色锁在暖侧，把环境压到冷侧——<strong>不是把人物提亮，而是把环境推冷</strong>。这跟德拉克洛瓦在暖褐室内塞一块纯蓝是同一个操作，只是在他那里是手画的，在这里是示波器上量的。</p>
+<h2 id="5-示例总表"><a href="#5-示例总表" class="headerlink" title="5. 示例总表"></a>5. 示例总表</h2><table>
+<thead>
+<tr>
+<th>作品</th>
+<th>作者 &#x2F; 年份</th>
+<th>用的是哪种对比</th>
+<th>看图重点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第一色轮</td>
+<td>谢弗勒尔，1864 版图</td>
+<td>—（工具）</td>
+<td>互补对是可以查表的，不是玄学</td>
+</tr>
+<tr>
+<td>《阿尔及尔的女人》</td>
+<td>德拉克洛瓦，1834</td>
+<td>大面积暖 &#x2F; 单点冷</td>
+<td>冷色的力量取决于暖色的面积</td>
+</tr>
+<tr>
+<td>《大碗岛的星期天下午》</td>
+<td>修拉，1884–1886</td>
+<td>同时对比 + 光学混合</td>
+<td>近看色点、远看整体，两种读法</td>
+</tr>
+<tr>
+<td>《井边的女子》</td>
+<td>西涅克，1892</td>
+<td>整幅级互补（蓝 &#x2F; 橙黄）</td>
+<td>对比可以放大到构图层面</td>
+</tr>
+<tr>
+<td>《夜间咖啡馆》</td>
+<td>梵高，1888</td>
+<td>红绿互补 + 降饱和</td>
+<td>互补要”打折”才能同时站住</td>
+</tr>
+<tr>
+<td>棋盘阴影错觉</td>
+<td>Adelson</td>
+<td>对比 + 色彩恒常性</td>
+<td>看到的是材质推断，不是像素</td>
+</tr>
+<tr>
+<td>怀特错觉</td>
+<td>White，1979</td>
+<td><strong>同化（反向）</strong></td>
+<td>细密图案下方向会翻转</td>
+</tr>
+<tr>
+<td>贝措尔德效应</td>
+<td>Bezold，1874</td>
+<td><strong>同化（反向）</strong></td>
+<td>绿色被地子明度带跑</td>
+</tr>
+</tbody></table>
+<p><strong>一个可以立刻做的练习</strong>：打开任意一张你满意的场景截图，在 PS 里放一个纯 #808080 的方块到画面最亮处，再放一个到最暗处。观察这两个灰的反应——你会更清楚这张图的动态范围和对比结构。</p>
+<h2 id="6-原理内核"><a href="#6-原理内核" class="headerlink" title="6. 原理内核"></a>6. 原理内核</h2><ol>
+<li><strong>编码的是差，不是值</strong>。视网膜与 LGN 的中心-周边拮抗结构决定了：亮度／色彩是以”相对周边”的方式被编码的。所以”绝对值”在感知层面并不存在。</li>
+<li><strong>感知是推断，不是测量</strong>。棋盘图说明，视觉系统会主动估计”光照条件”再反推”表面颜色”。你看到的是<strong>已经解释过的世界</strong>。</li>
+<li><strong>对比与同化是同一个系统的两端</strong>。同一套侧抑制机制，在粗尺度上表现为对比（增强边缘），在细尺度上被低通平均后表现为同化（趋向邻色）。判据主要是空间频率。</li>
+<li><strong>对比是有限的资源</strong>。互补并置能提升”响度”，但全场都用等于全场都不用——梵高只让红绿占满画面，代价是其他关系全部让路。</li>
+</ol>
+<h2 id="7-给技术美术的落地清单"><a href="#7-给技术美术的落地清单" class="headerlink" title="7. 给技术美术的落地清单"></a>7. 给技术美术的落地清单</h2><ul>
+<li><strong>不要在空场景里定颜色</strong>。UI 色、特效色、材质球的最终判断，必须在目标环境（实际背景、实际光照、实际后期）里做。同时对比意味着”在旁边看”永远不算数。</li>
+<li><strong>区分”提亮”和”推色”</strong>。想让角色从背景里跳出来，先试改变<strong>色相与饱和度关系</strong>，再考虑提亮——只提亮会让角色变成一块发白的贴片。</li>
+<li><strong>互补对要打折</strong>。大面积纯互补会互相烧穿。对照梵高：暗砖红配灰绿，而不是纯红配纯绿。经验做法是把其中一方降 10–20% 饱和度，或压明度。</li>
+<li><strong>细密纹理小心同化</strong>。做抖色（dithering）、噪点、细格纹、编织纹理时，颜色会向邻色靠拢而不是分离。要”分离”就得放大元素尺度；要”融合”就缩小尺度。</li>
+<li><strong>UI 对比度用数值，不靠眼睛</strong>。同时对比会骗过你。用 WCAG 对比度或 ΔE 计算，别用”我觉得够了”。</li>
+<li><strong>色彩恒常性会影响玩家判断</strong>。同一个道具在阴影里和阳光下的观感差异，玩家会理解为”这是同一个东西”，所以材质系统要保证 albedo 一致，靠光照变化而不是靠贴图变体。</li>
+<li><strong>点彩&#x2F;颗粒风格要写两套验收标准</strong>：近景（色点可辨 → 看对比是否正确）与远景（色点混合 → 看平均色是否正确）。</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li>M. E. Chevreul，《De la loi du contraste simultané des couleurs》，巴黎 Pitois-Levrault，1839（1860 年英译本 <em>The Principles of Harmony and Contrast of Colours</em>）</li>
+<li>J. W. von Goethe，《Zur Farbenlehre》，1810</li>
+<li>Paul Signac，《D’Eugène Delacroix au néo-impressionnisme》，巴黎 Éditions de la Revue blanche，1899</li>
+<li>Vincent van Gogh，1888-09-08 致提奥信（2009 年版 letter 676；旧编号 533），Van Gogh Museum</li>
+<li>Josef Albers，《Interaction of Color》，耶鲁大学出版社，1963</li>
+<li>Michael White，”A new effect of pattern on perceived lightness”，<em>Perception</em> 8(4):413–416，1979，doi:10.1068&#x2F;p080413</li>
+<li>Wilhelm von Bezold，《Die Farbenlehre im Hinblick auf Kunst und Kunstgewerbe》，1874</li>
+<li>Edward H. Adelson，Checker shadow illusion</li>
+<li>Rudolf Arnheim，《艺术与视知觉》</li>
+</ul>
+<p><strong>图片出处</strong>：文中图片全部来自维基共享资源（Wikimedia Commons），无自制绘图。文件、授权与原始来源如下。</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>作品 &#x2F; 内容</th>
+<th>授权</th>
+<th>来源页</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>c8-chevreul-wheel.jpg</td>
+<td>谢弗勒尔第一色轮（1864 版图版）</td>
+<td>Public domain</td>
+<td><a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Plate_V-_Premier_cercle_chromatique_renfermant_les_couleurs_franches_-_DPLA_-_3cd2620beae8c9ed77e3afb7f2762da8.jpg">Commons</a></td>
+</tr>
+<tr>
+<td>02-delacroix-algiers.jpg</td>
+<td>德拉克洛瓦《阿尔及尔的女人》</td>
+<td>Public domain</td>
+<td><a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Eug%C3%A8ne_Delacroix_-_The_Women_of_Algiers,_1834.jpg">Commons</a></td>
+</tr>
+<tr>
+<td>03-seurat-grande-jatte.jpg</td>
+<td>修拉《大碗岛的星期天下午》</td>
+<td>Public domain</td>
+<td><a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:A_Sunday_on_La_Grande_Jatte,_Georges_Seurat,_1884.jpg">Commons</a></td>
+</tr>
+<tr>
+<td>04-signac-women-well.jpg</td>
+<td>西涅克《井边的女子》</td>
+<td>Public domain</td>
+<td><a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Paul_Signac_Femmes_au_puits_1892.jpg">Commons</a></td>
+</tr>
+<tr>
+<td>05-vangogh-night-cafe.jpg</td>
+<td>梵高《夜间咖啡馆》</td>
+<td>Public domain</td>
+<td><a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Van_Gogh_-_The_Night_Caf%C3%A9_(1888).jpg">Commons</a></td>
+</tr>
+<tr>
+<td>06-whites-illusion.jpg</td>
+<td>怀特错觉（摄&#x2F;绘：Zhengyi4411）</td>
+<td>CC BY-SA 3.0</td>
+<td><a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Whites_illusion.jpg">Commons</a></td>
+</tr>
+<tr>
+<td>07-checker-shadow.jpg</td>
+<td>Adelson 棋盘阴影错觉（矢量：Pbroks13）</td>
+<td>CC BY-SA 4.0</td>
+<td><a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Checker_shadow_illusion.svg">Commons</a></td>
+</tr>
+<tr>
+<td>08-bezold-circles.jpg</td>
+<td>贝措尔德效应（Mabit1）</td>
+<td>CC BY-SA 4.0</td>
+<td><a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Bezold_Effekt_Kreise.png">Commons</a></td>
+</tr>
+<tr>
+<td>09-simultaneous-contrast.jpg</td>
+<td>同时明度对比（Qef）</td>
+<td>Public domain</td>
+<td><a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Simultaneous_Contrast.svg">Commons</a></td>
+</tr>
+<tr>
+<td>11-kontrasteffekt2.jpg</td>
+<td>色彩同时对比（Monarey）</td>
+<td>CC0</td>
+<td><a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Kontrasteffekt2.jpg">Commons</a></td>
+</tr>
+<tr>
+<td>c9-chevreul-bands.jpg</td>
+<td>色轮外圈色带</td>
+<td>继承原图</td>
+<td>—</td>
+</tr>
+<tr>
+<td>c2-delacroix-blue.jpg</td>
+<td>《阿尔及尔的女人》：右侧蓝衣女子</td>
+<td>继承原图</td>
+<td>—</td>
+</tr>
+<tr>
+<td>c10-delacroix-red.jpg</td>
+<td>《阿尔及尔的女人》：左侧躺卧人物</td>
+<td>继承原图</td>
+<td>—</td>
+</tr>
+<tr>
+<td>c3-seurat-umbrella.jpg</td>
+<td>《大碗岛》：中央撑伞女子</td>
+<td>继承原图</td>
+<td>—</td>
+</tr>
+<tr>
+<td>c11-seurat-dots.jpg</td>
+<td>《大碗岛》：前景草地色点</td>
+<td>继承原图</td>
+<td>—</td>
+</tr>
+<tr>
+<td>c4-signac-purple.jpg</td>
+<td>《井边的女子》：紫裙与金黄地面</td>
+<td>继承原图</td>
+<td>—</td>
+</tr>
+<tr>
+<td>c12-signac-sea.jpg</td>
+<td>《井边的女子》：蓝海与橙坡交界</td>
+<td>继承原图</td>
+<td>—</td>
+</tr>
+<tr>
+<td>c5-vangogh-redgreen.jpg</td>
+<td>《夜间咖啡馆》：红墙与绿柜台</td>
+<td>继承原图</td>
+<td>—</td>
+</tr>
+<tr>
+<td>c13-vangogh-yellow.jpg</td>
+<td>《夜间咖啡馆》：黄灯与赭红墙面</td>
+<td>继承原图</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>同时对比在解决什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>谢弗勒尔（1830s）</td>
+<td>工厂配色的可预测性：把”看起来不对”变成可查的规则</td>
+</tr>
+<tr>
+<td>德拉克洛瓦（1830–50s）</td>
+<td>用互补并置制造画面张力（与其理论的关联<strong>未被证实</strong>）</td>
+</tr>
+<tr>
+<td>新印象派（1880–90s）</td>
+<td>把对比与光学混合并用，形成一套作画方法</td>
+</tr>
+<tr>
+<td>亚伯斯（1950–60s）</td>
+<td>变成可训练的知觉技能，进入设计教育</td>
+</tr>
+<tr>
+<td>今天（UI &#x2F; CG &#x2F; 调色）</td>
+<td>可读性、色彩恒定、材质校对（工程与交互）</td>
+</tr>
+</tbody></table>
+<p><strong>核心没变：颜色没有”本身”，只有”关系”。所以调色的本质不是选颜色，是设计关系。</strong></p>
+
+    </div>
+
+    <footer class="post__footer">
+      
+        
+<section class="comments" aria-labelledby="commentsTitle">
+  <div class="comments__header">
+    <p class="comments__eyebrow">DISCUSSION</p>
+    <h2 class="comments__title" id="commentsTitle">评论与交流</h2>
+    <p class="comments__description">使用 GitHub 账号参与讨论；首次评论时会自动创建对应话题。</p>
+  </div>
+  <div class="giscus"></div>
+  <script src="https://giscus.app/client.js"
+          data-repo="AHappyFun/AHappyFun.github.io"
+          data-repo-id="R_kgDOJAassQ"
+          data-category="Announcements"
+          data-category-id="DIC_kwDOJAassc4DCUGK"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="zh-CN"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+  </script>
+</section>
+
+      
+
+      <div class="post__nav">
+        
+          <a href="/2026/10/24/Art-%E8%89%B2%E5%BD%A9%E9%80%8F%E8%A7%86%E4%B8%8E%E7%A9%BA%E6%B0%94%E9%80%8F%E8%A7%86/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Art-色彩透视与空气透视：远不是画小一点，是被空气吃掉</span>
+          </a>
+        
+        
+          <a href="/2026/10/22/AI-ComfyUI%E7%94%9F%E6%88%90%E6%B8%B8%E6%88%8F%E8%B5%84%E4%BA%A7%E7%9A%84%E5%AE%9E%E8%B7%B5/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">AI-ComfyUI生成游戏资产的实践</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+      
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js?v=20260909-category-state"></script>
+<script src="/js/search.js"></script>
+
+  <script src="https://cn.vercount.one/js" defer></script>
+
+
+
+</body>
+</html>
