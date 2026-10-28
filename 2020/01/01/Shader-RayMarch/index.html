@@ -39,11 +39,17 @@
 <meta property="og:site_name" content="锅巴的Blogs">
 <meta property="og:description" content="个人技术博客">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://loy.net.cn/hero-mandelbulb.jpg">
+<meta property="og:image" content="https://loy.net.cn/sphere-tracing-diagram.png">
+<meta property="og:image" content="https://loy.net.cn/sdf-smooth-blend.gif">
+<meta property="og:image" content="https://loy.net.cn/volumetric-cloud.jpg">
+<meta property="og:image" content="https://loy.net.cn/terrain-raymarched.png">
 <meta property="article:published_time" content="2019-12-31T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-10-27T03:42:11.331Z">
+<meta property="article:modified_time" content="2026-10-27T16:00:00.000Z">
 <meta property="article:author" content="锅巴">
 <meta property="article:tag" content="Shader">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://loy.net.cn/hero-mandelbulb.jpg">
 
   
     <style id="cat-game-disabled">.cat-container,.cat-win-label{display:none!important}</style>
@@ -877,7 +883,153 @@
     </aside>
 
     <div class="post__content">
-      <p>先Mark一下Shader这个分类。主要记录一些效果。&#x2F;&#x2F;todo</p>
+      <p>光线步进（Ray Marching）是我在 Shader 里最喜欢的玩法：不用模型、不用贴图，几行距离函数就能在现场“长”出一个世界。</p>
+<p>这篇把自己这些年踩过的点整理一遍：从为什么要“走”而不是“算”，到距离场的性质、软阴影&#x2F;AO、体积云、分形，再到 URP 里怎么把它塞进管线。</p>
+<center><img src="hero-mandelbulb.jpg" width = "" height = "400"></center>
+
+<p>上面这个曼德球（Mandelbulb）没有网格、没有顶点，整张图是一个像素一个像素步进出来的。</p>
+<h2 id="先分清三件事"><a href="#先分清三件事" class="headerlink" title="先分清三件事"></a>先分清三件事</h2><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>怎么得到像素</th>
+<th>擅长</th>
+<th>不擅长</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>光栅化</td>
+<td>把三角形投影到屏幕，填像素</td>
+<td>快、有硬件支持、适合海量网格</td>
+<td>透明、体积、精确反射&#x2F;折射</td>
+</tr>
+<tr>
+<td>光线追踪</td>
+<td>射线与图元求交，解方程</td>
+<td>精确、物理正确</td>
+<td>求交函数要解析可解</td>
+</tr>
+<tr>
+<td>光线步进</td>
+<td>射线按“距离场”一步步往前挪，撞到就停</td>
+<td>体积、分形、变形表面、程序化场景</td>
+<td>每像素成本高，没有专用硬件</td>
+</tr>
+</tbody></table>
+<p>关键差别在于：前两者都要“算出交点在哪”，而光线步进只要求你能回答一个问题——<strong>从这个点出发，到最近表面还有多远</strong>。</p>
+<p>一旦这个问题有答案，任何形状都能渲染。分形没有解析解、云没有边界、地形只有高度图，这些用光栅化或求交都很别扭，但步进完全不受影响。</p>
+<h2 id="从求交到步进"><a href="#从求交到步进" class="headerlink" title="从求交到步进"></a>从求交到步进</h2><p>传统的 ray tracing 对每个图元解一次方程，比如球就是解一个二次方程，解出来就是交点。这要求形状可解，且求交代码要逐个图元手写。</p>
+<p>光线步进换了个思路：不求解，只前进。</p>
+<center><img src="sphere-tracing-diagram.png" width = "" height = ""></center>
+
+<p>起点是相机，方向是像素对应的射线。每一步都问一次“最近表面有多远”，得到一个距离 <code>d</code>，然后<strong>直接前进 <code>d</code></strong>。理由是：以当前点为中心、<code>d</code> 为半径的球里不可能有任何表面，这段路是绝对安全的，可以放心跳过。</p>
+<p>这个方法叫球体追踪（Sphere Tracing），John C. Hart 在 1996 年提出。它的效率完全取决于距离函数的质量：距离估得准，几大步就能到；估得保守，就得慢慢挪。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">// 最朴素的步进<br>float rayMarch(float3 ro, float3 rd) &#123;<br>    float t = 0.0;<br>    for (int i = 0; i &lt; 128; i++) &#123;<br>        float d = map(ro + rd * t);   // 到最近表面的距离<br>        if (d &lt; 0.001) return t;      // 撞上了<br>        t += d;                       // 安全跳过去<br>        if (t &gt; 200.0) break;         // 跑远了，当天空<br>    &#125;<br>    return -1.0;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>map(p)</code> 就是场景的完整描述——几何、材质、甚至动画，全在里面。这也是为什么步进的场景写起来像在“编程”而不是“建模”。</p>
+<h2 id="距离场：SDF"><a href="#距离场：SDF" class="headerlink" title="距离场：SDF"></a>距离场：SDF</h2><p>SDF（Signed Distance Field）是一个标量函数：点在表面外为正，表面内为负，绝对值是到最近表面的距离。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float sdSphere(float3 p, float r)  &#123; return length(p) - r; &#125;<br>float sdPlane(float3 p, float3 n, float h) &#123; return dot(p, n) - h; &#125;<br><br>float sdBox(float3 p, float3 b) &#123;<br>    float3 q = abs(p) - b;<br>    return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);<br>&#125;<br><br>float sdTorus(float3 p, float2 t) &#123;   // t.x 主半径, t.y 环半径<br>    float2 q = float2(length(p.xz) - t.x, p.y);<br>    return length(q) - t.y;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这几个函数可以随便平移、旋转、缩放拼出绝大多数硬表面物体，而且不需要任何资源，几十字节的代码就是一个模型。</p>
+<p>SDF 最重要的一条性质是 <strong>Lipschitz 连续</strong>：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs text">|sdf(a) - sdf(b)| &lt;= |a - b|<br></code></pre></td></tr></table></figure>
+
+<p>翻译过来就是“距离函数变化得不会比空间距离更快”，所以用 <code>sdf(p)</code> 当步长永远跨不过表面，这是球体追踪成立的前提。</p>
+<p>但反过来，如果距离函数<strong>不精确</strong>（比如被噪声位移、非均匀缩放、或者分形的距离估计），这个上界就破了，直接等长前进会穿模。工程上的做法有两条：</p>
+<ul>
+<li>步长乘一个安全系数，常见 <code>0.8 ~ 0.9</code>；</li>
+<li>用梯度归一化：<code>d = sdf(p) / length(grad(sdf(p)))</code>，把过估的量拉回等比距离，代价是每步多算几次 <code>map</code>。</li>
+</ul>
+<h2 id="组合：并、交、差、平滑"><a href="#组合：并、交、差、平滑" class="headerlink" title="组合：并、交、差、平滑"></a>组合：并、交、差、平滑</h2><p>有了距离，布尔运算就是几个 <code>min</code>&#x2F;<code>max</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float opUnion(float a, float b)     &#123; return min(a, b); &#125;<br>float opIntersect(float a, float b) &#123; return max(a, b); &#125;<br>float opSubtract(float a, float b)  &#123; return max(-a, b); &#125;  // a 减去 b<br></code></pre></td></tr></table></figure>
+
+<p>平滑并集（smooth union）是步进的独门绝技——光栅化里两个网格要融合得靠建模软件烘焙，步进里改一个参数就行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float opSmoothUnion(float a, float b, float k) &#123;<br>    float h = clamp(0.5 + 0.5 * (b - a) / k, 0.0, 1.0);<br>    return lerp(b, a, h) - k * h * (1.0 - h);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>k</code> 越大，过渡越“黏”，可以做出融化的金属、水滴粘连、黏土质感。</p>
+<center><img src="sdf-smooth-blend.gif" width = "" height = ""></center>
+
+<p>注意平滑运算的结果<strong>不再是精确距离</strong>（过渡区域会被低估），所以这时候必须配合前面说的安全系数，否则接缝处会穿。</p>
+<h2 id="步进循环的三个参数"><a href="#步进循环的三个参数" class="headerlink" title="步进循环的三个参数"></a>步进循环的三个参数</h2><p>看似简单的循环，实际调参全在这三个地方：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float rayMarch(float3 ro, float3 rd, float tmax, int maxSteps, float epsFactor) &#123;<br>    float t = 0.0;<br>    for (int i = 0; i &lt; maxSteps; i++) &#123;<br>        float3 p = ro + rd * t;<br>        float d = map(p);<br>        // 命中阈值随距离放大：远处不需要那么精细<br>        if (d &lt; epsFactor * t) return t;<br>        t += d * 0.9;<br>        if (t &gt; tmax) break;<br>    &#125;<br>    return -1.0;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>eps</code>（命中阈值）</strong>：太小 → 表面永远“差一点”，步数烧光；太大 → 表面浮起、边缘出现台阶和空心。经验值是 <code>0.0005 ~ 0.002</code>，并且最好和 <code>t</code> 挂钩，远处放宽。</li>
+<li><strong><code>maxSteps</code></strong>：直接决定最坏情况耗时。桌面 <code>128~256</code>，移动端多半只能给 <code>48~64</code>，超出就靠提前退出和包围盒裁剪。</li>
+<li><strong><code>tmax</code>（最远距离）</strong>：必须给，否则一条射向空处的光线会把循环跑满。</li>
+</ul>
+<p>还有一个隐蔽的坑：<strong>擦边射线</strong>。射线几乎平行于表面掠过去时，每步 <code>d</code> 都很小，步数会在局部暴涨。这类像素占比不高，但会让最坏耗时翻倍，所以移动端常配合“半分辨率 + 上采样”来控制。</p>
+<h2 id="法线：有限差分"><a href="#法线：有限差分" class="headerlink" title="法线：有限差分"></a>法线：有限差分</h2><p>步进只给出“撞到哪”，法线得自己求。最常用的是四点采样（四面体技巧），比六点省一半：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float3 calcNormal(float3 p) &#123;<br>    const float2 e = float2(0.001, -0.001);<br>    return normalize(<br>        e.xyy * map(p + e.xyy) +<br>        e.yyx * map(p + e.yyx) +<br>        e.yxy * map(p + e.yxy) +<br>        e.xxx * map(p + e.xxx));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>采样间距要和场景尺度匹配：固定 <code>0.001</code> 在公里级地形上会抖，在毫米级物体上又太粗。可用 <code>eps * t</code> 动态缩放。</p>
+<h2 id="软阴影与-AO"><a href="#软阴影与-AO" class="headerlink" title="软阴影与 AO"></a>软阴影与 AO</h2><p>步进的另一个好处是：阴影不需要 shadow map，直接从表面上朝光源再步进一次。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">// k 控制软硬：k 越大越软<br>float softShadow(float3 ro, float3 rd, float tmin, float tmax, float k) &#123;<br>    float res = 1.0;<br>    float t = tmin;<br>    for (int i = 0; i &lt; 48; i++) &#123;<br>        float h = map(ro + rd * t);<br>        if (h &lt; 0.001) return 0.0;         // 被挡住<br>        res = min(res, k * h / t);          // 记录最窄的缝，决定半影<br>        t += clamp(h, 0.01, 0.1);<br>        if (t &gt; tmax) break;<br>    &#125;<br>    return clamp(res, 0.0, 1.0);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><code>h / t</code> 的几何含义是“这条光线在遮挡物边缘上张开的角”，取整条路径上的最小值，就是半影的浓淡。这个技巧叫 soft shadow by SDF，比 PCF 便宜得多，而且没有分辨率问题。</p>
+<p>环境光遮蔽（AO）同理，沿法线方向采样几次距离，越近的遮挡贡献越大：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float calcAO(float3 p, float3 n) &#123;<br>    float occ = 0.0, sca = 1.0;<br>    for (int i = 0; i &lt; 5; i++) &#123;<br>        float h = 0.01 + 0.12 * float(i) / 4.0;<br>        float d = map(p + n * h);<br>        occ += (h - d) * sca;<br>        sca *= 0.9;<br>    &#125;<br>    return clamp(1.0 - 1.5 * occ, 0.0, 1.0);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>转折处变暗、缝隙变脏，这些“GI 的廉价近似”让步进场景不至于塑料感。</p>
+<h2 id="体积：从表面到积分"><a href="#体积：从表面到积分" class="headerlink" title="体积：从表面到积分"></a>体积：从表面到积分</h2><p>前面都是“撞到表面为止”。如果把 <code>map</code> 理解成密度场，步进就变成沿射线做积分——云、雾、烟、光柱都归这一类。</p>
+<center><img src="volumetric-cloud.jpg" width = "" height = ""></center>
+
+<p>思路是：定步长前进，每一步累加光照贡献，同时按 Beer-Lambert 定律衰减透射率：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float transmittance = 1.0;<br>float3 color = 0.0;<br>for (int i = 0; i &lt; 64; i++) &#123;<br>    float3 p = ro + rd * t;<br>    float density = densityField(p);<br>    if (density &gt; 0.001) &#123;<br>        float3 lightEnergy = sunLight * phase(rd, lightDir);   // 相函数<br>        color += transmittance * density * lightEnergy * stepSize;<br>        transmittance *= exp(-density * absorption * stepSize);<br>        if (transmittance &lt; 0.01) break;                        // 已经不透光了<br>    &#125;<br>    t += stepSize;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>几个实践点：</p>
+<ul>
+<li><strong>步长决定质量</strong>：定步长会出现层状条纹（banding），常见的解法是每像素随机偏移起点，再靠 TAA 或蓝噪声在时间上抹平。</li>
+<li><strong>相函数</strong>（Henyey-Greenstein 或最简单的 <code>pow(saturate(dot(rd, L)), 8)</code>）决定云是“薄纱”还是“边缘发亮”。前向散射强的云，逆光时会有一圈亮边。</li>
+<li><strong>需要光源可见性</strong>：湿云要好看，每步还得朝太阳再步进几次算阴影（也就是所谓的 light march），这是云渲染里最贵的一块，通常用低分辨率 shadow map 或半分辨率 pass 顶替。</li>
+<li><strong>和场景混合</strong>：体积在前、硬表面在后时，用场景深度裁剪 <code>tmax</code>；硬表面在前就先画完再叠体积。</li>
+</ul>
+<h2 id="分形：距离估计的进阶"><a href="#分形：距离估计的进阶" class="headerlink" title="分形：距离估计的进阶"></a>分形：距离估计的进阶</h2><p>分形是步进的主场，因为它没有“表面”这种东西——只有一个迭代规则。以 Mandelbulb 为例，距离估计（Distance Estimator）长这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">float mandelbulbDE(float3 pos, float power) &#123;<br>    float3 z = pos;<br>    float dr = 1.0, r = 0.0;<br>    for (int i = 0; i &lt; 12; i++) &#123;<br>        r = length(z);<br>        if (r &gt; 2.0) break;<br>        // 球坐标下把角度乘 power<br>        float theta = acos(z.z / r) * power;<br>        float phi   = atan2(z.y, z.x) * power;<br>        float zr    = pow(r, power);<br>        dr = pow(r, power - 1.0) * power * dr + 1.0;<br>        z = zr * float3(sin(theta) * cos(phi), sin(theta) * sin(phi), cos(theta)) + pos;<br>    &#125;<br>    return 0.5 * log(max(r, 1e-6)) * r / dr;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这类距离估计<strong>不是精确距离</strong>，只是下界，所以步长要乘 <code>0.5 ~ 0.9</code>；迭代次数越多结构越细，但也越容易在细节处步进失效，出现“融化”的噪点。</p>
+<p>同样的套路还能做无限重复（domain repetition）、扭曲、Mandelbox、KIFS——本质都是“把点变换进一个基本空间，用基本 SDF 估计距离”。</p>
+<h2 id="地形与高度场"><a href="#地形与高度场" class="headerlink" title="地形与高度场"></a>地形与高度场</h2><p>高度图也能步进，而且思路和 SDF 不太一样：没有解析距离，只能“按高度差约束步长”。</p>
+<center><img src="terrain-raymarched.png" width = "" height = ""></center>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">// 伪代码：按地形高度约束前进<br>float t = 0.0;<br>for (int i = 0; i &lt; 128; i++) &#123;<br>    float3 p = ro + rd * t;<br>    float terrainH = sampleHeight(p.xz);<br>    float rayH = p.y;<br>    if (rayH &lt; terrainH) return t;              // 钻进地面，命中<br>    t += max((rayH - terrainH) * 0.5, minStep); // 保守步长<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这里的关键是 <code>minStep</code>：当地面和射线几乎平行时，高度差很小，步长会退化成 0，必须给一个下限，否则循环原地打转。地形步进的成本通常比 SDF 高，因为每步都要采样高度图（采样带宽比算术贵）。</p>
+<h2 id="在-URP-里怎么跑"><a href="#在-URP-里怎么跑" class="headerlink" title="在 URP 里怎么跑"></a>在 URP 里怎么跑</h2><p>步进在引擎里一般是<strong>全屏 Pass</strong>：拿相机的逆视图投影矩阵，为每个像素重建射线，然后算，最后和场景深度混合。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-comment">// 最小可用的 Renderer Feature：一次全屏 Blit</span><br><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">override</span> <span class="hljs-keyword">void</span> <span class="hljs-title">Execute</span>(<span class="hljs-params">ScriptableRenderContext context, <span class="hljs-keyword">ref</span> RenderingData data</span>)</span> &#123;<br>    <span class="hljs-keyword">var</span> cmd = CommandBufferPool.Get(<span class="hljs-string">&quot;RayMarch&quot;</span>);<br>    <span class="hljs-keyword">var</span> camera = data.cameraData.camera;<br><br>    cmd.SetGlobalMatrix(<span class="hljs-string">&quot;_CameraInvViewProjection&quot;</span>,<br>        (GL.GetGPUProjectionMatrix(camera.projectionMatrix, <span class="hljs-literal">true</span>) * camera.worldToCameraMatrix).inverse);<br>    cmd.Blit(m_Source, m_Target, m_Material);<br>    context.ExecuteCommandBuffer(cmd);<br>    CommandBufferPool.Release(cmd);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs hlsl">// 顶点着色器给全屏三角形，片元里重建射线<br>float3 ReconstructRay(float2 uv, out float3 origin) &#123;<br>    float4 ndc = float4(uv * 2.0 - 1.0, 0.0, 1.0);<br>    float4 world = mul(_CameraInvViewProjection, ndc);<br>    origin = _WorldSpaceCameraPos;<br>    return normalize(world.xyz / world.w - origin);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>几个落地经验：</p>
+<ul>
+<li><strong>UV 翻转</strong>：<code>Blit</code> 在不同平台上 UV 的 Y 方向会反，<code>GL.GetGPUProjectionMatrix</code> 的 <code>renderIntoTexture</code> 参数要和实际一致，否则整屏上下颠倒或左右镜像。</li>
+<li><strong>和深度混合</strong>：读 <code>_CameraDepthTexture</code> 还原场景深度，作为 <code>tmax</code>，这样步进结果才能正确被墙体遮挡；只做“叠加式”的雾&#x2F;体积可以不做深度测试，但云这种要。</li>
+<li><strong>分辨率</strong>：整屏全分辨率跑 128 步基本只能跑在桌面上。移动端常规做法是半分辨率 + 双边上采样 + 抖动。</li>
+<li><strong>不用改管线也行</strong>：Built-in 里 <code>OnRenderImage</code> 挂 Blit 就能跑，URP 里没有这个钩子，必须走 Renderer Feature；如果只是想在场景里放“一个步进的物体”，也可以用 <code>Graphics.DrawProcedural</code> 或一张透明面片写深度。</li>
+</ul>
+<h2 id="常见坑与优化"><a href="#常见坑与优化" class="headerlink" title="常见坑与优化"></a>常见坑与优化</h2><ul>
+<li><strong>表面黑点&#x2F;漏光</strong>：<code>eps</code> 小于步长导致的“穿过去”，加速系数反而会更糟；先检查是不是距离函数不精确。</li>
+<li><strong>远处锯齿和闪烁</strong>：步进天然没有抗锯齿，靠 TAA、<code>dither</code> 抖动初相位、或超采样。静态图可以用累积帧。</li>
+<li><strong>边缘发灰（光晕）</strong>：<code>eps</code> 和背景混合造成的，命中后可用 <code>smoothstep</code> 做一点透明度，或者接受一点点软边。</li>
+<li><strong>性能墙</strong>：最贵的三件事——每步的 <code>map</code> 调用次数、软阴影&#x2F;体积的嵌套循环、过高分辨率。优先级排序通常是：降分辨率 &gt; 砍阴影步数 &gt; 简化 map &gt; 降主步数。</li>
+<li><strong>精度</strong>：<code>half</code> 在长距离步进上会明显劣化（表面抖动、命中失败），距离累计用 <code>float</code>。</li>
+<li><strong>最大步数不能省</strong>：GPU 上层叠循环里的动态退出依赖编译器展开，<code>maxSteps</code> 必须是常量，否则在部分驱动上会退化成极慢的动态循环。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://iquilezles.org/articles/raymarchingdf/">Inigo Quilez：Ray Marching and Signed Distance Functions</a></li>
+<li><a target="_blank" rel="noopener" href="https://iquilezles.org/articles/distfunctions/">Inigo Quilez：Distance functions 合集</a></li>
+<li><a target="_blank" rel="noopener" href="https://iquilezles.org/articles/rmshadows/">Inigo Quilez：Soft shadows</a></li>
+<li><a target="_blank" rel="noopener" href="https://iquilezles.org/articles/ao/">Inigo Quilez：Ambient occlusion</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Ray_marching">Wikipedia：Ray marching</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Mandelbulb">Wikipedia：Mandelbulb</a></li>
+</ul>
+<h2 id="图片来源"><a href="#图片来源" class="headerlink" title="图片来源"></a>图片来源</h2><ul>
+<li>曼德球渲染图：Falco Badermann，CC0，<a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Mandelbulb_fractal.png">Mandelbulb fractal.png</a></li>
+<li>球体追踪示意图：Teadrinker，CC BY-SA 4.0，<a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Visualization_of_SDF_ray_marching_algorithm.png">Visualization of SDF ray marching algorithm.png</a></li>
+<li>平滑并集动画：Streepje8，CC BY-SA 4.0，<a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Raymarching_blend_800x400.gif">Raymarching blend 800x400.gif</a></li>
+<li>实时步进地形：Heyx3，CC BY-SA 4.0，<a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Real-time_Raymarched_Terrain.png">Real-time Raymarched Terrain.png</a></li>
+<li>体积云：Thomas M Bishop，CC BY-SA 4.0，<a target="_blank" rel="noopener" href="https://commons.wikimedia.org/wiki/File:Volumetric_Cloud.jpg">Volumetric Cloud.jpg</a></li>
+</ul>
 
     </div>
 
