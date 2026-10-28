@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-site-style="bento">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>AI-四条建模路线：能力边界、显存代价与选型 | 锅巴的Blogs</title>
+<link rel="canonical" href="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/">
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="AI, 游戏开发">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  (function () {
+    var available = ['bento', 'knowledge'];
+    var saved = localStorage.getItem('site-style');
+    if (available.indexOf(saved) !== -1) {
+      document.documentElement.setAttribute('data-site-style', saved);
+    } else if (saved) {
+      localStorage.setItem('site-style', 'bento');
+    }
+  })();
+</script>
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://loy.net.cn/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/fig1-panorama.png">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/fig5-timeline.png">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/blender-mcp-screenshot.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/fig2-blender-pipeline.png">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/fig3-generation.png">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/hunyuan21-pipeline.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/trellis-teaser.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/trellis2-teaser.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/hunyuan21-teaser.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/tripo-ai-remesh-3d-robot-quad-mesh.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/tripo-ai-segmentation-3d-robot-parts.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/meshy7-kv.jpg">
+<meta property="og:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/fig4-positioning.png">
+<meta property="article:published_time" content="2026-10-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-28T05:45:42.379Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="游戏开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://loy.net.cn/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/fig1-panorama.png">
+
+  
+    <style id="cat-game-disabled">.cat-container,.cat-win-label{display:none!important}</style>
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body data-cat-game-enabled="false">
+  <a class="skip-link" href="#mainContent">跳到正文</a>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__brand" aria-label="锅巴的Blogs首页">
+      <span class="header__logo">锅巴的Blogs</span>
+      <span class="header__edition">MAKE · WRITE · SHARE</span>
+      <span class="knowledge-status" aria-hidden="true"><i></i><i></i><i></i></span>
+    </a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav" aria-label="主导航">
+      
+        
+        <a href="/" class="header__link">首页</a>
+      
+        
+        <a href="/tags/" class="header__link">标签</a>
+      
+        
+        <a href="/search/" class="header__link">搜索</a>
+      
+        
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      
+        <label class="style-picker" for="stylePicker">
+          <span class="sr-only">选择网站设计风格</span>
+          <select id="stylePicker" aria-label="网站设计风格">
+            <option value="bento">Bento</option>
+            <option value="knowledge">Knowledge OS</option>
+          </select>
+        </label>
+      
+      <button class="theme-toggle" id="themeToggle" aria-label="切换明暗模式">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="headerNav">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">分类</h3>
+      <div class="category-filter category-filter--sidebar" role="tablist" aria-label="按分类筛选">
+        <button type="button" class="category-filter__tab is-active" role="tab" aria-selected="true" data-category="all">
+          全部 <span class="category-filter__count">104</span>
+        </button>
+        
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="技术">
+            技术 <span class="category-filter__count">51</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="认知">
+            认知 <span class="category-filter__count">27</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Art">
+            Art <span class="category-filter__count">10</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Dev">
+            Dev <span class="category-filter__count">5</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Loy">
+            Loy <span class="category-filter__count">4</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="AI">
+            AI <span class="category-filter__count">4</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Game">
+            Game <span class="category-filter__count">2</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Design">
+            Design <span class="category-filter__count">1</span>
+          </button>
+        
+      </div>
+    </div>
+
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 104 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+              
+              <div class="sidebar__year" data-year="2026">2026</div>
+            
+            <a href="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/" class="sidebar__item is-active" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-27T16:00:00.000Z">10-28</time>
+              <span class="sidebar__post-title">AI-四条建模路线：能力边界、显存代价与选型</span>
+            </a>
+          
+            
+            <a href="/2026/10/28/Loy-%E4%B8%AD%E5%9B%BD%E5%8E%86%E6%9C%9D%E5%8F%A4%E9%83%BD%E6%97%B6%E9%97%B4%E8%BD%B4/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-27T16:00:00.000Z">10-28</time>
+              <span class="sidebar__post-title">Loy-中国历朝古都的时间轴与都城志</span>
+            </a>
+          
+            
+            <a href="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-25T16:00:00.000Z">10-26</time>
+              <span class="sidebar__post-title">Art-三分法与构图动线：从 1797 年的比例建议到九宫格口诀</span>
+            </a>
+          
+            
+            <a href="/2026/10/25/Art-%E8%A1%A5%E8%89%B2%E4%B8%8E%E8%A7%86%E8%A7%89%E6%AE%8B%E5%83%8F/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-24T16:00:00.000Z">10-25</time>
+              <span class="sidebar__post-title">Art-补色与视觉残像：眼睛补出来的对立色</span>
+            </a>
+          
+            
+            <a href="/2026/10/24/Art-%E8%89%B2%E5%BD%A9%E9%80%8F%E8%A7%86%E4%B8%8E%E7%A9%BA%E6%B0%94%E9%80%8F%E8%A7%86/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-23T16:00:00.000Z">10-24</time>
+              <span class="sidebar__post-title">Art-色彩透视与空气透视：远不是画小一点，是被空气吃掉</span>
+            </a>
+          
+            
+            <a href="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-22T16:00:00.000Z">10-23</time>
+              <span class="sidebar__post-title">Art-同时对比：颜色是被邻居逼出来的</span>
+            </a>
+          
+            
+            <a href="/2026/10/22/AI-ComfyUI%E7%94%9F%E6%88%90%E6%B8%B8%E6%88%8F%E8%B5%84%E4%BA%A7%E7%9A%84%E5%AE%9E%E8%B7%B5/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-21T16:00:00.000Z">10-22</time>
+              <span class="sidebar__post-title">AI-ComfyUI生成游戏资产的实践</span>
+            </a>
+          
+            
+            <a href="/2026/10/22/Art-%E6%98%8E%E6%9A%97%E5%AF%B9%E7%85%A7%E6%B3%95/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-21T16:00:00.000Z">10-22</time>
+              <span class="sidebar__post-title">Art-明暗对照法：用光与影组织画面</span>
+            </a>
+          
+            
+            <a href="/2026/10/21/Art-%E7%BE%8E%E6%BC%AB%E7%94%BB%E9%A3%8E%E6%8A%80%E6%B3%95/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-20T16:00:00.000Z">10-21</time>
+              <span class="sidebar__post-title">Art-美漫画风技法入门：从墨线到小圆点</span>
+            </a>
+          
+            
+            <a href="/2026/10/13/Dev-%E5%BC%80%E6%BA%90%E5%B0%8F%E8%BD%AF%E4%BB%B6%E6%B8%85%E5%8D%95/" class="sidebar__item" data-category="Dev" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-12T16:00:00.000Z">10-13</time>
+              <span class="sidebar__post-title">Dev-我收集的开源小软件清单</span>
+            </a>
+          
+            
+            <a href="/2026/09/21/Base-WebGL%E6%8A%80%E6%9C%AF%E6%A6%82%E8%BF%B0/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-20T16:00:00.000Z">09-21</time>
+              <span class="sidebar__post-title">Base-WebGL技术概述</span>
+            </a>
+          
+            
+            <a href="/2026/09/17/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E7%BC%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E8%A2%AB%E4%BB%80%E4%B9%88%E5%9B%B0%E4%BD%8F%E2%80%94%E2%80%94%E7%A8%80%E7%BC%BA%E5%BF%83%E6%80%81/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-16T16:00:00.000Z">09-17</time>
+              <span class="sidebar__post-title">Mind-为什么越缺什么越被什么困住——稀缺心态</span>
+            </a>
+          
+            
+            <a href="/2026/09/16/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%AE%B0%E5%BE%97%E7%9A%84%E4%BA%8B%E5%8F%AF%E8%83%BD%E6%98%AF%E5%81%87%E7%9A%84%E2%80%94%E2%80%94%E8%AE%B0%E5%BF%86%E9%87%8D%E6%9E%84/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-15T16:00:00.000Z">09-16</time>
+              <span class="sidebar__post-title">Mind-为什么你记得的事可能是假的——记忆重构</span>
+            </a>
+          
+            
+            <a href="/2026/09/15/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E8%A6%81%E6%88%AA%E6%AD%A2%E8%BF%98%E6%98%AF%E5%88%B7%E6%89%8B%E6%9C%BA%E2%80%94%E2%80%94%E6%8B%96%E5%BB%B6%E4%B8%8E%E6%97%B6%E9%97%B4%E6%8A%98%E6%89%A3/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-14T16:00:00.000Z">09-15</time>
+              <span class="sidebar__post-title">Mind-为什么明知要截止还是刷手机——拖延与时间折扣</span>
+            </a>
+          
+            
+            <a href="/2026/09/14/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%A8%E7%A5%9E%E8%B4%AF%E6%B3%A8%E5%8F%8D%E8%80%8C%E4%B8%8D%E7%B4%AF%E2%80%94%E2%80%94%E5%BF%83%E6%B5%81/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">Mind-为什么全神贯注反而不累——心流</span>
+            </a>
+          
+            
+            <a href="/2026/09/13/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%81%87%E7%AC%91%E6%AF%94%E7%9C%9F%E7%B4%AF%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E6%83%85%E7%BB%AA%E5%8A%B3%E5%8A%A8/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-12T16:00:00.000Z">09-13</time>
+              <span class="sidebar__post-title">Mind-为什么假笑比真累还累——情绪劳动</span>
+            </a>
+          
+            
+            <a href="/2026/09/12/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E6%80%BB%E5%9C%A8%E5%92%8C%E5%88%AB%E4%BA%BA%E6%AF%94%E8%BE%83%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E6%AF%94%E8%BE%83%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-11T16:00:00.000Z">09-12</time>
+              <span class="sidebar__post-title">Mind-为什么你总在和别人比较——社会比较理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/11/Game-%E6%B1%BD%E8%BD%A6%E5%8F%98%E9%80%9F%E7%AE%B1%E9%BD%BF%E6%AF%94%E4%B8%8E%E6%9C%80%E7%BB%88%E4%BC%A0%E5%8A%A8%E6%AF%94/" class="sidebar__item" data-category="Game" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">Game-从 GT7 理解汽车变速箱齿比与最终传动比</span>
+            </a>
+          
+            
+            <a href="/2026/09/11/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4%E5%87%BA%E5%8F%A3%E7%9A%84%E8%AF%9D%E4%BC%9A%E7%BB%91%E6%9E%B6%E4%BD%A0%E2%80%94%E2%80%94%E6%89%BF%E8%AF%BA%E4%B8%80%E8%87%B4%E6%80%A7/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">Mind-为什么说出口的话会绑架你——承诺一致性</span>
+            </a>
+          
+            
+            <a href="/2026/09/10/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF%E4%B8%80%E5%88%B0%E6%89%8B%E5%B0%B1%E5%8F%98%E5%80%BC%E9%92%B1%E2%80%94%E2%80%94%E7%A6%80%E8%B5%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">Mind-为什么东西一到手就变值钱——禀赋效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/09/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8D%A1%E6%9D%A5%E7%9A%84%E9%92%B1%E8%8A%B1%E5%BE%97%E6%9C%80%E5%BF%AB%E2%80%94%E2%80%94%E5%BF%83%E7%90%86%E8%B4%A6%E6%88%B7/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-08T16:00:00.000Z">09-09</time>
+              <span class="sidebar__post-title">Mind-为什么捡来的钱花得最快——心理账户</span>
+            </a>
+          
+            
+            <a href="/2026/09/08/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E7%BE%A4%E4%BA%BA%E8%81%8A%E7%9D%80%E8%81%8A%E7%9D%80%E5%B0%B1%E5%8F%98%E6%9E%81%E7%AB%AF%E2%80%94%E2%80%94%E7%BE%A4%E4%BD%93%E6%9E%81%E5%8C%96/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">Mind-为什么一群人聊着聊着就变极端——群体极化</span>
+            </a>
+          
+            
+            <a href="/2026/09/07/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E6%89%87%E7%A0%B4%E7%AA%97%E4%BC%9A%E6%AF%81%E6%8E%89%E6%95%B4%E6%9D%A1%E8%A1%97%E2%80%94%E2%80%94%E7%A0%B4%E7%AA%97%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-06T16:00:00.000Z">09-07</time>
+              <span class="sidebar__post-title">Mind-为什么一扇破窗会毁掉整条街——破窗效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/06/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E6%80%BB%E6%8A%A4%E7%9D%80%E8%87%AA%E5%B7%B1%E4%BA%BA%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E8%AE%A4%E5%90%8C%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-05T16:00:00.000Z">09-06</time>
+              <span class="sidebar__post-title">Mind-为什么我们总护着自己人——社会认同理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/05/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%AC%AC%E4%B8%80%E5%8D%B0%E8%B1%A1%E5%A6%82%E6%AD%A4%E9%A1%BD%E5%9B%BA%E2%80%94%E2%80%94%E5%85%89%E7%8E%AF%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">Mind-为什么第一印象如此顽固——光环效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/04/Mind-%E7%BB%9D%E6%9C%9B%E6%98%AF%E8%A2%AB%E8%AE%AD%E7%BB%83%E5%87%BA%E6%9D%A5%E7%9A%84%E2%80%94%E2%80%94%E4%B9%A0%E5%BE%97%E6%80%A7%E6%97%A0%E5%8A%A9/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">Mind-绝望是被训练出来的——习得性无助</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Game-GT7%E8%BD%A6%E8%BE%86%E8%B0%83%E6%95%99%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="Game" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Game-GT7 车辆调教指南</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Mind-%E8%AE%B0%E5%BF%86%E5%8F%AA%E8%AE%B0%E5%BE%97%E9%AB%98%E6%BD%AE%E5%92%8C%E7%BB%93%E5%B0%BE%E2%80%94%E2%80%94%E5%B3%B0%E7%BB%88%E5%AE%9A%E5%BE%8B/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Mind-记忆只记得高潮和结尾——峰终定律</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Mind-%E6%BB%A1%E8%B4%9F%E8%8D%B7%EF%BC%8C%E6%98%AF%E7%B3%BB%E7%BB%9F%E6%9C%80%E5%8D%B1%E9%99%A9%E7%9A%84%E6%97%B6%E5%88%BB%E2%80%94%E2%80%94%E6%8E%92%E9%98%9F%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Mind-满负荷，是系统最危险的时刻——排队论</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Mind-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%95%B0%E5%AD%97%E5%A6%82%E4%BD%95%E6%93%8D%E7%BA%B5%E4%BD%A0%E2%80%94%E2%80%94%E9%94%9A%E5%AE%9A%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Mind-第一个数字如何操纵你——锚定效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Base-%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88%E6%BC%94%E8%BF%9B%E6%80%BB%E8%A7%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Base-渲染方案演进总览</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8F100%E6%AF%94%E8%B5%9A200%E6%9B%B4%E7%96%BC%E2%80%94%E2%80%94%E6%8D%9F%E5%A4%B1%E5%8E%8C%E6%81%B6/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Mind-为什么亏100比赚200更疼——损失厌恶</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Mind-%E9%97%B2%E7%9D%80%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AF%94%E5%BF%99%E4%B8%80%E5%A4%A9%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E6%97%A0%E8%81%8A/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Mind-闲着为什么比忙一天还累——无聊</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/UE4-RTGI/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">UE4-RTGI</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Unity-APV%E4%BD%93%E7%A7%AF%E6%8E%A2%E9%92%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Unity-APV体积探针</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-1990%E8%87%B32026%E6%82%AC%E7%96%91%E7%94%B5%E5%BD%B1%E6%A6%9C%E5%8D%95/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-1990—2026 悬疑电影榜单</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-2015%E8%87%B32026%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1Top250/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-2015—2026 豆瓣电影 Top 250</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E9%81%93%E9%94%99%E4%B9%9F%E8%A6%81%E8%B7%9F%E7%9D%80%E8%AF%B4%E2%80%94%E2%80%94%E4%BB%8E%E4%BC%97/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Mind-为什么明知道错也要跟着说——从众</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E5%83%8F%E7%90%86%E8%A7%A3%E9%9F%B3%E4%B9%90%E6%B5%81%E6%B4%BE%E4%B8%80%E6%A0%B7%E7%90%86%E8%A7%A3%E7%BE%8E%E6%9C%AF%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-像理解音乐流派一样理解美术体系</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-电子游戏美术风格体系——从视觉分类到概念原画研究</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E4%B8%8D%E6%87%82%E8%B6%8A%E8%87%AA%E4%BF%A1%E2%80%94%E2%80%94%E8%BE%BE%E5%85%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Mind-为什么越不懂越自信——达克效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/29/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E8%B6%8A%E5%A4%9A%E8%B6%8A%E6%B2%A1%E4%BA%BA%E5%B8%AE%E5%BF%99%E2%80%94%E2%80%94%E6%97%81%E8%A7%82%E8%80%85%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-28T16:00:00.000Z">08-29</time>
+              <span class="sidebar__post-title">Mind-为什么人越多越没人帮忙——旁观者效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Base-UE%E4%B8%8EUnity6%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Base-UE与Unity6全局光照方案对比</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E4%BC%9A%E7%9B%B8%E4%BF%A1%E8%87%AA%E7%9B%B8%E7%9F%9B%E7%9B%BE%E7%9A%84%E4%BA%8B%E2%80%94%E2%80%94%E8%AE%A4%E7%9F%A5%E5%A4%B1%E8%B0%83/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Mind-为什么人会相信自相矛盾的事——认知失调</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E6%8A%95%E5%85%A5%E8%B6%8A%E9%9A%BE%E6%94%BE%E5%BC%83%E2%80%94%E2%80%94%E6%B2%89%E6%B2%A1%E6%88%90%E6%9C%AC%E8%B0%AC%E8%AF%AF/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Mind-为什么越投入越难放弃——沉没成本谬误</span>
+            </a>
+          
+            
+            <a href="/2026/08/26/Mind-%E4%BA%BA%E7%B1%BB%E7%A4%BE%E4%BC%9A%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%B1%BB%E5%9E%8B/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-25T16:00:00.000Z">08-26</time>
+              <span class="sidebar__post-title">Mind-人类社会的工作类型</span>
+            </a>
+          
+            
+            <a href="/2026/08/21/Design-%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AARoguelike%E6%B8%B8%E6%88%8F/" class="sidebar__item" data-category="Design" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-20T16:00:00.000Z">08-21</time>
+              <span class="sidebar__post-title">Design-如何开发一个Roguelike游戏</span>
+            </a>
+          
+            
+            <a href="/2026/08/20/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%B6%8A%E6%83%B3%E6%94%B9%E5%8F%98%E4%B8%80%E4%B8%AA%E4%BA%BA%E4%BB%96%E8%B6%8A%E4%B8%8D%E5%8F%98%E2%80%94%E2%80%94%E8%87%AA%E6%88%91%E5%86%B3%E5%AE%9A%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-19T16:00:00.000Z">08-20</time>
+              <span class="sidebar__post-title">Mind-为什么你越想改变一个人他越不变——自我决定理论</span>
+            </a>
+          
+            
+            <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-09T16:00:00.000Z">08-10</time>
+              <span class="sidebar__post-title">AI-把高质量画面训练成低配Shader的探索</span>
+            </a>
+          
+            
+            <a href="/2026/08/09/Unity-URP14%E5%8D%87%E7%BA%A7URP17-RenderFeature%E9%80%82%E9%85%8DRenderGraph/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-08T16:00:00.000Z">08-09</time>
+              <span class="sidebar__post-title">Unity-URP14升级URP17-RenderFeature适配RenderGraph</span>
+            </a>
+          
+            
+            <a href="/2026/08/03/Art-%E4%BA%91%E7%9A%84%E5%88%86%E7%B1%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-02T16:00:00.000Z">08-03</time>
+              <span class="sidebar__post-title">Art-云的分类——从国际云图集到观云识天</span>
+            </a>
+          
+            
+            <a href="/2026/07/29/Art-%E6%8E%92%E7%BA%BF%E6%8A%80%E6%B3%95%E5%8F%91%E5%B1%95%E5%8F%B2/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-28T16:00:00.000Z">07-29</time>
+              <span class="sidebar__post-title">Art-排线技法发展史</span>
+            </a>
+          
+            
+            <a href="/2026/07/21/Base-%E6%8A%80%E6%9C%AF%E7%BE%8E%E6%9C%AF%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-20T16:00:00.000Z">07-21</time>
+              <span class="sidebar__post-title">Base-技术美术学习资源与提升路线</span>
+            </a>
+          
+            
+            <a href="/2026/07/20/Base-%E6%8A%80%E6%9C%AF%E7%BE%8E%E6%9C%AF%E7%B4%A0%E6%9D%90%E4%B8%8E%E5%B7%A5%E5%85%B7%E5%BA%93/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-19T16:00:00.000Z">07-20</time>
+              <span class="sidebar__post-title">Base-技术美术素材与工具库</span>
+            </a>
+          
+            
+            <a href="/2026/07/02/Dev-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/" class="sidebar__item" data-category="Dev" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-01T16:00:00.000Z">07-02</time>
+              <span class="sidebar__post-title">Dev-主流跨平台桌面应用技术栈</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Mind-%E6%8A%8A%E7%9B%B4%E8%A7%89%E8%AE%AD%E7%BB%83%E6%88%90%E6%B8%85%E6%A5%9A%E8%A1%A8%E8%BE%BE/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Mind-把直觉训练成清楚表达</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2024">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2023">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            <a href="/2023/01/14/Base-TAA/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-01-13T16:00:00.000Z">01-14</time>
+              <span class="sidebar__post-title">Base-时域抗锯齿 TAA</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2022">2022</div>
+            
+            <a href="/2022/10/04/Dev-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E5%A4%AA%E9%98%B3%E7%B3%BB%E6%A8%A1%E6%8B%9F/" class="sidebar__item" data-category="Dev" data-year="2022">
+              <time class="sidebar__date" datetime="2022-10-03T16:00:00.000Z">10-04</time>
+              <span class="sidebar__post-title">Dev-开源项目-太阳系模拟</span>
+            </a>
+          
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2022">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2021">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2020">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            <a href="/2020/06/04/Dev-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-A%E6%98%9F%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96/" class="sidebar__item" data-category="Dev" data-year="2020">
+              <time class="sidebar__date" datetime="2020-06-03T16:00:00.000Z">06-04</time>
+              <span class="sidebar__post-title">Dev-开源项目-A*算法可视化</span>
+            </a>
+          
+            
+            <a href="/2020/05/29/Dev-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E9%9F%B3%E9%A2%91%E5%8F%AF%E8%A7%86%E5%8C%96/" class="sidebar__item" data-category="Dev" data-year="2020">
+              <time class="sidebar__date" datetime="2020-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Dev-开源项目-音频可视化</span>
+            </a>
+          
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2019">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item" data-category="技术" data-year="2019">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2018">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item" data-category="Loy" data-year="2018">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+  <div class="sidebar-resizer" id="globalSidebarResizer" role="separator" aria-label="调整全局目录宽度" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="480" aria-valuenow="320" tabindex="0"></div>
+</aside>
+
+    <main class="main" id="mainContent" tabindex="-1">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-10-27T16:00:00.000Z">2026 年 10 月 28 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/AI/">AI</a>
+            
+          </span>
+        
+        
+          
+          <span class="post__views" aria-label="文章阅读量">
+            阅读 <span id="vercount_value_page_pv" data-base="0" aria-live="polite">加载中…</span>
+          </span>
+        
+      </div>
+      <h1 class="post__title">AI-四条建模路线：能力边界、显存代价与选型</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/AI/" class="tag">#AI</a>
+          
+            <a href="/tags/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" class="tag">#游戏开发</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <div class="post-toc__resizer" id="postTocResizer" role="separator" aria-label="调整文章目录宽度" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="420" aria-valuenow="280" tabindex="0"></div>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>这两年「AI 建模」被当成一个东西来讲，但真正落到项目里会发现，市面上叫这个名字的至少有四类完全不同的技术：让大模型写 Blender 脚本、从图或文字直接生成网格、从照片视频重建、以及参数化 CAD。</p>
+<p>它们的差别不在模型参数量，而在于交付物到底是什么——是<strong>可编辑的建模意图</strong>，还是一堆三角面。这个差别几乎决定了后续 80% 的成本：三角面能看不能用，改尺寸要重做，做动画要重拓扑；而可编辑的意图改一个参数就重跑一遍。</p>
+<p>本文按这四条路线拆开讲，重点记录每条路线的能力边界、实际踩过的坑，以及按任务反查该用哪条。文中模型参数、显存与版本号来自各项目官方仓库和产品页（抓取于 2026 年 10 月）；带「判断」字样的内容是我的主观结论，不是官方说法。</p>
+<span id="more"></span>
+
+<h2 id="1-四条路线，按交付物划分"><a href="#1-四条路线，按交付物划分" class="headerlink" title="1. 四条路线，按交付物划分"></a>1. 四条路线，按交付物划分</h2><p>先给一张全景图。划分依据是<strong>产物形态</strong>，不是模型规模——这比参数量更能预测后续成本。</p>
+<table>
+<thead>
+<tr>
+<th>路线</th>
+<th>交付物</th>
+<th>一句话定位</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>A 代码驱动</strong></td>
+<td>可重跑的 Python 脚本、参数化场景</td>
+<td>把建模变成代码，胜在批量与可复现</td>
+</tr>
+<tr>
+<td><strong>B 生成式</strong></td>
+<td>三角网格 + PBR 贴图</td>
+<td>从图&#x2F;文直接出形面，胜在速度与形面自由</td>
+</tr>
+<tr>
+<td><strong>C 重建式</strong></td>
+<td>高斯球、网格、场景</td>
+<td>从真实素材恢复，胜在真实感与可度量</td>
+</tr>
+<tr>
+<td><strong>D 参数化 CAD</strong></td>
+<td>带特征树的 B-Rep 实体</td>
+<td>生成的是特征与约束，胜在可制造</td>
+</tr>
+</tbody></table>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/fig1-panorama.png" alt="AI 建模的四条技术路线全景"></p>
+<p><em>图 1　四条路线按「产物形态」划分。参数量相同的两个模型，如果交付物一个是有语义的脚本、一个是三角面汤，它们在管线里的位置完全不同。</em></p>
+<p>四条结论先放在这里：</p>
+<ol>
+<li><strong>没有任何一条路线能直接产出「布线干净、UV 规整、可蒙皮」的成品角色。</strong> 这是当前所有方案共同的上限，不是某一个模型的短板。</li>
+<li><strong>路线 A 在生产环境里被严重低估了。</strong> 它的价值不在「AI 会建模」，而在于把一次性的手工劳动变成可版本管理、可批量重跑、可参数化的资产。</li>
+<li><strong>路线 B 已经能用于实际生产，但只适用于「外观资产」这一档</strong>——背景道具、概念可视化、风格化小物件。需要精确尺寸或二次编辑的主角资产，仍然要回到手工或 A&#x2F;D。</li>
+<li><strong>最现实的组合是 A + B</strong>：A 搭骨架与批量规则，B 出形面与贴图，人工做重拓扑与绑定。</li>
+</ol>
+<h2 id="2-这四年到底变了什么"><a href="#2-这四年到底变了什么" class="headerlink" title="2. 这四年到底变了什么"></a>2. 这四年到底变了什么</h2><p>理解现状需要一条主线：<strong>技术演进的方向，是控制权逐步从模型回到人手里。</strong></p>
+<ul>
+<li><strong>2022–2023：用 2D 监督 3D。</strong> DreamFusion 一类方法借 2D 扩散模型的先验「雕刻」三维形状，耗时几十分钟到小时级，产出是「概念上像」，细节和材质基本不可用。</li>
+<li><strong>2024：前馈式三维原生生成。</strong> LRM、TRELLIS 这类工作让模型直接从图像回归三维表示，单卡几十秒出结果，成本降了一个数量级。这是真正的分水岭。</li>
+<li><strong>2025 上半年：材质管线成熟。</strong> 混元 3D 2.1 引入 PBR 材质生成（反照率、粗糙度、金属度），TripoSG 用大规模整流流把形状质量推到可用水平，并且开源权重可以在本地跑。</li>
+<li><strong>2025 下半年：分辨率、部件与条件控制。</strong> TRELLIS.2 把体素分辨率推到 512³–1536³ 并支持开放表面与内部结构；混元 3D 系列走向部件级生成（P3-SAM + X-Part）与多模态条件控制（Omni：点云、体素、骨架、包围盒）。</li>
+<li><strong>2026：产品分化。</strong> 商用平台（Meshy 7.1、Tripo、Rodin）不再拼「能不能生成」，而是拼绑定、动画、引擎集成与工作流嵌入。</li>
+</ul>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/fig5-timeline.png" alt="四年技术演进时间线"></p>
+<p><em>图 2　四年里的关键节点。时间线只标技术路线节点，不构成各版本能力的精确排名。</em></p>
+<p>「控制权回到人手里」具体指什么？早期模型只能「给一张图，出一个大概」；现在的模型可以接受包围盒、体素、点云、骨架作为条件——也就是说，<strong>可以先规定「这个物体占多大、是什么姿态」，再让模型填细节</strong>。这是从抽卡到可控生产的关键一步。</p>
+<h2 id="3-路线-A：AI-写脚本驱动-DCC-建模"><a href="#3-路线-A：AI-写脚本驱动-DCC-建模" class="headerlink" title="3. 路线 A：AI 写脚本驱动 DCC 建模"></a>3. 路线 A：AI 写脚本驱动 DCC 建模</h2><p>这条路线我自己用得最多，也最值得展开。</p>
+<h3 id="3-1-三种实现形态"><a href="#3-1-三种实现形态" class="headerlink" title="3.1 三种实现形态"></a>3.1 三种实现形态</h3><p>同样是「让 AI 写建模脚本」，工程实现差别很大，能力边界也不同。</p>
+<table>
+<thead>
+<tr>
+<th>形态</th>
+<th>做法</th>
+<th>代表</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>MCP 直连</strong></td>
+<td>AI 通过 socket 连到运行中的 Blender 实例，直接在其内部执行 <code>bpy</code> 代码</td>
+<td><code>mcp-for-blender</code>（原 <code>blender-mcp</code>）</td>
+<td>能「看见」视口、能读场景、能迭代；反馈闭环最完整</td>
+</tr>
+<tr>
+<td><strong>纯代码生成</strong></td>
+<td>让模型一次性写出 <code>.py</code>，本地 <code>blender -b</code> 跑</td>
+<td>任意 LLM</td>
+<td>简单、可版本管理，但没有反馈，错了只能自己看报错</td>
+</tr>
+<tr>
+<td><strong>参数化脚本</strong></td>
+<td>用 CAD 内核的 Python API 生成可参数化实体</td>
+<td>CADQuery、build123d</td>
+<td>输出 STEP 等工程格式，可精确到尺寸</td>
+</tr>
+</tbody></table>
+<p>MCP 这条路目前的事实标准是 <a target="_blank" rel="noopener" href="https://github.com/ahujasid/blender-mcp"><code>mcp-for-blender</code></a>（原 <code>blender-mcp</code>，MIT）。它把能力收敛成九个工具，其中最关键的是三个：</p>
+<ul>
+<li><code>execute_blender_code</code>：在运行中的 Blender 里执行任意 Python，也就是真正干活的手；</li>
+<li><code>look</code>：多角度、相机、线框、X-ray、渲染帧的视觉回读，也就是真正的眼睛；</li>
+<li><code>get_scene_info</code>：场景结构与对象摘要，让模型知道「现在有什么」。</li>
+</ul>
+<p>此外它还能直接调 Meshy、Tripo、Hyper3D Rodin、Hunyuan3D 这些生成模型并导入场景，以及从 Poly Haven、Sketchfab、Poly Pizza 拉现成资产。<strong>这意味着路线 A 和路线 B 在工具层面已经打通</strong>——同一个对话里可以先让模型生成一个道具，再用脚本把它复制 200 份摆成阵列。</p>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/blender-mcp-screenshot.jpg" alt="MCP for Blender 的工作状态截图"></p>
+<p><em>图 3　MCP for Blender 的实际工作状态：左侧是 AI 对话，右侧是 Blender 视口，指令「Create wooden pyramid in Blender」执行后的结果直接可见。（来源：ahujasid&#x2F;blender-mcp 官方仓库）</em></p>
+<h3 id="3-2-为什么它能工作"><a href="#3-2-为什么它能工作" class="headerlink" title="3.2 为什么它能工作"></a>3.2 为什么它能工作</h3><p>这条路线之所以有效，不是因为模型「懂建模」，而是因为把建模变成了一个<strong>带反馈的代码生成任务</strong>——而代码生成恰恰是大模型最擅长的。</p>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/fig2-blender-pipeline.png" alt="AI 写脚本建模的实际链路"></p>
+<p><em>图 4　五个阶段。真正的价值在最后两步：执行结果和视觉回读会被送回模型，形成闭环。</em></p>
+<p>关键在于第 5 步。纯「一次生成」的方案失败率很高，因为模型不知道自己在三维空间里错在哪；一旦有了截图回读，模型就能自己发现「这个门开在墙外侧了」，然后修。这是 MCP 形态相对于「让 AI 写脚本我自己跑」的核心优势。</p>
+<h3 id="3-3-它擅长什么"><a href="#3-3-它擅长什么" class="headerlink" title="3.3 它擅长什么"></a>3.3 它擅长什么</h3><p>判断依据是<strong>任务是否具备可被语言描述的结构</strong>。</p>
+<ul>
+<li><strong>规则驱动的场景铺量</strong>：城市街区、货架陈列、停车场、栅栏、楼梯。这类任务本质是参数化，脚本天然擅长。</li>
+<li><strong>参数化变体</strong>：一套脚本出 200 个尺寸不同的柜子、门、齿轮。改一个数字重跑，手工建模做不到。</li>
+<li><strong>管线杂活</strong>：批量重命名、批量 UV 展开、批量权重传递、批量导出 FBX、按规范整理层级与命名。这些任务枯燥但规则明确，是当前性价比最高的落地场景。</li>
+<li><strong>场景搭建与布局</strong>：按表格数据摆放物体、按路径撒点、按规则添加细节。</li>
+</ul>
+<h3 id="3-4-它不擅长什么"><a href="#3-4-它不擅长什么" class="headerlink" title="3.4 它不擅长什么"></a>3.4 它不擅长什么</h3><p>这一点必须说清楚，因为它决定了不该在这条路线上浪费时间的地方。</p>
+<ul>
+<li><strong>单件高审美造型。</strong> 模型不理解「这里再收 2 厘米」的手感。它能把比例算对，但算不对好看。凡是需要审美判断的形面调整，仍然得手工。</li>
+<li><strong>长脚本极度脆弱。</strong> Blender 每半年一个大版本（4.5 LTS → 5.0 → 5.2 LTS），API 会变。一段 300 行的脚本跨版本失效是常态。<strong>脚本越短、依赖越少，生命力越长。</strong></li>
+<li><strong>拓扑质量取决于你给的建模范式，而不是模型。</strong> 如果脚本用布尔运算堆形状，出来的一定是烂拓扑；如果脚本用基元 + 阵列 + 修改器，出来的是干净的。<strong>是你在决定质量，AI 只是执行。</strong></li>
+</ul>
+<h3 id="3-5-继续走这条路的几个实操要点"><a href="#3-5-继续走这条路的几个实操要点" class="headerlink" title="3.5 继续走这条路的几个实操要点"></a>3.5 继续走这条路的几个实操要点</h3><ol>
+<li><strong>把建模范式写进系统提示。</strong> 明确要求优先用基元 + 修改器（Bevel、Array、Mirror、Solidify），禁止布尔堆叠；物体命名遵循项目规范；所有物体归入指定集合。这一条对产出质量的影响大于换模型。</li>
+<li><strong>强制要求视觉回读。</strong> 每次修改后让模型调 <code>look</code> 看一眼，而不是盲改。多轮迭代的质量差异很明显。</li>
+<li><strong>增量修改，不要重写。</strong> 让模型只改出错的那几行，而不是重新生成整段脚本。整段重写会把已经调好的部分一起弄坏。</li>
+<li><strong>脚本落地成文件。</strong> 把跑通的脚本存进项目仓库，配一份参数说明。这样它就变成了资产，而不是一次性对话产物。</li>
+<li><strong>注意安全边界。</strong> <code>execute_blender_code</code> 能执行任意 Python，而 Blender 的 socket 服务器没有认证和加密。<strong>只绑定 localhost，不要在不可信网络里开</strong>；跑之前先存盘。</li>
+</ol>
+<h3 id="3-6-一个容易忽略的点"><a href="#3-6-一个容易忽略的点" class="headerlink" title="3.6 一个容易忽略的点"></a>3.6 一个容易忽略的点</h3><p>路线 A 的真正产出不是「模型」，而是<strong>一套可复用的生成规则</strong>。一旦把「这条街怎么建」沉淀成脚本，下次做同类场景的成本接近于零。</p>
+<p>这是它与路线 B 的根本差异：路线 B 每次生成都是独立的一次抽卡，路线 A 是一次投入、长期复用。<strong>如果需求是重复的、有规律的，路线 A 的长期成本远低于路线 B。</strong></p>
+<h2 id="4-路线-B：生成式-3D-大模型"><a href="#4-路线-B：生成式-3D-大模型" class="headerlink" title="4. 路线 B：生成式 3D 大模型"></a>4. 路线 B：生成式 3D 大模型</h2><h3 id="4-1-形状与材质是两个独立问题"><a href="#4-1-形状与材质是两个独立问题" class="headerlink" title="4.1 形状与材质是两个独立问题"></a>4.1 形状与材质是两个独立问题</h3><p>几乎所有主流模型都把生成拆成两段：<strong>先出几何，再出材质</strong>。理解这一点，就能理解为什么经常遇到「形对但质感假」。</p>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/fig3-generation.png" alt="生成式 3D 的两阶段结构"></p>
+<p><em>图 5　主流生成式 3D 的两阶段结构，以及形状中间表示的四种选择。中间表示的选择直接决定了成败与代价。</em></p>
+<p>以混元 3D 2.1 为例，它是这个结构的典型样本：Hunyuan3D-Shape（3.3B）负责出无纹理网格，Hunyuan3D-Paint（2B）负责合成 PBR 材质。纹理阶段依赖多视角渲染与参考分支，这也是它显存开销远高于形状阶段的原因——<strong>形状 10GB，纹理 21GB，全流程 29GB</strong>。</p>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/hunyuan21-pipeline.jpg" alt="混元 3D 2.1 的完整管线"></p>
+<p><em>图 6　上方是形状生成（DiT + VAE 解码），下方是纹理合成（多视角 + 参考分支）。（来源：Tencent-Hunyuan&#x2F;Hunyuan3D-2.1 官方仓库）</em></p>
+<h3 id="4-2-开源模型：能本地跑的那一档"><a href="#4-2-开源模型：能本地跑的那一档" class="headerlink" title="4.2 开源模型：能本地跑的那一档"></a>4.2 开源模型：能本地跑的那一档</h3><p>这一档最值得关心，因为它意味着无 API 成本、数据不出本地、可以集成进自有管线。</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>参数规模</th>
+<th>显存（官方标注）</th>
+<th>许可</th>
+<th>输出</th>
+<th>关键特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>混元 3D 2.0</strong></td>
+<td>DiT 1.1B + Paint 1.3B</td>
+<td>形状 6GB &#x2F; 全流程 16GB</td>
+<td>见仓库</td>
+<td>GLB &#x2F; OBJ</td>
+<td>门槛最低，Windows 工具与 Blender 插件齐全</td>
+</tr>
+<tr>
+<td><strong>混元 3D 2.1</strong></td>
+<td>Shape 3.3B + Paint 2B</td>
+<td>形状 10GB &#x2F; 纹理 21GB &#x2F; 合计 29GB</td>
+<td>见仓库</td>
+<td>GLB</td>
+<td>PBR 材质质量明显提升，含 VAE 编码器与训练代码</td>
+</tr>
+<tr>
+<td><strong>混元 3D Omni</strong></td>
+<td>3.3B</td>
+<td>未公开</td>
+<td>见仓库</td>
+<td>网格</td>
+<td>支持点云、体素、骨架、包围盒条件控制</td>
+</tr>
+<tr>
+<td><strong>TRELLIS</strong></td>
+<td>1.2B–2.0B</td>
+<td>≥16GB</td>
+<td>MIT</td>
+<td>GLB &#x2F; Gaussian PLY</td>
+<td>SLAT 表示，支持同一物体的变体与局部 3D 编辑</td>
+</tr>
+<tr>
+<td><strong>TRELLIS.2</strong></td>
+<td>4B</td>
+<td>≥24GB</td>
+<td>MIT</td>
+<td>网格 + PBR</td>
+<td>O-Voxel 稀疏体素，支持开放表面、非流形、内部封闭结构</td>
+</tr>
+<tr>
+<td><strong>TripoSG</strong></td>
+<td>1.5B</td>
+<td>未公开</td>
+<td>见仓库</td>
+<td>网格</td>
+<td>整流流 + SDF，200 万 Image-SDF 训练对，对照片、卡通、线稿都稳</td>
+</tr>
+</tbody></table>
+<p>两点值得单独说。</p>
+<p><strong>TRELLIS.2 的速度是真的快。</strong> 在 H100 上，512³ 分辨率约 3 秒（形状 2s + 材质 1s），1024³ 约 17 秒，1536³ 约 60 秒。这个量级已经接近交互式。代价是 24GB 显存下限，消费级显卡基本无缘。</p>
+<p><strong>TRELLIS 支持局部编辑。</strong> 这是从「生成」到「编辑」的关键能力——可以先生成一个房子，再要求「加几棵树、再加一条河」，而不用重新生成整个场景。</p>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/trellis-teaser.jpg" alt="TRELLIS 的能力总览"></p>
+<p><em>图 7　图生 3D、文生 3D、材质替换与场景级编辑（House → Trees → + River）。（来源：microsoft&#x2F;TRELLIS 官方仓库）</em></p>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/trellis2-teaser.jpg" alt="TRELLIS.2 的生成样例"></p>
+<p><em>图 8　TRELLIS.2-4B 覆盖角色、建筑、道具等多类资产，支持 512³–1536³ 分辨率与完整 PBR 材质。（来源：microsoft&#x2F;TRELLIS.2 官方仓库）</em></p>
+<p>材质质量的直观参照：</p>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/hunyuan21-teaser.jpg" alt="混元 3D 2.1 的 PBR 材质效果"></p>
+<p><em>图 9　注意金属反射与布料质感——这是相对早期 RGB 贴图方案最明显的提升点。（来源：Tencent-Hunyuan&#x2F;Hunyuan3D-2.1 官方仓库）</em></p>
+<h3 id="4-3-商用平台：价值在工作流，不在模型"><a href="#4-3-商用平台：价值在工作流，不在模型" class="headerlink" title="4.3 商用平台：价值在工作流，不在模型"></a>4.3 商用平台：价值在工作流，不在模型</h3><p>商用平台的价值不在模型本身，而在<strong>工作流的完整性</strong>——重拓扑、绑定、动画、引擎直连、版本管理。</p>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>当前版本</th>
+<th>突出能力</th>
+<th>导出格式</th>
+<th>价格（抓取时）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Meshy</strong></td>
+<td>7.1</td>
+<td>Ultra 4K（几何精度至 4096³）、自动绑定（人形&#x2F;四足）、600+ 动作预设、PBR 贴图集、MCP Server 与 CLI</td>
+<td>FBX &#x2F; GLB &#x2F; OBJ &#x2F; USDZ；打印用 3MF &#x2F; STL</td>
+<td>免费档可用，付费档未公开具体金额</td>
+</tr>
+<tr>
+<td><strong>Tripo</strong></td>
+<td>未标注版本号</td>
+<td>Smart Mesh：500–25K 面四边面输出，声称无需重拓扑；8K 纹理；智能分割；自动绑定</td>
+<td>GLB &#x2F; FBX &#x2F; OBJ &#x2F; USD；打印用 STL &#x2F; 3MF</td>
+<td>Pro $20&#x2F;月（约 $0.16&#x2F;模型）；Max $90&#x2F;月（约 $0.09&#x2F;模型）</td>
+</tr>
+<tr>
+<td><strong>Hyper3D Rodin</strong></td>
+<td>Gen-2.5</td>
+<td>3D ControlNet（包围盒、体素、点云）、局部编辑、Smart Low-Poly、Blender&#x2F;Unity&#x2F;UE&#x2F;Godot 插件</td>
+<td>STL &#x2F; FBX &#x2F; OBJ &#x2F; GLB &#x2F; GLTF &#x2F; USDZ</td>
+<td>7 天试用，付费档未公开</td>
+</tr>
+</tbody></table>
+<p><strong>Tripo 的 Smart Mesh 是这一档里最值得注意的功能。</strong> 它输出四边面，面数 500–25K 可控，官方声称无需重拓扑。如果这一点在实际项目中站得住，它解决的就是生成式 3D 最致命的短板——布线质量。但这是厂商自称的能力，建议自己拿项目里的典型资产测一轮再下结论。</p>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/tripo-ai-remesh-3d-robot-quad-mesh.jpg" alt="Tripo 的四边面重拓扑结果"></p>
+<p><em>图 10　从生成结果直接输出四边面网格，面数可控。这是生成式路线能否进入正式管线的一道门槛。（来源：tripo3d.ai 官方素材）</em></p>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/tripo-ai-segmentation-3d-robot-parts.jpg" alt="Tripo 的部件级分割结果"></p>
+<p><em>图 11　把整体网格拆成语义部件，是后续做绑定、做动画、做变体的前提。（来源：tripo3d.ai 官方素材）</em></p>
+<p>商用角色的整体观感：</p>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/meshy7-kv.jpg" alt="Meshy 7 的角色生成样例"></p>
+<p><em>图 12　强调毛发、皮革、布料等细节的还原度。（来源：meshy.ai 官方素材）</em></p>
+<h3 id="4-4-这条路线真正的短板"><a href="#4-4-这条路线真正的短板" class="headerlink" title="4.4 这条路线真正的短板"></a>4.4 这条路线真正的短板</h3><p>诚实地讲，生成式 3D 有四个绕不过去的问题：</p>
+<ol>
+<li><strong>布线不可控。</strong> 除了 Tripo Smart Mesh 这类专门方案，多数输出是三角面汤，UV 是自动展开的碎块。想直接进正式管线，几乎都要重拓扑。</li>
+<li><strong>拓扑一致性差。</strong> 同一个提示词生成两次，布线完全不同。这意味着无法做 blend shape、无法做规范蒙皮、无法做资产变体。</li>
+<li><strong>尺寸与比例不可靠。</strong> 生成的是「看起来对」的模型，不是「量起来对」的模型。需要真实尺寸的工业件、建筑构件必须回到路线 D。</li>
+<li><strong>部件语义丢失。</strong> 一个整体网格就是一块，没有「门」「窗」「轮子」的概念。要做动画就得先分割，而分割本身又会引入误差。</li>
+</ol>
+<h2 id="5-路线-C：重建式-3D"><a href="#5-路线-C：重建式-3D" class="headerlink" title="5. 路线 C：重建式 3D"></a>5. 路线 C：重建式 3D</h2><p>这条路线常被忽略，但在实际工作中可能是性价比最高的——<strong>它的输入是真实世界</strong>。</p>
+<table>
+<thead>
+<tr>
+<th>分支</th>
+<th>代表</th>
+<th>输入</th>
+<th>输出</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>多视图重建</strong></td>
+<td>COLMAP 等传统 SfM&#x2F;MVS</td>
+<td>数十张照片</td>
+<td>网格 + 纹理</td>
+<td>成熟稳定，但慢，需要拍摄规范</td>
+</tr>
+<tr>
+<td><strong>高斯泼溅（3DGS）</strong></td>
+<td>3DGS 及其变体</td>
+<td>视频&#x2F;照片序列</td>
+<td>高斯球（.ply）</td>
+<td>渲染快、真实感强，但不是网格</td>
+</tr>
+<tr>
+<td><strong>前馈单图重建</strong></td>
+<td>Apple SHARP、SAM 3D Objects</td>
+<td>单张图</td>
+<td>高斯球&#x2F;网格 + 位姿</td>
+<td>秒级，零样本可用</td>
+</tr>
+</tbody></table>
+<p>两个近期值得关注的：</p>
+<ul>
+<li><strong>Apple SHARP</strong>：从单张照片生成可实时渲染的 3D 高斯表示，单次前馈推理，标准 GPU 上不到一秒；支持带绝对尺度的公制相机运动，可沿相机轨迹渲染视频。输出为遵循 OpenCV 坐标约定的 <code>.ply</code>。</li>
+<li><strong>SAM 3D Objects</strong>（Meta）：从单图 + 物体掩码重建完整几何、纹理与布局，能处理遮挡与杂乱场景，输出带位姿的模型与高斯球。</li>
+</ul>
+<p><strong>适用</strong>：已有实物的数字孪生（文物、场地、产品原型）、需要写实背景的场景板、参考素材采集、快速获取比例关系。</p>
+<p><strong>不适用</strong>：需要干净布线的可动资产、需要精确工程尺寸的零件、需要从零创造不存在的东西。</p>
+<p><strong>关键认知</strong>：3DGS 的输出是高斯球，不是网格。它渲染起来很快很真实，但要进游戏引擎当资产用，必须再做一次网格化——而网格化会损失细节。所以 3DGS 更适合背景、展示与参考，不适合当资产。</p>
+<h2 id="6-路线-D：参数化-CAD-生成"><a href="#6-路线-D：参数化-CAD-生成" class="headerlink" title="6. 路线 D：参数化 CAD 生成"></a>6. 路线 D：参数化 CAD 生成</h2><p>这是最新、也最容易被技术美术忽略的一条线。它的差别在于：<strong>生成的不是几何，而是建模特征和约束。</strong></p>
+<p>目前有两种做法。</p>
+<p><strong>一是让 LLM 写 CAD 脚本，已经成熟。</strong> CADQuery 是基于 OCCT 的 Python 参数化 CAD 框架（Apache 2.0），能直接输出 STEP &#x2F; DXF &#x2F; STL &#x2F; 3MF &#x2F; AMF &#x2F; VRML。本质和路线 A 相同——AI 写代码、内核执行——但产物是工程级实体，尺寸精确。如果你需要的是「能拿去加工的零件」而不是「看起来像零件的模型」，这条路现在就能用，而且比生成式 3D 可靠得多。</p>
+<p><strong>二是端到端生成特征树，早期但方向明确。</strong></p>
+<ul>
+<li><strong>Zoo（Text-to-CAD &#x2F; Zookeeper）</strong>：用自然语言一次生成完全可编辑的 3D 模型，跑在自研几何引擎上，带检查、快照、调试几何的引擎级工具。</li>
+<li><strong>Backflip</strong>：三条输入路径——图纸转 CAD（识别工程图的几何与尺寸，重建为带完整特征树的可编辑模型）、扫描转 CAD（网格转参数化）、照片转 CAD（少量照片 + 一个已知尺寸做比例缩放）。它的关键主张是使用 Extrude、Revolve、Pattern、Chamfer、Fillet 这些真实建模操作，而不是生成「看起来像 CAD」的几何。产品形态是 Fusion 插件 + Web 应用。</li>
+</ul>
+<p>这条线重要，是因为它是唯一一条**同时满足「AI 生成」和「可制造」**的路线。</p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>生成式 3D（路线 B）</th>
+<th>参数化 CAD（路线 D）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>输出本质</td>
+<td>三角网格</td>
+<td>B-Rep 实体 + 特征树</td>
+</tr>
+<tr>
+<td>尺寸精度</td>
+<td>不可靠</td>
+<td>精确</td>
+</tr>
+<tr>
+<td>改尺寸</td>
+<td>需要重新生成</td>
+<td>改一个参数即可</td>
+</tr>
+<tr>
+<td>可制造性</td>
+<td>需要修（打印修复、抽壳）</td>
+<td>直接可加工</td>
+</tr>
+<tr>
+<td>形面自由度</td>
+<td>高（有机形状）</td>
+<td>低（工程形状）</td>
+</tr>
+<tr>
+<td>成熟度</td>
+<td>生产可用（外观资产）</td>
+<td>早期（特定品类）</td>
+</tr>
+</tbody></table>
+<p>结论很简单：<strong>有机形面走 B，工程实体走 D，不要拿 B 去做 D 的事。</strong></p>
+<h2 id="7-横向对比与定位"><a href="#7-横向对比与定位" class="headerlink" title="7. 横向对比与定位"></a>7. 横向对比与定位</h2><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>A 代码驱动</th>
+<th>B 生成式</th>
+<th>C 重建式</th>
+<th>D 参数化 CAD</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>上手成本</strong></td>
+<td>中（要会 Python 与 DCC API）</td>
+<td>低（给图&#x2F;给字）</td>
+<td>中（拍摄规范）</td>
+<td>中高（要懂 CAD 概念）</td>
+</tr>
+<tr>
+<td><strong>单件耗时</strong></td>
+<td>分钟级到小时级（含调试）</td>
+<td>秒级到分钟级</td>
+<td>分钟级到小时级</td>
+<td>分钟级</td>
+</tr>
+<tr>
+<td><strong>布线质量</strong></td>
+<td>取决于范式，可做到很好</td>
+<td>差（例外：Tripo Smart Mesh）</td>
+<td>差</td>
+<td>不适用（B-Rep）</td>
+</tr>
+<tr>
+<td><strong>尺寸精度</strong></td>
+<td>高（脚本可控）</td>
+<td>低</td>
+<td>中（可标定）</td>
+<td>最高</td>
+</tr>
+<tr>
+<td><strong>可复现性</strong></td>
+<td>最高（代码即文档）</td>
+<td>低（每次不同）</td>
+<td>中（同素材可重跑）</td>
+<td>高</td>
+</tr>
+<tr>
+<td><strong>批量能力</strong></td>
+<td>最强</td>
+<td>中（API 批处理）</td>
+<td>弱</td>
+<td>强（参数扫描）</td>
+</tr>
+</tbody></table>
+<p><img src="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/fig4-positioning.png" alt="按可控性与形面自由度定位四条路线"></p>
+<p><em>图 13　把四条路线放在「可控性&#x2F;尺寸精度」与「形面自由度」两个轴上。这是定性判断，用途是快速排除明显不合适的方法，不是实测数据。</em></p>
+<p>各路线最大的坑：</p>
+<table>
+<thead>
+<tr>
+<th>路线</th>
+<th>最大的坑</th>
+<th>规避方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A</td>
+<td>长脚本跨版本失效</td>
+<td>脚本拆短、锁定 Blender LTS、把范式约束写进提示</td>
+</tr>
+<tr>
+<td>B</td>
+<td>布线不可用，无法二次编辑</td>
+<td>只用于背景与道具；主角资产必须重拓扑；优先选带四边面输出的方案</td>
+</tr>
+<tr>
+<td>C</td>
+<td>输出是高斯球不是网格</td>
+<td>先明确用途是展示还是资产；资产用途必须补网格化</td>
+</tr>
+<tr>
+<td>D</td>
+<td>只能做工程形状</td>
+<td>与 B 分工，别指望它出角色</td>
+</tr>
+</tbody></table>
+<h2 id="8-按任务反查：选型指南"><a href="#8-按任务反查：选型指南" class="headerlink" title="8. 按任务反查：选型指南"></a>8. 按任务反查：选型指南</h2><p>这一节是给实际干活时用的。<strong>按任务找对应行，而不是按技术找场景。</strong></p>
+<table>
+<thead>
+<tr>
+<th>你的任务</th>
+<th>推荐</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>主角角色、需要蒙皮动画</td>
+<td><strong>手工建模</strong>（AI 仅辅助概念）</td>
+<td>四条路线都产出不了合格的可绑定拓扑</td>
+</tr>
+<tr>
+<td>背景道具、场景填充</td>
+<td><strong>B</strong> + 轻量修</td>
+<td>产能优势最大，质量要求可放宽</td>
+</tr>
+<tr>
+<td>规则场景（街区、货架、室内布局）</td>
+<td><strong>A</strong></td>
+<td>参数化是这类任务的天然解法</td>
+</tr>
+<tr>
+<td>批量变体（一套模板出 N 个尺寸）</td>
+<td><strong>A</strong> 或 <strong>D</strong></td>
+<td>代码或参数驱动，改数字重跑</td>
+</tr>
+<tr>
+<td>管线杂活（重命名、UV、导出）</td>
+<td><strong>A</strong></td>
+<td>性价比最高，风险最低</td>
+</tr>
+<tr>
+<td>概念探索、快速预演</td>
+<td><strong>B</strong></td>
+<td>秒级出多方案，比手绘快</td>
+</tr>
+<tr>
+<td>现有实物数字化</td>
+<td><strong>C</strong></td>
+<td>真实素材直接恢复</td>
+</tr>
+<tr>
+<td>需要精确尺寸的零件</td>
+<td><strong>D</strong></td>
+<td>唯一输出 STEP 与特征树的路线</td>
+</tr>
+<tr>
+<td>需要后期改尺寸的产品</td>
+<td><strong>D</strong></td>
+<td>改参数即可，不用重做</td>
+</tr>
+<tr>
+<td>3D 打印</td>
+<td><strong>B</strong>（带修复）或 <strong>D</strong></td>
+<td>B 需打印修复与抽壳，D 直接可切</td>
+</tr>
+</tbody></table>
+<p>一个实用的判断口诀：</p>
+<blockquote>
+<p>需要「改」的 → A 或 D<br>需要「像」的 → B 或 C<br>需要「准」的 → D<br>需要「快」的 → B</p>
+</blockquote>
+<h2 id="9-本地跑得动吗：16GB-显存的边界"><a href="#9-本地跑得动吗：16GB-显存的边界" class="headerlink" title="9. 本地跑得动吗：16GB 显存的边界"></a>9. 本地跑得动吗：16GB 显存的边界</h2><p>以 RTX 5060 Ti 16GB 为参照（这是笔者的工作环境），按官方标注的显存下限逐条对照：</p>
+<table>
+<thead>
+<tr>
+<th>方案</th>
+<th>官方显存需求</th>
+<th>16GB 能否跑</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>混元 3D 2.0（形状）</td>
+<td>6GB</td>
+<td>宽裕</td>
+<td>门槛最低的起步方案</td>
+</tr>
+<tr>
+<td>混元 3D 2.0（形状+纹理）</td>
+<td>16GB</td>
+<td>临界</td>
+<td>需要关掉其他占显存的程序，实际可能 OOM</td>
+</tr>
+<tr>
+<td>混元 3D 2.1（形状）</td>
+<td>10GB</td>
+<td>可以</td>
+<td></td>
+</tr>
+<tr>
+<td>混元 3D 2.1（纹理）</td>
+<td>21GB</td>
+<td>不行</td>
+<td>只能跑形状阶段，纹理需上云或退回 2.0</td>
+</tr>
+<tr>
+<td>TRELLIS（1.2B–2B）</td>
+<td>≥16GB</td>
+<td>临界</td>
+<td>官方验证环境是 A100&#x2F;A6000，消费卡有风险</td>
+</tr>
+<tr>
+<td>TRELLIS.2（4B）</td>
+<td>≥24GB</td>
+<td>不行</td>
+<td>需 3090&#x2F;4090 或云端</td>
+</tr>
+<tr>
+<td>TripoSG（1.5B）</td>
+<td>未公开</td>
+<td>大概率可以</td>
+<td>参数量小，需自行验证</td>
+</tr>
+<tr>
+<td>UniRig（自动绑定）</td>
+<td>8GB</td>
+<td>可以</td>
+<td>骨架生成 + 蒙皮权重，MIT 许可</td>
+</tr>
+<tr>
+<td>SHARP（单图重建）</td>
+<td>未公开</td>
+<td>大概率可以</td>
+<td>模型轻，秒级推理</td>
+</tr>
+<tr>
+<td>bpy 脚本路线</td>
+<td>不占显存</td>
+<td>完全没问题</td>
+<td>这是零门槛优势</td>
+</tr>
+</tbody></table>
+<p>几条实践建议：</p>
+<ol>
+<li><strong>16GB 的现实定位是「形状生成 + 轻量材质」</strong>，完整 PBR 纹理管线基本要上云。如果材质是硬需求，直接考虑商用 API 更省事。</li>
+<li><strong>ComfyUI 生态里已经有混元 3D 等模型的集成。</strong> 如果本来就在用 ComfyUI 做工作流，这条路能省掉不少环境配置的麻烦——但显存是共享的，不能和图生图、视频模型同时跑。</li>
+<li><strong>别忽略 UniRig 这类下游模型。</strong> 它不生成模型，但能自动出骨架和蒙皮权重（Rig-XL 数据集含 14000+ 已绑定模型），8GB 就能跑。对于「生成出来的模型怎么变成可动资产」这个问题，它比再换一个生成模型有用得多。</li>
+</ol>
+<h2 id="10-陷阱清单与验收标准"><a href="#10-陷阱清单与验收标准" class="headerlink" title="10. 陷阱清单与验收标准"></a>10. 陷阱清单与验收标准</h2><p>六个常见陷阱：</p>
+<ol>
+<li><strong>拿生成式结果当成品交付。</strong> 布线、UV、尺度都不可控，进引擎就是灾难。验收要以「能否二次编辑」为准，不是「看起来像不像」。</li>
+<li><strong>指望 AI 做审美判断。</strong> 路线 A 能算比例，算不了好看。所有形面微调的活仍然要人。</li>
+<li><strong>忽略版本漂移。</strong> Blender 一年两个大版本，<code>bpy</code> API 会变。锁定 LTS、把脚本写短。</li>
+<li><strong>用三角面汤做动画。</strong> 没有语义部件就没有蒙皮，没有蒙皮就没有动画。需要动，先分割。</li>
+<li><strong>把 3DGS 当资产。</strong> 高斯球渲染快，但它不是网格。</li>
+<li><strong>忽略许可。</strong> 各仓库许可不同（TRELLIS 与 TRELLIS.2 是 MIT，部分子模块另有条款；商用平台的水印与商用授权需按套餐确认）。商用前逐条读，不要默认「开源的就能商用」。</li>
+</ol>
+<p>针对生成式产出，至少过这五关：</p>
+<table>
+<thead>
+<tr>
+<th>关卡</th>
+<th>检查什么</th>
+<th>不过怎么办</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1 几何</td>
+<td>有没有破面、翻转法线、非流形边</td>
+<td>修，或重新生成</td>
+</tr>
+<tr>
+<td>2 拓扑</td>
+<td>布线是否连续、面数是否可控</td>
+<td>重拓扑，或改用带四边面输出的方案</td>
+</tr>
+<tr>
+<td>3 UV</td>
+<td>是否规整、有无拉伸</td>
+<td>重展 UV</td>
+</tr>
+<tr>
+<td>4 材质</td>
+<td>PBR 通道是否完整（albedo&#x2F;normal&#x2F;roughness&#x2F;metallic）</td>
+<td>补 AI 贴图或手绘</td>
+</tr>
+<tr>
+<td>5 尺度</td>
+<td>单位是否正确、比例是否合理</td>
+<td>按参考物标定</td>
+</tr>
+</tbody></table>
+<p>建议把这张表变成脚本，对批量产出自动跑一遍第 1、2、5 三项——这三项最容易出问题，也最容易自动化。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>AI 现在能做的是「把结构变成资产」，还做不了「把审美变成资产」。</p>
+<p>判断一个任务该不该交给 AI，就问一句：这个任务的成败，取决于规则，还是取决于手感？<strong>取决于规则的交出去，取决于手感的手工做。</strong> 这也是当前阶段四条路线各自成立的原因——它们各自覆盖了一部分「规则」，而没有任何一条覆盖「手感」。</p>
+<p>具体到落地，我自己的默认姿势是 A + B 组合：用脚本管批量、管规则、管杂活，用生成模型出形面和贴图，最后人工做重拓扑与绑定。凡是有人兜底的那一段，可以放心交给 AI；凡是没人兜底、要直接交付的那一段，仍然得自己上手。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p>以下为数据来源，抓取时间 2026-10。版本与参数以官方为准。</p>
+<p><strong>开源模型与工具</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/microsoft/TRELLIS">TRELLIS</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/microsoft/TRELLIS.2">TRELLIS.2</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Tencent-Hunyuan/Hunyuan3D-2">Hunyuan3D-2</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Tencent-Hunyuan/Hunyuan3D-2.1">Hunyuan3D-2.1</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Tencent-Hunyuan/Hunyuan3D-Omni">Hunyuan3D-Omni</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Tencent-Hunyuan/Hunyuan3D-Part">Hunyuan3D-Part（P3-SAM &#x2F; X-Part）</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/VAST-AI-Research/TripoSG">TripoSG</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/VAST-AI-Research/UniRig">UniRig</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/apple/ml-sharp">SHARP（Apple）</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/facebookresearch/sam-3d-objects">SAM 3D Objects（Meta）</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ahujasid/blender-mcp">MCP for Blender</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/CadQuery/cadquery">CADQuery</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.blender.org/download/releases/">Blender 版本发布记录</a></li>
+</ul>
+<p><strong>商用平台</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.meshy.ai/">Meshy</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.tripo3d.ai/">Tripo</a></li>
+<li><a target="_blank" rel="noopener" href="https://hyper3d.ai/">Hyper3D Rodin</a></li>
+<li><a target="_blank" rel="noopener" href="https://zoo.dev/text-to-cad">Zoo Text-to-CAD</a></li>
+<li><a target="_blank" rel="noopener" href="https://backflip.ai/">Backflip</a></li>
+</ul>
+<p><strong>图像来源</strong></p>
+<p>图 3、图 6–图 12 为各项目与厂商官方发布素材，版权归原作者；图 1、图 2、图 4、图 5、图 13 为矢量自制图表。</p>
+
+    </div>
+
+    <footer class="post__footer">
+      
+        
+<section class="comments" aria-labelledby="commentsTitle">
+  <div class="comments__header">
+    <p class="comments__eyebrow">DISCUSSION</p>
+    <h2 class="comments__title" id="commentsTitle">评论与交流</h2>
+    <p class="comments__description">使用 GitHub 账号参与讨论；首次评论时会自动创建对应话题。</p>
+  </div>
+  <div class="giscus"></div>
+  <script src="https://giscus.app/client.js"
+          data-repo="AHappyFun/AHappyFun.github.io"
+          data-repo-id="R_kgDOJAassQ"
+          data-category="Announcements"
+          data-category-id="DIC_kwDOJAassc4DCUGK"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="zh-CN"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+  </script>
+</section>
+
+      
+
+      <div class="post__nav">
+        
+        
+          <a href="/2026/10/28/Loy-%E4%B8%AD%E5%9B%BD%E5%8E%86%E6%9C%9D%E5%8F%A4%E9%83%BD%E6%97%B6%E9%97%B4%E8%BD%B4/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Loy-中国历朝古都的时间轴与都城志</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+      
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js?v=20260909-category-state"></script>
+<script src="/js/search.js"></script>
+
+  <script src="https://cn.vercount.one/js" defer></script>
+
+
+
+</body>
+</html>

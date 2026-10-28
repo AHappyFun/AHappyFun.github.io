@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-site-style="bento">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Base-UE与Unity6全局光照方案对比 | 锅巴的Blogs</title>
+<link rel="canonical" href="https://loy.net.cn/2026/08/28/Base-UE%E4%B8%8EUnity6%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94/">
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="优化, 原理">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  (function () {
+    var available = ['bento', 'knowledge'];
+    var saved = localStorage.getItem('site-style');
+    if (available.indexOf(saved) !== -1) {
+      document.documentElement.setAttribute('data-site-style', saved);
+    } else if (saved) {
+      localStorage.setItem('site-style', 'bento');
+    }
+  })();
+</script>
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://loy.net.cn/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-27T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-10-28T06:52:04.778Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="优化">
+<meta property="article:tag" content="原理">
+<meta name="twitter:card" content="summary">
+
+  
+    <style id="cat-game-disabled">.cat-container,.cat-win-label{display:none!important}</style>
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body data-cat-game-enabled="false">
+  <a class="skip-link" href="#mainContent">跳到正文</a>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__brand" aria-label="锅巴的Blogs首页">
+      <span class="header__logo">锅巴的Blogs</span>
+      <span class="header__edition">MAKE · WRITE · SHARE</span>
+      <span class="knowledge-status" aria-hidden="true"><i></i><i></i><i></i></span>
+    </a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav" aria-label="主导航">
+      
+        
+        <a href="/" class="header__link">首页</a>
+      
+        
+        <a href="/tags/" class="header__link">标签</a>
+      
+        
+        <a href="/search/" class="header__link">搜索</a>
+      
+        
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      
+        <label class="style-picker" for="stylePicker">
+          <span class="sr-only">选择网站设计风格</span>
+          <select id="stylePicker" aria-label="网站设计风格">
+            <option value="bento">Bento</option>
+            <option value="knowledge">Knowledge OS</option>
+          </select>
+        </label>
+      
+      <button class="theme-toggle" id="themeToggle" aria-label="切换明暗模式">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="headerNav">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">分类</h3>
+      <div class="category-filter category-filter--sidebar" role="tablist" aria-label="按分类筛选">
+        <button type="button" class="category-filter__tab is-active" role="tab" aria-selected="true" data-category="all">
+          全部 <span class="category-filter__count">104</span>
+        </button>
+        
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="技术">
+            技术 <span class="category-filter__count">51</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="认知">
+            认知 <span class="category-filter__count">27</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Art">
+            Art <span class="category-filter__count">10</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Dev">
+            Dev <span class="category-filter__count">5</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Loy">
+            Loy <span class="category-filter__count">4</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="AI">
+            AI <span class="category-filter__count">4</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Game">
+            Game <span class="category-filter__count">2</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Design">
+            Design <span class="category-filter__count">1</span>
+          </button>
+        
+      </div>
+    </div>
+
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 104 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+              
+              <div class="sidebar__year" data-year="2026">2026</div>
+            
+            <a href="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-27T16:00:00.000Z">10-28</time>
+              <span class="sidebar__post-title">AI-四条建模路线：能力边界、显存代价与选型</span>
+            </a>
+          
+            
+            <a href="/2026/10/28/Loy-%E4%B8%AD%E5%9B%BD%E5%8E%86%E6%9C%9D%E5%8F%A4%E9%83%BD%E6%97%B6%E9%97%B4%E8%BD%B4/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-27T16:00:00.000Z">10-28</time>
+              <span class="sidebar__post-title">Loy-中国历朝古都的时间轴与都城志</span>
+            </a>
+          
+            
+            <a href="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-25T16:00:00.000Z">10-26</time>
+              <span class="sidebar__post-title">Art-三分法与构图动线：从 1797 年的比例建议到九宫格口诀</span>
+            </a>
+          
+            
+            <a href="/2026/10/25/Art-%E8%A1%A5%E8%89%B2%E4%B8%8E%E8%A7%86%E8%A7%89%E6%AE%8B%E5%83%8F/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-24T16:00:00.000Z">10-25</time>
+              <span class="sidebar__post-title">Art-补色与视觉残像：眼睛补出来的对立色</span>
+            </a>
+          
+            
+            <a href="/2026/10/24/Art-%E8%89%B2%E5%BD%A9%E9%80%8F%E8%A7%86%E4%B8%8E%E7%A9%BA%E6%B0%94%E9%80%8F%E8%A7%86/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-23T16:00:00.000Z">10-24</time>
+              <span class="sidebar__post-title">Art-色彩透视与空气透视：远不是画小一点，是被空气吃掉</span>
+            </a>
+          
+            
+            <a href="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-22T16:00:00.000Z">10-23</time>
+              <span class="sidebar__post-title">Art-同时对比：颜色是被邻居逼出来的</span>
+            </a>
+          
+            
+            <a href="/2026/10/22/AI-ComfyUI%E7%94%9F%E6%88%90%E6%B8%B8%E6%88%8F%E8%B5%84%E4%BA%A7%E7%9A%84%E5%AE%9E%E8%B7%B5/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-21T16:00:00.000Z">10-22</time>
+              <span class="sidebar__post-title">AI-ComfyUI生成游戏资产的实践</span>
+            </a>
+          
+            
+            <a href="/2026/10/22/Art-%E6%98%8E%E6%9A%97%E5%AF%B9%E7%85%A7%E6%B3%95/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-21T16:00:00.000Z">10-22</time>
+              <span class="sidebar__post-title">Art-明暗对照法：用光与影组织画面</span>
+            </a>
+          
+            
+            <a href="/2026/10/21/Art-%E7%BE%8E%E6%BC%AB%E7%94%BB%E9%A3%8E%E6%8A%80%E6%B3%95/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-20T16:00:00.000Z">10-21</time>
+              <span class="sidebar__post-title">Art-美漫画风技法入门：从墨线到小圆点</span>
+            </a>
+          
+            
+            <a href="/2026/10/13/Dev-%E5%BC%80%E6%BA%90%E5%B0%8F%E8%BD%AF%E4%BB%B6%E6%B8%85%E5%8D%95/" class="sidebar__item" data-category="Dev" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-12T16:00:00.000Z">10-13</time>
+              <span class="sidebar__post-title">Dev-我收集的开源小软件清单</span>
+            </a>
+          
+            
+            <a href="/2026/09/21/Base-WebGL%E6%8A%80%E6%9C%AF%E6%A6%82%E8%BF%B0/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-20T16:00:00.000Z">09-21</time>
+              <span class="sidebar__post-title">Base-WebGL技术概述</span>
+            </a>
+          
+            
+            <a href="/2026/09/17/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E7%BC%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E8%A2%AB%E4%BB%80%E4%B9%88%E5%9B%B0%E4%BD%8F%E2%80%94%E2%80%94%E7%A8%80%E7%BC%BA%E5%BF%83%E6%80%81/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-16T16:00:00.000Z">09-17</time>
+              <span class="sidebar__post-title">Mind-为什么越缺什么越被什么困住——稀缺心态</span>
+            </a>
+          
+            
+            <a href="/2026/09/16/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%AE%B0%E5%BE%97%E7%9A%84%E4%BA%8B%E5%8F%AF%E8%83%BD%E6%98%AF%E5%81%87%E7%9A%84%E2%80%94%E2%80%94%E8%AE%B0%E5%BF%86%E9%87%8D%E6%9E%84/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-15T16:00:00.000Z">09-16</time>
+              <span class="sidebar__post-title">Mind-为什么你记得的事可能是假的——记忆重构</span>
+            </a>
+          
+            
+            <a href="/2026/09/15/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E8%A6%81%E6%88%AA%E6%AD%A2%E8%BF%98%E6%98%AF%E5%88%B7%E6%89%8B%E6%9C%BA%E2%80%94%E2%80%94%E6%8B%96%E5%BB%B6%E4%B8%8E%E6%97%B6%E9%97%B4%E6%8A%98%E6%89%A3/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-14T16:00:00.000Z">09-15</time>
+              <span class="sidebar__post-title">Mind-为什么明知要截止还是刷手机——拖延与时间折扣</span>
+            </a>
+          
+            
+            <a href="/2026/09/14/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%A8%E7%A5%9E%E8%B4%AF%E6%B3%A8%E5%8F%8D%E8%80%8C%E4%B8%8D%E7%B4%AF%E2%80%94%E2%80%94%E5%BF%83%E6%B5%81/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">Mind-为什么全神贯注反而不累——心流</span>
+            </a>
+          
+            
+            <a href="/2026/09/13/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%81%87%E7%AC%91%E6%AF%94%E7%9C%9F%E7%B4%AF%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E6%83%85%E7%BB%AA%E5%8A%B3%E5%8A%A8/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-12T16:00:00.000Z">09-13</time>
+              <span class="sidebar__post-title">Mind-为什么假笑比真累还累——情绪劳动</span>
+            </a>
+          
+            
+            <a href="/2026/09/12/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E6%80%BB%E5%9C%A8%E5%92%8C%E5%88%AB%E4%BA%BA%E6%AF%94%E8%BE%83%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E6%AF%94%E8%BE%83%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-11T16:00:00.000Z">09-12</time>
+              <span class="sidebar__post-title">Mind-为什么你总在和别人比较——社会比较理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/11/Game-%E6%B1%BD%E8%BD%A6%E5%8F%98%E9%80%9F%E7%AE%B1%E9%BD%BF%E6%AF%94%E4%B8%8E%E6%9C%80%E7%BB%88%E4%BC%A0%E5%8A%A8%E6%AF%94/" class="sidebar__item" data-category="Game" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">Game-从 GT7 理解汽车变速箱齿比与最终传动比</span>
+            </a>
+          
+            
+            <a href="/2026/09/11/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4%E5%87%BA%E5%8F%A3%E7%9A%84%E8%AF%9D%E4%BC%9A%E7%BB%91%E6%9E%B6%E4%BD%A0%E2%80%94%E2%80%94%E6%89%BF%E8%AF%BA%E4%B8%80%E8%87%B4%E6%80%A7/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">Mind-为什么说出口的话会绑架你——承诺一致性</span>
+            </a>
+          
+            
+            <a href="/2026/09/10/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF%E4%B8%80%E5%88%B0%E6%89%8B%E5%B0%B1%E5%8F%98%E5%80%BC%E9%92%B1%E2%80%94%E2%80%94%E7%A6%80%E8%B5%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">Mind-为什么东西一到手就变值钱——禀赋效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/09/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8D%A1%E6%9D%A5%E7%9A%84%E9%92%B1%E8%8A%B1%E5%BE%97%E6%9C%80%E5%BF%AB%E2%80%94%E2%80%94%E5%BF%83%E7%90%86%E8%B4%A6%E6%88%B7/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-08T16:00:00.000Z">09-09</time>
+              <span class="sidebar__post-title">Mind-为什么捡来的钱花得最快——心理账户</span>
+            </a>
+          
+            
+            <a href="/2026/09/08/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E7%BE%A4%E4%BA%BA%E8%81%8A%E7%9D%80%E8%81%8A%E7%9D%80%E5%B0%B1%E5%8F%98%E6%9E%81%E7%AB%AF%E2%80%94%E2%80%94%E7%BE%A4%E4%BD%93%E6%9E%81%E5%8C%96/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">Mind-为什么一群人聊着聊着就变极端——群体极化</span>
+            </a>
+          
+            
+            <a href="/2026/09/07/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E6%89%87%E7%A0%B4%E7%AA%97%E4%BC%9A%E6%AF%81%E6%8E%89%E6%95%B4%E6%9D%A1%E8%A1%97%E2%80%94%E2%80%94%E7%A0%B4%E7%AA%97%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-06T16:00:00.000Z">09-07</time>
+              <span class="sidebar__post-title">Mind-为什么一扇破窗会毁掉整条街——破窗效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/06/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E6%80%BB%E6%8A%A4%E7%9D%80%E8%87%AA%E5%B7%B1%E4%BA%BA%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E8%AE%A4%E5%90%8C%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-05T16:00:00.000Z">09-06</time>
+              <span class="sidebar__post-title">Mind-为什么我们总护着自己人——社会认同理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/05/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%AC%AC%E4%B8%80%E5%8D%B0%E8%B1%A1%E5%A6%82%E6%AD%A4%E9%A1%BD%E5%9B%BA%E2%80%94%E2%80%94%E5%85%89%E7%8E%AF%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">Mind-为什么第一印象如此顽固——光环效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/04/Mind-%E7%BB%9D%E6%9C%9B%E6%98%AF%E8%A2%AB%E8%AE%AD%E7%BB%83%E5%87%BA%E6%9D%A5%E7%9A%84%E2%80%94%E2%80%94%E4%B9%A0%E5%BE%97%E6%80%A7%E6%97%A0%E5%8A%A9/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">Mind-绝望是被训练出来的——习得性无助</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Game-GT7%E8%BD%A6%E8%BE%86%E8%B0%83%E6%95%99%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="Game" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Game-GT7 车辆调教指南</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Mind-%E8%AE%B0%E5%BF%86%E5%8F%AA%E8%AE%B0%E5%BE%97%E9%AB%98%E6%BD%AE%E5%92%8C%E7%BB%93%E5%B0%BE%E2%80%94%E2%80%94%E5%B3%B0%E7%BB%88%E5%AE%9A%E5%BE%8B/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Mind-记忆只记得高潮和结尾——峰终定律</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Mind-%E6%BB%A1%E8%B4%9F%E8%8D%B7%EF%BC%8C%E6%98%AF%E7%B3%BB%E7%BB%9F%E6%9C%80%E5%8D%B1%E9%99%A9%E7%9A%84%E6%97%B6%E5%88%BB%E2%80%94%E2%80%94%E6%8E%92%E9%98%9F%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Mind-满负荷，是系统最危险的时刻——排队论</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Mind-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%95%B0%E5%AD%97%E5%A6%82%E4%BD%95%E6%93%8D%E7%BA%B5%E4%BD%A0%E2%80%94%E2%80%94%E9%94%9A%E5%AE%9A%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Mind-第一个数字如何操纵你——锚定效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Base-%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88%E6%BC%94%E8%BF%9B%E6%80%BB%E8%A7%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Base-渲染方案演进总览</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8F100%E6%AF%94%E8%B5%9A200%E6%9B%B4%E7%96%BC%E2%80%94%E2%80%94%E6%8D%9F%E5%A4%B1%E5%8E%8C%E6%81%B6/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Mind-为什么亏100比赚200更疼——损失厌恶</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Mind-%E9%97%B2%E7%9D%80%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AF%94%E5%BF%99%E4%B8%80%E5%A4%A9%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E6%97%A0%E8%81%8A/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Mind-闲着为什么比忙一天还累——无聊</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/UE4-RTGI/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">UE4-RTGI</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Unity-APV%E4%BD%93%E7%A7%AF%E6%8E%A2%E9%92%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Unity-APV体积探针</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-1990%E8%87%B32026%E6%82%AC%E7%96%91%E7%94%B5%E5%BD%B1%E6%A6%9C%E5%8D%95/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-1990—2026 悬疑电影榜单</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-2015%E8%87%B32026%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1Top250/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-2015—2026 豆瓣电影 Top 250</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E9%81%93%E9%94%99%E4%B9%9F%E8%A6%81%E8%B7%9F%E7%9D%80%E8%AF%B4%E2%80%94%E2%80%94%E4%BB%8E%E4%BC%97/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Mind-为什么明知道错也要跟着说——从众</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E5%83%8F%E7%90%86%E8%A7%A3%E9%9F%B3%E4%B9%90%E6%B5%81%E6%B4%BE%E4%B8%80%E6%A0%B7%E7%90%86%E8%A7%A3%E7%BE%8E%E6%9C%AF%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-像理解音乐流派一样理解美术体系</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-电子游戏美术风格体系——从视觉分类到概念原画研究</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E4%B8%8D%E6%87%82%E8%B6%8A%E8%87%AA%E4%BF%A1%E2%80%94%E2%80%94%E8%BE%BE%E5%85%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Mind-为什么越不懂越自信——达克效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/29/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E8%B6%8A%E5%A4%9A%E8%B6%8A%E6%B2%A1%E4%BA%BA%E5%B8%AE%E5%BF%99%E2%80%94%E2%80%94%E6%97%81%E8%A7%82%E8%80%85%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-28T16:00:00.000Z">08-29</time>
+              <span class="sidebar__post-title">Mind-为什么人越多越没人帮忙——旁观者效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Base-UE%E4%B8%8EUnity6%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94/" class="sidebar__item is-active" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Base-UE与Unity6全局光照方案对比</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E4%BC%9A%E7%9B%B8%E4%BF%A1%E8%87%AA%E7%9B%B8%E7%9F%9B%E7%9B%BE%E7%9A%84%E4%BA%8B%E2%80%94%E2%80%94%E8%AE%A4%E7%9F%A5%E5%A4%B1%E8%B0%83/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Mind-为什么人会相信自相矛盾的事——认知失调</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E6%8A%95%E5%85%A5%E8%B6%8A%E9%9A%BE%E6%94%BE%E5%BC%83%E2%80%94%E2%80%94%E6%B2%89%E6%B2%A1%E6%88%90%E6%9C%AC%E8%B0%AC%E8%AF%AF/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Mind-为什么越投入越难放弃——沉没成本谬误</span>
+            </a>
+          
+            
+            <a href="/2026/08/26/Mind-%E4%BA%BA%E7%B1%BB%E7%A4%BE%E4%BC%9A%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%B1%BB%E5%9E%8B/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-25T16:00:00.000Z">08-26</time>
+              <span class="sidebar__post-title">Mind-人类社会的工作类型</span>
+            </a>
+          
+            
+            <a href="/2026/08/21/Design-%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AARoguelike%E6%B8%B8%E6%88%8F/" class="sidebar__item" data-category="Design" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-20T16:00:00.000Z">08-21</time>
+              <span class="sidebar__post-title">Design-如何开发一个Roguelike游戏</span>
+            </a>
+          
+            
+            <a href="/2026/08/20/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%B6%8A%E6%83%B3%E6%94%B9%E5%8F%98%E4%B8%80%E4%B8%AA%E4%BA%BA%E4%BB%96%E8%B6%8A%E4%B8%8D%E5%8F%98%E2%80%94%E2%80%94%E8%87%AA%E6%88%91%E5%86%B3%E5%AE%9A%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-19T16:00:00.000Z">08-20</time>
+              <span class="sidebar__post-title">Mind-为什么你越想改变一个人他越不变——自我决定理论</span>
+            </a>
+          
+            
+            <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-09T16:00:00.000Z">08-10</time>
+              <span class="sidebar__post-title">AI-把高质量画面训练成低配Shader的探索</span>
+            </a>
+          
+            
+            <a href="/2026/08/09/Unity-URP14%E5%8D%87%E7%BA%A7URP17-RenderFeature%E9%80%82%E9%85%8DRenderGraph/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-08T16:00:00.000Z">08-09</time>
+              <span class="sidebar__post-title">Unity-URP14升级URP17-RenderFeature适配RenderGraph</span>
+            </a>
+          
+            
+            <a href="/2026/08/03/Art-%E4%BA%91%E7%9A%84%E5%88%86%E7%B1%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-02T16:00:00.000Z">08-03</time>
+              <span class="sidebar__post-title">Art-云的分类——从国际云图集到观云识天</span>
+            </a>
+          
+            
+            <a href="/2026/07/29/Art-%E6%8E%92%E7%BA%BF%E6%8A%80%E6%B3%95%E5%8F%91%E5%B1%95%E5%8F%B2/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-28T16:00:00.000Z">07-29</time>
+              <span class="sidebar__post-title">Art-排线技法发展史</span>
+            </a>
+          
+            
+            <a href="/2026/07/21/Base-%E6%8A%80%E6%9C%AF%E7%BE%8E%E6%9C%AF%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-20T16:00:00.000Z">07-21</time>
+              <span class="sidebar__post-title">Base-技术美术学习资源与提升路线</span>
+            </a>
+          
+            
+            <a href="/2026/07/20/Base-%E6%8A%80%E6%9C%AF%E7%BE%8E%E6%9C%AF%E7%B4%A0%E6%9D%90%E4%B8%8E%E5%B7%A5%E5%85%B7%E5%BA%93/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-19T16:00:00.000Z">07-20</time>
+              <span class="sidebar__post-title">Base-技术美术素材与工具库</span>
+            </a>
+          
+            
+            <a href="/2026/07/02/Dev-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/" class="sidebar__item" data-category="Dev" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-01T16:00:00.000Z">07-02</time>
+              <span class="sidebar__post-title">Dev-主流跨平台桌面应用技术栈</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Mind-%E6%8A%8A%E7%9B%B4%E8%A7%89%E8%AE%AD%E7%BB%83%E6%88%90%E6%B8%85%E6%A5%9A%E8%A1%A8%E8%BE%BE/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Mind-把直觉训练成清楚表达</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2024">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2023">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            <a href="/2023/01/14/Base-TAA/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-01-13T16:00:00.000Z">01-14</time>
+              <span class="sidebar__post-title">Base-时域抗锯齿 TAA</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2022">2022</div>
+            
+            <a href="/2022/10/04/Dev-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E5%A4%AA%E9%98%B3%E7%B3%BB%E6%A8%A1%E6%8B%9F/" class="sidebar__item" data-category="Dev" data-year="2022">
+              <time class="sidebar__date" datetime="2022-10-03T16:00:00.000Z">10-04</time>
+              <span class="sidebar__post-title">Dev-开源项目-太阳系模拟</span>
+            </a>
+          
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2022">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2021">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2020">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            <a href="/2020/06/04/Dev-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-A%E6%98%9F%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96/" class="sidebar__item" data-category="Dev" data-year="2020">
+              <time class="sidebar__date" datetime="2020-06-03T16:00:00.000Z">06-04</time>
+              <span class="sidebar__post-title">Dev-开源项目-A*算法可视化</span>
+            </a>
+          
+            
+            <a href="/2020/05/29/Dev-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E9%9F%B3%E9%A2%91%E5%8F%AF%E8%A7%86%E5%8C%96/" class="sidebar__item" data-category="Dev" data-year="2020">
+              <time class="sidebar__date" datetime="2020-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Dev-开源项目-音频可视化</span>
+            </a>
+          
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2019">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item" data-category="技术" data-year="2019">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2018">2018</div>
+            
+            <a href="/2018/12/10/Loy-Hexo%E4%BD%BF%E7%94%A8%E5%A4%87%E4%BB%BD/" class="sidebar__item" data-category="Loy" data-year="2018">
+              <time class="sidebar__date" datetime="2018-12-09T16:00:00.000Z">12-10</time>
+              <span class="sidebar__post-title">Loy-Hexo使用备份</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+  <div class="sidebar-resizer" id="globalSidebarResizer" role="separator" aria-label="调整全局目录宽度" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="480" aria-valuenow="320" tabindex="0"></div>
+</aside>
+
+    <main class="main" id="mainContent" tabindex="-1">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-08-27T16:00:00.000Z">2026 年 8 月 28 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/%E5%8E%9F%E7%90%86/">原理</a>
+            
+          </span>
+        
+        
+          
+          <span class="post__views" aria-label="文章阅读量">
+            阅读 <span id="vercount_value_page_pv" data-base="0" aria-live="polite">加载中…</span>
+          </span>
+        
+      </div>
+      <h1 class="post__title">Base-UE与Unity6全局光照方案对比</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E4%BC%98%E5%8C%96/" class="tag">#优化</a>
+          
+            <a href="/tags/%E5%8E%9F%E7%90%86/" class="tag">#原理</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <div class="post-toc__resizer" id="postTocResizer" role="separator" aria-label="调整文章目录宽度" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="420" aria-valuenow="280" tabindex="0"></div>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>全局光照（Global Illumination，GI）是跨引擎比较时最容易吵起来的话题。UE 用户觉得 Lumen 之后这事已经解决了，Unity 用户觉得 APV 的质量和可调性更好，而两边的讨论经常不在同一个层面上——有人说的是间接光能不能实时响应光源移动，有人说的是动态物体接的间接光准不准，还有人把环境反射采样也算进了 GI。</p>
+<p>这篇用一套统一的框架把三个引擎的方案归位：先按「光最终被预计算到哪里」分出四条传输通道，再分别展开 UE4、UE5 与 Unity 6 的具体实现，最后回到对比、症状排查和选型判断。范围是 UE 4.27 及以前、UE 5.x 稳定特性、Unity 6（6000.x）。</p>
+<span id="more"></span>
+
+<h2 id="一、先对齐术语"><a href="#一、先对齐术语" class="headerlink" title="一、先对齐术语"></a>一、先对齐术语</h2><h3 id="GI-的两个组成部分"><a href="#GI-的两个组成部分" class="headerlink" title="GI 的两个组成部分"></a>GI 的两个组成部分</h3><p>GI 等于<strong>间接漫反射</strong>（diffuse indirect）+ <strong>间接镜面反射</strong>（specular indirect）。绝大多数「这里为什么这么亮」「反射为什么不对」的问题，根源都是把这两条链路的来源搞混了。后面每个引擎章节都按这两条分开讲。</p>
+<h3 id="四条光传输通道"><a href="#四条光传输通道" class="headerlink" title="四条光传输通道"></a>四条光传输通道</h3><p>不管哪个引擎，计算间接光的手段最终都落在下面四条通道里。<strong>同一个引擎的不同 GI 方案，区别只是用哪几条通道的组合。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">间接光从哪来<br>├── ① 预计算到表面 —— Lightmap<br>│     把间接光烘进静态几何的 UV2 贴图。质量最高，但只服务静态物体，光源一动全部作废。<br>│     UE4/UE5: Lightmass    Unity 6: Progressive / GPU Lightmapper<br>│<br>├── ② 预计算到体积 —— 探针体系<br>│     把间接光烘进空间中的采样点（球谐系数），运行时插值读取。<br>│     服务对象以动态物体为主，但读取的仍是「烘死的旧光」。<br>│     UE4/UE5: Volumetric Lightmap (+ILC)    Unity 6: APV / Light Probes / LPPV<br>│<br>├── ③ 屏幕空间 —— SSGI / SSR<br>│     用当前帧的深度、法线、颜色在屏幕内做光线步进。<br>│     便宜、无需烘焙，但屏幕外的信息永远缺失，物体一转出画面间接光就断。<br>│     UE4/UE5: SSGI（实验性/回退）    Unity 6: SSR（仅镜面）<br>│<br>└── ④ 光追 —— RTGI / Lumen<br>      真正的光线求交，可覆盖屏幕外，能响应动态光源与动态几何。<br>      分软件追踪（SDF/体素）与硬件追踪（DXR / RT Core）两条实现路径。<br>      UE4: RTGI（DXR）    UE5: Lumen（软件 SDF 为主，可选硬件光追）<br>      Unity 6: HDRP 射线追踪 GI（DXR，可选）<br></code></pre></td></tr></table></figure>
+
+<p>读法是：①② 是烘焙，静态质量高但不响应光源变化；③ 是近似实时，成本低但信息不完整；④ 是真实时，质量和成本都最高。一个引擎可以同时用多条通道，比如 UE5 用 ④ Lumen 做主线、用 ① Lightmap 对关键静态区域补强。</p>
+<h3 id="烘焙与实时的边界"><a href="#烘焙与实时的边界" class="headerlink" title="烘焙与实时的边界"></a>烘焙与实时的边界</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>烘焙（通道 ①②）</th>
+<th>实时（通道 ③④）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>计算时机</td>
+<td>编辑器 &#x2F; 构建阶段</td>
+<td>运行时每帧</td>
+</tr>
+<tr>
+<td>光源移动</td>
+<td>必须重新烘焙</td>
+<td>自动响应</td>
+</tr>
+<tr>
+<td>静态物体质量</td>
+<td>最高（可做高精度多次弹射）</td>
+<td>一般（受采样数与时序约束）</td>
+</tr>
+<tr>
+<td>动态物体</td>
+<td>需要探针体系承接</td>
+<td>天然支持</td>
+</tr>
+<tr>
+<td>迭代成本</td>
+<td>烘焙耗时 + 内存</td>
+<td>调参即时，但吃 GPU</td>
+</tr>
+<tr>
+<td>硬件门槛</td>
+<td>低（移动端可用）</td>
+<td>高（尤其硬件光追）</td>
+</tr>
+</tbody></table>
+<h3 id="IBL-不是-GI"><a href="#IBL-不是-GI" class="headerlink" title="IBL 不是 GI"></a>IBL 不是 GI</h3><p>IBL（Image-Based Lighting，基于图像的光照）是采样一张环境 Cubemap，用来近似环境镜面反射和一部分天空漫反射。它不计算光在场景中的传播，也不响应场景内光源的位置与强度变化。</p>
+<p>所以 <strong>SkyLight、Reflection Capture、Reflection Probe 都属于 IBL，不是 GI 系统</strong>。它们能做的是「让金属看起来有环境反射」，做不了「红色窗帘把墙染红」这种间接光耦合。</p>
+<h3 id="探针的三种数据来源"><a href="#探针的三种数据来源" class="headerlink" title="探针的三种数据来源"></a>探针的三种数据来源</h3><p>三套引擎都有「探针」，但数据来源完全不同，这直接决定了质量上限：</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>数据从哪来</th>
+<th>代表</th>
+<th>质量特征</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>从场景光烘焙</td>
+<td>Lightmapper 把真实光路烘到探针</td>
+<td>UE4&#x2F;UE5 VLM、Unity 6 APV</td>
+<td>最高，是真正的烘焙 GI</td>
+</tr>
+<tr>
+<td>从别的探针插值</td>
+<td>二次插值已有探针数据</td>
+<td>Unity LPPV、UE4 ILC 的采样阶段</td>
+<td>精度受源数据限制，只能加密不能提质</td>
+</tr>
+<tr>
+<td>从探针到物体插值</td>
+<td>在物体采样点读取体积数据</td>
+<td>UE4 ILC</td>
+<td>服务动态物体，精度受体素与探针密度限制</td>
+</tr>
+</tbody></table>
+<p>这条区分很关键：<strong>APV 之所以比 UE4 的 VLM+ILC 质量好，一半靠视差校正，另一半靠它直接从光烘出来、少一层插值。</strong></p>
+<h2 id="二、UE-的方案全景"><a href="#二、UE-的方案全景" class="headerlink" title="二、UE 的方案全景"></a>二、UE 的方案全景</h2><p>UE4 和 UE5 的 GI 体系是<strong>继承 + 换主干</strong>的关系：烘焙那套（Lightmap、VLM、Reflection Capture、SSGI）几乎原样保留，UE5 在其上加了 Lumen 作为默认实时 GI 主干。</p>
+<h3 id="架构总览"><a href="#架构总览" class="headerlink" title="架构总览"></a>架构总览</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">【UE4 路线】烘焙主干 + 实验性/硬件光追补丁<br>场景间接光<br>├── 漫反射<br>│   ├── 静态物体 → Lightmap（Lightmass 烘焙，UV2）          [通道 ①]<br>│   ├── 动态物体 → Volumetric Lightmap + ILC               [通道 ②]<br>│   └── 实时选项 → SSGI / LPV / DFGI（实验）/ RTGI（DXR）    [通道 ③④]<br>└── 镜面反射<br>    ├── 烘焙 → Reflection Capture / SkyLight（IBL）         [非 GI]<br>    └── 实时 → Planar Reflection / RTGI 的镜面部分<br><br>【UE5 路线】Lumen 主干 + 烘焙路线可选保留<br>场景间接光<br>├── 漫反射<br>│   ├── 默认 → Lumen（屏幕空间 + Surface Cache/SDF + 可选硬件光追）  [通道 ③+④]<br>│   ├── 可选 → Lightmap（Lightmass / GPU Lightmass）        [通道 ①]<br>│   └── 回退 → SSGI                                        [通道 ③]<br>└── 镜面反射<br>    ├── 默认 → Lumen Reflections（可回退 SSR / Reflection Capture）<br>    └── 可选 → Reflection Capture + SkyLight（IBL）<br></code></pre></td></tr></table></figure>
+
+<h3 id="Lightmap：静态物体的间接光"><a href="#Lightmap：静态物体的间接光" class="headerlink" title="Lightmap：静态物体的间接光"></a>Lightmap：静态物体的间接光</h3><p>Lightmass 把直接光与多次弹射的间接光烘焙到静态几何的 UV2 通道，服务对象是 Static &#x2F; Stationary 光照模式下的静态部分。限制很明确：UV2 必须合理布局，接缝与拉伸会直接表现为脏迹，光源一移动就得重烘。</p>
+<p>UE4 到 UE5 的变化有三点：引入了基于 DXR 的 <strong>GPU Lightmass</strong>，烘焙速度大幅提升且支持更多次间接弹射；支持 <strong>Virtual Texture 的 Lightmap</strong>，超大场景可以按需流送以缓解显存压力；定位从「唯一主干」降级为「可选路线」，与 Lumen 二选一。</p>
+<h3 id="Volumetric-Lightmap-与-ILC：动态物体的间接光"><a href="#Volumetric-Lightmap-与-ILC：动态物体的间接光" class="headerlink" title="Volumetric Lightmap 与 ILC：动态物体的间接光"></a>Volumetric Lightmap 与 ILC：动态物体的间接光</h3><ul>
+<li><strong>VLM（Volumetric Lightmap）</strong>：Lightmass 烘焙出的体素化间接光探针，采用「格子（Cell）+ 砖块（Brick）」的层级结构——光照变化剧烈处拆细、平坦区域合并，存储球谐（Spherical Harmonics，SH）系数。</li>
+<li><strong>ILC（Indirect Lighting Cache）</strong>：可移动物体不直接做逐像素体积采样，而是通过 ILC 在物体采样点上做空间插值，质量分三档：<code>Volume Lightmap</code>（多个采样点，物体移动时更新）、<code>Volume</code>（每个物体一个插值点，最省也最差）、<code>None</code>（不接间接光）。</li>
+<li><strong>一个常见误解</strong>：ILC 不是时间累积缓冲，<strong>本身不产生拖影</strong>。它的问题是「采样点密度低 + 更新不是每帧全量」，导致快速移动物体的间接光跳变或滞后。真正的时序拖影在 Lumen 那一侧。</li>
+<li><strong>没有视差校正</strong>：动态物体贴墙时无法把采样点约束回有效体积内，因此漏光、发暗是这个方案的固有问题。</li>
+<li><strong>在 UE5 中的状态</strong>：VLM + ILC 仍然完整存在，但一旦启用 Lumen，动态物体的间接光就由 Lumen 接管，VLM 基本退居为「不启用 Lumen 时的旧路径」。</li>
+</ul>
+<h3 id="UE4-的三条实验性捷径"><a href="#UE4-的三条实验性捷径" class="headerlink" title="UE4 的三条实验性捷径"></a>UE4 的三条实验性捷径</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>原理</th>
+<th>为什么没成主流</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>LPV</strong>（Light Propagation Volumes）</td>
+<td>场景体素化后用球谐在体素格间传播光</td>
+<td>漏光严重、遮挡不准、质量粗糙，只适合大范围低频照明</td>
+</tr>
+<tr>
+<td><strong>DFGI</strong>（Distance Field GI）</td>
+<td>基于 Mesh Distance Field 做体素光传播</td>
+<td>噪点多、边缘泄漏、性能波动大，UE5 中已由 Lumen 取代</td>
+</tr>
+<tr>
+<td><strong>DFAO</strong>（Distance Field AO）</td>
+<td>用距离场做环境光遮蔽</td>
+<td>只是 AO 近似，<strong>不是 GI</strong>，不含颜色弹射；UE5 中仍可用于低成本 AO</td>
+</tr>
+</tbody></table>
+<p>三者在 UE5 中的实际定位：DFAO 仍有价值（便宜的大尺度 AO），LPV 与 DFGI 已被 Lumen 取代，不建议在新项目中考虑。</p>
+<h3 id="SSGI：屏幕空间-GI"><a href="#SSGI：屏幕空间-GI" class="headerlink" title="SSGI：屏幕空间 GI"></a>SSGI：屏幕空间 GI</h3><p>基于深度与法线在屏幕空间做光线步进，近似间接漫反射。局限也明确：只覆盖画面内可见的像素，屏幕外信息缺失，镜头一转间接光就跳；噪点需要降噪处理。</p>
+<p>UE4 中它是实验功能。<strong>UE5 中的定位变了</strong>：不再是「实时 GI 的备选」，而是关闭 Lumen 时的低成本回退（<code>r.Lumen.DiffuseIndirect.Allow=0</code> 之后由 SSGI 兜底）。</p>
+<h3 id="Reflection-Capture、SkyLight-与-Planar-Reflection"><a href="#Reflection-Capture、SkyLight-与-Planar-Reflection" class="headerlink" title="Reflection Capture、SkyLight 与 Planar Reflection"></a>Reflection Capture、SkyLight 与 Planar Reflection</h3><ul>
+<li><strong>Reflection Capture</strong>：手动放置的 Cubemap 捕获点，负责局部镜面反射，摆放位置不对就会反射错位。</li>
+<li><strong>SkyLight</strong>：天空环境 Cubemap，同时提供天空的漫反射（作为 GI 的一个来源）与镜面贡献。</li>
+<li><strong>Planar Reflection</strong>：平面镜面反射（水面、地面），质量高但成本随平面数量线性增长。</li>
+</ul>
+<p>三者中只有 SkyLight 的漫反射部分参与 GI，其余都是 IBL 近似。</p>
+<h3 id="硬件光追-RTGI"><a href="#硬件光追-RTGI" class="headerlink" title="硬件光追 RTGI"></a>硬件光追 RTGI</h3><p>利用 DXR 对光线做硬件求交，可以得到真正实时的漫反射与镜面间接光。要求是 RTX 系或兼容 DXR 的显卡，并且要开启 Ray Tracing 项目设置，移动端与低端机不可用。</p>
+<p>在 UE4 中它是可选增强，需要自己搭 Denoiser、降噪与采样策略，工程成本不低。在 UE5 中它不再单独暴露为「RTGI」，而是<strong>作为 Lumen 的硬件追踪后端（Lumen HWRT）</strong>。这条演进很重要：UE5 把硬件光追从一个独立方案变成了 Lumen 的一个质量档。</p>
+<h3 id="Lumen：引擎级实时-GI"><a href="#Lumen：引擎级实时-GI" class="headerlink" title="Lumen：引擎级实时 GI"></a>Lumen：引擎级实时 GI</h3><p>Lumen 是 UE5 的默认 GI 方案，也是目前三大引擎中唯一开箱即用的完整实时 GI。它的追踪分三层，按可用性逐级回退：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>作用</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>屏幕空间追踪</td>
+<td>最高优先级，最精确</td>
+<td>对屏幕内可见几何做射线步进，质量与速度最好，屏幕外无效</td>
+</tr>
+<tr>
+<td>Surface Cache + Mesh SDF</td>
+<td>兜底屏幕外信息</td>
+<td>每个网格预生成 6 面卡片缓存 albedo&#x2F;normal&#x2F;depth&#x2F;emissive，配合网格距离场做软件追踪；Nanite 网格的卡片精度显著更高</td>
+</tr>
+<tr>
+<td>硬件光追（可选）</td>
+<td>质量上限</td>
+<td>开启后由 DXR 承担追踪，遮挡最准，成本最高</td>
+</tr>
+</tbody></table>
+<p>几个关键事实：</p>
+<ul>
+<li>漫反射与镜面都由 Lumen 接管。开启 Lumen 后，Reflection Capture 与 SSR 退化为回退方案。</li>
+<li>能响应动态光源与动态几何，这是它与烘焙方案的本质差别。</li>
+<li><strong>不强制要求 RTX 显卡</strong>，默认走软件 SDF 追踪，硬件光追是可选项。</li>
+<li><strong>强依赖时序累积</strong>：输出经过时序降噪，因此高度依赖 TSR&#x2F;TAA。关闭时序抗锯齿会看到明显噪点与闪烁。</li>
+<li><strong>不需要 UV2</strong>，这是相对 Lightmap 工作流的一大解放，美术不必再为间接光维护第二套 UV。</li>
+</ul>
+<p>能力限制也要提前知道：</p>
+<table>
+<thead>
+<tr>
+<th>限制</th>
+<th>表现</th>
+<th>规避方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>薄几何 &#x2F; 小物件质量差</td>
+<td>栅栏、叶片、绳索的间接光与遮挡不准</td>
+<td>关键物件加厚几何，或用 Nanite 提升卡片精度</td>
+</tr>
+<tr>
+<td>半透明 GI 受限</td>
+<td>玻璃后的间接光不准（5.1+ 有改善）</td>
+<td>关键区域补光，或改用不透明近似</td>
+</tr>
+<tr>
+<td>移动端不支持</td>
+<td>移动端无法启用 Lumen（截至 5.x）</td>
+<td>回退烘焙路线</td>
+</tr>
+<tr>
+<td>时序噪点 &#x2F; 拖影</td>
+<td>快速运动的物体或光源有滞后感</td>
+<td>提高 TSR 质量、加大追踪距离、避免剧烈光照变化</td>
+</tr>
+<tr>
+<td>非 Nanite 网格精度低</td>
+<td>传统网格的 Surface Cache 卡片较粗</td>
+<td>关键资产转 Nanite，或调高卡片分辨率</td>
+</tr>
+<tr>
+<td>大世界开销高</td>
+<td>远处 GI 成本高</td>
+<td>用追踪距离参数做分级</td>
+</tr>
+</tbody></table>
+<h3 id="MegaLights-不是-GI"><a href="#MegaLights-不是-GI" class="headerlink" title="MegaLights 不是 GI"></a>MegaLights 不是 GI</h3><p>UE5.5+ 的 MegaLights 支持大量动态光源（成百上千个点光&#x2F;聚光）与软阴影，解决的是传统延迟管线光源数量上限的问题。<strong>它只负责直接光与阴影，间接光仍由 Lumen 承担</strong>，两者是互补关系，不是替代关系。截至 5.x 仍属实验与逐步成熟阶段，接入前需要评估。</p>
+<h3 id="UE-的路线选择：Lightmap-还是-Lumen"><a href="#UE-的路线选择：Lightmap-还是-Lumen" class="headerlink" title="UE 的路线选择：Lightmap 还是 Lumen"></a>UE 的路线选择：Lightmap 还是 Lumen</h3><p>这是 UE 项目最关键的 GI 决策，两者不能叠加——同一区域的间接光只会由一条主线负责。</p>
+<table>
+<thead>
+<tr>
+<th>判断条件</th>
+<th>选 Lightmap（烘焙）</th>
+<th>选 Lumen（实时）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>目标平台</td>
+<td>移动端、低端 PC、主机需极致性能</td>
+<td>PC &#x2F; 次世代主机</td>
+</tr>
+<tr>
+<td>光照是否动态</td>
+<td>固定</td>
+<td>昼夜循环、可破坏、光源可移动</td>
+</tr>
+<tr>
+<td>美术成本</td>
+<td>愿意承担 UV2 + 烘焙时间</td>
+<td>不愿维护 UV2，接受时序噪点</td>
+</tr>
+<tr>
+<td>极高质量静态静帧</td>
+<td>更优（离线多次弹射）</td>
+<td>一般</td>
+</tr>
+<tr>
+<td>迭代速度</td>
+<td>慢（每次改光要重烘）</td>
+<td>快（即时可见）</td>
+</tr>
+<tr>
+<td>显存 &#x2F; 性能预算</td>
+<td>更省</td>
+<td>更吃</td>
+</tr>
+</tbody></table>
+<p>实践中常见的折中是：主线用 Lumen，局部关键区域用 Lightmap 或补光做质量补强；或者主线用 Lightmap，动态物体走 VLM+ILC（等同 UE4 路线）。</p>
+<h3 id="UE4-与-UE5-的能力边界"><a href="#UE4-与-UE5-的能力边界" class="headerlink" title="UE4 与 UE5 的能力边界"></a>UE4 与 UE5 的能力边界</h3><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>UE4（≤4.27）</th>
+<th>UE5（5.x）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>动态光源影响静态间接光</td>
+<td>默认不支持（需重烘）</td>
+<td>Lumen 实时</td>
+</tr>
+<tr>
+<td>动态光源影响动态物体间接光</td>
+<td>仅 RTGI 可行</td>
+<td>Lumen 实时</td>
+</tr>
+<tr>
+<td>动态几何影响间接光</td>
+<td>不支持</td>
+<td>Lumen 支持</td>
+</tr>
+<tr>
+<td>半透明物体间接光</td>
+<td>不支持</td>
+<td>受限（5.1+ 改善）</td>
+</tr>
+<tr>
+<td>移动端实时 GI</td>
+<td>不支持</td>
+<td>不支持（Lumen 不支持移动端）</td>
+</tr>
+<tr>
+<td>默认路径</td>
+<td>烘焙 + IBL 近似</td>
+<td>Lumen 实时</td>
+</tr>
+<tr>
+<td>硬件光追定位</td>
+<td>独立可选项，需自建管线</td>
+<td>Lumen 的质量后端</td>
+</tr>
+<tr>
+<td>质量稳定性</td>
+<td>高（离线烘焙无噪点）</td>
+<td>中（时序噪点需调优）</td>
+</tr>
+</tbody></table>
+<h2 id="三、Unity-6-的方案全景"><a href="#三、Unity-6-的方案全景" class="headerlink" title="三、Unity 6 的方案全景"></a>三、Unity 6 的方案全景</h2><h3 id="架构总览-1"><a href="#架构总览-1" class="headerlink" title="架构总览"></a>架构总览</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs plaintext">场景间接光<br>├── 漫反射<br>│   ├── 静态物体 → Lightmap（Progressive / GPU Lightmapper）    [通道 ①]<br>│   ├── 动态物体 → APV（Adaptive Probe Volumes，主推）          [通道 ②]<br>│   │              ├── 取代传统 Light Probes（旧）<br>│   │              └── 取代 LPPV（过渡方案，旧）<br>│   └── 可选实时 → HDRP 射线追踪 GI（DXR，非默认路径）           [通道 ④]<br>└── 镜面反射<br>    ├── 烘焙 → Reflection Probes（Cubemap，IBL）                [非 GI]<br>    ├── 实时 → SSR（HDRP；URP 需通过 Renderer Feature）<br>    └── 可选实时 → HDRP 射线追踪反射<br></code></pre></td></tr></table></figure>
+
+<h3 id="Enlighten-的现状"><a href="#Enlighten-的现状" class="headerlink" title="Enlighten 的现状"></a>Enlighten 的现状</h3><p>Enlighten 的实时 GI 已经在 Unity 6 中移除。它是「预计算 + 运行时快速重建」的方案，能响应光源旋转，但预计算时间长、内存占用大、移动端受限。Enlighten 的烘焙部分同样在逐步退出，官方推荐 Progressive Lightmapper 与 GPU Lightmapper。</p>
+<p>后果是：<strong>Unity 6 的默认 GI 全链路都是烘焙的，运行时只做读取与插值</strong>。这是它与 UE5 最大的路线差异。</p>
+<h3 id="Lightmap-烘焙"><a href="#Lightmap-烘焙" class="headerlink" title="Lightmap 烘焙"></a>Lightmap 烘焙</h3><p>数据源有两个：Progressive Lightmapper（CPU，可增量、可边改边烘）和 GPU Lightmapper（快，需要支持的显卡）。服务对象是 Baked &#x2F; Mixed 光照模式下的静态物体，限制同样是 UV2 必须展开、光源变化需重烘、不支持动态物体承接。</p>
+<p>需要留意的是 Mixed 模式：方向光的直接光与阴影可以走实时 Shadowmap，但<strong>间接光永远是烘焙的</strong>。</p>
+<h3 id="传统-Light-Probes-与-LPPV（均已过时）"><a href="#传统-Light-Probes-与-LPPV（均已过时）" class="headerlink" title="传统 Light Probes 与 LPPV（均已过时）"></a>传统 Light Probes 与 LPPV（均已过时）</h3><p>Light Probes 是手动放置在场景中的球谐探针组，为动态物体提供间接光。硬伤是密度固定、需手工摆放、没有视差校正，因此贴墙时漏光或发暗。Unity 6 中官方推荐用 APV 取代，但 Light Probes 仍作为 APV 体积之外区域的兜底存在。</p>
+<p>LPPV（Light Probe Proxy Volume）是过渡方案：在局部区域放置代理体积，用虚拟探针插值已有 Light Probes 数据，提供局部更高密度的间接光。它本身不参与烘焙，只是对现有数据的二次插值，精度受制于源探针，且同样没有视差校正，已被 APV 取代。</p>
+<h3 id="APV：Unity-6-的-GI-主干"><a href="#APV：Unity-6-的-GI-主干" class="headerlink" title="APV：Unity 6 的 GI 主干"></a>APV：Unity 6 的 GI 主干</h3><p>APV（Adaptive Probe Volumes，自适应探针体积）是 Unity 6 中动态物体间接光的标准方案，也是这套体系里工程质量最高的一环。</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>数据来源</td>
+<td>Lightmapper 直接把场景真实间接光烘到探针，<strong>不是从别的探针插值</strong></td>
+</tr>
+<tr>
+<td>自适应密度</td>
+<td>光照变化剧烈处自动加密，平坦处放疏，比手动摆放高效得多</td>
+</tr>
+<tr>
+<td>视差校正</td>
+<td>采样点被约束回探针的有效体积内，显著改善贴墙与半封闭空间的漏光发暗</td>
+</tr>
+<tr>
+<td>Sky Occlusion</td>
+<td>额外烘焙一层天空可见度，改善开口区域的天空光遮挡（需单独开启，有额外烘焙成本）</td>
+</tr>
+<tr>
+<td>Baking Sets</td>
+<td>把不同区域的探针与光照拆成独立烘焙任务，支持团队并行与局部重烘</td>
+</tr>
+<tr>
+<td>Scenario Blending</td>
+<td>烘焙多套光照情境（白天&#x2F;夜晚&#x2F;黄昏），运行时按权重混合</td>
+</tr>
+<tr>
+<td>Streaming</td>
+<td>大场景探针数据可分包按需加载，控制内存峰值</td>
+</tr>
+<tr>
+<td>多 Volume</td>
+<td>多个 Volume 叠加覆盖不同区域，交界处混合过渡</td>
+</tr>
+<tr>
+<td>调试视图</td>
+<td>Validity &#x2F; Density &#x2F; Diffuse 等专用视图，可直接看出哪里探针无效、哪里密度不够</td>
+</tr>
+</tbody></table>
+<p>APV 的边界要说清楚：<strong>它是烘焙方案，不是实时 GI</strong>。Scenario Blending 解决的是「在几套预设之间过渡」，不是「光源可以随便动」。真正的自由昼夜循环仍然需要 HDRP 射线追踪或外部方案。</p>
+<h3 id="反射探针与-SSR"><a href="#反射探针与-SSR" class="headerlink" title="反射探针与 SSR"></a>反射探针与 SSR</h3><p>Reflection Probes 是烘焙的 Cubemap（IBL），负责局部镜面反射，需要合理摆放与混合。SSR 在 HDRP 中内置，URP 通过 Renderer Feature 提供，可用性随版本变化，需按目标版本确认。SSR 只覆盖画面内可见像素，且只解决镜面反射，<strong>不是 GI</strong>。</p>
+<h3 id="HDRP-射线追踪-GI"><a href="#HDRP-射线追踪-GI" class="headerlink" title="HDRP 射线追踪 GI"></a>HDRP 射线追踪 GI</h3><p>这里要纠正一个常见误解：<strong>Unity 6 并非完全没有实时 GI 能力</strong>，只是它不在默认路径上。</p>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>可用性</td>
+<td>仅 HDRP，需 DX12 与支持 DXR 的硬件</td>
+</tr>
+<tr>
+<td>能力</td>
+<td>射线追踪的间接漫反射、镜面反射、阴影、AO、递归渲染等</td>
+</tr>
+<tr>
+<td>定位</td>
+<td>可选增强，需自行配置加速结构、降噪与采样</td>
+</tr>
+<tr>
+<td>成熟度</td>
+<td>中等：缺少 Lumen 那种「屏幕空间 + 兜底缓存」的完整混合回退体系</td>
+</tr>
+<tr>
+<td>移动端</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>参考渲染</td>
+<td>HDRP 的 Path Tracer 可生成离线参考图用于对拍，不用于实时</td>
+</tr>
+</tbody></table>
+<p>准确的表述是：Unity 6 的<strong>默认 GI 路线是烘焙</strong>，实时 GI 只在 HDRP + DXR 硬件这条窄路径上可用，成熟度与易用性明显低于 UE5 Lumen。</p>
+<h3 id="Unity-6-的能力边界"><a href="#Unity-6-的能力边界" class="headerlink" title="Unity 6 的能力边界"></a>Unity 6 的能力边界</h3><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>支持情况</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>动态光源影响静态间接光</td>
+<td>不支持（需重烘，或 Scenario Blending 在预设间切换）</td>
+</tr>
+<tr>
+<td>动态光源影响动态物体间接光</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>动态几何影响间接光</td>
+<td>不支持</td>
+</tr>
+<tr>
+<td>实时镜面反射</td>
+<td>SSR（屏幕空间，有局限）&#x2F; HDRP 射线追踪反射</td>
+</tr>
+<tr>
+<td>实时漫反射 GI</td>
+<td>仅 HDRP + DXR 射线追踪 GI</td>
+</tr>
+<tr>
+<td>移动端</td>
+<td>烘焙路线完整可用</td>
+</tr>
+</tbody></table>
+<h2 id="四、三方核心对比"><a href="#四、三方核心对比" class="headerlink" title="四、三方核心对比"></a>四、三方核心对比</h2><h3 id="总表"><a href="#总表" class="headerlink" title="总表"></a>总表</h3><table>
+<thead>
+<tr>
+<th>维度</th>
+<th>UE4</th>
+<th>UE5</th>
+<th>Unity 6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>默认 GI 主干</td>
+<td>烘焙</td>
+<td>Lumen 实时</td>
+<td>烘焙</td>
+</tr>
+<tr>
+<td>静态漫反射间接光</td>
+<td>Lightmap</td>
+<td>Lightmap 或 Lumen</td>
+<td>Lightmap</td>
+</tr>
+<tr>
+<td>动态漫反射间接光</td>
+<td>VLM + ILC</td>
+<td>Lumen</td>
+<td>APV</td>
+</tr>
+<tr>
+<td>探针数据来源</td>
+<td>烘焙（从光）</td>
+<td>烘焙（从光）&#x2F; Lumen 实时</td>
+<td>烘焙（从光）</td>
+</tr>
+<tr>
+<td>探针密度</td>
+<td>格子 + 砖块稀疏化</td>
+<td>同 UE4</td>
+<td>自适应</td>
+</tr>
+<tr>
+<td>视差校正</td>
+<td>无</td>
+<td>不适用（实时计算）</td>
+<td>有</td>
+</tr>
+<tr>
+<td>动态光源响应</td>
+<td>仅 RTGI</td>
+<td>Lumen</td>
+<td>无（仅 Scenario Blending 离散切换）</td>
+</tr>
+<tr>
+<td>动态几何响应</td>
+<td>无</td>
+<td>Lumen</td>
+<td>无</td>
+</tr>
+<tr>
+<td>默认镜面反射</td>
+<td>Reflection Capture（IBL）</td>
+<td>Lumen Reflections</td>
+<td>Reflection Probes（IBL）</td>
+</tr>
+<tr>
+<td>实时镜面反射</td>
+<td>RTGI &#x2F; Planar</td>
+<td>Lumen &#x2F; SSR 回退</td>
+<td>SSR &#x2F; HDRP 射线追踪</td>
+</tr>
+<tr>
+<td>半透明 GI</td>
+<td>无</td>
+<td>受限</td>
+<td>无</td>
+</tr>
+<tr>
+<td>移动端</td>
+<td>烘焙可用</td>
+<td>Lumen 不可用</td>
+<td>烘焙可用</td>
+</tr>
+<tr>
+<td>时序噪点</td>
+<td>无（烘焙）</td>
+<td>有（需 TSR 配合）</td>
+<td>无（烘焙）</td>
+</tr>
+<tr>
+<td>烘焙迭代速度</td>
+<td>慢</td>
+<td>快（GPU Lightmass）&#x2F; 无需烘焙（Lumen）</td>
+<td>中（Progressive 可增量）</td>
+</tr>
+<tr>
+<td>调试可观测性</td>
+<td>弱（偏黑盒）</td>
+<td>中（Lumen 有可视化视图）</td>
+<td>强（APV 专用调试视图）</td>
+</tr>
+</tbody></table>
+<h3 id="动态物体间接光：三套实现的机理差异"><a href="#动态物体间接光：三套实现的机理差异" class="headerlink" title="动态物体间接光：三套实现的机理差异"></a>动态物体间接光：三套实现的机理差异</h3><ul>
+<li><strong>UE4（VLM + ILC）</strong>：体积体素（烘焙）→ 物体采样点插值。精度受体素密度与 ILC 质量档限制，无视差校正，贴墙发暗。</li>
+<li><strong>UE5（Lumen）</strong>：实时追踪（屏幕空间 + Surface Cache&#x2F;SDF + 可选 HWRT）。响应即时，但带时序噪点，薄几何精度差。</li>
+<li><strong>Unity 6（APV）</strong>：体积探针（烘焙，直接从光烘出）→ 带视差校正的采样。读取层面响应即时，但光源一动就失效，贴墙质量最好。</li>
+</ul>
+<p>一句话概括：<strong>UE4 的问题是「旧光 + 没校正」，UE5 的问题是「实时但有时序代价」，Unity 6 的问题是「质量好但光不能动」。</strong></p>
+<h3 id="贴墙与半封闭空间的质量"><a href="#贴墙与半封闭空间的质量" class="headerlink" title="贴墙与半封闭空间的质量"></a>贴墙与半封闭空间的质量</h3><p>这是 TA 最常撞上的一类问题，三个引擎叫法不同，根因是同一件事：<strong>采样点落在墙外或落在无效体积里，间接光取到了错误的值。</strong></p>
+<table>
+<thead>
+<tr>
+<th>引擎</th>
+<th>现象</th>
+<th>机制原因</th>
+<th>缓解手段</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unity 6 APV</td>
+<td>墙面黑块 &#x2F; 探针无效</td>
+<td>探针落在几何内部或体积外</td>
+<td>视差校正 + Validity 调试视图，可定位可修</td>
+</tr>
+<tr>
+<td>UE4 VLM+ILC</td>
+<td>贴墙发暗 &#x2F; 漏光</td>
+<td>无视差校正，采样点越界</td>
+<td>调高 ILC 质量、加补光、改探针密度；无专用视图，偏经验排查</td>
+</tr>
+<tr>
+<td>UE5 Lumen</td>
+<td>不是黑块，而是噪点 &#x2F; 拖影 &#x2F; 薄几何漏光</td>
+<td>SDF 精度不足、时序收敛不够</td>
+<td>加厚几何、转 Nanite、提高 TSR 质量、调追踪距离</td>
+</tr>
+</tbody></table>
+<p>同一个问题在三个引擎里有三套名字和三个数量级的排查难度。Unity 6 的 APV 调试视图是目前最好用的定位工具，UE4 基本靠经验，而 UE5 的问题性质已经变了——从「数据错」变成了「收敛不够」。</p>
+<h3 id="调试与可观测性"><a href="#调试与可观测性" class="headerlink" title="调试与可观测性"></a>调试与可观测性</h3><table>
+<thead>
+<tr>
+<th>需求</th>
+<th>UE4</th>
+<th>UE5</th>
+<th>Unity 6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>查看探针有效性</td>
+<td>无</td>
+<td>无（Lumen 不适用）</td>
+<td>APV Validity 视图</td>
+</tr>
+<tr>
+<td>查看探针密度</td>
+<td>无</td>
+<td>无</td>
+<td>APV Density 视图</td>
+</tr>
+<tr>
+<td>查看追踪与采样</td>
+<td>无</td>
+<td>Lumen 可视化视图</td>
+<td>APV 调试视图</td>
+</tr>
+<tr>
+<td>烘焙结果检查</td>
+<td>Show Flags &#x2F; Lightmap density</td>
+<td>同上 + GPU Lightmass 预览</td>
+<td>Lightmap Preview</td>
+</tr>
+<tr>
+<td>逐像素 GI 对拍</td>
+<td>Path Tracer（离线参考）</td>
+<td>Path Tracer（离线参考）</td>
+<td>HDRP Path Tracer（离线参考）</td>
+</tr>
+</tbody></table>
+<h3 id="性能与成本档位"><a href="#性能与成本档位" class="headerlink" title="性能与成本档位"></a>性能与成本档位</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>运行时成本</th>
+<th>烘焙成本</th>
+<th>显存占用</th>
+<th>硬件门槛</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unity 6 Lightmap + APV</td>
+<td>低</td>
+<td>中（探针 + Lightmap）</td>
+<td>中（探针可 Streaming）</td>
+<td>低，移动端可用</td>
+</tr>
+<tr>
+<td>UE4 Lightmap + VLM</td>
+<td>低</td>
+<td>中</td>
+<td>中</td>
+<td>低，移动端可用</td>
+</tr>
+<tr>
+<td>UE4 SSGI</td>
+<td>中</td>
+<td>无</td>
+<td>低</td>
+<td>低</td>
+</tr>
+<tr>
+<td>UE4 RTGI（DXR）</td>
+<td>高</td>
+<td>无</td>
+<td>高（加速结构）</td>
+<td>RTX 级</td>
+</tr>
+<tr>
+<td>UE5 Lumen（软件 SDF）</td>
+<td>中高</td>
+<td>无（但要构建距离场）</td>
+<td>中</td>
+<td>非 RTX 可用</td>
+</tr>
+<tr>
+<td>UE5 Lumen（硬件光追）</td>
+<td>高</td>
+<td>无</td>
+<td>高</td>
+<td>RTX 级</td>
+</tr>
+<tr>
+<td>Unity 6 HDRP 射线追踪 GI</td>
+<td>高</td>
+<td>无</td>
+<td>高</td>
+<td>RTX 级 + DX12</td>
+</tr>
+</tbody></table>
+<p>一个实用判断：<strong>12 GB 级显存能不能开硬件光追，通常取决于加速结构 + Surface Cache &#x2F; 反射分辨率的总和，而不是单一开关。</strong> 先用软件路径跑通质量基线，再逐项开硬件追踪，比一上来全开更容易定位瓶颈。</p>
+<h3 id="工作流与迭代速度"><a href="#工作流与迭代速度" class="headerlink" title="工作流与迭代速度"></a>工作流与迭代速度</h3><ul>
+<li><strong>Unity 6</strong>：APV 自动化程度高（拖 Volume、自动自适应密度），配合调试视图形成「烘焙 → 看问题 → 修」的闭环，迭代体验最好。</li>
+<li><strong>UE4</strong>：VLM 偏黑盒，排查靠经验，Reflection Capture 需手动摆放，整体迭代慢。</li>
+<li><strong>UE5</strong>：Lumen 改光即时可见，迭代最快；代价是要处理噪点、时序与性能调优，属于「另一种工作量」。</li>
+</ul>
+<h2 id="五、能力边界与选型"><a href="#五、能力边界与选型" class="headerlink" title="五、能力边界与选型"></a>五、能力边界与选型</h2><h3 id="什么时候「必须」用真·实时-GI"><a href="#什么时候「必须」用真·实时-GI" class="headerlink" title="什么时候「必须」用真·实时 GI"></a>什么时候「必须」用真·实时 GI</h3><table>
+<thead>
+<tr>
+<th>需求</th>
+<th>必须实时 GI 吗</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>光源固定，只调场景物件</td>
+<td>否</td>
+<td>烘焙完全够用</td>
+</tr>
+<tr>
+<td>昼夜时间循环，光源旋转</td>
+<td>是</td>
+<td>烘焙无法满足；Unity 可退而用 Scenario Blending 做离散预设</td>
+</tr>
+<tr>
+<td>可破坏场景 &#x2F; 动态遮挡改变间接光</td>
+<td>是</td>
+<td>需要实时追踪</td>
+</tr>
+<tr>
+<td>角色在静态场景中移动</td>
+<td>否</td>
+<td>APV &#x2F; VLM+ILC 足够</td>
+</tr>
+<tr>
+<td>大面积动态镜面反射</td>
+<td>视情况</td>
+<td>SSR 或射线追踪反射即可，不一定要完整 GI</td>
+</tr>
+<tr>
+<td>移动端</td>
+<td>否</td>
+<td>只能用烘焙</td>
+</tr>
+</tbody></table>
+<h3 id="实时性评分"><a href="#实时性评分" class="headerlink" title="实时性评分"></a>实时性评分</h3><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>光源动态响应</th>
+<th>几何动态响应</th>
+<th>成本</th>
+<th>成熟度</th>
+<th>移动端</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Unity 6 Lightmap + APV</td>
+<td>无</td>
+<td>无</td>
+<td>低</td>
+<td>高</td>
+<td>可用</td>
+</tr>
+<tr>
+<td>Unity 6 Scenario Blending</td>
+<td>离散切换</td>
+<td>无</td>
+<td>低</td>
+<td>高</td>
+<td>可用</td>
+</tr>
+<tr>
+<td>UE4 Lightmap + VLM</td>
+<td>无</td>
+<td>无</td>
+<td>低</td>
+<td>高</td>
+<td>可用</td>
+</tr>
+<tr>
+<td>UE4 SSGI</td>
+<td>部分（屏幕内）</td>
+<td>部分</td>
+<td>中</td>
+<td>实验</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>UE4 RTGI</td>
+<td>真实时</td>
+<td>真实时</td>
+<td>高</td>
+<td>中</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>Unity 6 HDRP 射线追踪 GI</td>
+<td>真实时</td>
+<td>真实时</td>
+<td>高</td>
+<td>中低</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>UE5 Lumen（软件）</td>
+<td>真实时</td>
+<td>真实时</td>
+<td>中高</td>
+<td>高</td>
+<td>不可用</td>
+</tr>
+<tr>
+<td>UE5 Lumen（硬件光追）</td>
+<td>真实时</td>
+<td>真实时</td>
+<td>高</td>
+<td>高</td>
+<td>不可用</td>
+</tr>
+</tbody></table>
+<h3 id="决策路径"><a href="#决策路径" class="headerlink" title="决策路径"></a>决策路径</h3><ol>
+<li><strong>目标平台含移动端？</strong> 是的话只能走烘焙（Unity 6 Lightmap+APV 或 UE 的 Lightmap+VLM），到此为止。</li>
+<li><strong>光照会动态变化（昼夜、可破坏、光源移动）？</strong><ul>
+<li>否 → 烘焙。优先 Unity 6 APV（质量与可调性最好）或 UE 的 Lightmap+VLM。</li>
+<li>是 → 进入第 3 步。</li>
+</ul>
+</li>
+<li><strong>能接受引擎绑定到 UE5？</strong><ul>
+<li>能 → UE5 Lumen，目前唯一开箱即用的完整实时 GI。</li>
+<li>不能且必须在 Unity → HDRP 射线追踪 GI（需 DXR 硬件，工程量与风险都更高）。</li>
+<li>不能且必须在 UE4 → 自建 RTGI 管线，或升级到 UE5。</li>
+</ul>
+</li>
+<li><strong>只是偶尔需要动态光照而非全程？</strong> 考虑 Unity 的 Scenario Blending 或 UE 的混合策略，用烘焙换性能。</li>
+</ol>
+<h3 id="按项目类型选"><a href="#按项目类型选" class="headerlink" title="按项目类型选"></a>按项目类型选</h3><table>
+<thead>
+<tr>
+<th>场景类型</th>
+<th>推荐方案</th>
+<th>理由</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>室内静态场景 + 动态角色</td>
+<td>Unity 6 APV &#x2F; UE Lightmap+VLM</td>
+<td>烘焙质量高，动态物体由探针承接</td>
+</tr>
+<tr>
+<td>贴墙 &#x2F; 半封闭空间多</td>
+<td>Unity 6 APV 优先</td>
+<td>视差校正 + 调试视图，问题可控可修</td>
+</tr>
+<tr>
+<td>昼夜循环 &#x2F; 光照频繁变化</td>
+<td>UE5 Lumen</td>
+<td>引擎级实时 GI，唯一成熟方案</td>
+</tr>
+<tr>
+<td>昼夜循环但必须用 Unity</td>
+<td>Scenario Blending（离散）或 HDRP 射线追踪</td>
+<td>前者便宜但不连续，后者昂贵且需 DXR</td>
+</tr>
+<tr>
+<td>移动端 &#x2F; 低端硬件</td>
+<td>三者皆走烘焙</td>
+<td>无实时 GI 的性能余量</td>
+</tr>
+<tr>
+<td>大世界开放场景</td>
+<td>UE5 Lumen &#x2F; Unity 6 APV + Streaming</td>
+<td>流式加载与距离分级是关键</td>
+</tr>
+<tr>
+<td>需要精确排查 GI 问题</td>
+<td>Unity 6 APV</td>
+<td>可视化工具三家中最强</td>
+</tr>
+<tr>
+<td>长线做动态 GI</td>
+<td>UE5</td>
+<td>Lumen 已成熟，UE4 与 Unity 6 都需自建或受限</td>
+</tr>
+</tbody></table>
+<h2 id="六、症状速查"><a href="#六、症状速查" class="headerlink" title="六、症状速查"></a>六、症状速查</h2><table>
+<thead>
+<tr>
+<th>症状</th>
+<th>引擎</th>
+<th>可能原因</th>
+<th>处理方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>动态角色贴墙处发黑</td>
+<td>UE4</td>
+<td>VLM 无视差校正，采样越界</td>
+<td>调高 ILC 质量、加局部补光、加密探针区域</td>
+</tr>
+<tr>
+<td>墙面出现规则黑块</td>
+<td>Unity 6</td>
+<td>探针无效或落在几何内</td>
+<td>用 APV Validity 视图定位，调整 Volume 边界或烘焙精度</td>
+</tr>
+<tr>
+<td>墙面有大片漏光</td>
+<td>Unity 6</td>
+<td>探针密度不足 &#x2F; 未开 Sky Occlusion</td>
+<td>提高密度、开启 Sky Occlusion、检查遮挡体是否为静态</td>
+</tr>
+<tr>
+<td>移动光源后间接光不变</td>
+<td>UE4 &#x2F; Unity 6</td>
+<td>烘焙方案的固有行为</td>
+<td>改为可移动标记并使用实时方案，或接受重烘流程</td>
+</tr>
+<tr>
+<td>移动光源后间接光变了但画面闪烁</td>
+<td>UE5</td>
+<td>Lumen 时序收敛不足</td>
+<td>提高 TSR 质量、加大追踪距离、减少剧烈光照跳变</td>
+</tr>
+<tr>
+<td>薄物件（栅栏&#x2F;叶片）GI 明显错</td>
+<td>UE5</td>
+<td>SDF 精度不足</td>
+<td>转 Nanite、加厚几何，或对该物件改用烘焙补光</td>
+</tr>
+<tr>
+<td>反射区出现明显接缝</td>
+<td>三者</td>
+<td>Reflection Capture &#x2F; Probe 摆放不当，混合失败</td>
+<td>重摆探针、调整混合半径与优先级</td>
+</tr>
+<tr>
+<td>半透明物体没有间接光</td>
+<td>UE4 &#x2F; Unity 6</td>
+<td>烘焙方案不支持半透明 GI</td>
+<td>用自发光或补光近似；UE5 可依赖 Lumen，但仍受限</td>
+</tr>
+<tr>
+<td>大场景探针内存爆掉</td>
+<td>Unity 6</td>
+<td>未开 Streaming 或密度过高</td>
+<td>开启 APV Streaming，降低非关键区域密度</td>
+</tr>
+<tr>
+<td>烘焙时间不可接受</td>
+<td>三者</td>
+<td>CPU Lightmapper + 大场景</td>
+<td>Unity 用 GPU Lightmapper &#x2F; Baking Sets；UE5 用 GPU Lightmass 或直接转 Lumen</td>
+</tr>
+</tbody></table>
+<h2 id="七、术语表"><a href="#七、术语表" class="headerlink" title="七、术语表"></a>七、术语表</h2><table>
+<thead>
+<tr>
+<th>术语</th>
+<th>全称 &#x2F; 说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GI</td>
+<td>Global Illumination，全局光照（间接漫反射 + 间接镜面反射）</td>
+</tr>
+<tr>
+<td>IBL</td>
+<td>Image-Based Lighting，环境贴图采样（<strong>不是 GI</strong>）</td>
+</tr>
+<tr>
+<td>Lightmap</td>
+<td>烘焙到 UV2 的间接光贴图（通道 ①）</td>
+</tr>
+<tr>
+<td>VLM</td>
+<td>Volumetric Lightmap，UE 的体积光照探针（通道 ②）</td>
+</tr>
+<tr>
+<td>ILC</td>
+<td>Indirect Lighting Cache，UE 中动态物体读取 VLM 的缓存层</td>
+</tr>
+<tr>
+<td>LPV</td>
+<td>Light Propagation Volumes，UE4 实验性体积光传播（已废弃）</td>
+</tr>
+<tr>
+<td>DFGI</td>
+<td>Distance Field GI，UE4 实验性距离场 GI（UE5 由 Lumen 取代）</td>
+</tr>
+<tr>
+<td>DFAO</td>
+<td>Distance Field AO，距离场环境光遮蔽（<strong>不是 GI</strong>）</td>
+</tr>
+<tr>
+<td>SSGI</td>
+<td>Screen Space Global Illumination，屏幕空间 GI（通道 ③）</td>
+</tr>
+<tr>
+<td>RTGI</td>
+<td>Ray Traced GI，硬件光追 GI（通道 ④，DXR）</td>
+</tr>
+<tr>
+<td>Lumen</td>
+<td>UE5 实时 GI 系统（屏幕空间 + Surface Cache&#x2F;SDF + 可选 HWRT）</td>
+</tr>
+<tr>
+<td>HWRT</td>
+<td>Hardware Ray Tracing，Lumen 的硬件光追后端</td>
+</tr>
+<tr>
+<td>Surface Cache</td>
+<td>Lumen 为每个网格预生成的 6 面辐射度卡片缓存</td>
+</tr>
+<tr>
+<td>MegaLights</td>
+<td>UE5.5+ 的大量动态光源方案（<strong>不是 GI</strong>，与 Lumen 互补）</td>
+</tr>
+<tr>
+<td>APV</td>
+<td>Adaptive Probe Volumes，Unity 6 自适应探针体积（通道 ②）</td>
+</tr>
+<tr>
+<td>LPPV</td>
+<td>Light Probe Proxy Volume，Unity 过渡方案（被 APV 取代）</td>
+</tr>
+<tr>
+<td>Baking Sets</td>
+<td>Unity APV 的烘焙任务拆分机制</td>
+</tr>
+<tr>
+<td>Scenario Blending</td>
+<td>Unity APV 的多套光照情境运行时混合（昼夜的离散解）</td>
+</tr>
+<tr>
+<td>Sky Occlusion</td>
+<td>Unity APV 的天空可见度烘焙</td>
+</tr>
+<tr>
+<td>Enlighten</td>
+<td>Unity 旧 GI 方案，Unity 6 已移除实时部分</td>
+</tr>
+<tr>
+<td>Parallax Correction</td>
+<td>视差校正，把采样点约束回探针有效体积（APV 有，UE VLM 无）</td>
+</tr>
+<tr>
+<td>SH</td>
+<td>Spherical Harmonics，球谐系数，探针常用存储格式</td>
+</tr>
+<tr>
+<td>DXR</td>
+<td>DirectX Raytracing，Windows 硬件光追 API</td>
+</tr>
+</tbody></table>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>把三个引擎的 GI 放在一起看，真正的分歧只有一句话：<strong>间接光的来源是预先烘好的，还是每帧算出来的。</strong></p>
+<p>UE4 与 Unity 6 走的是同一条路线——静态靠 Lightmap，动态靠探针读取烘焙数据，差别在于探针的质量与可调试性：UE4 的 VLM+ILC 无视差校正且偏黑盒，Unity 6 的 APV 从光直接烘出、带视差校正，还配了专用调试视图。UE5 则把主干换成了 Lumen，代价是强依赖时序降噪、薄几何质量差、移动端不可用。</p>
+<p>选型时可以按这个顺序问自己：目标平台有没有移动端、光照会不会动、能不能接受绑定到 UE5。三个问题答完，方案基本就定死了，剩下的都是在这个方案内部的调优问题，而不是方案之争。</p>
+<p>最后一点提醒：三个引擎的小版本迭代都很快，Lumen 的限制清单、APV 的 Scenario Blending &#x2F; Streaming 可用范围、HDRP 射线追踪的平台支持都可能变化，落地前以官方文档复核。性能结论尤其要在目标硬件上实测帧时间，不要直接套用任何人的经验值。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/lumen-global-illumination-and-reflections-in-unreal-engine">Lumen 技术文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/lightmass-global-illumination-in-unreal-engine">Lightmass 全局光照</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/volumetric-lightmaps-in-unreal-engine">Volumetric Lightmaps</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/mesh-distance-fields-in-unreal-engine">Mesh Distance Fields</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/temporal-super-resolution-in-unreal-engine">Temporal Super Resolution</a></li>
+<li><a target="_blank" rel="noopener" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/nanite-virtualized-geometry-in-unreal-engine">Nanite 虚拟几何</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/urp/probevolumes-use.html">Unity APV 使用文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/urp/probevolumes-showandadjust.html">Unity APV 可视化与调整</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/urp/probevolumes-streaming.html">Unity APV Streaming</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.unity3d.com/Manual/Lightmapping.html">Unity Lightmapping</a></li>
+</ul>
+
+    </div>
+
+    <footer class="post__footer">
+      
+        
+<section class="comments" aria-labelledby="commentsTitle">
+  <div class="comments__header">
+    <p class="comments__eyebrow">DISCUSSION</p>
+    <h2 class="comments__title" id="commentsTitle">评论与交流</h2>
+    <p class="comments__description">使用 GitHub 账号参与讨论；首次评论时会自动创建对应话题。</p>
+  </div>
+  <div class="giscus"></div>
+  <script src="https://giscus.app/client.js"
+          data-repo="AHappyFun/AHappyFun.github.io"
+          data-repo-id="R_kgDOJAassQ"
+          data-category="Announcements"
+          data-category-id="DIC_kwDOJAassc4DCUGK"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="zh-CN"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+  </script>
+</section>
+
+      
+
+      <div class="post__nav">
+        
+          <a href="/2026/08/29/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E8%B6%8A%E5%A4%9A%E8%B6%8A%E6%B2%A1%E4%BA%BA%E5%B8%AE%E5%BF%99%E2%80%94%E2%80%94%E6%97%81%E8%A7%82%E8%80%85%E6%95%88%E5%BA%94/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Mind-为什么人越多越没人帮忙——旁观者效应</span>
+          </a>
+        
+        
+          <a href="/2026/08/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E4%BC%9A%E7%9B%B8%E4%BF%A1%E8%87%AA%E7%9B%B8%E7%9F%9B%E7%9B%BE%E7%9A%84%E4%BA%8B%E2%80%94%E2%80%94%E8%AE%A4%E7%9F%A5%E5%A4%B1%E8%B0%83/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Mind-为什么人会相信自相矛盾的事——认知失调</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+      
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js?v=20260909-category-state"></script>
+<script src="/js/search.js"></script>
+
+  <script src="https://cn.vercount.one/js" defer></script>
+
+
+
+</body>
+</html>
