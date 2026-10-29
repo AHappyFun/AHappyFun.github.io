@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 500" width="1080" height="500" role="img">
+<rect x="0.0" y="0.0" width="1080.0" height="500.0" rx="0" fill="#131318" fill-opacity="1.0"/>
+<line x1="56.0" y1="92.0" x2="152.0" y2="92.0" stroke="#c9a86a" stroke-opacity="0.55" stroke-width="1.4"/>
+<text x="56.0" y="44.0" fill="#c9a86a" font-size="17" text-anchor="start" font-weight="600" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">同一次涨价，两种命运：弹性决定客户跑不跑</text>
+<text x="56.0" y="70.0" fill="#6f6a60" font-size="11" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">两条需求曲线从同一个均衡点出发；价格从 P1 抬到 P2，销量掉的幅度完全不同</text>
+<line x1="140.0" y1="200.0" x2="1000.0" y2="200.0" stroke="#3a3630" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="2 6"/>
+<line x1="140.0" y1="300.0" x2="1000.0" y2="300.0" stroke="#3a3630" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="2 6"/>
+<line x1="140.0" y1="400.0" x2="1000.0" y2="400.0" stroke="#3a3630" stroke-opacity="0.5" stroke-width="1" stroke-dasharray="2 6"/>
+<line x1="140.0" y1="440.0" x2="1000.0" y2="440.0" stroke="#6f6a60" stroke-opacity="0.9" stroke-width="1.4"/>
+<line x1="140.0" y1="440.0" x2="140.0" y2="120.0" stroke="#6f6a60" stroke-opacity="0.9" stroke-width="1.4"/>
+<text x="1005.0" y="446.0" fill="#b9b2a4" font-size="10.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">数量 Q</text>
+<text x="150.0" y="114.0" fill="#b9b2a4" font-size="10.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">价格 P</text>
+<polygon points="1000.0,440.0 991.0,435.5 991.0,444.5" fill="#6f6a60" fill-opacity="0.9"/>
+<polygon points="140.0,120.0 135.5,129.0 144.5,129.0" fill="#6f6a60" fill-opacity="0.9"/>
+<path d="M 200.0 195.0 L 900.0 440.0" fill="none" stroke="#5e80b2" stroke-width="2.2"/>
+<path d="M 392.0 202.8 L 652.0 436.8" fill="none" stroke="#9e454d" stroke-width="2.2"/>
+<line x1="140.0" y1="300.0" x2="1000.0" y2="300.0" stroke="#6f6a60" stroke-opacity="0.6" stroke-width="1" stroke-dasharray="5 4"/>
+<text x="150.0" y="294.0" fill="#b9b2a4" font-size="11" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">P1</text>
+<line x1="140.0" y1="220.0" x2="1000.0" y2="220.0" stroke="#c9a86a" stroke-opacity="0.85" stroke-width="1.5" stroke-dasharray="7 5"/>
+<text x="150.0" y="214.0" fill="#c9a86a" font-size="11" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">P2 涨价后</text>
+<line x1="271.4" y1="220.0" x2="271.4" y2="440.0" stroke="#5e80b2" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="3 4"/>
+<circle cx="271.4" cy="220.0" r="3.6" fill="#5e80b2" fill-opacity="1.0"/>
+<text x="267.4" y="460.0" fill="#5e80b2" font-size="11" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">Q_弹</text>
+<line x1="411.1" y1="220.0" x2="411.1" y2="440.0" stroke="#9e454d" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="3 4"/>
+<circle cx="411.1" cy="220.0" r="3.6" fill="#9e454d" fill-opacity="1.0"/>
+<text x="415.1" y="460.0" fill="#9e454d" font-size="11" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">Q_僵</text>
+<circle cx="500.0" cy="300.0" r="4.2" fill="#f2ece0" fill-opacity="1.0"/>
+<text x="500.0" y="460.0" fill="#f2ece0" font-size="11" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">Q1</text>
+<text x="888.0" y="423.8" fill="#5e80b2" font-size="11.5" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">需求（弹性大）</text>
+<text x="640.0" y="414.0" fill="#9e454d" font-size="11.5" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">需求（缺乏弹性）</text>
+<line x1="56.0" y1="462.0" x2="1000.0" y2="462.0" stroke="#3a3630" stroke-opacity="0.7" stroke-width="1"/>
+<text x="56.0" y="484.0" fill="#b9b2a4" font-size="11.5" text-anchor="start" font-style="italic" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">弹性小的那一侧，涨价几乎不丢销量；弹性大的那一侧，涨价就是给对手送客户。</text>
+</svg>

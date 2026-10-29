@@ -46,6 +46,16 @@
   --gap: 24px;
   --gap-lg: 48px;
 
+  /* Resizable desktop frame.
+     Article pages lay the sidebar, the article column and the article TOC inside
+     one frame that fills the viewport, so the article column absorbs every spare
+     pixel: narrowing a side panel widens the article, widening a panel narrows
+     it. --article-frame-max only stops the text from stretching across very
+     large monitors (≈1024px of text at the default panel widths). */
+  --article-frame-max: 1860px;
+  /* Inner padding of the article card. */
+  --post-layout-pad: clamp(28px, 4vw, 54px);
+
   /* Radius */
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -2324,7 +2334,9 @@ html:not([data-theme="dark"]) .theme-toggle .icon-sun,
 /* Compact desktop / tablet: place the TOC above the article body. */
 @media (max-width: 1400px) {
   .post__layout {
-    grid-template-columns: minmax(0, var(--content-width));
+    /* Single column: the article simply takes all the room the card offers, so
+       narrowing the sidebar widens the text instead of adding side gutters. */
+    grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "header"
       "toc"
@@ -3058,7 +3070,7 @@ h1, h2, h3, h4,
 }
 
 .post__layout {
-  padding: clamp(28px, 4vw, 54px);
+  padding: var(--post-layout-pad);
   border: 1px solid var(--color-border-light);
   border-radius: var(--radius-md);
   background: color-mix(in srgb, var(--color-bg-card) 88%, transparent);
@@ -3667,8 +3679,16 @@ body.is-resizing-navigation {
 }
 
 @media (min-width: 1025px) {
+  /* Index pages keep the previous behaviour: the frame closes up behind the
+     sidebar because there is no article column that should absorb the room. */
   .layout-wrapper {
     max-width: calc(var(--max-width) + var(--sidebar-width) + 88px);
+  }
+
+  /* Article pages: fill the viewport up to --article-frame-max, so the article
+     column takes everything the two side panels leave over. */
+  .layout-wrapper:has(.post) {
+    max-width: var(--article-frame-max);
   }
 
   .sidebar {
@@ -3714,18 +3734,16 @@ body.is-resizing-navigation {
 }
 
 @media (min-width: 1401px) {
-  .layout-wrapper:has(.post) {
-    max-width: calc(var(--sidebar-width) + var(--content-width) + var(--post-toc-width) + 176px);
-  }
-
   .main:has(.post) {
-    max-width: calc(var(--content-width) + var(--post-toc-width) + 88px);
+    max-width: none;
   }
 
   .post__layout {
     width: 100%;
-    max-width: calc(var(--content-width) + var(--post-toc-width) + 88px);
-    grid-template-columns: minmax(0, var(--content-width)) var(--post-toc-width);
+    max-width: none;
+    /* The article column takes whatever the two side panels leave inside the
+       shared frame, so both resizers also resize the article itself. */
+    grid-template-columns: minmax(0, 1fr) var(--post-toc-width);
   }
 
   .post-toc {
@@ -4445,7 +4463,8 @@ html[data-site-style="knowledge"] .post-card__more {
 }
 
 html[data-site-style="knowledge"] .post__layout {
-  padding: clamp(24px, 3.5vw, 46px);
+  --post-layout-pad: clamp(24px, 3.5vw, 46px);
+  padding: var(--post-layout-pad);
   background: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: 0;

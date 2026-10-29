@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 468" width="1080" height="468" role="img" aria-label="技术革命四阶段：金融资本与生产资本的两条曲线">
+<rect x="0" y="0" width="1080" height="468" fill="#131318"/>
+<g font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">
+<text x="44.0" y="32.0" fill="#c9a86a" font-size="14" text-anchor="start" font-weight="600" letter-spacing="1.5" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">技术革命的四个阶段</text>
+<text x="44.0" y="48.0" fill="#6f6a60" font-size="10" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">佩蕾丝：金融资本先行，生产资本随后，转折点完成制度重装</text>
+<rect x="92.0" y="76.0" width="199.8" height="296.0" rx="0" fill="#ffffff" fill-opacity="0.018"/>
+<line x1="92.0" y1="76.0" x2="92.0" y2="372.0" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1"/>
+<text x="191.9" y="70.0" fill="#f2ece0" font-size="11.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">爆发</text>
+<text x="191.9" y="84.0" fill="#3a3630" font-size="8.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">irruption</text>
+<line x1="291.8" y1="76.0" x2="291.8" y2="372.0" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1"/>
+<text x="400.9" y="70.0" fill="#f2ece0" font-size="11.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">狂热</text>
+<text x="400.9" y="84.0" fill="#3a3630" font-size="8.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">frenzy</text>
+<rect x="510.0" y="76.0" width="79.5" height="296.0" rx="0" fill="#ffffff" fill-opacity="0.018"/>
+<line x1="510.0" y1="76.0" x2="510.0" y2="372.0" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1"/>
+<text x="549.8" y="70.0" fill="#f2ece0" font-size="11.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">转折点</text>
+<text x="549.8" y="84.0" fill="#3a3630" font-size="8.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">turning point</text>
+<line x1="589.5" y1="76.0" x2="589.5" y2="372.0" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1"/>
+<text x="716.0" y="70.0" fill="#f2ece0" font-size="11.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">协同</text>
+<text x="716.0" y="84.0" fill="#3a3630" font-size="8.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">synergy</text>
+<rect x="842.4" y="76.0" width="187.6" height="296.0" rx="0" fill="#ffffff" fill-opacity="0.018"/>
+<line x1="842.4" y1="76.0" x2="842.4" y2="372.0" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1"/>
+<text x="936.2" y="70.0" fill="#f2ece0" font-size="11.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">成熟</text>
+<text x="936.2" y="84.0" fill="#3a3630" font-size="8.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">maturity</text>
+<line x1="1030.0" y1="76.0" x2="1030.0" y2="372.0" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1"/>
+<line x1="92.0" y1="372.0" x2="1030.0" y2="372.0" stroke="#c9a86a" stroke-opacity="0.22" stroke-width="1"/>
+<line x1="92.0" y1="307.5" x2="1030.0" y2="307.5" stroke="#ffffff" stroke-opacity="0.045" stroke-width="1"/>
+<line x1="92.0" y1="243.0" x2="1030.0" y2="243.0" stroke="#ffffff" stroke-opacity="0.045" stroke-width="1"/>
+<line x1="92.0" y1="178.5" x2="1030.0" y2="178.5" stroke="#ffffff" stroke-opacity="0.045" stroke-width="1"/>
+<line x1="92.0" y1="114.0" x2="1030.0" y2="114.0" stroke="#ffffff" stroke-opacity="0.045" stroke-width="1"/>
+<path d="M 92.0 348.8 C 99.7 346.2 109.0 343.6 138.0 333.3 C 167.0 323.0 232.5 306.2 265.8 286.9 C 299.1 267.5 301.5 244.7 337.8 217.2 C 374.2 189.7 451.0 115.7 484.0 121.7 C 517.1 127.8 525.1 224.5 536.0 253.3 C 546.9 282.1 529.0 286.4 549.5 294.6 C 570.1 302.8 579.5 300.2 659.5 302.3 C 739.6 304.5 968.3 306.6 1030.0 307.5" fill="none" stroke="#c9a86a" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M 92.0 325.6 C 103.7 323.4 135.4 320.8 162.0 312.7 C 188.6 304.5 222.5 289.9 251.8 276.5 C 281.1 263.2 296.5 238.7 337.8 232.7 C 379.2 226.7 464.7 235.7 500.0 240.4 C 535.4 245.1 538.4 273.5 550.0 261.1 C 561.6 248.6 527.5 187.1 569.5 165.6 C 611.6 144.1 725.7 136.8 802.4 132.1 C 879.1 127.3 992.1 136.4 1030.0 137.2" fill="none" stroke="#5f9b8a" stroke-width="2.6" stroke-linecap="round"/>
+<text x="484.0" y="98.5" fill="#c9a86a" font-size="10" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">泡沫顶点</text>
+<line x1="484.0" y1="106.3" x2="484.0" y2="114.0" stroke="#c9a86a" stroke-opacity="0.55" stroke-width="1" stroke-dasharray="2 3"/>
+<text x="544.0" y="284.3" fill="#9e454d" font-size="11.5" text-anchor="start" font-weight="600" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">崩溃</text>
+<text x="544.0" y="310.1" fill="#6f6a60" font-size="9" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">制度开始重装</text>
+<text x="635.5" y="201.7" fill="#5f9b8a" font-size="10.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">技术真正扩散</text>
+<text x="635.5" y="216.7" fill="#6f6a60" font-size="9" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">生产率红利兑现</text>
+<text x="102.0" y="268.8" fill="#c9a86a" font-size="10.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">金融资本</text>
+<text x="872.4" y="165.6" fill="#5f9b8a" font-size="10.5" text-anchor="start" font-weight="600" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">生产资本</text>
+<text x="86.0" y="92.0" fill="#6f6a60" font-size="9" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">高</text>
+<text x="86.0" y="376.0" fill="#6f6a60" font-size="9" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">低</text>
+<text x="58.0" y="230.0" fill="#3a3630" font-size="9" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">资本规模</text>
+<text x="1030.0" y="396.0" fill="#6f6a60" font-size="9.5" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">时间 →</text>
+<text x="44.0" y="456.0" fill="#3a3630" font-size="9" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">示意图，非按真实比例绘制；阶段命名取 Perez (2002) 的 irruption / frenzy / turning point / synergy / maturity。</text>
+</g>
+</svg>

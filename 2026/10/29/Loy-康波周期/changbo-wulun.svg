@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 432" width="1080" height="432" role="img" aria-label="五轮康德拉季耶夫长波时间轴">
+<rect x="0" y="0" width="1080" height="432" fill="#131318"/>
+<g font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">
+<text x="44.0" y="30.0" fill="#c9a86a" font-size="14" text-anchor="start" font-weight="600" letter-spacing="1.5" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">五轮长波</text>
+<text x="44.0" y="46.0" fill="#6f6a60" font-size="10" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1780—2020s，年份取通行分期，各家有 ±3 年出入</text>
+<rect x="690.0" y="20.0" width="10.0" height="10.0" rx="2" fill="#5f9b8a" fill-opacity="1"/>
+<text x="706.0" y="29.0" fill="#b9b2a4" font-size="10.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">上升期</text>
+<rect x="760.0" y="20.0" width="10.0" height="10.0" rx="2" fill="#9e454d" fill-opacity="1"/>
+<text x="776.0" y="29.0" fill="#b9b2a4" font-size="10.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">下降期</text>
+<rect x="830.0" y="20.0" width="10.0" height="10.0" rx="2" fill="none" fill-opacity="1" stroke="#c9a86a" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="846.0" y="29.0" fill="#b9b2a4" font-size="10.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">起点有争议</text>
+<text x="44.0" y="79.0" fill="#c9a86a" font-size="11.5" text-anchor="start" font-weight="600" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">第一波</text>
+<text x="44.0" y="92.0" fill="#6f6a60" font-size="9.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">蒸汽机 · 棉纺织 · 铁路萌芽</text>
+<rect x="245.7" y="72.0" width="103.6" height="17.0" rx="2" fill="#5f9b8a" fill-opacity="0.92"/>
+<rect x="349.3" y="72.0" width="94.2" height="17.0" rx="2" fill="#9e454d" fill-opacity="0.86"/>
+<path d="M 349.3 75.0 L 354.3 80.5 L 349.3 86.0 L 344.3 80.5 Z" fill="#131318" stroke="#c9a86a" stroke-width="1.2"/>
+<text x="349.3" y="67.0" fill="#c9a86a" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1815</text>
+<text x="249.7" y="84.0" fill="#e8e2d4" font-size="9" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1782</text>
+<text x="439.5" y="84.0" fill="#e8e2d4" font-size="9" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1845</text>
+<text x="44.0" y="129.0" fill="#c9a86a" font-size="11.5" text-anchor="start" font-weight="600" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">第二波</text>
+<text x="44.0" y="142.0" fill="#6f6a60" font-size="9.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">铁路 · 钢铁 · 蒸汽航运</text>
+<rect x="443.5" y="122.0" width="87.9" height="17.0" rx="2" fill="#5f9b8a" fill-opacity="0.92"/>
+<rect x="531.4" y="122.0" width="72.2" height="17.0" rx="2" fill="#9e454d" fill-opacity="0.86"/>
+<path d="M 531.4 125.0 L 536.4 130.5 L 531.4 136.0 L 526.4 130.5 Z" fill="#131318" stroke="#c9a86a" stroke-width="1.2"/>
+<text x="531.4" y="117.0" fill="#c9a86a" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1873</text>
+<text x="447.5" y="134.0" fill="#e8e2d4" font-size="9" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1845</text>
+<text x="599.6" y="134.0" fill="#e8e2d4" font-size="9" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1896</text>
+<text x="44.0" y="179.0" fill="#c9a86a" font-size="11.5" text-anchor="start" font-weight="600" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">第三波</text>
+<text x="44.0" y="192.0" fill="#6f6a60" font-size="9.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">电气 · 化工 · 内燃机</text>
+<rect x="603.6" y="172.0" width="75.4" height="17.0" rx="2" fill="#5f9b8a" fill-opacity="0.92"/>
+<rect x="678.9" y="172.0" width="87.9" height="17.0" rx="2" fill="#9e454d" fill-opacity="0.86"/>
+<path d="M 678.9 175.0 L 683.9 180.5 L 678.9 186.0 L 673.9 180.5 Z" fill="#131318" stroke="#c9a86a" stroke-width="1.2"/>
+<text x="678.9" y="167.0" fill="#c9a86a" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1920</text>
+<text x="607.6" y="184.0" fill="#e8e2d4" font-size="9" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1896</text>
+<text x="762.9" y="184.0" fill="#e8e2d4" font-size="9" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1948</text>
+<text x="44.0" y="229.0" fill="#c9a86a" font-size="11.5" text-anchor="start" font-weight="600" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">第四波</text>
+<text x="44.0" y="242.0" fill="#6f6a60" font-size="9.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">石油化工 · 汽车 · 家电 · 电子</text>
+<rect x="766.9" y="222.0" width="78.5" height="17.0" rx="2" fill="#5f9b8a" fill-opacity="0.92"/>
+<rect x="845.3" y="222.0" width="56.5" height="17.0" rx="2" fill="#9e454d" fill-opacity="0.86"/>
+<path d="M 845.3 225.0 L 850.3 230.5 L 845.3 236.0 L 840.3 230.5 Z" fill="#131318" stroke="#c9a86a" stroke-width="1.2"/>
+<text x="845.3" y="217.0" fill="#c9a86a" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1973</text>
+<text x="770.9" y="234.0" fill="#e8e2d4" font-size="9" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1948</text>
+<text x="897.9" y="234.0" fill="#e8e2d4" font-size="9" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1991</text>
+<text x="44.0" y="279.0" fill="#c9a86a" font-size="11.5" text-anchor="start" font-weight="600" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">第五波</text>
+<text x="44.0" y="292.0" fill="#6f6a60" font-size="9.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">计算机 · 互联网 · 移动通信</text>
+<rect x="901.9" y="272.0" width="53.4" height="17.0" rx="2" fill="#5f9b8a" fill-opacity="0.92"/>
+<rect x="955.2" y="272.0" width="50.2" height="17.0" rx="2" fill="#9e454d" fill-opacity="0.86"/>
+<path d="M 955.2 275.0 L 960.2 280.5 L 955.2 286.0 L 950.2 280.5 Z" fill="#131318" stroke="#c9a86a" stroke-width="1.2"/>
+<text x="955.2" y="267.0" fill="#c9a86a" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">2008</text>
+<text x="905.9" y="284.0" fill="#e8e2d4" font-size="9" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1991</text>
+<text x="1001.5" y="284.0" fill="#e8e2d4" font-size="9" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">2024</text>
+<text x="44.0" y="329.0" fill="#b9b2a4" font-size="11.5" text-anchor="start" font-weight="600" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">第六波？</text>
+<text x="44.0" y="342.0" fill="#6f6a60" font-size="9.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">AI · 新能源 · 生物（候选）</text>
+<rect x="1005.5" y="322.0" width="34.5" height="17.0" rx="2" fill="none" fill-opacity="1" stroke="#c9a86a" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="1034.0" y="334.0" fill="#c9a86a" font-size="11" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">?</text>
+<line x1="208.0" y1="366.0" x2="1040.0" y2="366.0" stroke="#c9a86a" stroke-opacity="0.24" stroke-width="1"/>
+<line x1="239.4" y1="366.0" x2="239.4" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="239.4" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1780</text>
+<line x1="302.2" y1="366.0" x2="302.2" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="302.2" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1800</text>
+<line x1="365.0" y1="366.0" x2="365.0" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="365.0" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1820</text>
+<line x1="427.8" y1="366.0" x2="427.8" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="427.8" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1840</text>
+<line x1="490.6" y1="366.0" x2="490.6" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="490.6" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1860</text>
+<line x1="553.4" y1="366.0" x2="553.4" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="553.4" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1880</text>
+<line x1="616.2" y1="366.0" x2="616.2" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="616.2" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1900</text>
+<line x1="678.9" y1="366.0" x2="678.9" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="678.9" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1920</text>
+<line x1="741.7" y1="366.0" x2="741.7" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="741.7" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1940</text>
+<line x1="804.5" y1="366.0" x2="804.5" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="804.5" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1960</text>
+<line x1="867.3" y1="366.0" x2="867.3" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="867.3" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">1980</text>
+<line x1="930.1" y1="366.0" x2="930.1" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="930.1" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">2000</text>
+<line x1="992.9" y1="366.0" x2="992.9" y2="370.0" stroke="#c9a86a" stroke-opacity="0.28" stroke-width="1"/>
+<text x="992.9" y="382.0" fill="#6f6a60" font-size="9.5" text-anchor="middle" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">2020</text>
+<text x="1040.0" y="396.0" fill="#3a3630" font-size="9" text-anchor="end" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">年份</text>
+<text x="44.0" y="414.0" fill="#3a3630" font-size="9.5" text-anchor="start" font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">竖线为各波转折点（危机年）：1815 · 1873 · 1920 · 1973 · 2008；第五波尾部与第六波起点均无共识。</text>
+</g>
+</svg>

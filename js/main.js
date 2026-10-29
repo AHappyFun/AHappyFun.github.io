@@ -66,9 +66,15 @@
     });
   })();
 
-  /* --- Resizable desktop navigation panels --- */
+  /* --- Resizable desktop navigation panels ---
+     On article pages the sidebar, the article column and the article TOC share
+     one frame that fills the viewport (--article-frame-max), so a side panel no
+     longer just takes room from empty space: growing it narrows the article, and
+     shrinking it widens the article. The article keeps a readable minimum, so a
+     panel may only grow into whatever room the article can spare. */
   (function initResizableNavigation() {
     var root = document.documentElement;
+    var MIN_READING_WIDTH = 440;
     var configurations = [
       {
         handle: document.getElementById('globalSidebarResizer'),
@@ -94,38 +100,90 @@
       }
     ];
 
+    var applied = [];
+
     function clamp(value, min, max) {
       return Math.min(max, Math.max(min, value));
+    }
+
+    /* Width of the article column, or null on pages without one. */
+    function readingWidth() {
+      var reading = document.querySelector('.post__content');
+      if (!reading) return null;
+      var width = reading.getBoundingClientRect().width;
+      return width > 0 ? width : null;
     }
 
     configurations.forEach(function (config) {
       if (!config.handle || !config.target) return;
 
       var stored = parseInt(localStorage.getItem(config.storageKey), 10);
-      var current = Number.isFinite(stored) ? clamp(stored, config.min, config.max) : config.defaultValue;
+      var preferred = Number.isFinite(stored) ? clamp(stored, config.min, config.max) : config.defaultValue;
+      var current = preferred;
       var startX = 0;
       var startWidth = current;
+      var pending = null;
       var pointerId = null;
 
       function enabled() {
         return window.matchMedia(config.media).matches;
       }
 
-      function apply(value, persist) {
+      function render(value) {
         current = clamp(Math.round(value), config.min, config.max);
         root.style.setProperty(config.property, current + 'px');
         config.handle.setAttribute('aria-valuenow', String(current));
         config.handle.setAttribute('aria-valuetext', current + ' 像素');
-        if (persist) localStorage.setItem(config.storageKey, String(current));
       }
 
-      apply(current, false);
+      /* A wider panel narrows the article one to one, so it may only grow into
+         the room the article has above its minimum. Dragging back always works,
+         which keeps the resizer self-correcting. */
+      function withReadingRoom(value) {
+        var reading = readingWidth();
+        if (reading === null) return value;
+        var growth = value - current;
+        if (growth <= 0) return value;
+        var room = Math.max(0, reading - MIN_READING_WIDTH);
+        return value - Math.max(0, growth - room);
+      }
+
+      function commit(value, persist) {
+        var requested = clamp(Math.round(value), config.min, config.max);
+        render(withReadingRoom(requested));
+        if (persist) {
+          preferred = requested;
+          localStorage.setItem(config.storageKey, String(requested));
+        }
+      }
+
+      /* Narrower viewport than the stored layout: give the article its minimum
+         back by shrinking the panel visually, without losing the preference. */
+      function fitToViewport() {
+        if (!enabled()) return;
+        var reading = readingWidth();
+        if (reading === null) return;
+        var deficit = MIN_READING_WIDTH - reading;
+        if (deficit <= 0 || current <= config.min) return;
+        render(current - Math.min(deficit, current - config.min));
+      }
+
+      /* Viewport has room again: grow back towards the stored preference. */
+      function restorePreferred() {
+        if (!enabled() || current === preferred) return;
+        commit(preferred, false);
+      }
+
+      applied.push({ fit: fitToViewport, restore: restorePreferred });
+
+      render(current);
 
       config.handle.addEventListener('pointerdown', function (event) {
         if (!enabled() || event.button !== 0) return;
         pointerId = event.pointerId;
         startX = event.clientX;
         startWidth = current;
+        pending = null;
         config.handle.setPointerCapture(pointerId);
         config.handle.classList.add('is-active');
         document.body.classList.add('is-resizing-navigation');
@@ -134,7 +192,8 @@
 
       config.handle.addEventListener('pointermove', function (event) {
         if (pointerId !== event.pointerId) return;
-        apply(startWidth + (event.clientX - startX) * config.direction, false);
+        pending = startWidth + (event.clientX - startX) * config.direction;
+        commit(pending, false);
       });
 
       function finishResize(event) {
@@ -143,7 +202,8 @@
         pointerId = null;
         config.handle.classList.remove('is-active');
         document.body.classList.remove('is-resizing-navigation');
-        apply(current, true);
+        commit(pending === null ? current : pending, true);
+        pending = null;
       }
 
       config.handle.addEventListener('pointerup', finishResize);
@@ -153,7 +213,8 @@
         pointerId = null;
         config.handle.classList.remove('is-active');
         document.body.classList.remove('is-resizing-navigation');
-        apply(current, true);
+        commit(pending === null ? current : pending, true);
+        pending = null;
       });
 
       config.handle.addEventListener('keydown', function (event) {
@@ -165,13 +226,28 @@
         else if (event.key === 'End') next = config.max;
         else return;
         event.preventDefault();
-        apply(next, true);
+        commit(next, true);
       });
 
       config.handle.addEventListener('dblclick', function () {
-        if (enabled()) apply(config.defaultValue, true);
+        if (enabled()) commit(config.defaultValue, true);
       });
     });
+
+    var fitFrame = null;
+    function scheduleFrameFit() {
+      if (fitFrame !== null || !applied.length) return;
+      fitFrame = window.requestAnimationFrame(function () {
+        fitFrame = null;
+        applied.forEach(function (item) { item.fit(); });
+        applied.forEach(function (item) { item.restore(); });
+      });
+    }
+
+    if (applied.length) {
+      window.addEventListener('resize', scheduleFrameFit);
+      scheduleFrameFit();
+    }
   })();
 
   /* Keep the asynchronously loaded Giscus frame in sync with manual theme changes. */
