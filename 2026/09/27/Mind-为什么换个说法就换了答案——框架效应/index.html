@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-site-style="bento">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+<title>Mind-为什么换个说法就换了答案——框架效应 | 锅巴的Blogs</title>
+<link rel="canonical" href="https://loy.net.cn/2026/09/27/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8D%A2%E4%B8%AA%E8%AF%B4%E6%B3%95%E5%B0%B1%E6%8D%A2%E4%BA%86%E7%AD%94%E6%A1%88%E2%80%94%E2%80%94%E6%A1%86%E6%9E%B6%E6%95%88%E5%BA%94/">
+<meta name="description" content="个人技术博客">
+<meta name="keywords" content="认知">
+
+<link rel="alternate" href="/atom.xml" title="锅巴的Blogs" type="application/atom+xml">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Serif+SC:wght@500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  (function () {
+    var available = ['bento', 'knowledge'];
+    var saved = localStorage.getItem('site-style');
+    if (available.indexOf(saved) !== -1) {
+      document.documentElement.setAttribute('data-site-style', saved);
+    } else if (saved) {
+      localStorage.setItem('site-style', 'bento');
+    }
+  })();
+</script>
+
+<!-- Style -->
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="description" content="个人技术博客">
+<meta property="og:type" content="article">
+<meta property="og:title" content="锅巴的Blogs">
+<meta property="og:url" content="https://loy.net.cn/">
+<meta property="og:site_name" content="锅巴的Blogs">
+<meta property="og:description" content="个人技术博客">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-09-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-03T12:24:20.917Z">
+<meta property="article:author" content="锅巴">
+<meta property="article:tag" content="认知">
+<meta name="twitter:card" content="summary">
+
+  
+    <style id="cat-game-disabled">.cat-container,.cat-win-label{display:none!important}</style>
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+<body data-cat-game-enabled="false">
+  <a class="skip-link" href="#mainContent">跳到正文</a>
+  <header class="header">
+  <div class="container header__inner">
+    <a href="/" class="header__brand" aria-label="锅巴的Blogs首页">
+      <span class="header__logo">锅巴的Blogs</span>
+      <span class="header__edition">MAKE · WRITE · SHARE</span>
+      <span class="knowledge-status" aria-hidden="true"><i></i><i></i><i></i></span>
+    </a>
+
+    <div class="header__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="header__social-link" title="GitHub" aria-label="GitHub">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          
+        </a>
+      
+        <a href="https://www.zhihu.com/people/zai-tian-bian-wang-hai" target="_blank" rel="noopener" class="header__social-link" title="知乎" aria-label="知乎">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm-1.09 16.5H8.96l-.73.96-.72.96H6.54l.69-.96L8 16.5H6.36v-1.14h3.96v.6l.59.54zm1.83-.84h1.3l.34 2.28h-1.3l-.34-2.28zm3.33 0h1.3l.34 2.28h-1.3l-.34-2.28z"/></svg>
+          
+        </a>
+      
+        <a href="https://space.bilibili.com/267724734" target="_blank" rel="noopener" class="header__social-link" title="B站" aria-label="B站">
+          
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.562 3.76v7.36c-.038 1.51-.558 2.765-1.562 3.76-1.004.996-2.263 1.52-3.773 1.574H5.333c-1.51-.054-2.769-.578-3.773-1.574C.556 20.112.036 18.857 0 17.346v-7.36c.036-1.51.556-2.765 1.56-3.76 1.004-.996 2.263-1.52 3.773-1.574h.774l-1.174-1.12a1.154 1.154 0 01-.36-.853c0-.334.12-.628.36-.88.24-.252.535-.38.881-.38.347 0 .641.128.881.38L9.053 4.5h5.894l2.118-2.12c.24-.252.534-.38.881-.38.347 0 .641.128.881.38.24.252.36.546.36.88 0 .335-.12.629-.36.854l-1.174 1.12-.84.32zm-8.56 5.187c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38zm5.894 0c-.347 0-.641.128-.881.38-.24.252-.36.546-.36.88v5.333c0 .334.12.628.36.88.24.252.534.38.881.38.346 0 .64-.128.88-.38.24-.252.36-.546.36-.88v-5.333c0-.334-.12-.628-.36-.88-.24-.252-.534-.38-.88-.38z"/></svg>
+          
+        </a>
+      
+    </div>
+
+    <nav class="header__nav" id="headerNav" aria-label="主导航">
+      
+        
+        <a href="/" class="header__link">首页</a>
+      
+        
+        <a href="/tags/" class="header__link">标签</a>
+      
+        
+        <a href="/search/" class="header__link">搜索</a>
+      
+        
+        <a href="/about/" class="header__link">关于</a>
+      
+    </nav>
+
+    <div class="header__actions">
+      
+        <label class="style-picker" for="stylePicker">
+          <span class="sr-only">选择网站设计风格</span>
+          <select id="stylePicker" aria-label="网站设计风格">
+            <option value="bento">Bento</option>
+            <option value="knowledge">Knowledge OS</option>
+          </select>
+        </label>
+      
+      <button class="theme-toggle" id="themeToggle" aria-label="切换明暗模式">
+        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <button class="menu-toggle" id="menuToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="headerNav">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+
+  <div class="layout-wrapper">
+    <aside class="sidebar" id="sidebar">
+  <div class="sidebar__inner">
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">分类</h3>
+      <div class="category-filter category-filter--sidebar" role="tablist" aria-label="按分类筛选">
+        <button type="button" class="category-filter__tab is-active" role="tab" aria-selected="true" data-category="all">
+          全部 <span class="category-filter__count">176</span>
+        </button>
+        
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="认知">
+            认知 <span class="category-filter__count">69</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="技术">
+            技术 <span class="category-filter__count">52</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Loy">
+            Loy <span class="category-filter__count">30</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Art">
+            Art <span class="category-filter__count">11</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="AI">
+            AI <span class="category-filter__count">6</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Dev">
+            Dev <span class="category-filter__count">5</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Game">
+            Game <span class="category-filter__count">2</span>
+          </button>
+        
+          <button type="button" class="category-filter__tab" role="tab" aria-selected="false" data-category="Design">
+            Design <span class="category-filter__count">1</span>
+          </button>
+        
+      </div>
+    </div>
+
+    <div class="sidebar__section">
+      <h3 class="sidebar__title">文章列表</h3>
+      
+        <div class="sidebar__count">共 176 篇文章</div>
+        <nav class="sidebar__list">
+          
+          
+            
+              
+              <div class="sidebar__year" data-year="2026">2026</div>
+            
+            <a href="/2026/11/04/AI-%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B%E7%9A%84%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E9%AA%8C/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-11-03T16:00:00.000Z">11-04</time>
+              <span class="sidebar__post-title">AI-逆向工程的原理与实验</span>
+            </a>
+          
+            
+            <a href="/2026/11/04/Art-%E7%BE%8E%E6%9C%AF%E8%B0%83%E8%89%B2%E4%B8%8E%E7%9B%B4%E6%96%B9%E5%9B%BE/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-11-03T16:00:00.000Z">11-04</time>
+              <span class="sidebar__post-title">Art-美术调色与直方图——从明暗组织到颜色判断</span>
+            </a>
+          
+            
+            <a href="/2026/11/03/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AF%B9%E8%87%AA%E5%B7%B1%E4%BA%BA%E5%92%8C%E5%A4%96%E4%BA%BA%E7%94%A8%E4%B8%A4%E5%A5%97%E8%A7%84%E5%88%99%E2%80%94%E2%80%94%E5%B7%AE%E5%BA%8F%E6%A0%BC%E5%B1%80/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-11-02T16:00:00.000Z">11-03</time>
+              <span class="sidebar__post-title">Mind-为什么对自己人和外人用两套规则——差序格局</span>
+            </a>
+          
+            
+            <a href="/2026/11/02/Loy-%E6%89%8B%E6%9C%BA%E6%91%84%E5%BD%B1%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-11-02T07:10:00.000Z">11-02</time>
+              <span class="sidebar__post-title">Loy-手机摄影指南</span>
+            </a>
+          
+            
+            <a href="/2026/10/31/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A823-%E4%B8%A4%E6%B4%BE%E4%B8%BA%E4%BB%80%E4%B9%88%E9%83%BD%E6%9C%89%E8%AF%81%E6%8D%AE/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-31T10:00:00.000Z">10-31</time>
+              <span class="sidebar__post-title">Loy-经济学入门23：凯恩斯与哈耶克，为什么两派都有证据</span>
+            </a>
+          
+            
+            <a href="/2026/10/31/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A822-%E4%BB%8E%E9%81%93%E5%BE%B7%E5%93%B2%E5%AD%A6%E5%88%B0%E5%B7%A5%E7%A8%8B%E5%AD%A6/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-31T09:00:00.000Z">10-31</time>
+              <span class="sidebar__post-title">Loy-经济学入门22：从道德哲学到工程学——斯密到马歇尔</span>
+            </a>
+          
+            
+            <a href="/2026/10/31/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A821-%E5%A2%9E%E9%95%BF%E6%94%BE%E7%BC%93%E6%98%AF%E5%91%A8%E6%9C%9F%E8%BF%98%E6%98%AF%E8%B6%8B%E5%8A%BF/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-31T08:00:00.000Z">10-31</time>
+              <span class="sidebar__post-title">Loy-经济学入门21：增长放缓，是周期问题还是趋势问题</span>
+            </a>
+          
+            
+            <a href="/2026/10/31/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A820-%E5%9C%B0%E6%96%B9%E6%94%BF%E5%BA%9C%E7%9A%84%E9%92%B1%E4%BB%8E%E5%93%AA%E9%87%8C%E6%9D%A5/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-31T07:00:00.000Z">10-31</time>
+              <span class="sidebar__post-title">Loy-经济学入门20：地方政府的钱从哪里来——土地财政与地方债</span>
+            </a>
+          
+            
+            <a href="/2026/10/31/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A819-%E5%90%8C%E6%A0%B7%E7%9A%84%E6%8A%80%E6%9C%AF%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%A7%E5%87%BA%E5%B7%AE%E5%BE%88%E5%A4%9A/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-31T06:00:00.000Z">10-31</time>
+              <span class="sidebar__post-title">Loy-经济学入门19：同样的技术和资本，为什么产出差很多——产权与制度</span>
+            </a>
+          
+            
+            <a href="/2026/10/31/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A818-%E6%B3%A1%E6%B2%AB%E7%A0%B4%E8%A3%82%E4%B9%8B%E5%90%8E%E4%B8%BA%E4%BB%80%E4%B9%88%E9%99%8D%E6%81%AF%E4%B9%9F%E6%B2%A1%E7%94%A8/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-31T05:00:00.000Z">10-31</time>
+              <span class="sidebar__post-title">Loy-经济学入门18：泡沫破裂之后，为什么降息也拉不动经济</span>
+            </a>
+          
+            
+            <a href="/2026/10/31/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A817-%E7%B9%81%E8%8D%A3%E5%A6%82%E4%BD%95%E8%87%AA%E5%B7%B1%E5%9F%8B%E4%B8%8B%E5%B4%A9%E7%9B%98/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-31T04:00:00.000Z">10-31</time>
+              <span class="sidebar__post-title">Loy-经济学入门17：繁荣如何自己埋下崩盘——明斯基时刻</span>
+            </a>
+          
+            
+            <a href="/2026/10/31/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A816-%E6%94%BF%E5%BA%9C%E5%80%9F%E9%92%B1%E8%8A%B1%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E6%98%AF%E8%89%AF%E8%8D%AF/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-31T03:00:00.000Z">10-31</time>
+              <span class="sidebar__post-title">Loy-经济学入门16：政府借钱花，什么时候是良药，什么时候是毒药</span>
+            </a>
+          
+            
+            <a href="/2026/10/31/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A815-%E5%A4%AE%E8%A1%8C%E8%B0%83%E4%B8%80%E4%B8%AA%E5%88%A9%E7%8E%87%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E5%BD%B1%E5%93%8D%E4%B8%80%E5%88%87/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-31T02:00:00.000Z">10-31</time>
+              <span class="sidebar__post-title">Loy-经济学入门15：央行调一个利率，为什么能影响房贷、汇率和股价</span>
+            </a>
+          
+            
+            <a href="/2026/10/31/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A814-%E9%92%B1%E6%98%AF%E5%8D%B0%E5%87%BA%E6%9D%A5%E7%9A%84%E8%BF%98%E6%98%AF%E5%80%9F%E5%87%BA%E6%9D%A5%E7%9A%84/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-31T01:00:00.000Z">10-31</time>
+              <span class="sidebar__post-title">Loy-经济学入门14：钱是印出来的，还是借出来的——货币创造</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A813-%E4%B8%89%E4%B8%AA%E6%95%B0%E5%AD%97%E7%9A%84%E6%9E%84%E9%80%A0%E4%B8%8E%E8%B0%8E%E8%A8%80/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T12:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门13：三个数字的构造与谎言——GDP、通胀、失业</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A812-%E5%85%AC%E5%8F%B8%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E6%97%A0%E9%99%90%E5%8F%98%E5%A4%A7/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T11:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门12：公司为什么不无限变大——交易成本与企业边界</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A811-%E5%90%8C%E4%B8%80%E4%BB%B6%E4%B8%9C%E8%A5%BF%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8D%96%E4%B8%8D%E5%90%8C%E4%BB%B7/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T10:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门11：同一件东西为什么卖不同价——价格歧视</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A810-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%87%AA%E6%9D%A5%E6%B0%B4%E5%8F%AA%E8%83%BD%E6%9C%89%E4%B8%80%E5%AE%B6/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T09:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门10：为什么自来水只能有一家——垄断与管制</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A809-%E6%96%87%E5%87%AD%E5%88%B0%E5%BA%95%E8%AF%81%E6%98%8E%E4%BA%86%E4%BB%80%E4%B9%88/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T08:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门09：文凭到底证明了什么——信号与筛选</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A808-%E4%BF%9D%E9%99%A9%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AE%A9%E4%BA%BA%E6%9B%B4%E5%86%92%E9%99%A9/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T07:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门08：保险为什么让人更冒险——道德风险</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A807-%E4%BA%8C%E6%89%8B%E8%BD%A6%E5%B8%82%E5%9C%BA%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E7%83%82%E6%8E%89/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T06:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门07：二手车市场为什么会烂掉——柠檬市场</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A806-%E8%B7%AF%E7%81%AF%E4%B8%8E%E7%89%A7%E5%9C%BA/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T05:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门06：路灯与牧场——公共品与公地悲剧</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A805-%E9%97%A8%E5%8F%A3%E9%82%A3%E6%A3%B5%E6%A0%91%E8%AF%A5%E7%94%B1%E8%B0%81%E7%A7%8D/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T04:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门05：门口那棵树该由谁种——外部性</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A804-%E4%BA%A4%E6%98%93%E7%9A%84%E5%A5%BD%E5%A4%84%E6%80%8E%E4%B9%88%E5%88%86/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T03:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门04：交易的好处怎么分</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A803-%E8%B0%81%E6%9B%B4%E6%80%95%E6%B6%A8%E4%BB%B7/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T02:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门03：谁更怕涨价——弹性</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A802-%E9%99%90%E4%BB%B7%E4%B9%8B%E5%90%8E%E4%B8%9C%E8%A5%BF%E5%8E%BB%E5%93%AA%E4%BA%86/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-30T01:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Loy-经济学入门02：限价之后，东西去哪了</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Base-RTX%E5%85%A8%E5%85%89%E8%BF%BD%E4%B8%8E%E6%B7%B7%E5%90%88%E5%85%89%E8%BF%BD%E5%85%A8%E6%99%AF/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-29T16:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Base-RTX全光追与混合光追全景</span>
+            </a>
+          
+            
+            <a href="/2026/10/30/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%80%8E%E4%B9%88%E5%86%B3%E5%AE%9A%E6%AF%94%E5%86%B3%E5%AE%9A%E4%BB%80%E4%B9%88%E6%9B%B4%E9%87%8D%E8%A6%81%E2%80%94%E2%80%94%E7%A8%8B%E5%BA%8F%E6%AD%A3%E4%B9%89/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-29T16:00:00.000Z">10-30</time>
+              <span class="sidebar__post-title">Mind-为什么怎么决定比决定什么更重要——程序正义</span>
+            </a>
+          
+            
+            <a href="/2026/10/29/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A801-%E6%88%90%E6%9C%AC%E6%98%AF%E4%BD%A0%E6%94%BE%E5%BC%83%E7%9A%84%E9%82%A3%E4%B8%AA%E4%B8%9C%E8%A5%BF/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-29T08:30:00.000Z">10-29</time>
+              <span class="sidebar__post-title">Loy-经济学入门01：成本是你放弃的那个东西</span>
+            </a>
+          
+            
+            <a href="/2026/10/29/Loy-%E7%BB%8F%E6%B5%8E%E5%AD%A6%E5%85%A5%E9%97%A8%E5%AF%BC%E8%AF%BB/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-29T07:50:00.000Z">10-29</time>
+              <span class="sidebar__post-title">Loy-经济学入门导读：二十三篇怎么读</span>
+            </a>
+          
+            
+            <a href="/2026/10/29/AI-%E5%9F%BA%E6%A8%A1%E5%85%A8%E6%99%AF%E4%B8%8E%E9%80%89%E5%9E%8B/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-28T16:00:00.000Z">10-29</time>
+              <span class="sidebar__post-title">AI-基模有哪些：九类基础模型与它们的能力边界</span>
+            </a>
+          
+            
+            <a href="/2026/10/29/Loy-%E5%BA%B7%E6%B3%A2%E5%91%A8%E6%9C%9F/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-28T16:00:00.000Z">10-29</time>
+              <span class="sidebar__post-title">Loy-康波周期：五十年长波的机制、证据与用法</span>
+            </a>
+          
+            
+            <a href="/2026/10/29/Loy-2000%E8%87%B32026%E6%AC%A7%E7%BE%8E%E5%89%A7%E6%A6%9C%E5%8D%95/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-28T16:00:00.000Z">10-29</time>
+              <span class="sidebar__post-title">Loy-2000—2026 欧美剧榜单</span>
+            </a>
+          
+            
+            <a href="/2026/10/29/Mind-%E6%8A%8A%E5%85%AD%E5%8D%81%E4%B8%89%E7%A7%8D%E6%80%9D%E7%BB%B4%E9%99%B7%E9%98%B1%E7%94%BB%E6%88%90%E4%B8%80%E5%BC%A0%E5%9C%B0%E5%9B%BE%E2%80%94%E2%80%94%E5%BF%83%E6%99%BA%E6%B8%85%E9%86%92%E6%80%BB%E9%9B%86%E7%AF%87/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-28T16:00:00.000Z">10-29</time>
+              <span class="sidebar__post-title">Mind-把六十三种思维陷阱画成一张地图——心智清醒总集篇</span>
+            </a>
+          
+            
+            <a href="/2026/10/28/AI-%E5%BB%BA%E6%A8%A1%E8%B7%AF%E7%BA%BF%E4%B8%8E%E9%80%89%E5%9E%8B/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-27T16:00:00.000Z">10-28</time>
+              <span class="sidebar__post-title">AI-四条建模路线：能力边界、显存代价与选型</span>
+            </a>
+          
+            
+            <a href="/2026/10/28/Loy-%E4%B8%AD%E5%9B%BD%E5%8E%86%E6%9C%9D%E5%8F%A4%E9%83%BD%E6%97%B6%E9%97%B4%E8%BD%B4/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-27T16:00:00.000Z">10-28</time>
+              <span class="sidebar__post-title">Loy-中国历朝古都的时间轴与都城志</span>
+            </a>
+          
+            
+            <a href="/2026/10/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%88%9A%E5%90%AC%E8%BF%87%E7%9A%84%E6%83%A8%E6%A1%88%E8%A2%AB%E9%AB%98%E4%BC%B0%E2%80%94%E2%80%94%E5%8F%AF%E5%BE%97%E6%80%A7%E5%90%AF%E5%8F%91/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-27T16:00:00.000Z">10-28</time>
+              <span class="sidebar__post-title">Mind-为什么刚听过的惨案被高估——可得性启发</span>
+            </a>
+          
+            
+            <a href="/2026/10/27/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%A0%94%E7%A9%B6%E8%80%85%E5%8F%AA%E7%9C%8B%E8%A7%81%E4%BB%96%E6%83%B3%E7%9C%8B%E8%A7%81%E7%9A%84%E2%80%94%E2%80%94%E8%A7%82%E5%AF%9F%E8%80%85%E6%9C%9F%E6%9C%9B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-26T16:00:00.000Z">10-27</time>
+              <span class="sidebar__post-title">Mind-为什么研究者只看见他想看见的——观察者期望效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/26/Art-%E4%B8%89%E5%88%86%E6%B3%95%E4%B8%8E%E6%9E%84%E5%9B%BE%E5%8A%A8%E7%BA%BF/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-25T16:00:00.000Z">10-26</time>
+              <span class="sidebar__post-title">Art-三分法与构图动线：从 1797 年的比例建议到九宫格口诀</span>
+            </a>
+          
+            
+            <a href="/2026/10/26/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E4%B8%8D%E7%9F%A5%E9%81%93%E6%89%8D%E6%98%AF%E8%81%AA%E6%98%8E%E7%9A%84%E5%BC%80%E5%A7%8B%E2%80%94%E2%80%94%E5%85%83%E8%AE%A4%E7%9F%A5%E4%B8%8E%E6%88%90%E9%95%BF%E5%9E%8B%E6%80%9D%E7%BB%B4/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-25T16:00:00.000Z">10-26</time>
+              <span class="sidebar__post-title">Mind-为什么知道自己不知道才是聪明的开始——元认知与成长型思维</span>
+            </a>
+          
+            
+            <a href="/2026/10/25/Art-%E8%A1%A5%E8%89%B2%E4%B8%8E%E8%A7%86%E8%A7%89%E6%AE%8B%E5%83%8F/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-24T16:00:00.000Z">10-25</time>
+              <span class="sidebar__post-title">Art-补色与视觉残像：眼睛补出来的对立色</span>
+            </a>
+          
+            
+            <a href="/2026/10/25/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%90%8C%E6%A0%B7%E7%9A%84%E6%89%93%E5%87%BB%E6%9C%89%E4%BA%BA%E5%80%92%E4%B8%8B%E6%9C%89%E4%BA%BA%E6%9B%B4%E5%BC%BA%E2%80%94%E2%80%94%E5%BF%83%E7%90%86%E9%9F%A7%E6%80%A7/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-24T16:00:00.000Z">10-25</time>
+              <span class="sidebar__post-title">Mind-为什么同样的打击有人倒下有人更强——心理韧性</span>
+            </a>
+          
+            
+            <a href="/2026/10/24/Art-%E8%89%B2%E5%BD%A9%E9%80%8F%E8%A7%86%E4%B8%8E%E7%A9%BA%E6%B0%94%E9%80%8F%E8%A7%86/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-23T16:00:00.000Z">10-24</time>
+              <span class="sidebar__post-title">Art-色彩透视与空气透视：远不是画小一点，是被空气吃掉</span>
+            </a>
+          
+            
+            <a href="/2026/10/24/Mind-%E6%83%B3%E8%B5%A2%E5%BE%88%E9%9A%BE%EF%BC%8C%E6%83%B3%E4%B8%8D%E8%BE%93%E5%BE%88%E7%AE%80%E5%8D%95%E2%80%94%E2%80%94%E9%80%86%E5%90%91%E6%80%9D%E8%80%83/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-23T16:00:00.000Z">10-24</time>
+              <span class="sidebar__post-title">Mind-想赢很难，想不输很简单——逆向思考</span>
+            </a>
+          
+            
+            <a href="/2026/10/23/Art-%E5%90%8C%E6%97%B6%E5%AF%B9%E6%AF%94/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-22T16:00:00.000Z">10-23</time>
+              <span class="sidebar__post-title">Art-同时对比：颜色是被邻居逼出来的</span>
+            </a>
+          
+            
+            <a href="/2026/10/23/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%81%9A%E4%BA%86%E5%A5%BD%E4%BA%8B%E4%B9%8B%E5%90%8E%E6%9B%B4%E5%AE%B9%E6%98%93%E6%94%BE%E7%BA%B5%E2%80%94%E2%80%94%E9%81%93%E5%BE%B7%E8%AE%B8%E5%8F%AF%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-22T16:00:00.000Z">10-23</time>
+              <span class="sidebar__post-title">Mind-为什么做了好事之后更容易放纵——道德许可效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/22/AI-ComfyUI%E7%94%9F%E6%88%90%E6%B8%B8%E6%88%8F%E8%B5%84%E4%BA%A7%E7%9A%84%E5%AE%9E%E8%B7%B5/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-21T16:00:00.000Z">10-22</time>
+              <span class="sidebar__post-title">AI-ComfyUI生成游戏资产的实践</span>
+            </a>
+          
+            
+            <a href="/2026/10/22/Art-%E6%98%8E%E6%9A%97%E5%AF%B9%E7%85%A7%E6%B3%95/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-21T16:00:00.000Z">10-22</time>
+              <span class="sidebar__post-title">Art-明暗对照法：用光与影组织画面</span>
+            </a>
+          
+            
+            <a href="/2026/10/22/Mind-%E5%A6%82%E4%BD%95%E5%B8%AE%E5%8A%A9%E6%AD%A3%E5%9C%A8%E8%A2%AB%E4%B8%BA%E9%9A%BE%E7%9A%84%E4%BA%BA%E2%80%94%E2%80%94%E6%97%81%E8%A7%82%E8%80%85%E5%B9%B2%E9%A2%84/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-21T16:00:00.000Z">10-22</time>
+              <span class="sidebar__post-title">Mind-如何帮助正在被为难的人——旁观者干预</span>
+            </a>
+          
+            
+            <a href="/2026/10/21/Art-%E7%BE%8E%E6%BC%AB%E7%94%BB%E9%A3%8E%E6%8A%80%E6%B3%95/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-20T16:00:00.000Z">10-21</time>
+              <span class="sidebar__post-title">Art-美漫画风技法入门：从墨线到小圆点</span>
+            </a>
+          
+            
+            <a href="/2026/10/21/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E4%BA%BA%E5%AE%81%E8%A6%81%E9%94%99%E8%AF%AF%E7%AD%94%E6%A1%88%E4%B9%9F%E4%B8%8D%E8%A6%81%E6%82%AC%E8%80%8C%E6%9C%AA%E5%86%B3%E2%80%94%E2%80%94%E8%AE%A4%E7%9F%A5%E9%97%AD%E5%90%88%E9%9C%80%E6%B1%82/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-20T16:00:00.000Z">10-21</time>
+              <span class="sidebar__post-title">Mind-为什么有人宁要错误答案也不要悬而未决——认知闭合需求</span>
+            </a>
+          
+            
+            <a href="/2026/10/20/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%99%BA%E5%95%86%E9%AB%98%E7%9A%84%E4%BA%BA%E4%B8%8D%E4%B8%80%E5%AE%9A%E8%BF%87%E5%BE%97%E5%A5%BD%E2%80%94%E2%80%94%E6%83%85%E7%BB%AA%E6%99%BA%E5%8A%9B/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-19T16:00:00.000Z">10-20</time>
+              <span class="sidebar__post-title">Mind-为什么智商高的人不一定过得好——情绪智力</span>
+            </a>
+          
+            
+            <a href="/2026/10/18/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%9C%8B%E5%BE%97%E8%A7%81%E8%BF%9B%E5%BA%A6%E6%9D%A1%E5%B0%B1%E8%83%BD%E5%9D%9A%E6%8C%81%E6%9B%B4%E4%B9%85%E2%80%94%E2%80%94%E5%8F%8D%E9%A6%88%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-17T16:00:00.000Z">10-18</time>
+              <span class="sidebar__post-title">Mind-为什么看得见进度条就能坚持更久——反馈效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/17/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B0%88%E5%88%A4%E9%87%8C%E5%85%88%E5%BC%80%E5%8F%A3%E7%9A%84%E4%BA%BA%E5%85%88%E8%BE%93%E2%80%94%E2%80%94%E8%B0%88%E5%88%A4%E5%BF%83%E7%90%86%E5%AD%A6/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-16T16:00:00.000Z">10-17</time>
+              <span class="sidebar__post-title">Mind-为什么谈判里先开口的人先输——谈判心理学</span>
+            </a>
+          
+            
+            <a href="/2026/10/15/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E7%BE%A4%E8%81%AA%E6%98%8E%E4%BA%BA%E4%BC%9A%E4%B8%80%E8%B5%B7%E5%81%9A%E8%A0%A2%E5%86%B3%E5%AE%9A%E2%80%94%E2%80%94%E7%BE%A4%E4%BD%93%E6%80%9D%E7%BB%B4/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-14T16:00:00.000Z">10-15</time>
+              <span class="sidebar__post-title">Mind-为什么一群聪明人会一起做蠢决定——群体思维</span>
+            </a>
+          
+            
+            <a href="/2026/10/14/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%9D%8F%E6%83%85%E7%BB%AA%E6%80%BB%E7%A0%B8%E5%9C%A8%E6%9C%80%E5%BC%B1%E7%9A%84%E4%BA%BA%E8%BA%AB%E4%B8%8A%E2%80%94%E2%80%94%E8%B8%A2%E7%8C%AB%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-13T16:00:00.000Z">10-14</time>
+              <span class="sidebar__post-title">Mind-为什么坏情绪总砸在最弱的人身上——踢猫效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/13/Dev-%E5%BC%80%E6%BA%90%E5%B0%8F%E8%BD%AF%E4%BB%B6%E6%B8%85%E5%8D%95/" class="sidebar__item" data-category="Dev" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-12T16:00:00.000Z">10-13</time>
+              <span class="sidebar__post-title">Dev-我收集的开源小软件清单</span>
+            </a>
+          
+            
+            <a href="/2026/10/13/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A4%B9%E7%9D%80%E5%A4%B8%E7%9A%84%E6%89%B9%E8%AF%84%E6%89%8D%E5%90%AC%E5%BE%97%E8%BF%9B%E5%8E%BB%E2%80%94%E2%80%94%E4%B8%89%E6%98%8E%E6%B2%BB%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-12T16:00:00.000Z">10-13</time>
+              <span class="sidebar__post-title">Mind-为什么夹着夸的批评才听得进去——三明治效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/12/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E5%8F%AB%E8%87%AA%E5%B7%B1%E5%88%AB%E6%83%B3%E8%B6%8A%E5%BF%98%E4%B8%8D%E6%8E%89%E2%80%94%E2%80%94%E7%99%BD%E7%86%8A%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-11T16:00:00.000Z">10-12</time>
+              <span class="sidebar__post-title">Mind-为什么越叫自己别想越忘不掉——白熊效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/11/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E6%80%95%E5%87%BA%E9%94%99%E8%B6%8A%E5%87%BA%E9%94%99%E2%80%94%E2%80%94%E7%93%A6%E4%BC%A6%E8%BE%BE%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-10T16:00:00.000Z">10-11</time>
+              <span class="sidebar__post-title">Mind-为什么越怕出错越出错——瓦伦达效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/10/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B0%A3%E8%A8%80%E8%BF%87%E4%B8%80%E9%98%B5%E5%8F%8D%E8%80%8C%E6%9B%B4%E5%8F%AF%E4%BF%A1%E2%80%94%E2%80%94%E7%9D%A1%E7%9C%A0%E8%80%85%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-09T16:00:00.000Z">10-10</time>
+              <span class="sidebar__post-title">Mind-为什么谣言过一阵反而更可信——睡眠者效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/09/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A2%AB%E7%9C%8B%E8%A7%81%E5%B0%B1%E4%B8%8D%E4%B8%80%E6%A0%B7%E2%80%94%E2%80%94%E9%9C%8D%E6%A1%91%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-08T16:00:00.000Z">10-09</time>
+              <span class="sidebar__post-title">Mind-为什么被看见就不一样——霍桑效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/08/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A2%AB%E5%8F%AB%E6%88%90%E4%BB%80%E4%B9%88%E6%A0%B7%E5%B0%B1%E4%BC%9A%E5%8F%98%E6%88%90%E4%BB%80%E4%B9%88%E6%A0%B7%E2%80%94%E2%80%94%E6%A0%87%E7%AD%BE%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-07T16:00:00.000Z">10-08</time>
+              <span class="sidebar__post-title">Mind-为什么被叫成什么样就会变成什么样——标签效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/07/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%8D%E8%B4%B9%E4%B8%A4%E4%B8%AA%E5%AD%97%E8%83%BD%E6%94%B9%E5%86%99%E5%88%A4%E6%96%AD%E2%80%94%E2%80%94%E5%85%8D%E8%B4%B9%E7%9A%84%E5%8A%9B%E9%87%8F/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-06T16:00:00.000Z">10-07</time>
+              <span class="sidebar__post-title">Mind-为什么免费两个字能改写判断——免费的力量</span>
+            </a>
+          
+            
+            <a href="/2026/10/06/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E9%A1%B9%E8%B6%8A%E5%A4%9A%E8%B6%8A%E9%80%89%E4%B8%8D%E5%87%BA%E6%9D%A5%E2%80%94%E2%80%94%E5%86%B3%E7%AD%96%E7%98%AB%E7%97%AA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-05T16:00:00.000Z">10-06</time>
+              <span class="sidebar__post-title">Mind-为什么选项越多越选不出来——决策瘫痪</span>
+            </a>
+          
+            
+            <a href="/2026/10/05/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%88%B7%E4%B8%8D%E5%AE%8C%E7%9A%84%E7%9F%AD%E8%A7%86%E9%A2%91%E5%81%9C%E4%B8%8D%E4%B8%8B%E6%9D%A5%E2%80%94%E2%80%94%E5%A4%9A%E5%B7%B4%E8%83%BA%E4%B8%8E%E6%88%90%E7%98%BE%E6%9C%BA%E5%88%B6/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-04T16:00:00.000Z">10-05</time>
+              <span class="sidebar__post-title">Mind-为什么刷不完的短视频停不下来——多巴胺与成瘾机制</span>
+            </a>
+          
+            
+            <a href="/2026/10/04/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%88%E8%A2%AB%E7%8B%AE%E5%AD%90%E5%A4%A7%E5%BC%80%E5%8F%A3%E5%8F%8D%E8%80%8C%E6%9B%B4%E5%AE%B9%E6%98%93%E7%AD%94%E5%BA%94%E2%80%94%E2%80%94%E7%95%99%E9%9D%A2%E5%AD%90%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-03T16:00:00.000Z">10-04</time>
+              <span class="sidebar__post-title">Mind-为什么先被狮子大开口反而更容易答应——留面子效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/03/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%AD%94%E5%BA%94%E4%BA%86%E5%B0%8F%E4%BA%8B%E5%B0%B1%E9%9A%BE%E6%8B%92%E7%BB%9D%E5%A4%A7%E4%BA%8B%E2%80%94%E2%80%94%E7%99%BB%E9%97%A8%E6%A7%9B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-02T16:00:00.000Z">10-03</time>
+              <span class="sidebar__post-title">Mind-为什么答应了小事就难拒绝大事——登门槛效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/02/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%80%E5%90%8E%E4%B8%89%E4%BB%B6%E8%AE%A9%E4%BA%BA%E7%AB%8B%E5%88%BB%E4%B8%8B%E5%8D%95%E2%80%94%E2%80%94%E7%A8%80%E7%BC%BA%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-10-01T16:00:00.000Z">10-02</time>
+              <span class="sidebar__post-title">Mind-为什么最后三件让人立刻下单——稀缺效应</span>
+            </a>
+          
+            
+            <a href="/2026/10/01/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E7%A6%81%E6%AD%A2%E8%B6%8A%E6%83%B3%E8%A6%81%E2%80%94%E2%80%94%E7%A6%81%E6%9E%9C%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-30T16:00:00.000Z">10-01</time>
+              <span class="sidebar__post-title">Mind-为什么越禁止越想要——禁果效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/30/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E4%B8%80%E5%A4%9A%E5%B0%B1%E6%9C%89%E4%BA%BA%E5%81%B7%E6%87%92%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E6%83%B0%E5%8C%96/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-29T16:00:00.000Z">09-30</time>
+              <span class="sidebar__post-title">Mind-为什么人一多就有人偷懒——社会惰化</span>
+            </a>
+          
+            
+            <a href="/2026/09/29/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%B6%8A%E6%8B%85%E5%BF%83%E7%9A%84%E4%BA%8B%E8%B6%8A%E4%BC%9A%E5%8F%91%E7%94%9F%E2%80%94%E2%80%94%E8%87%AA%E6%88%91%E5%AE%9E%E7%8E%B0%E9%A2%84%E8%A8%80/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-28T16:00:00.000Z">09-29</time>
+              <span class="sidebar__post-title">Mind-为什么你越担心的事越会发生——自我实现预言</span>
+            </a>
+          
+            
+            <a href="/2026/09/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%83%B3%E5%88%B0%E6%AD%BB%E4%BA%A1%E4%BC%9A%E8%AE%A9%E4%BA%BA%E6%9B%B4%E6%8E%92%E5%A4%96%E2%80%94%E2%80%94%E6%81%90%E6%80%96%E7%AE%A1%E7%90%86%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-27T16:00:00.000Z">09-28</time>
+              <span class="sidebar__post-title">Mind-为什么想到死亡会让人更排外——恐怖管理理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/27/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8D%A2%E4%B8%AA%E8%AF%B4%E6%B3%95%E5%B0%B1%E6%8D%A2%E4%BA%86%E7%AD%94%E6%A1%88%E2%80%94%E2%80%94%E6%A1%86%E6%9E%B6%E6%95%88%E5%BA%94/" class="sidebar__item is-active" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-26T16:00:00.000Z">09-27</time>
+              <span class="sidebar__post-title">Mind-为什么换个说法就换了答案——框架效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/26/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A7%81%E5%A4%9A%E4%BA%86%E5%B0%B1%E9%A1%BA%E7%9C%BC%E4%BA%86%E2%80%94%E2%80%94%E6%9B%9D%E5%85%89%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-25T16:00:00.000Z">09-26</time>
+              <span class="sidebar__post-title">Mind-为什么见多了就顺眼了——曝光效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/25/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%A5%BD%E4%BA%BA%E6%8D%A2%E4%B8%AA%E6%83%85%E5%A2%83%E5%B0%B1%E5%8F%98%E5%9D%8F%E2%80%94%E2%80%94%E6%83%85%E5%A2%83%E7%9A%84%E5%8A%9B%E9%87%8F/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-24T16:00:00.000Z">09-25</time>
+              <span class="sidebar__post-title">Mind-为什么好人换个情境就变坏——情境的力量</span>
+            </a>
+          
+            
+            <a href="/2026/09/24/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%99%AE%E9%80%9A%E4%BA%BA%E4%B9%9F%E4%BC%9A%E6%8C%89%E4%B8%8B%E7%94%B5%E5%87%BB%E9%94%AE%E2%80%94%E2%80%94%E6%9D%83%E5%A8%81%E6%9C%8D%E4%BB%8E/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-23T16:00:00.000Z">09-24</time>
+              <span class="sidebar__post-title">Mind-为什么普通人也会按下电击键——权威服从</span>
+            </a>
+          
+            
+            <a href="/2026/09/23/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%9F%E5%BA%A7%E8%AF%B4%E4%BD%A0%E5%87%86%E5%BE%97%E5%90%93%E4%BA%BA%E2%80%94%E2%80%94%E5%B7%B4%E7%BA%B3%E5%A7%86%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-22T16:00:00.000Z">09-23</time>
+              <span class="sidebar__post-title">Mind-为什么星座说你准得吓人——巴纳姆效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/22/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%B2%A1%E5%81%9A%E5%AE%8C%E7%9A%84%E4%BA%8B%E6%80%BB%E5%9C%A8%E8%84%91%E5%AD%90%E9%87%8C%E6%89%93%E8%BD%AC%E2%80%94%E2%80%94%E8%94%A1%E6%A0%BC%E5%B0%BC%E5%85%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-21T16:00:00.000Z">09-22</time>
+              <span class="sidebar__post-title">Mind-为什么没做完的事总在脑子里打转——蔡格尼克效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/21/Base-WebGL%E6%8A%80%E6%9C%AF%E6%A6%82%E8%BF%B0/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-20T16:00:00.000Z">09-21</time>
+              <span class="sidebar__post-title">Base-WebGL技术概述</span>
+            </a>
+          
+            
+            <a href="/2026/09/21/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%94%B6%E4%BA%86%E5%B0%8F%E6%81%A9%E6%83%A0%E5%B0%B1%E6%AC%A0%E4%BA%86%E4%B8%80%E7%AC%94%E4%BA%BA%E6%83%85%E2%80%94%E2%80%94%E4%BA%92%E6%83%A0%E5%8E%9F%E7%90%86/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-20T16:00:00.000Z">09-21</time>
+              <span class="sidebar__post-title">Mind-为什么收了小恩惠就欠了一笔人情——互惠原理</span>
+            </a>
+          
+            
+            <a href="/2026/09/20/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%99%BD%E7%BB%99%E7%9A%84%E9%92%B1%E4%B9%9F%E4%BC%9A%E8%A2%AB%E6%8B%92%E7%BB%9D%E2%80%94%E2%80%94%E6%9C%80%E5%90%8E%E9%80%9A%E7%89%92%E5%8D%9A%E5%BC%88/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-19T16:00:00.000Z">09-20</time>
+              <span class="sidebar__post-title">Mind-为什么白给的钱也会被拒绝——最后通牒博弈</span>
+            </a>
+          
+            
+            <a href="/2026/09/19/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%87%92%E5%BE%97%E6%94%B9%E7%9A%84%E9%82%A3%E4%B8%AA%E9%80%89%E9%A1%B9%E5%9C%A8%E6%9B%BF%E4%BD%A0%E5%81%9A%E5%86%B3%E5%AE%9A%E2%80%94%E2%80%94%E9%BB%98%E8%AE%A4%E6%95%88%E5%BA%94%E4%B8%8E%E5%8A%A9%E6%8E%A8/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-18T16:00:00.000Z">09-19</time>
+              <span class="sidebar__post-title">Mind-为什么懒得改的那个选项在替你做决定——默认效应与助推</span>
+            </a>
+          
+            
+            <a href="/2026/09/18/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E5%8F%AA%E7%9C%8B%E8%A7%81%E6%B4%BB%E4%B8%8B%E6%9D%A5%E7%9A%84%E4%BA%BA%E2%80%94%E2%80%94%E5%B9%B8%E5%AD%98%E8%80%85%E5%81%8F%E5%B7%AE/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">Mind-为什么你只看见活下来的人——幸存者偏差</span>
+            </a>
+          
+            
+            <a href="/2026/09/17/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E7%BC%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E8%A2%AB%E4%BB%80%E4%B9%88%E5%9B%B0%E4%BD%8F%E2%80%94%E2%80%94%E7%A8%80%E7%BC%BA%E5%BF%83%E6%80%81/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-16T16:00:00.000Z">09-17</time>
+              <span class="sidebar__post-title">Mind-为什么越缺什么越被什么困住——稀缺心态</span>
+            </a>
+          
+            
+            <a href="/2026/09/16/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%AE%B0%E5%BE%97%E7%9A%84%E4%BA%8B%E5%8F%AF%E8%83%BD%E6%98%AF%E5%81%87%E7%9A%84%E2%80%94%E2%80%94%E8%AE%B0%E5%BF%86%E9%87%8D%E6%9E%84/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-15T16:00:00.000Z">09-16</time>
+              <span class="sidebar__post-title">Mind-为什么你记得的事可能是假的——记忆重构</span>
+            </a>
+          
+            
+            <a href="/2026/09/15/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E8%A6%81%E6%88%AA%E6%AD%A2%E8%BF%98%E6%98%AF%E5%88%B7%E6%89%8B%E6%9C%BA%E2%80%94%E2%80%94%E6%8B%96%E5%BB%B6%E4%B8%8E%E6%97%B6%E9%97%B4%E6%8A%98%E6%89%A3/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-14T16:00:00.000Z">09-15</time>
+              <span class="sidebar__post-title">Mind-为什么明知要截止还是刷手机——拖延与时间折扣</span>
+            </a>
+          
+            
+            <a href="/2026/09/14/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%A8%E7%A5%9E%E8%B4%AF%E6%B3%A8%E5%8F%8D%E8%80%8C%E4%B8%8D%E7%B4%AF%E2%80%94%E2%80%94%E5%BF%83%E6%B5%81/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">Mind-为什么全神贯注反而不累——心流</span>
+            </a>
+          
+            
+            <a href="/2026/09/13/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%81%87%E7%AC%91%E6%AF%94%E7%9C%9F%E7%B4%AF%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E6%83%85%E7%BB%AA%E5%8A%B3%E5%8A%A8/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-12T16:00:00.000Z">09-13</time>
+              <span class="sidebar__post-title">Mind-为什么假笑比真累还累——情绪劳动</span>
+            </a>
+          
+            
+            <a href="/2026/09/12/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E6%80%BB%E5%9C%A8%E5%92%8C%E5%88%AB%E4%BA%BA%E6%AF%94%E8%BE%83%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E6%AF%94%E8%BE%83%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-11T16:00:00.000Z">09-12</time>
+              <span class="sidebar__post-title">Mind-为什么你总在和别人比较——社会比较理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/11/Game-%E6%B1%BD%E8%BD%A6%E5%8F%98%E9%80%9F%E7%AE%B1%E9%BD%BF%E6%AF%94%E4%B8%8E%E6%9C%80%E7%BB%88%E4%BC%A0%E5%8A%A8%E6%AF%94/" class="sidebar__item" data-category="Game" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">Game-从 GT7 理解汽车变速箱齿比与最终传动比</span>
+            </a>
+          
+            
+            <a href="/2026/09/11/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4%E5%87%BA%E5%8F%A3%E7%9A%84%E8%AF%9D%E4%BC%9A%E7%BB%91%E6%9E%B6%E4%BD%A0%E2%80%94%E2%80%94%E6%89%BF%E8%AF%BA%E4%B8%80%E8%87%B4%E6%80%A7/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">Mind-为什么说出口的话会绑架你——承诺一致性</span>
+            </a>
+          
+            
+            <a href="/2026/09/10/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%9C%E8%A5%BF%E4%B8%80%E5%88%B0%E6%89%8B%E5%B0%B1%E5%8F%98%E5%80%BC%E9%92%B1%E2%80%94%E2%80%94%E7%A6%80%E8%B5%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">Mind-为什么东西一到手就变值钱——禀赋效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/09/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8D%A1%E6%9D%A5%E7%9A%84%E9%92%B1%E8%8A%B1%E5%BE%97%E6%9C%80%E5%BF%AB%E2%80%94%E2%80%94%E5%BF%83%E7%90%86%E8%B4%A6%E6%88%B7/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-08T16:00:00.000Z">09-09</time>
+              <span class="sidebar__post-title">Mind-为什么捡来的钱花得最快——心理账户</span>
+            </a>
+          
+            
+            <a href="/2026/09/08/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E7%BE%A4%E4%BA%BA%E8%81%8A%E7%9D%80%E8%81%8A%E7%9D%80%E5%B0%B1%E5%8F%98%E6%9E%81%E7%AB%AF%E2%80%94%E2%80%94%E7%BE%A4%E4%BD%93%E6%9E%81%E5%8C%96/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">Mind-为什么一群人聊着聊着就变极端——群体极化</span>
+            </a>
+          
+            
+            <a href="/2026/09/07/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%80%E6%89%87%E7%A0%B4%E7%AA%97%E4%BC%9A%E6%AF%81%E6%8E%89%E6%95%B4%E6%9D%A1%E8%A1%97%E2%80%94%E2%80%94%E7%A0%B4%E7%AA%97%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-06T16:00:00.000Z">09-07</time>
+              <span class="sidebar__post-title">Mind-为什么一扇破窗会毁掉整条街——破窗效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/06/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E6%80%BB%E6%8A%A4%E7%9D%80%E8%87%AA%E5%B7%B1%E4%BA%BA%E2%80%94%E2%80%94%E7%A4%BE%E4%BC%9A%E8%AE%A4%E5%90%8C%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-05T16:00:00.000Z">09-06</time>
+              <span class="sidebar__post-title">Mind-为什么我们总护着自己人——社会认同理论</span>
+            </a>
+          
+            
+            <a href="/2026/09/05/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%AC%AC%E4%B8%80%E5%8D%B0%E8%B1%A1%E5%A6%82%E6%AD%A4%E9%A1%BD%E5%9B%BA%E2%80%94%E2%80%94%E5%85%89%E7%8E%AF%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">Mind-为什么第一印象如此顽固——光环效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/04/Mind-%E7%BB%9D%E6%9C%9B%E6%98%AF%E8%A2%AB%E8%AE%AD%E7%BB%83%E5%87%BA%E6%9D%A5%E7%9A%84%E2%80%94%E2%80%94%E4%B9%A0%E5%BE%97%E6%80%A7%E6%97%A0%E5%8A%A9/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">Mind-绝望是被训练出来的——习得性无助</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Game-GT7%E8%BD%A6%E8%BE%86%E8%B0%83%E6%95%99%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="Game" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Game-GT7 车辆调教指南</span>
+            </a>
+          
+            
+            <a href="/2026/09/03/Mind-%E8%AE%B0%E5%BF%86%E5%8F%AA%E8%AE%B0%E5%BE%97%E9%AB%98%E6%BD%AE%E5%92%8C%E7%BB%93%E5%B0%BE%E2%80%94%E2%80%94%E5%B3%B0%E7%BB%88%E5%AE%9A%E5%BE%8B/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-02T16:00:00.000Z">09-03</time>
+              <span class="sidebar__post-title">Mind-记忆只记得高潮和结尾——峰终定律</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Mind-%E6%BB%A1%E8%B4%9F%E8%8D%B7%EF%BC%8C%E6%98%AF%E7%B3%BB%E7%BB%9F%E6%9C%80%E5%8D%B1%E9%99%A9%E7%9A%84%E6%97%B6%E5%88%BB%E2%80%94%E2%80%94%E6%8E%92%E9%98%9F%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Mind-满负荷，是系统最危险的时刻——排队论</span>
+            </a>
+          
+            
+            <a href="/2026/09/02/Mind-%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%95%B0%E5%AD%97%E5%A6%82%E4%BD%95%E6%93%8D%E7%BA%B5%E4%BD%A0%E2%80%94%E2%80%94%E9%94%9A%E5%AE%9A%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-09-01T16:00:00.000Z">09-02</time>
+              <span class="sidebar__post-title">Mind-第一个数字如何操纵你——锚定效应</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Base-%E6%B8%B2%E6%9F%93%E6%96%B9%E6%A1%88%E6%BC%94%E8%BF%9B%E6%80%BB%E8%A7%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Base-渲染方案演进总览</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%8F100%E6%AF%94%E8%B5%9A200%E6%9B%B4%E7%96%BC%E2%80%94%E2%80%94%E6%8D%9F%E5%A4%B1%E5%8E%8C%E6%81%B6/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Mind-为什么亏100比赚200更疼——损失厌恶</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Mind-%E9%97%B2%E7%9D%80%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AF%94%E5%BF%99%E4%B8%80%E5%A4%A9%E8%BF%98%E7%B4%AF%E2%80%94%E2%80%94%E6%97%A0%E8%81%8A/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Mind-闲着为什么比忙一天还累——无聊</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/UE4-RTGI/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">UE4-RTGI</span>
+            </a>
+          
+            
+            <a href="/2026/09/01/Unity-APV%E4%BD%93%E7%A7%AF%E6%8E%A2%E9%92%88/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-31T16:00:00.000Z">09-01</time>
+              <span class="sidebar__post-title">Unity-APV体积探针</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-1990%E8%87%B32026%E6%82%AC%E7%96%91%E7%94%B5%E5%BD%B1%E6%A6%9C%E5%8D%95/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-1990—2026 悬疑电影榜单</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Loy-2015%E8%87%B32026%E8%B1%86%E7%93%A3%E7%94%B5%E5%BD%B1Top250/" class="sidebar__item" data-category="Loy" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Loy-2015—2026 豆瓣电影 Top 250</span>
+            </a>
+          
+            
+            <a href="/2026/08/31/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%8E%E7%9F%A5%E9%81%93%E9%94%99%E4%B9%9F%E8%A6%81%E8%B7%9F%E7%9D%80%E8%AF%B4%E2%80%94%E2%80%94%E4%BB%8E%E4%BC%97/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-30T16:00:00.000Z">08-31</time>
+              <span class="sidebar__post-title">Mind-为什么明知道错也要跟着说——从众</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E5%83%8F%E7%90%86%E8%A7%A3%E9%9F%B3%E4%B9%90%E6%B5%81%E6%B4%BE%E4%B8%80%E6%A0%B7%E7%90%86%E8%A7%A3%E7%BE%8E%E6%9C%AF%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-像理解音乐流派一样理解美术体系</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Art-%E7%94%B5%E5%AD%90%E6%B8%B8%E6%88%8F%E7%BE%8E%E6%9C%AF%E9%A3%8E%E6%A0%BC%E4%BD%93%E7%B3%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Art-电子游戏美术风格体系——从视觉分类到概念原画研究</span>
+            </a>
+          
+            
+            <a href="/2026/08/30/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E4%B8%8D%E6%87%82%E8%B6%8A%E8%87%AA%E4%BF%A1%E2%80%94%E2%80%94%E8%BE%BE%E5%85%8B%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-29T16:00:00.000Z">08-30</time>
+              <span class="sidebar__post-title">Mind-为什么越不懂越自信——达克效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/29/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E8%B6%8A%E5%A4%9A%E8%B6%8A%E6%B2%A1%E4%BA%BA%E5%B8%AE%E5%BF%99%E2%80%94%E2%80%94%E6%97%81%E8%A7%82%E8%80%85%E6%95%88%E5%BA%94/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-28T16:00:00.000Z">08-29</time>
+              <span class="sidebar__post-title">Mind-为什么人越多越没人帮忙——旁观者效应</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Base-UE%E4%B8%8EUnity6%E5%85%A8%E5%B1%80%E5%85%89%E7%85%A7%E6%96%B9%E6%A1%88%E5%AF%B9%E6%AF%94/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Base-UE与Unity6全局光照方案对比</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E4%BC%9A%E7%9B%B8%E4%BF%A1%E8%87%AA%E7%9B%B8%E7%9F%9B%E7%9B%BE%E7%9A%84%E4%BA%8B%E2%80%94%E2%80%94%E8%AE%A4%E7%9F%A5%E5%A4%B1%E8%B0%83/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Mind-为什么人会相信自相矛盾的事——认知失调</span>
+            </a>
+          
+            
+            <a href="/2026/08/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%B6%8A%E6%8A%95%E5%85%A5%E8%B6%8A%E9%9A%BE%E6%94%BE%E5%BC%83%E2%80%94%E2%80%94%E6%B2%89%E6%B2%A1%E6%88%90%E6%9C%AC%E8%B0%AC%E8%AF%AF/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-27T16:00:00.000Z">08-28</time>
+              <span class="sidebar__post-title">Mind-为什么越投入越难放弃——沉没成本谬误</span>
+            </a>
+          
+            
+            <a href="/2026/08/26/Mind-%E4%BA%BA%E7%B1%BB%E7%A4%BE%E4%BC%9A%E7%9A%84%E5%B7%A5%E4%BD%9C%E7%B1%BB%E5%9E%8B/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-25T16:00:00.000Z">08-26</time>
+              <span class="sidebar__post-title">Mind-人类社会的工作类型</span>
+            </a>
+          
+            
+            <a href="/2026/08/21/Design-%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AARoguelike%E6%B8%B8%E6%88%8F/" class="sidebar__item" data-category="Design" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-20T16:00:00.000Z">08-21</time>
+              <span class="sidebar__post-title">Design-如何开发一个Roguelike游戏</span>
+            </a>
+          
+            
+            <a href="/2026/08/20/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%A0%E8%B6%8A%E6%83%B3%E6%94%B9%E5%8F%98%E4%B8%80%E4%B8%AA%E4%BA%BA%E4%BB%96%E8%B6%8A%E4%B8%8D%E5%8F%98%E2%80%94%E2%80%94%E8%87%AA%E6%88%91%E5%86%B3%E5%AE%9A%E7%90%86%E8%AE%BA/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-19T16:00:00.000Z">08-20</time>
+              <span class="sidebar__post-title">Mind-为什么你越想改变一个人他越不变——自我决定理论</span>
+            </a>
+          
+            
+            <a href="/2026/08/10/AI-%E6%8A%8A%E9%AB%98%E8%B4%A8%E9%87%8F%E7%94%BB%E9%9D%A2%E8%AE%AD%E7%BB%83%E6%88%90%E4%BD%8E%E9%85%8DShader%E7%9A%84%E6%8E%A2%E7%B4%A2/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-09T16:00:00.000Z">08-10</time>
+              <span class="sidebar__post-title">AI-把高质量画面训练成低配Shader的探索</span>
+            </a>
+          
+            
+            <a href="/2026/08/09/Unity-URP14%E5%8D%87%E7%BA%A7URP17-RenderFeature%E9%80%82%E9%85%8DRenderGraph/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-08T16:00:00.000Z">08-09</time>
+              <span class="sidebar__post-title">Unity-URP14升级URP17-RenderFeature适配RenderGraph</span>
+            </a>
+          
+            
+            <a href="/2026/08/03/Art-%E4%BA%91%E7%9A%84%E5%88%86%E7%B1%BB/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-08-02T16:00:00.000Z">08-03</time>
+              <span class="sidebar__post-title">Art-云的分类——从国际云图集到观云识天</span>
+            </a>
+          
+            
+            <a href="/2026/07/29/Art-%E6%8E%92%E7%BA%BF%E6%8A%80%E6%B3%95%E5%8F%91%E5%B1%95%E5%8F%B2/" class="sidebar__item" data-category="Art" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-28T16:00:00.000Z">07-29</time>
+              <span class="sidebar__post-title">Art-排线技法发展史</span>
+            </a>
+          
+            
+            <a href="/2026/07/21/Base-%E6%8A%80%E6%9C%AF%E7%BE%8E%E6%9C%AF%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-20T16:00:00.000Z">07-21</time>
+              <span class="sidebar__post-title">Base-技术美术学习资源与提升路线</span>
+            </a>
+          
+            
+            <a href="/2026/07/20/Base-%E6%8A%80%E6%9C%AF%E7%BE%8E%E6%9C%AF%E7%B4%A0%E6%9D%90%E4%B8%8E%E5%B7%A5%E5%85%B7%E5%BA%93/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-19T16:00:00.000Z">07-20</time>
+              <span class="sidebar__post-title">Base-技术美术素材与工具库</span>
+            </a>
+          
+            
+            <a href="/2026/07/02/Dev-%E8%B7%A8%E5%B9%B3%E5%8F%B0%E6%A1%8C%E9%9D%A2%E5%BA%94%E7%94%A8/" class="sidebar__item" data-category="Dev" data-year="2026">
+              <time class="sidebar__date" datetime="2026-07-01T16:00:00.000Z">07-02</time>
+              <span class="sidebar__post-title">Dev-主流跨平台桌面应用技术栈</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Mind-%E6%8A%8A%E7%9B%B4%E8%A7%89%E8%AE%AD%E7%BB%83%E6%88%90%E6%B8%85%E6%A5%9A%E8%A1%A8%E8%BE%BE/" class="sidebar__item" data-category="认知" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Mind-把直觉训练成清楚表达</span>
+            </a>
+          
+            
+            <a href="/2026/06/30/Unity-RenderGraph%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-29T16:00:00.000Z">06-30</time>
+              <span class="sidebar__post-title">Unity-RenderGraph机制分析</span>
+            </a>
+          
+            
+            <a href="/2026/06/23/Unity-XCode_Instruments%E7%9C%9F%E6%9C%BA%E6%80%A7%E8%83%BD%E5%88%86%E6%9E%90%E6%8C%87%E5%8D%97/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-22T16:00:00.000Z">06-23</time>
+              <span class="sidebar__post-title">Unity-XCode_Instruments真机性能分析指南</span>
+            </a>
+          
+            
+            <a href="/2026/06/22/AI-%E4%BB%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%AF%B9%E8%AF%9D%E5%88%B0Agent/" class="sidebar__item" data-category="AI" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-21T16:00:00.000Z">06-22</time>
+              <span class="sidebar__post-title">AI-从大模型对话、生图到Agent</span>
+            </a>
+          
+            
+            <a href="/2026/06/18/Unity-Jobs%E4%B8%8EBurst%E5%8E%9F%E7%90%86%E5%92%8C%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-17T16:00:00.000Z">06-18</time>
+              <span class="sidebar__post-title">Unity-Jobs与Burst原理和优化</span>
+            </a>
+          
+            
+            <a href="/2026/06/10/Base-GPU%E7%A1%AC%E4%BB%B6%E6%9E%B6%E6%9E%84%E5%9F%BA%E7%A1%80/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-06-09T16:00:00.000Z">06-10</time>
+              <span class="sidebar__post-title">Base-GPU硬件架构基础</span>
+            </a>
+          
+            
+            <a href="/2026/05/30/Unity-TA%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0%E5%A4%A7%E7%BA%B2/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-29T16:00:00.000Z">05-30</time>
+              <span class="sidebar__post-title">Unity-TA面试复习大纲</span>
+            </a>
+          
+            
+            <a href="/2026/05/18/Base-Shader%E5%88%86%E6%94%AF%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%8F%91%E6%95%A3/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-05-17T16:00:00.000Z">05-18</time>
+              <span class="sidebar__post-title">Base-Shader分支与GPU线程发散</span>
+            </a>
+          
+            
+            <a href="/2026/03/10/Unity-GPUDriven%E8%8D%89%E5%9C%B0%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-03-09T16:00:00.000Z">03-10</time>
+              <span class="sidebar__post-title">Unity-GPUDriven草地渲染</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-SRP%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-SRP前向渲染管线</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93Feature/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染Feature</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93HBAO/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染HBAO</span>
+            </a>
+          
+            
+            <a href="/2026/02/10/Unity-URP%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93SSR/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-02-09T16:00:00.000Z">02-10</time>
+              <span class="sidebar__post-title">Unity-URP延迟渲染SSR</span>
+            </a>
+          
+            
+            <a href="/2026/01/30/Unity_BongoCat%E8%87%AA%E5%8A%A8%E5%BC%80%E7%AE%B1/" class="sidebar__item" data-category="技术" data-year="2026">
+              <time class="sidebar__date" datetime="2026-01-29T16:00:00.000Z">01-30</time>
+              <span class="sidebar__post-title">Unity-BongoCat自动开箱</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2024">2024</div>
+            
+            <a href="/2024/06/15/UE5-MultiPass%E6%B7%BB%E5%8A%A0/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-14T16:00:00.000Z">06-15</time>
+              <span class="sidebar__post-title">UE5-MultiPass添加</span>
+            </a>
+          
+            
+            <a href="/2024/06/05/UE4-DeferredDecal/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-06-04T16:00:00.000Z">06-05</time>
+              <span class="sidebar__post-title">UE4-DeferredDecal</span>
+            </a>
+          
+            
+            <a href="/2024/05/29/Base-%E9%98%B4%E5%BD%B1ShadowMap/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Base-阴影ShadowMap相关</span>
+            </a>
+          
+            
+            <a href="/2024/05/26/Base-%E6%95%B0%E5%AD%A6/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-25T16:00:00.000Z">05-26</time>
+              <span class="sidebar__post-title">Base-矩阵和向量</span>
+            </a>
+          
+            
+            <a href="/2024/05/23/UE4-%E6%B7%BB%E5%8A%A0GlobalShader/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-22T16:00:00.000Z">05-23</time>
+              <span class="sidebar__post-title">UE4-添加GlobalShader</span>
+            </a>
+          
+            
+            <a href="/2024/05/19/Base-%E5%90%84%E4%B8%AA%E5%9D%90%E6%A0%87%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-18T16:00:00.000Z">05-19</time>
+              <span class="sidebar__post-title">Base-各个坐标空间</span>
+            </a>
+          
+            
+            <a href="/2024/05/11/UE4-PSOCache/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-05-10T16:00:00.000Z">05-11</time>
+              <span class="sidebar__post-title">UE4-PSOCache</span>
+            </a>
+          
+            
+            <a href="/2024/04/05/UE4-DistanceFieldShadow/" class="sidebar__item" data-category="技术" data-year="2024">
+              <time class="sidebar__date" datetime="2024-04-04T16:00:00.000Z">04-05</time>
+              <span class="sidebar__post-title">UE4-距离场阴影DistanceFieldShadow</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2023">2023</div>
+            
+            <a href="/2023/09/18/UE4-GPU%E4%BC%98%E5%8C%96ForPS5/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-17T16:00:00.000Z">09-18</time>
+              <span class="sidebar__post-title">UE4-GPU优化RazorForPS5</span>
+            </a>
+          
+            
+            <a href="/2023/09/14/UE4-GPUScene/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-13T16:00:00.000Z">09-14</time>
+              <span class="sidebar__post-title">UE4-GPUScene</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshPass/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-自定义MeshPass</span>
+            </a>
+          
+            
+            <a href="/2023/09/11/UE5-%E5%88%9B%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84%E6%8F%92%E4%BB%B6Plugin/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-10T16:00:00.000Z">09-11</time>
+              <span class="sidebar__post-title">UE5-创建简单的插件Plugin</span>
+            </a>
+          
+            
+            <a href="/2023/09/10/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89ShadingModel/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-09T16:00:00.000Z">09-10</time>
+              <span class="sidebar__post-title">UE5-自定义ShadingModel</span>
+            </a>
+          
+            
+            <a href="/2023/09/08/UE5-%E8%87%AA%E5%AE%9A%E4%B9%89MeshComponent/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-07T16:00:00.000Z">09-08</time>
+              <span class="sidebar__post-title">UE5-自定义MeshComponent</span>
+            </a>
+          
+            
+            <a href="/2023/09/05/UE4-DitherLODTransition/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-04T16:00:00.000Z">09-05</time>
+              <span class="sidebar__post-title">UE4-关于植被HISM屏占比LOD的选择和切换</span>
+            </a>
+          
+            
+            <a href="/2023/09/04/UE4-HISM%E5%89%94%E9%99%A4%E6%9B%B4%E6%96%B0DFShadow/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-09-03T16:00:00.000Z">09-04</time>
+              <span class="sidebar__post-title">UE4-HISM剔除更新DFShadow</span>
+            </a>
+          
+            
+            <a href="/2023/03/21/Base-%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-03-20T16:00:00.000Z">03-21</time>
+              <span class="sidebar__post-title">Base-面试问题汇总</span>
+            </a>
+          
+            
+            <a href="/2023/02/27/Unity-%E6%B8%B2%E6%9F%93%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-26T16:00:00.000Z">02-27</time>
+              <span class="sidebar__post-title">Unity-游戏渲染性能优化</span>
+            </a>
+          
+            
+            <a href="/2023/02/23/Unity-URP%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-22T16:00:00.000Z">02-23</time>
+              <span class="sidebar__post-title">Unity-URP代码架构</span>
+            </a>
+          
+            
+            <a href="/2023/02/19/Base-TBDR%E6%9E%B6%E6%9E%84/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-02-18T16:00:00.000Z">02-19</time>
+              <span class="sidebar__post-title">Base-TBDR架构</span>
+            </a>
+          
+            
+            <a href="/2023/01/14/Base-TAA/" class="sidebar__item" data-category="技术" data-year="2023">
+              <time class="sidebar__date" datetime="2023-01-13T16:00:00.000Z">01-14</time>
+              <span class="sidebar__post-title">Base-时域抗锯齿 TAA</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2022">2022</div>
+            
+            <a href="/2022/10/04/Dev-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E5%A4%AA%E9%98%B3%E7%B3%BB%E6%A8%A1%E6%8B%9F/" class="sidebar__item" data-category="Dev" data-year="2022">
+              <time class="sidebar__date" datetime="2022-10-03T16:00:00.000Z">10-04</time>
+              <span class="sidebar__post-title">Dev-开源项目-太阳系模拟</span>
+            </a>
+          
+            
+            <a href="/2022/04/30/Base-%E5%89%8D%E5%90%91%E6%B8%B2%E6%9F%93%E4%B8%8E%E5%BB%B6%E8%BF%9F%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2022">
+              <time class="sidebar__date" datetime="2022-04-29T16:00:00.000Z">04-30</time>
+              <span class="sidebar__post-title">Base-前向渲染与延迟渲染</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2021">2021</div>
+            
+            <a href="/2021/12/18/Unity-SRPBatcher/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-17T16:00:00.000Z">12-18</time>
+              <span class="sidebar__post-title">Unity-SRP Batcher 原理与使用</span>
+            </a>
+          
+            
+            <a href="/2021/12/11/Shader-%E5%B1%8F%E5%B9%95%E7%A9%BA%E9%97%B4/" class="sidebar__item" data-category="技术" data-year="2021">
+              <time class="sidebar__date" datetime="2021-12-10T16:00:00.000Z">12-11</time>
+              <span class="sidebar__post-title">Shader-屏幕空间</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2020">2020</div>
+            
+            <a href="/2020/07/31/Base-%E9%80%8F%E6%98%8E%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-07-30T16:00:00.000Z">07-31</time>
+              <span class="sidebar__post-title">Base-透明渲染</span>
+            </a>
+          
+            
+            <a href="/2020/06/04/Dev-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-A%E6%98%9F%E7%AE%97%E6%B3%95%E5%8F%AF%E8%A7%86%E5%8C%96/" class="sidebar__item" data-category="Dev" data-year="2020">
+              <time class="sidebar__date" datetime="2020-06-03T16:00:00.000Z">06-04</time>
+              <span class="sidebar__post-title">Dev-开源项目-A*算法可视化</span>
+            </a>
+          
+            
+            <a href="/2020/05/29/Dev-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE-%E9%9F%B3%E9%A2%91%E5%8F%AF%E8%A7%86%E5%8C%96/" class="sidebar__item" data-category="Dev" data-year="2020">
+              <time class="sidebar__date" datetime="2020-05-28T16:00:00.000Z">05-29</time>
+              <span class="sidebar__post-title">Dev-开源项目-音频可视化</span>
+            </a>
+          
+            
+            <a href="/2020/04/17/Base-PBR/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-16T16:00:00.000Z">04-17</time>
+              <span class="sidebar__post-title">Base-PBR</span>
+            </a>
+          
+            
+            <a href="/2020/04/02/Base-%E6%B8%B2%E6%9F%93%E7%AE%A1%E7%BA%BF/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-04-01T16:00:00.000Z">04-02</time>
+              <span class="sidebar__post-title">Base-渲染管线</span>
+            </a>
+          
+            
+            <a href="/2020/01/02/Base-%E5%BC%95%E6%93%8E%E6%A2%B3%E7%90%86/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2020-01-01T16:00:00.000Z">01-02</time>
+              <span class="sidebar__post-title">Base-引擎梳理</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Base-%E5%8D%A1%E9%80%9A%E6%B8%B2%E6%9F%93/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Base-卡通渲染</span>
+            </a>
+          
+            
+            <a href="/2020/01/01/Shader-RayMarch/" class="sidebar__item" data-category="技术" data-year="2020">
+              <time class="sidebar__date" datetime="2019-12-31T16:00:00.000Z">01-01</time>
+              <span class="sidebar__post-title">Shader-RayMarch</span>
+            </a>
+          
+            
+              
+              <div class="sidebar__year" data-year="2019">2019</div>
+            
+            <a href="/2019/07/28/Base-%E6%B3%95%E7%BA%BF%E8%B4%B4%E5%9B%BE/" class="sidebar__item" data-category="技术" data-year="2019">
+              <time class="sidebar__date" datetime="2019-07-27T16:00:00.000Z">07-28</time>
+              <span class="sidebar__post-title">Base-法线贴图</span>
+            </a>
+          
+        </nav>
+      
+    </div>
+  </div>
+  <div class="sidebar-resizer" id="globalSidebarResizer" role="separator" aria-label="调整全局目录宽度" aria-orientation="vertical" aria-valuemin="280" aria-valuemax="480" aria-valuenow="320" tabindex="0"></div>
+</aside>
+
+    <main class="main" id="mainContent" tabindex="-1">
+      
+<article class="post">
+  <div class="container post__layout">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="2026-09-26T16:00:00.000Z">2026 年 9 月 27 日</time>
+        
+          <span class="post__category">
+            
+              <a href="/categories/%E8%AE%A4%E7%9F%A5/">认知</a>
+            
+          </span>
+        
+        
+          
+          <span class="post__views" aria-label="文章阅读量">
+            阅读 <span id="vercount_value_page_pv" data-base="0" aria-live="polite">加载中…</span>
+          </span>
+        
+      </div>
+      <h1 class="post__title">Mind-为什么换个说法就换了答案——框架效应</h1>
+      
+        <div class="post__tags">
+          
+            <a href="/tags/%E8%AE%A4%E7%9F%A5/" class="tag">#认知</a>
+          
+        </div>
+      
+    </header>
+
+    <aside class="post-toc" id="postToc" aria-label="文章目录" hidden>
+      <div class="post-toc__resizer" id="postTocResizer" role="separator" aria-label="调整文章目录宽度" aria-orientation="vertical" aria-valuemin="220" aria-valuemax="420" aria-valuenow="280" tabindex="0"></div>
+      <button class="post-toc__toggle" id="postTocToggle" type="button" aria-expanded="true" aria-controls="postTocNav">
+        <span>文章目录</span>
+        <svg class="post-toc__chevron" viewBox="0 0 20 20" aria-hidden="true">
+          <path d="M5.5 7.5 10 12l4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <nav class="post-toc__nav" id="postTocNav"></nav>
+    </aside>
+
+    <div class="post__content">
+      <p>你拿着同一份检查报告，坐进两间不同的诊室。第一位医生扫了一眼片子：这个手术成功率 90%，很安全，今天就能签字。第二位医生扫的是同一张片子：这个手术有 10% 的死亡率，你要想清楚。你当场把手缩了回来，说想回家和家人商量一下。</p>
+<p>两位医生都没撒谎。同一个手术，同一个数字，同一位病人。你听到的却是两个世界。</p>
+<p>这就是框架效应（Framing Effect）：同一个客观事实，换一种表述方式——强调”能救活多少”还是”会死多少”、强调”省下多少”还是”花掉多少”——人对它的判断和选择会发生系统性的改变。它由心理学家丹尼尔·卡尼曼（Daniel Kahneman）和阿莫斯·特沃斯基（Amos Tversky）在 1979 年的一系列实验中揭开，根子扎在他们的前景理论（Prospect Theory）里：人评价的从来不是绝对值，而是”相对某个参照点的得失”；而同样大小的得失，<strong>损失那一边的痛要重得多</strong>。语言负责挪动参照点，损失厌恶负责决定你在参照点哪一侧发抖。</p>
+<h2 id="一、一场不存在的瘟疫，掀翻了整张决策桌"><a href="#一、一场不存在的瘟疫，掀翻了整张决策桌" class="headerlink" title="一、一场不存在的瘟疫，掀翻了整张决策桌"></a>一、一场不存在的瘟疫，掀翻了整张决策桌</h2><p>1979 年，卡尼曼和特沃斯基出了一道后来被写进每一本行为经济学教材的题：亚洲疾病问题（Asian Disease Problem）。</p>
+<p>设定是这样的：某地爆发一种罕见疾病，预计会有 600 人死亡，现在有两套方案，请你二选一。第一套表述只谈”活”——方案 A 能救活 200 人；方案 B 有 1&#x2F;3 的概率救活全部 600 人，有 2&#x2F;3 的概率一个人都救不了。结果约 72% 的人选 A，确定救下 200 人，落袋为安。</p>
+<p>第二套表述只谈”死”——方案 A 会有 400 人死亡；方案 B 有 1&#x2F;3 的概率没有人死亡，有 2&#x2F;3 的概率 600 人全部死亡。结果约 78% 的人掉头选了 B，赌一把。</p>
+<p>把两套摆在一起看：方案 A 在两套里数学上是同一件事（200 人活，就是 400 人死），方案 B 也是同一件事。唯一的变量是说法朝哪个方向说。<strong>同一道题，只换掉几个字，多数人的选择就整体倒了个方向。</strong> 这不是修辞学的趣闻，这是整个前景理论最锋利的一次公开演示。</p>
+<p>为什么倒？因为人的价值函数在损失区比在收益区更陡：失去 100 元的痛苦，大约是得到 100 元的快乐的两倍。所以”确定保住 200 人”在正面框架下是一笔到手的收益，你想落袋；而”确定死 400 人”在负面框架下是一笔已经发生的损失，你想翻本——赌一把至少还有 1&#x2F;3 的机会，不赌就坐实了那 400 条命。框架没有改变事实，它改变的是你站在收益区还是损失区里做决定。</p>
+<blockquote>
+<p>语言不是记录事实的透明玻璃，它是会折射现实的三棱镜——同一个事实，从这一面照进来是暖色，从那一面照进来是血色。</p>
+</blockquote>
+<h2 id="二、尺子从哪一端量起，你是”赚”还是”亏”"><a href="#二、尺子从哪一端量起，你是”赚”还是”亏”" class="headerlink" title="二、尺子从哪一端量起，你是”赚”还是”亏”"></a>二、尺子从哪一端量起，你是”赚”还是”亏”</h2><p>框架效应最深的一层机制是参照点（Reference Point）。人不是在评估绝对值，而是在评估”相对某个点，我多了还是少了”。医生把参照点设在”活着”这一端，说 90% 会活，你站在收益区，倾向稳妥；医生把参照点设在”死亡”那一端，说 10% 会死，你站在损失区，恐惧先上头，行为立刻变形。<strong>大脑不会自动把”90% 活着”换算成”10% 会死”——它只对眼前这半句话做情绪反应，而这半句话往往只挑了一头说。</strong></p>
+<p>第二层是顺序：情绪先到，理性后到。看到”死亡率 10%”，杏仁核先拉警报，理性还没来得及算 90% 和 10% 是同一件事；看到”成功率 90%”，情绪先松一口气，理性同样没来得及换算。这也是为什么你就算清楚框架效应存在，下一次照样会被它带走——它是自动化的情绪反应，不是等你调用数学能力才启动的计算。</p>
+<p>第三层很朴素：大脑懒。人默认只处理眼前给定的那一种表述，不会主动把话还原成原形再翻译一遍。医生给你”死亡率 10%”，你很少会自己补一句”哦，那就是成功率 90%”——换算要额外耗脑力，而脑力是稀缺品。<strong>谁掌握了表述权，谁就实际分走了你的决策权重。</strong></p>
+<p>框架也不只在”得与失”上发作，它还会换频道。说”这政策对你的钱包有利”比说”这政策对国家 GDP 有利”更能打动普通人，这是把框架贴到”自我”上；说”作为程序员，你应该支持开源”比说”开源对你有好处”更管用，这是调用身份认同；说”每天存 10 块”比说”一年存 3650 块”更容易开始，这是把同一笔钱切进小时间框架。同一件事，被放进得失频道、身份频道还是时间频道，它在你心里的重量完全不同。</p>
+<p>顺便和几个近亲对个表，别把它们混成一团：</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>关注的是</th>
+<th>一句话</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>损失厌恶</td>
+<td>失去比得到更痛</td>
+<td>怕亏，所以选择会变形</td>
+</tr>
+<tr>
+<td>锚定效应</td>
+<td>第一个数字定了标尺</td>
+<td>先看到的数成了参照点</td>
+</tr>
+<tr>
+<td>曝光效应</td>
+<td>见得多就喜欢</td>
+<td>不用说服，混个脸熟</td>
+</tr>
+<tr>
+<td>框架效应</td>
+<td>同一事实的不同说法</td>
+<td>事实没变，决策变了</td>
+</tr>
+</tbody></table>
+<p><strong>锚定是”先入为主”，框架是”同案异判”：一个决定你从哪儿开始想，一个决定你在”得”和”失”哪一个频道里想。</strong></p>
+<h2 id="三、立减-50-和打-7-5-折，是两门不同的手艺"><a href="#三、立减-50-和打-7-5-折，是两门不同的手艺" class="headerlink" title="三、立减 50 和打 7.5 折，是两门不同的手艺"></a>三、立减 50 和打 7.5 折，是两门不同的手艺</h2><p>先看定价。同样便宜 50 元，买 200 元的东西，说”立减 50”还是说”打 7.5 折”？答案不一定——折扣的说法要匹配商品的价格基数，但有一条铁律：<strong>把价格说成”你省下的钱”，永远比说成”你花出去的钱”好听。</strong> 所以原价 999 划一道线、现价 699 旁边写”省 300”，感觉立刻不同；所以订阅制爱说”每天只要 3 块钱”，而不说”一个月 90 块”——同一笔支出，被切碎了摊进时间里，损失感就被稀释了。这不是文案技巧，这是框架工程。</p>
+<p>谈判桌上更是刀刀见框架。同样是让对方 50 块，说”我再给你让 50”，对方听到的是自己的收益；换个说法”我再给你省 50”，意思一样，听感不同。同一份加薪，员工耳朵里是”工资涨 10%”（收益），老板账本上是”成本每年多出这么多”（损失）——一场谈判里，双方往往不是在同一套框架里讨价还价，而是在各自的框架里各说各话。合同也一样：写”你拥有这些权益”，比写”你不必担心没有这些权益”更让人安心。</p>
+<p>金融是重灾区。卖保险的说”每年有 10% 的概率出险”，比说”每年有 90% 的概率平安”更容易让人掏钱，因为前者是损失框架，直接点燃恐惧。理财宣传只写”最高年化 8%”，从不提”最差可能亏 20%”，同一个产品，框架决定你的预期。基金跌了 20%，要涨 25% 才回本，但多数人眼里只有”已经亏了 20%”，于是加仓赌一把——这正是损失框架把人推上赌桌的标准路径。<strong>任何投资决定之前，用收益框架算一遍，再用损失框架算一遍，两个结论差得越远，你越该怀疑自己被说法带跑了。</strong></p>
+<p>政策层面同理。同一笔补贴，叫”减税”（收益）比叫”减少支出”（成本）更受欢迎，因为”税”这个词本身就自带损失框架。同一套机制，叫”碳税”阻力重重，改叫”碳排放红利返还”，支持率就上去了——钱没变，方向从”被扣”变成了”被发”。同一组数据，”失业率 4%”和”就业率 96%”，给人留下的信心完全不同。政策不光要做对，还要说对：框架不是包装纸，它是政策获得公众接纳的那一半成本。</p>
+<h2 id="四、标题是别人的手，伸进你的情绪里"><a href="#四、标题是别人的手，伸进你的情绪里" class="headerlink" title="四、标题是别人的手，伸进你的情绪里"></a>四、标题是别人的手，伸进你的情绪里</h2><p>新闻界有条老规矩：同一件事，标题怎么写，读者就怎么想。同一场救援，”有 200 人获救”让人安心，”有 400 人死亡”让人愤怒；同一场重组，”裁员 10%”和”保留 90% 的岗位”，员工的恐慌程度差一个量级。注意，这里没有一个字是假的。<strong>新闻伦理里最隐蔽的那个问题，从来不是”信息真不真”，而是”框架偏不偏”——信息可以全真，框架照样能把一屋子人导向同一种情绪。</strong></p>
+<p>政治传播把这套玩成了本能。同一套福利制度，叫”救济穷人”还是”鼓励懒惰”，是两个阵营；同一个移民群体，是”带来多元活力”还是”抢走本地资源”，是两种民意；同一场危机，是”保护生命”还是”守住自由”，是两套叙事在拔河。政客通常改不动事实，但极擅长换框架。当你在两个立场之间摇摆时，多半不是事实不清楚，而是两套框架在同时拉你——看清对方的框架，是普通人在舆论场里最基本的防身术。</p>
+<p>公司里那些”会说话的人”和”不会说话的人”，差距常常就在这儿。同一份成绩单：”你还有 3 个 KPI 没完成”，人听完想摆烂；”你已经完成了 4 个，再补齐 3 个就全绿”，同一个人听完想冲刺。同一场变革：”不转型就会被淘汰”是威胁框架，能立刻启动行动，但长期靠恐惧驱动的组织会把士气烧干；”转型之后我们领先同行”是机会框架。同一份进度：”我们烧掉了 80% 的预算”和”我们已经完成了 80% 的目标”，直接决定老板批不批下一笔钱。管理者的核心技能之一，是框架切换：对忧心的老板讲收益，对懈怠的团队讲威胁，对摇摆的客户讲保障。</p>
+<p>制度文本也一样。同一项器官捐献政策，写成”默认捐献、可退出”和写成”自愿报名”，参与率差 7 倍——制度表述本身就是一个巨大的框架。消费者协议里写”商家有权调整服务内容”，还是写”消费者享有知情与选择权”，是站在谁那边选框架。把养老问题框成”家庭责任”还是”社会保障”，把贫困框成”个人懒惰”还是”结构不公”，整个社会的解决方向就跟着这个框定调。<strong>谁掌握了”定义问题的框架”，谁就实际掌握了”解决问题的方向”——框架不只是修辞，它是权力的形状。</strong></p>
+<p>数字时代把这一切放大了十倍。同一篇科普，”专家警告：这 3 种习惯正在毁掉你的肝”和”医生说：记住这 3 个习惯，肝更健康”，点击量天差地别；同一根 K 线，”A 股暴跌 5%”和”A 股回调至近三月低点”，是两种心跳。流量逻辑天然偏爱损失框架，因为恐惧比平静更能换来点击——所以标题党不是审美问题，是框架效应被拿去做成了一门生意。再往下是 A&#x2F;B 测试：订阅页面上”解锁全部功能”（收益）和”避免错过每日精选”（损失），”已有 10 万人加入”（社会认同）和”仅剩 3 个名额”（稀缺），哪句转化率高就上哪句。而算法还会顺着你爱的那套框架，一直喂你同款说法，你的世界被一种框架越箍越紧。数字时代的撕裂，很大一部分不是事实的撕裂，是框架的撕裂：大家盯着同一个事实，活在两个频道里。</p>
+<h2 id="五、”你从来不洗碗”，和”我今天很累”"><a href="#五、”你从来不洗碗”，和”我今天很累”" class="headerlink" title="五、”你从来不洗碗”，和”我今天很累”"></a>五、”你从来不洗碗”，和”我今天很累”</h2><p>亲密关系研究里最著名的，是约翰·戈特曼（John Gottman）的婚姻实验室。他发现同一件不满，怎么说直接决定关系往哪走：<strong>“你从来不洗碗！”是指责框架，攻击的是对方的人格，对方的本能是防御、反击、升级；”我今天很累，希望你能帮我分担一点家务”是需求框架，说的是自己，对方更可能配合。</strong> 同样是表达不满，”我觉得委屈”（感受框架）让人想靠近，”你真自私”（人格框架）让人想开战。戈特曼的结论是，婚姻能不能长久，很大程度上取决于伴侣能不能把指责框架翻译成需求框架。语言框架不是吵架的技巧，它是这段关系的血压计。</p>
+<p>道歉也是。<strong>“如果我伤害了你，那我道歉”是条件框架，听起来像甩锅；”我为我说的话感到抱歉，那很伤人”是承担责任框架，把对方的感受放在前面。</strong> 还有那句几乎人人说过的”我很遗憾你生气”——它把情绪归因给了对方；换成”我很抱歉我说了那样的话”，责任才回到自己身上。同一次道歉，两种框架，原谅的难度完全不同。有研究显示，把道歉框在”承认这个行为造成了伤害”上，比框在”解释我的动机”上，宽恕率明显更高，因为后者太容易滑成”我没错，是你误会了”。</p>
+<p>教育里更是。卡罗尔·德韦克（Carol Dweck）的成长型思维研究指向一个很具体的差别：表扬”你这次很努力”（行为框架），孩子更敢挑难题；表扬”你真聪明”（特质框架），孩子反而怕失败、怕露怯。批评也一样，”你就是粗心”是标签框架，标签会固化；”这道题你验算的时候漏了一步”是行为框架，行为可以改。把”你这个人如何”改成”这件事如何”，对抗就变成了合作。</p>
+<p>最深的隔阂往往不是事实冲突，而是框架冲突。同一次争吵，丈夫的框架是”她在否定我”，妻子的框架是”他根本不关心我”——一件事，两套框架，两个人都觉得自己是受害者。这时候讲事实没用，因为你们讲的不是同一件事。有用的动作只有一个：把各自脑子里的”说法”摆到桌上对齐，从”你 vs 我”挪到”我们 vs 这个问题”。一句”我们是同一个队的”，本身就是最强的框架切换——它一瞬间把战场改写了。</p>
+<h2 id="六、做框架双语者：把”怎么说”和”是什么”分开存放"><a href="#六、做框架双语者：把”怎么说”和”是什么”分开存放" class="headerlink" title="六、做框架双语者：把”怎么说”和”是什么”分开存放"></a>六、做框架双语者：把”怎么说”和”是什么”分开存放</h2><p>先认输一件事：你救不了第一反应。研究表明，即使清楚框架效应的存在，第一反应照样会被带走，因为那是自动化的。所以正确的策略不是”我要一眼看穿”，而是让重要的决定慢下来，给第二反应留出上场的时间。第一反应喊”太划算了”的时候，先别付款，默数三秒，把话反过来算一遍。承认自己会中招，比假装自己不会中招有用一百倍。</p>
+<p>对付它最有效的一招，是强制双向框架。买保险，把”赔付时能拿多少”和”不买要扛多大风险”都写出来；选工作，把新工作的好处和旧工作的损失各列一遍，别只盯着招聘 JD 那套收益框架；投资，用”最坏亏多少”和”最好赚多少”分别做一次决定，看两个决定差多远。<strong>哪个框架让你更冷静，就按哪个框架做决定——因为冷静的那一版，才更接近事实。</strong></p>
+<p>反过来，你也可以用这套东西去做好事。对下属或孩子说”你已经做完 4 件，还剩 3 件”，而不是”你还有 3 件没做完”；对伴侣提要求，说”我希望我们一起……”，而不是”你怎么又……”；汇报坏消息，先给一个总体可控的框架，再讲具体损失——这不是粉饰，是给别人留出处理情绪的时间。会说话的人不是不撒谎的人，而是会用框架让人好受一点的人。框架是中性的，用好了就是一台善意的翻译机。</p>
+<p>同时要认得出别人把框架塞进你手里的那几个高危时刻：限时、限量、”仅剩最后 3 个”，多半是在用稀缺框架替你制造紧迫感，这时候多问一句”如果它不稀缺，我还会要吗”；用失败案例吓唬你的销售，是在用威胁框架，把话翻回收益框架重新估一遍产品价值；至于”我这是为你好”，要分清楚”为你好”和”对你好”从来不是一回事。能认出这些信号，是成年人最实用的一支话术疫苗。</p>
+<p>最后是那个真正管用的动作：在脑子里给”事实”和”说法”建两个文件夹。碰到任何重要信息，先问”客观事实是什么”，再问”对方把它框成了什么”。把”死亡率 10%”放进事实文件夹，把”这很危险”放进说法文件夹。<strong>这两个文件夹一分家，你的情绪就不再跟着别人的用词跑。</strong> 你会发现，很多原本让你焦虑、让你冲动、让你愤怒的信息，忽然就没那么有杀伤力了——不是因为你变聪明了，是因为你把包装拆下来，看了一眼里面那件东西。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><ul>
+<li><strong>一个机制</strong>：语言负责设参照点，损失厌恶负责放大参照点某一侧的分量。于是同一件事，被说成”你还剩多少没得到”还是”你已经得到多少”，人就会在保守和冒险之间整建制地换边——框架没有修改事实，它只修改了你站在收益区还是损失区。</li>
+<li><strong>一个反直觉点</strong>：最容易被框架带走的人，往往不是不懂的人，而是懂得最多的人。医生、基金经理这些专业人士在框架面前一样会变形，知识丰富带来的不是免疫，只是事后能发现自己中了招。所以对付框架效应，靠的不是更强的算力，而是更慢的节奏。</li>
+<li><strong>一句口诀</strong>：先把包装拆了，再决定要不要买。</li>
+</ul>
+<p>再补几条能立刻用上的：</p>
+<ol>
+<li>重要决定前，把同一件事用”收益版”和”损失版”各写一遍，看两个版本的结论差多远。</li>
+<li>听到”仅剩””限时””最后一天”，先暂停，问一句：如果它不稀缺，我还要不要。</li>
+<li>对别人说话，把”你这个人如何”换成”这件事如何”；对自己说话反着来——把”我又失败了”换成”这一步没走通”。</li>
+<li>给自己的信息建两个文件夹：事实一个，说法一个。</li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li>Daniel Kahneman &amp; Amos Tversky, <em>Prospect Theory: An Analysis of Decision under Risk</em>, Econometrica, 1979.</li>
+<li>Amos Tversky &amp; Daniel Kahneman, <em>The Framing of Decisions and the Psychology of Choice</em>, Science, 1981.</li>
+<li>John Gottman, <em>The Seven Principles for Making Marriage Work</em>, 1999.</li>
+<li>Carol Dweck, <em>Mindset: The New Psychology of Success</em>, Random House, 2006.</li>
+</ul>
+
+    </div>
+
+    <footer class="post__footer">
+      
+        
+<section class="comments" aria-labelledby="commentsTitle">
+  <div class="comments__header">
+    <p class="comments__eyebrow">DISCUSSION</p>
+    <h2 class="comments__title" id="commentsTitle">评论与交流</h2>
+    <p class="comments__description">使用 GitHub 账号参与讨论；首次评论时会自动创建对应话题。</p>
+  </div>
+  <div class="giscus"></div>
+  <script src="https://giscus.app/client.js"
+          data-repo="AHappyFun/AHappyFun.github.io"
+          data-repo-id="R_kgDOJAassQ"
+          data-category="Announcements"
+          data-category-id="DIC_kwDOJAassc4DCUGK"
+          data-mapping="pathname"
+          data-strict="0"
+          data-reactions-enabled="1"
+          data-emit-metadata="0"
+          data-input-position="bottom"
+          data-theme="preferred_color_scheme"
+          data-lang="zh-CN"
+          data-loading="lazy"
+          crossorigin="anonymous"
+          async>
+  </script>
+</section>
+
+      
+
+      <div class="post__nav">
+        
+          <a href="/2026/09/28/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%83%B3%E5%88%B0%E6%AD%BB%E4%BA%A1%E4%BC%9A%E8%AE%A9%E4%BA%BA%E6%9B%B4%E6%8E%92%E5%A4%96%E2%80%94%E2%80%94%E6%81%90%E6%80%96%E7%AE%A1%E7%90%86%E7%90%86%E8%AE%BA/" class="post__nav-link post__nav-prev">
+            <span class="post__nav-label">← 上一篇</span>
+            <span class="post__nav-title">Mind-为什么想到死亡会让人更排外——恐怖管理理论</span>
+          </a>
+        
+        
+          <a href="/2026/09/26/Mind-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A7%81%E5%A4%9A%E4%BA%86%E5%B0%B1%E9%A1%BA%E7%9C%BC%E4%BA%86%E2%80%94%E2%80%94%E6%9B%9D%E5%85%89%E6%95%88%E5%BA%94/" class="post__nav-link post__nav-next">
+            <span class="post__nav-label">下一篇 →</span>
+            <span class="post__nav-title">Mind-为什么见多了就顺眼了——曝光效应</span>
+          </a>
+        
+      </div>
+    </footer>
+  </div>
+</article>
+
+    </main>
+  </div>
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__social">
+      
+        <a href="https://github.com/ahappyfun" target="_blank" rel="noopener" class="footer__social-link">GitHub</a>
+      
+    </div>
+    <div class="footer__copy">
+      &copy; 2020 - 2026 <a href="/">锅巴</a>.
+      Powered by <a href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>.
+      Theme <a href="#">Magazine</a>.
+      
+    </div>
+  </div>
+</footer>
+
+  <script src="/js/main.js?v=20260909-category-state"></script>
+<script src="/js/search.js"></script>
+
+  <script src="https://cn.vercount.one/js" defer></script>
+
+
+
+</body>
+</html>

@@ -68,7 +68,7 @@
 
   /* --- Resizable desktop navigation panels ---
      On article pages the sidebar, the article column and the article TOC share
-     one frame that fills the viewport (--article-frame-max), so a side panel no
+     one frame that fills the viewport, so a side panel no
      longer just takes room from empty space: growing it narrows the article, and
      shrinking it widens the article. The article keeps a readable minimum, so a
      panel may only grow into whatever room the article can spare. */

@@ -50,9 +50,8 @@
      Article pages lay the sidebar, the article column and the article TOC inside
      one frame that fills the viewport, so the article column absorbs every spare
      pixel: narrowing a side panel widens the article, widening a panel narrows
-     it. --article-frame-max only stops the text from stretching across very
-     large monitors (≈1024px of text at the default panel widths). */
-  --article-frame-max: 1860px;
+     it. Desktop pages use the available viewport width with 24px edge padding,
+     including on 2560px displays. */
   /* Inner padding of the article card. */
   --post-layout-pad: clamp(28px, 4vw, 54px);
 
@@ -3679,16 +3678,15 @@ body.is-resizing-navigation {
 }
 
 @media (min-width: 1025px) {
-  /* Index pages keep the previous behaviour: the frame closes up behind the
-     sidebar because there is no article column that should absorb the room. */
-  .layout-wrapper {
-    max-width: calc(var(--max-width) + var(--sidebar-width) + 88px);
+  /* Share the viewport width across navigation and content on every desktop
+     page. Fixed frame/content caps otherwise leave large gutters on 2K screens. */
+  .layout-wrapper,
+  .container {
+    max-width: none;
   }
 
-  /* Article pages: fill the viewport up to --article-frame-max, so the article
-     column takes everything the two side panels leave over. */
-  .layout-wrapper:has(.post) {
-    max-width: var(--article-frame-max);
+  .main {
+    max-width: none;
   }
 
   .sidebar {
@@ -3734,10 +3732,6 @@ body.is-resizing-navigation {
 }
 
 @media (min-width: 1401px) {
-  .main:has(.post) {
-    max-width: none;
-  }
-
   .post__layout {
     width: 100%;
     max-width: none;

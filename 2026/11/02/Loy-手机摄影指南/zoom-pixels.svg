@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 400" width="1080" height="400" role="img" aria-label="变焦档位与有效像素：2× 恰好 1200 万，3× 之后只能插值">
+<rect x="0" y="0" width="1080" height="400" fill="#131318"/>
+<g font-family="'Noto Serif SC','Source Han Serif SC','Songti SC',SimSun,serif">
+  <text x="64" y="54" fill="#e8e2d6" font-size="20" letter-spacing="1.2">变焦滑块背后的算术</text>
+  <text x="64" y="80" fill="#8d877c" font-size="12.5">iPhone 17 主摄 4800 万像素，8064 × 6048 传感器，各档位实际用到的像素</text>
+
+  <text x="70" y="118" fill="#c9a86a" font-size="12.5" letter-spacing="0.8">裁切只发生在传感器上</text>
+  <text x="502" y="118" fill="#c9a86a" font-size="12.5" letter-spacing="0.8">每一档的有效像素</text>
+
+  <rect x="70" y="134" width="300" height="225" fill="#1b1b22" stroke="#4a4a55" stroke-opacity="0.8"/>
+  <rect x="145" y="190.5" width="150" height="112.5" fill="#6e93a8" fill-opacity="0.22" stroke="#6e93a8" stroke-opacity="0.75" stroke-dasharray="4 3"/>
+  <text x="220" y="241" fill="#ffffff" font-size="17" letter-spacing="1" text-anchor="middle">2×</text>
+  <text x="220" y="262" fill="#a8bcc6" font-size="11.5" text-anchor="middle">4032 × 3024　1200 万</text>
+  <text x="82" y="348" fill="#8d877c" font-size="11">1×　8064 × 6048　4800 万</text>
+  <text x="220" y="376" fill="#6f6a60" font-size="11" text-anchor="middle">裁掉四周，留下中心 1/4 面积</text>
+
+  <line x1="470" y1="330" x2="1030" y2="330" stroke="#c9a86a" stroke-opacity="0.3"/>
+  <rect x="470" y="286.25" width="560" height="43.75" fill="#9e454d" fill-opacity="0.07"/>
+  <line x1="470" y1="286.25" x2="1030" y2="286.25" stroke="#c9a86a" stroke-opacity="0.55" stroke-dasharray="5 4"/>
+  <text x="1030" y="278" fill="#c9a86a" font-size="11" text-anchor="end">1200 万像素输出门槛：低于这条线就必须插值</text>
+
+  <rect x="502" y="155" width="76" height="175" rx="2" fill="#6e93a8"/>
+  <rect x="622" y="286.25" width="76" height="43.75" rx="2" fill="#c9a86a"/>
+  <rect x="742" y="310.68" width="76" height="19.32" rx="2" fill="#9e454d"/>
+  <rect x="862" y="323.07" width="76" height="6.93" rx="2" fill="#9e454d"/>
+
+  <text x="540" y="147" fill="#cfd8dc" font-size="13" text-anchor="middle">4800 万</text>
+  <text x="660" y="275" fill="#e8d9b8" font-size="13" text-anchor="middle">1200 万</text>
+  <text x="828" y="313" fill="#c98d92" font-size="12">530 万</text>
+  <text x="948" y="326" fill="#c98d92" font-size="12">190 万</text>
+
+  <text x="540" y="350" fill="#b9b2a4" font-size="13" text-anchor="middle">1×</text>
+  <text x="660" y="350" fill="#b9b2a4" font-size="13" text-anchor="middle">2×</text>
+  <text x="780" y="350" fill="#b9b2a4" font-size="13" text-anchor="middle">3×</text>
+  <text x="900" y="350" fill="#b9b2a4" font-size="13" text-anchor="middle">5×</text>
+  <text x="540" y="367" fill="#6f6a60" font-size="10.5" text-anchor="middle">26mm</text>
+  <text x="660" y="367" fill="#c9a86a" font-size="10.5" text-anchor="middle">52mm</text>
+  <text x="780" y="367" fill="#6f6a60" font-size="10.5" text-anchor="middle">78mm 数码</text>
+  <text x="900" y="367" fill="#6f6a60" font-size="10.5" text-anchor="middle">130mm 数码</text>
+
+  <text x="502" y="390" fill="#6f6a60" font-size="11">2× 只用到整块传感器的四分之一，但像素一一对应，官方所谓「光学品质」说的就是这件事</text>
+</g>
+</svg>
